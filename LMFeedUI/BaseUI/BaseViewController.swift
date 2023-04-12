@@ -6,5 +6,7 @@
 //
 
 import UIKit
+//import BSImagePicker
+import Photos
 
 public class BaseViewController: UIViewController {}

@@ -57,8 +57,9 @@ class ProfileHeaderView: UIView {
     
     let usernameLabel: UILabel = {
         let label = LMLabel()
-        label.font = LMBranding.shared.font(16, .medium)
+        label.font = LMBranding.shared.font(16, .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -69,7 +70,7 @@ class ProfileHeaderView: UIView {
         label.paddingTop = 2
         label.paddingBottom = 2
         label.textColor = .white
-        label.backgroundColor = .blue
+        label.backgroundColor = LMBranding.shared.buttonColor
         label.clipsToBounds = true
         label.layer.cornerRadius = 2.0
         label.font = LMBranding.shared.font(11, .regular)
@@ -82,7 +83,7 @@ class ProfileHeaderView: UIView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 5
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -100,7 +101,6 @@ class ProfileHeaderView: UIView {
         let label = LMLabel()
         label.textColor = .gray
         label.font = LMBranding.shared.font(12, .regular)
-        label.text = "Edit"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -193,13 +193,24 @@ class ProfileHeaderView: UIView {
         setupProfile(profileData: feedDataView.feedByUser)
         timeLabel.text = Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()
         pinImageView.isHidden = !(self.feedData?.isPinned ?? false)
+        editTitleLabel.text = " • Edited" //(feedData?.isEdited ?? false) ? " • Edited" : ""
     }
     
     private func setupProfile(profileData: HomeFeedDataView.PostByUser?){
         usernameLabel.text = profileData?.name
-        usernameTitleLabel.text = profileData?.customTitle
-        guard let url = profileData?.profileImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else { return }
-        avatarImageView.kf.setImage(with: URL(string: url))
+        usernameTitleSetup(title: profileData?.customTitle)
+        let profilePlaceHolder = UIImage.generateLetterImage(with: profileData?.name) ?? UIImage()
+        guard let url = profileData?.profileImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else {
+            avatarImageView.image = profilePlaceHolder
+            return
+        }
+        avatarImageView.kf.setImage(with: URL(string: url), placeholder: profilePlaceHolder)
+    }
+    
+    private func usernameTitleSetup(title: String?) {
+        let customTitle = title ?? ""
+        usernameTitleLabel.isHidden = customTitle.isEmpty
+        usernameTitleLabel.text = customTitle
     }
     
     @objc private func moreTapped(sender: LMTapGesture) {

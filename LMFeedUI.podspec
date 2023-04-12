@@ -138,5 +138,6 @@ Pod::Spec.new do |spec|
   spec.dependency "AWSCore"
   spec.dependency "AWSCognito"
   spec.dependency "AWSS3"
+  spec.dependency "BSImagePicker"
 
 end

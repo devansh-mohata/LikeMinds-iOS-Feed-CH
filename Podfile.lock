@@ -1,16 +1,34 @@
 PODS:
+  - AWSCognito (2.19.1):
+    - AWSCore (= 2.19.1)
+  - AWSCore (2.19.1)
+  - AWSS3 (2.19.1):
+    - AWSCore (= 2.19.1)
+  - BSImagePicker (3.3.1)
   - Kingfisher (7.6.2)
 
 DEPENDENCIES:
+  - AWSCognito
+  - AWSCore
+  - AWSS3
+  - BSImagePicker
   - Kingfisher
 
 SPEC REPOS:
   trunk:
+    - AWSCognito
+    - AWSCore
+    - AWSS3
+    - BSImagePicker
     - Kingfisher
 
 SPEC CHECKSUMS:
+  AWSCognito: f50de600804941d083af37a7568905f31a774727
+  AWSCore: 55c154ae27efc5c98bdc30a0eeea5a35d10a2ab5
+  AWSS3: 2272253b098d07803af8dd20ce6ce7302bcffb47
+  BSImagePicker: 0fe04b574d4d6b81093785d2af6c26227efc8428
   Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
 
-PODFILE CHECKSUM: 393c589a6a9e2506dde81078968966b215b151fc
+PODFILE CHECKSUM: f46fcc3e1cfba3a09d22e5311f788e0524fe7b10
 
 COCOAPODS: 1.11.3

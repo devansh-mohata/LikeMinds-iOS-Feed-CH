@@ -6,9 +6,9 @@ public class LMBranding {
     
     public static let shared = LMBranding()
 
-    var buttonColor : UIColor = UIColor(white: 249.0 / 255.0, alpha: 1)//LMColors.tintBlue
+    var buttonColor : UIColor = UIColor(hexString: "#5046E5")
     var headerColor : UIColor = UIColor(white: 249.0 / 255.0, alpha: 1)
-    var textLinkColor : UIColor = UIColor(white: 249.0 / 255.0, alpha: 1)//LMColors.tintBlue
+    var textLinkColor : UIColor = .blue
     
     let key = "BrandingModel"
     /// Custom fonts data

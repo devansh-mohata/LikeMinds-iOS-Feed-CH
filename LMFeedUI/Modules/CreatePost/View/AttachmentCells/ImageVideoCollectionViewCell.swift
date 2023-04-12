@@ -17,18 +17,26 @@ class ImageVideoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var removeButton: LMButton!
     
+    weak var delegate: AttachmentCollectionViewCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        removeButton.addTarget(self, action: #selector(removeClicked), for: .touchUpInside)
+        self.contentView.bringSubviewToFront(self.removeButton)
     }
     
-    func setupImageVideoView(_ imageVideoDataView: HomeFeedDataView.ImageVideo) {
-        guard let url = imageVideoDataView.url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else { return }
+    func setupImageVideoView(_ url: String?) {
+        guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else { return }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
                 self?.postImageView.kf.setImage(with: URL(string: url))
             }
         }
-        self.contentView.bringSubviewToFront(self.removeButton)
+        
     }
+    
+    @objc func removeClicked() {
+        delegate?.removeAttachment(self)
+    }
+    
 }

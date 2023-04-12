@@ -7,5 +7,9 @@ target 'LMFeedUI' do
 
   # Pods for LMFeedUI
  pod 'Kingfisher'
+ pod 'BSImagePicker'
+ pod 'AWSCore'
+ pod 'AWSCognito'
+ pod 'AWSS3'
 
 end

@@ -6,8 +6,8 @@
 //
 
 import Foundation
+import LMFeed
 
 final class CreatePostViewDataModel {
-    
     
 }

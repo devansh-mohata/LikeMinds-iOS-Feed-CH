@@ -17,7 +17,9 @@ public final class HomeFeedViewControler: BaseViewController {
         let createPost = LMButton()
         createPost.setImage(UIImage(systemName: "calendar.badge.plus"), for: .normal)
         createPost.setTitle("NEW POST", for: .normal)
-        createPost.backgroundColor = .blue
+        createPost.titleLabel?.font = LMBranding.shared.font(13, .medium)
+        createPost.tintColor = .white
+        createPost.backgroundColor = LMBranding.shared.buttonColor
         createPost.clipsToBounds = true
         createPost.translatesAutoresizingMaskIntoConstraints = false
         return createPost
@@ -26,9 +28,11 @@ public final class HomeFeedViewControler: BaseViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupCreateButton()
         homeFeedViewModel.delegate = self
         homeFeedViewModel.getFeed()
         homeFeedViewModel.getMemberState()
+        createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -49,8 +53,19 @@ public final class HomeFeedViewControler: BaseViewController {
         feedTableView.delegate = self
         feedTableView.dataSource = self
         feedTableView.separatorStyle = .none
-        createPostButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 16).isActive = true
-        createPostButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 16).isActive = true
+    }
+    
+    func setupCreateButton() {
+        createPostButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+        createPostButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        createPostButton.setSizeConstraint(width: 150, height: 50)
+        createPostButton.setInsets(forContentPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), imageTitlePadding: 10)
+        createPostButton.layer.cornerRadius = 25
+    }
+    
+    @objc func createNewPost() {
+        let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle(for: CreatePostViewController.self))
+        self.navigationController?.pushViewController(createView, animated: true)
     }
 }
 
@@ -64,6 +79,12 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as! HomeFeedImageVideoTableViewCell
         cell.setupFeedCell(homeFeedViewModel.feeds[indexPath.row], withDelegate: self)
         return cell
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        HomeFeedViewModel.tempFeedData = homeFeedViewModel.feeds[indexPath.row]
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        self.navigationController?.pushViewController(postDetail, animated: true)
     }
     
 }
@@ -108,7 +129,10 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
         case .comment:
             break
         case .likeCount:
-            break
+            guard let postId = postData?.postId else { return }
+            let likedUserListView = LikedUserListViewController()
+            likedUserListView.viewModel = .init(postId: postId, commentId: nil)
+            self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             break
         }

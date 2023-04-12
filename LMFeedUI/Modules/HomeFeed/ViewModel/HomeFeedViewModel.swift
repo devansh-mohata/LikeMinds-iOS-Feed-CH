@@ -17,7 +17,7 @@ class HomeFeedViewModel {
     weak var delegate: HomeFeedViewModelDelegate?
     var feeds: [HomeFeedDataView] = []
     var currentPage: Int = 1
-    
+    static var tempFeedData: HomeFeedDataView!
     func getFeed() {
         let requestFeed = GetFeedRequest(page: currentPage)
         LMFeedClient.shared.getFeeds(requestFeed) { [weak self] result in

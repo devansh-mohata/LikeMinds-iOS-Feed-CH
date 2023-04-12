@@ -7,6 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F49C76DF29DF45B100325AD9 /* AWSS3Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DC29DF45B100325AD9 /* AWSS3Manager.swift */; };
+		F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DD29DF45B100325AD9 /* AWSAttachmentUploader.swift */; };
+		F49C76E129DF45B100325AD9 /* AWSFileUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DE29DF45B100325AD9 /* AWSFileUtility.swift */; };
+		F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76E429E1E43F00325AD9 /* VideoCollectionViewCell.swift */; };
+		F49C76E729E1E43F00325AD9 /* VideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F49C76E529E1E43F00325AD9 /* VideoCollectionViewCell.xib */; };
+		F49C76EE29E3106100325AD9 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76EC29E3106100325AD9 /* PostDetailViewController.swift */; };
+		F49C76EF29E3106100325AD9 /* PostDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F49C76ED29E3106100325AD9 /* PostDetailViewController.xib */; };
+		F49C76F229E323CF00325AD9 /* CommentHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76F129E323CF00325AD9 /* CommentHeaderViewCell.swift */; };
+		F49C76F429E3387E00325AD9 /* ReplyCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76F329E3387E00325AD9 /* ReplyCommentTableViewCell.swift */; };
+		F49C76F629E3CFE200325AD9 /* PostDetailDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76F529E3CFE200325AD9 /* PostDetailDataModel.swift */; };
+		F49C76F829E3CFFA00325AD9 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76F729E3CFFA00325AD9 /* PostDetailViewModel.swift */; };
+		F49C76FB29E3EB8C00325AD9 /* DataDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76FA29E3EB8C00325AD9 /* DataDetector.swift */; };
+		F49C76FE29E4345300325AD9 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76FD29E4345200325AD9 /* PlayerView.swift */; };
+		F4A20D1E29E5760D001D57CB /* LikedUserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D1D29E5760D001D57CB /* LikedUserListViewModel.swift */; };
+		F4A20D2029E57628001D57CB /* LikedUserDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D1F29E57628001D57CB /* LikedUserDataView.swift */; };
+		F4A20D2229E57654001D57CB /* LikedUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2129E57654001D57CB /* LikedUserTableViewCell.swift */; };
+		F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2329E57674001D57CB /* LikedUserListViewController.swift */; };
+		F4A20D2629E5F2A4001D57CB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2529E5F2A3001D57CB /* UIImage+Extension.swift */; };
+		F4A20D2829E5FA4C001D57CB /* TaggedRouteParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */; };
 		F4A4EFA229D58EC600829E5E /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4EFA129D58EC600829E5E /* UserDefault+Extension.swift */; };
 		F4A4EFBB29D6BB6C00829E5E /* LMFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */; };
 		F4A4EFBC29D6BB6C00829E5E /* LMFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -25,8 +44,14 @@
 		F4A9618929DC41E100F395AD /* ImageVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9618729DC41E100F395AD /* ImageVideoCollectionViewCell.xib */; };
 		F4A9618D29DC612F00F395AD /* CreatePostViewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618C29DC612F00F395AD /* CreatePostViewDataModel.swift */; };
 		F4A9618F29DC614400F395AD /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */; };
+		F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9619029DD409D00F395AD /* UIColor+Extension.swift */; };
+		F4A9619429DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */; };
+		F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */; };
+		F4B6D91E29DD7828008BD8A7 /* IconAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4B6D91D29DD7828008BD8A7 /* IconAssets.xcassets */; };
 		F4C3330829CDC83300AD5F52 /* LMFeedUI.docc in Sources */ = {isa = PBXBuildFile; fileRef = F4C3330729CDC83300AD5F52 /* LMFeedUI.docc */; };
 		F4C3330929CDC83300AD5F52 /* LMFeedUI.h in Headers */ = {isa = PBXBuildFile; fileRef = F4C3330629CDC83200AD5F52 /* LMFeedUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4D58B5729DED016000C1648 /* PHAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D58B5629DED016000C1648 /* PHAsset+Extension.swift */; };
+		F4D58B5929DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */; };
 		F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98AFC29D1886100CF9743 /* BaseViewController.swift */; };
 		F4D98AFF29D1889B00CF9743 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98AFE29D1889B00CF9743 /* BaseNavigationController.swift */; };
 		F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0129D188BF00CF9743 /* LMButton.swift */; };
@@ -64,12 +89,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1304FAE1C7603DB02BB78B33 /* Pods-LMFeedUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LMFeedUI.release.xcconfig"; path = "Target Support Files/Pods-LMFeedUI/Pods-LMFeedUI.release.xcconfig"; sourceTree = "<group>"; };
-		1BD51D7BC229BFC586CFD604 /* Pods-LMFeedUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LMFeedUI.debug.xcconfig"; path = "Target Support Files/Pods-LMFeedUI/Pods-LMFeedUI.debug.xcconfig"; sourceTree = "<group>"; };
-		453E5E148121D45A88C9B7AF /* Pods_LMFeedUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LMFeedUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F49C76DC29DF45B100325AD9 /* AWSS3Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSS3Manager.swift; sourceTree = "<group>"; };
+		F49C76DD29DF45B100325AD9 /* AWSAttachmentUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSAttachmentUploader.swift; sourceTree = "<group>"; };
+		F49C76DE29DF45B100325AD9 /* AWSFileUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSFileUtility.swift; sourceTree = "<group>"; };
+		F49C76E429E1E43F00325AD9 /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		F49C76E529E1E43F00325AD9 /* VideoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoCollectionViewCell.xib; sourceTree = "<group>"; };
+		F49C76EC29E3106100325AD9 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		F49C76ED29E3106100325AD9 /* PostDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailViewController.xib; sourceTree = "<group>"; };
+		F49C76F129E323CF00325AD9 /* CommentHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderViewCell.swift; sourceTree = "<group>"; };
+		F49C76F329E3387E00325AD9 /* ReplyCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCommentTableViewCell.swift; sourceTree = "<group>"; };
+		F49C76F529E3CFE200325AD9 /* PostDetailDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailDataModel.swift; sourceTree = "<group>"; };
+		F49C76F729E3CFFA00325AD9 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
+		F49C76FA29E3EB8C00325AD9 /* DataDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDetector.swift; sourceTree = "<group>"; };
+		F49C76FD29E4345200325AD9 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		F4A20D1D29E5760D001D57CB /* LikedUserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserListViewModel.swift; sourceTree = "<group>"; };
+		F4A20D1F29E57628001D57CB /* LikedUserDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserDataView.swift; sourceTree = "<group>"; };
+		F4A20D2129E57654001D57CB /* LikedUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserTableViewCell.swift; sourceTree = "<group>"; };
+		F4A20D2329E57674001D57CB /* LikedUserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserListViewController.swift; sourceTree = "<group>"; };
+		F4A20D2529E5F2A3001D57CB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedRouteParser.swift; sourceTree = "<group>"; };
 		F4A4EFA129D58EC600829E5E /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
 		F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LMFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4A4EFBF29D6DED900829E5E /* ImageVideoCollectionViewCell1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageVideoCollectionViewCell1.swift; sourceTree = "<group>"; };
 		F4A5BD6F29D99180006FC78D /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		F4A5BD7129D9919B006FC78D /* ActionsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsFooterView.swift; sourceTree = "<group>"; };
 		F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -85,9 +125,16 @@
 		F4A9618729DC41E100F395AD /* ImageVideoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageVideoCollectionViewCell.xib; sourceTree = "<group>"; };
 		F4A9618C29DC612F00F395AD /* CreatePostViewDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewDataModel.swift; sourceTree = "<group>"; };
 		F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
+		F4A9619029DD409D00F395AD /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedNoAttachmentTableViewCell.swift; sourceTree = "<group>"; };
+		F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedNoAttachmentTableViewCell.xib; sourceTree = "<group>"; };
+		F4B6D91D29DD7828008BD8A7 /* IconAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IconAssets.xcassets; sourceTree = "<group>"; };
 		F4C3330329CDC83200AD5F52 /* LMFeedUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LMFeedUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4C3330629CDC83200AD5F52 /* LMFeedUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMFeedUI.h; sourceTree = "<group>"; };
 		F4C3330729CDC83300AD5F52 /* LMFeedUI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = LMFeedUI.docc; sourceTree = "<group>"; };
+		F4D58B5129DECAD8000C1648 /* BSImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BSImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4D58B5629DED016000C1648 /* PHAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHAsset+Extension.swift"; sourceTree = "<group>"; };
+		F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		F4D98AFC29D1886100CF9743 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		F4D98AFE29D1889B00CF9743 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		F4D98B0129D188BF00CF9743 /* LMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMButton.swift; sourceTree = "<group>"; };
@@ -125,17 +172,98 @@
 		A10A3C721AB69038A36DD11C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1BD51D7BC229BFC586CFD604 /* Pods-LMFeedUI.debug.xcconfig */,
-				1304FAE1C7603DB02BB78B33 /* Pods-LMFeedUI.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		F49C76DB29DF45B100325AD9 /* AWSS3Manager */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76DC29DF45B100325AD9 /* AWSS3Manager.swift */,
+				F49C76DD29DF45B100325AD9 /* AWSAttachmentUploader.swift */,
+				F49C76DE29DF45B100325AD9 /* AWSFileUtility.swift */,
+			);
+			path = AWSS3Manager;
+			sourceTree = "<group>";
+		};
+		F49C76E829E3101000325AD9 /* PostDetail */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76EB29E3103600325AD9 /* View */,
+				F49C76EA29E3102800325AD9 /* ViewDataModel */,
+				F49C76E929E3101D00325AD9 /* ViewModel */,
+			);
+			path = PostDetail;
+			sourceTree = "<group>";
+		};
+		F49C76E929E3101D00325AD9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76F729E3CFFA00325AD9 /* PostDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F49C76EA29E3102800325AD9 /* ViewDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76F529E3CFE200325AD9 /* PostDetailDataModel.swift */,
+			);
+			path = ViewDataModel;
+			sourceTree = "<group>";
+		};
+		F49C76EB29E3103600325AD9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76F029E3116000325AD9 /* Cell */,
+				F49C76EC29E3106100325AD9 /* PostDetailViewController.swift */,
+				F49C76ED29E3106100325AD9 /* PostDetailViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F49C76F029E3116000325AD9 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76F129E323CF00325AD9 /* CommentHeaderViewCell.swift */,
+				F49C76F329E3387E00325AD9 /* ReplyCommentTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		F49C76F929E3EB6D00325AD9 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76FA29E3EB8C00325AD9 /* DataDetector.swift */,
+				F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		F49C76FC29E4342C00325AD9 /* VideoPlayerCell */ = {
+			isa = PBXGroup;
+			children = (
+				F49C76FD29E4345200325AD9 /* PlayerView.swift */,
+			);
+			path = VideoPlayerCell;
+			sourceTree = "<group>";
+		};
+		F4A20D1C29E575D4001D57CB /* LikesList */ = {
+			isa = PBXGroup;
+			children = (
+				F4A20D1D29E5760D001D57CB /* LikedUserListViewModel.swift */,
+				F4A20D1F29E57628001D57CB /* LikedUserDataView.swift */,
+				F4A20D2129E57654001D57CB /* LikedUserTableViewCell.swift */,
+				F4A20D2329E57674001D57CB /* LikedUserListViewController.swift */,
+			);
+			path = LikesList;
 			sourceTree = "<group>";
 		};
 		F4A4EFA329D6A5E500829E5E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F4D58B5129DECAD8000C1648 /* BSImagePicker.framework */,
 				F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */,
-				453E5E148121D45A88C9B7AF /* Pods_LMFeedUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -145,7 +273,8 @@
 			children = (
 				F4D98B1629D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift */,
 				F4D98B1729D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib */,
-				F4A4EFBF29D6DED900829E5E /* ImageVideoCollectionViewCell1.swift */,
+				F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */,
+				F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */,
 			);
 			path = HomeFeedImageVideoCell;
 			sourceTree = "<group>";
@@ -173,6 +302,8 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				F4A20D1C29E575D4001D57CB /* LikesList */,
+				F49C76E829E3101000325AD9 /* PostDetail */,
 				F4A9617629DBF9E500F395AD /* CreatePost */,
 				F4D98AFA29D1879700CF9743 /* HomeFeed */,
 			);
@@ -192,12 +323,16 @@
 		F4A9617D29DC033800F395AD /* AttachmentCells */ = {
 			isa = PBXGroup;
 			children = (
+				F49C76FC29E4342C00325AD9 /* VideoPlayerCell */,
 				F4A9617E29DC03C100F395AD /* DocumentCollectionCell.swift */,
 				F4A9617F29DC03C100F395AD /* DocumentCollectionCell.xib */,
 				F4A9618229DC06D300F395AD /* LinkCollectionViewCell.swift */,
 				F4A9618329DC06D300F395AD /* LinkCollectionViewCell.xib */,
 				F4A9618629DC41E100F395AD /* ImageVideoCollectionViewCell.swift */,
 				F4A9618729DC41E100F395AD /* ImageVideoCollectionViewCell.xib */,
+				F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */,
+				F49C76E429E1E43F00325AD9 /* VideoCollectionViewCell.swift */,
+				F49C76E529E1E43F00325AD9 /* VideoCollectionViewCell.xib */,
 			);
 			path = AttachmentCells;
 			sourceTree = "<group>";
@@ -216,6 +351,14 @@
 				F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F4B6D91C29DD77FB008BD8A7 /* IconAssets */ = {
+			isa = PBXGroup;
+			children = (
+				F4B6D91D29DD7828008BD8A7 /* IconAssets.xcassets */,
+			);
+			path = IconAssets;
 			sourceTree = "<group>";
 		};
 		F4C332F929CDC83200AD5F52 = {
@@ -239,6 +382,9 @@
 		F4C3330529CDC83200AD5F52 /* LMFeedUI */ = {
 			isa = PBXGroup;
 			children = (
+				F49C76F929E3EB6D00325AD9 /* Helper */,
+				F49C76DB29DF45B100325AD9 /* AWSS3Manager */,
+				F4B6D91C29DD77FB008BD8A7 /* IconAssets */,
 				F4A9617729DBF9F500F395AD /* Modules */,
 				F4D98B0D29D188E400CF9743 /* Extensions */,
 				F4D98B0029D188BF00CF9743 /* CustomUI */,
@@ -294,6 +440,9 @@
 				F4A4EFA129D58EC600829E5E /* UserDefault+Extension.swift */,
 				F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */,
 				F4A5BD7729DAACBF006FC78D /* UIAlertController+Extension.swift */,
+				F4A9619029DD409D00F395AD /* UIColor+Extension.swift */,
+				F4D58B5629DED016000C1648 /* PHAsset+Extension.swift */,
+				F4A20D2529E5F2A3001D57CB /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -342,7 +491,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4C3330C29CDC83300AD5F52 /* Build configuration list for PBXNativeTarget "LMFeedUI" */;
 			buildPhases = (
-				76DA398C799BE954FF2CF108 /* [CP] Check Pods Manifest.lock */,
 				F4C332FE29CDC83200AD5F52 /* Headers */,
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
@@ -395,40 +543,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4B6D91E29DD7828008BD8A7 /* IconAssets.xcassets in Resources */,
 				F4A9618529DC06D300F395AD /* LinkCollectionViewCell.xib in Resources */,
+				F49C76E729E1E43F00325AD9 /* VideoCollectionViewCell.xib in Resources */,
 				F4A9618929DC41E100F395AD /* ImageVideoCollectionViewCell.xib in Resources */,
+				F49C76EF29E3106100325AD9 /* PostDetailViewController.xib in Resources */,
 				F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */,
 				F4D98B1929D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib in Resources */,
+				F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */,
 				F4A9618129DC03C100F395AD /* DocumentCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		76DA398C799BE954FF2CF108 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LMFeedUI-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F4C332FF29CDC83200AD5F52 /* Sources */ = {
@@ -437,35 +564,56 @@
 			files = (
 				F4A9618D29DC612F00F395AD /* CreatePostViewDataModel.swift in Sources */,
 				F4D98B1229D1916600CF9743 /* LMFonts.swift in Sources */,
+				F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */,
 				F4A9618829DC41E100F395AD /* ImageVideoCollectionViewCell.swift in Sources */,
+				F49C76F629E3CFE200325AD9 /* PostDetailDataModel.swift in Sources */,
+				F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */,
 				F4D98B0A29D188BF00CF9743 /* LMTextField.swift in Sources */,
 				F4A5BD7429DA0A07006FC78D /* UIImageView+Extension.swift in Sources */,
+				F49C76F229E323CF00325AD9 /* CommentHeaderViewCell.swift in Sources */,
 				F4C3330829CDC83300AD5F52 /* LMFeedUI.docc in Sources */,
 				F4A9618429DC06D300F395AD /* LinkCollectionViewCell.swift in Sources */,
+				F49C76FE29E4345300325AD9 /* PlayerView.swift in Sources */,
+				F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */,
 				F4D98B0C29D188BF00CF9743 /* LMBranding.swift in Sources */,
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
+				F49C76F829E3CFFA00325AD9 /* PostDetailViewModel.swift in Sources */,
 				F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */,
 				F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */,
 				F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */,
+				F49C76E129DF45B100325AD9 /* AWSFileUtility.swift in Sources */,
 				F4A5BD7029D99180006FC78D /* ProfileHeaderView.swift in Sources */,
 				F4A5BD7229D9919B006FC78D /* ActionsFooterView.swift in Sources */,
 				F4D98B2B29D553C800CF9743 /* HomeFeedViewModel.swift in Sources */,
+				F4D58B5729DED016000C1648 /* PHAsset+Extension.swift in Sources */,
+				F4A20D2029E57628001D57CB /* LikedUserDataView.swift in Sources */,
 				F4D98B0B29D188BF00CF9743 /* LMTextView.swift in Sources */,
 				F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */,
+				F49C76F429E3387E00325AD9 /* ReplyCommentTableViewCell.swift in Sources */,
+				F49C76DF29DF45B100325AD9 /* AWSS3Manager.swift in Sources */,
+				F4D58B5929DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift in Sources */,
+				F4A20D2229E57654001D57CB /* LikedUserTableViewCell.swift in Sources */,
+				F49C76EE29E3106100325AD9 /* PostDetailViewController.swift in Sources */,
 				F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */,
 				F4D98B2429D4528900CF9743 /* String+Extension.swift in Sources */,
+				F49C76FB29E3EB8C00325AD9 /* DataDetector.swift in Sources */,
 				F4A4EFA229D58EC600829E5E /* UserDefault+Extension.swift in Sources */,
+				F4A9619429DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift in Sources */,
 				F4D98B1829D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift in Sources */,
+				F4A20D2629E5F2A4001D57CB /* UIImage+Extension.swift in Sources */,
 				F4D98B0F29D1890300CF9743 /* Font+Extension.swift in Sources */,
 				F4D98B1E29D44DD500CF9743 /* HomeFeedViewData.swift in Sources */,
 				F4D98B2629D452B600CF9743 /* UIView+Extension.swift in Sources */,
+				F4A20D1E29E5760D001D57CB /* LikedUserListViewModel.swift in Sources */,
 				F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */,
 				F4A9618F29DC614400F395AD /* CreatePostViewModel.swift in Sources */,
 				F4D98B2029D450C100CF9743 /* Extensions.swift in Sources */,
 				F4D98B0929D188BF00CF9743 /* LMSegmentedControl.swift in Sources */,
 				F4D98B0829D188BF00CF9743 /* LMLabel.swift in Sources */,
 				F4D98AFF29D1889B00CF9743 /* BaseNavigationController.swift in Sources */,
+				F4A20D2829E5FA4C001D57CB /* TaggedRouteParser.swift in Sources */,
+				F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */,
 				F4D98B1529D1A08400CF9743 /* HomeFeedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -595,7 +743,6 @@
 		};
 		F4C3330D29CDC83300AD5F52 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BD51D7BC229BFC586CFD604 /* Pods-LMFeedUI.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -624,7 +771,6 @@
 		};
 		F4C3330E29CDC83300AD5F52 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1304FAE1C7603DB02BB78B33 /* Pods-LMFeedUI.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
