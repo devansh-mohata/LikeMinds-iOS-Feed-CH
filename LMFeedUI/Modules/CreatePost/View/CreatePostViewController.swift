@@ -13,6 +13,7 @@ class CreatePostViewController: BaseViewController {
     
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var usernameLabel: LMLabel!
+    @IBOutlet weak var addMoreButton: LMButton!
     @IBOutlet weak var postinLabel: LMLabel!
     @IBOutlet weak var captionTextView: LMTextView!
     @IBOutlet weak var attachmentView: UIView!
@@ -21,14 +22,29 @@ class CreatePostViewController: BaseViewController {
     @IBOutlet weak var uploadActionsTableView: UITableView!
     @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var uploadAttachmentSuperViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var captionTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var uploadActionViewHeightConstraint: NSLayoutConstraint!
     var debounceForDecodeLink:Timer?
-    
+    var uploadActionsHeight:CGFloat = 43 * 3
+    var placeholderLabel: LMLabel = {
+        let label = LMLabel()
+        label.numberOfLines = 1
+        label.font = LMBranding.shared.font(16, .regular)
+        label.textColor = .lightGray
+        label.text = "Write Description"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     let viewModel: CreatePostViewModel = CreatePostViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
         captionTextView.delegate = self
+        captionTextView.addSubview(placeholderLabel)
+        placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
+        placeholderLabel.textColor = .tertiaryLabel
+        placeholderLabel.isHidden = !captionTextView.text.isEmpty
         attachmentView.isHidden = true
         viewModel.delegate = self
         attachmentCollectionView.dataSource = self
@@ -37,17 +53,19 @@ class CreatePostViewController: BaseViewController {
         uploadActionsTableView.delegate = self
         uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
         uploadActionsTableView.separatorInset = UIEdgeInsets.zero
+        addMoreButton.layer.borderWidth = 1
+        addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
+        addMoreButton.tintColor = LMBranding.shared.buttonColor
+        addMoreButton.layer.cornerRadius = 8
         
-        let nib = UINib(nibName: ImageVideoCollectionViewCell.nibName, bundle: Bundle(for: ImageVideoCollectionViewCell.self))
-        self.attachmentCollectionView.register(nib, forCellWithReuseIdentifier: ImageVideoCollectionViewCell.cellIdentifier)
-        let videoNib = UINib(nibName: VideoCollectionViewCell.nibName, bundle: Bundle(for: VideoCollectionViewCell.self))
-        self.attachmentCollectionView.register(videoNib, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
-        let docNib = UINib(nibName: DocumentCollectionCell.nibName, bundle: Bundle(for: DocumentCollectionCell.self))
-        self.attachmentCollectionView.register(docNib, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+        self.attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
+        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+        self.attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+
         let linkNib = UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self))
         self.attachmentCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
         self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
-        self.attachmentCollectionView.register(VideoCollectionViewCell1.self, forCellWithReuseIdentifier: VideoCollectionViewCell1.cellIdentifier)
+        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
     }
     
     func setupNavigationItems() {
@@ -109,6 +127,19 @@ class CreatePostViewController: BaseViewController {
         self.viewModel.currentSelectedUploadeType = .document
         self.present(documentPicker, animated: true, completion: nil)
     }
+    
+    func addMoreAction() {
+        switch self.viewModel.currentSelectedUploadeType {
+        case .image:
+            openImagePicker(.image)
+        case .video:
+            openImagePicker(.video)
+        case .document:
+            openDocumentPicker()
+        default:
+            break
+        }
+    }
 }
 
 extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
@@ -139,16 +170,16 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
         case .video, .image:
             let item = self.viewModel.imageAndVideoAttachments[indexPath.row]
             if  item.fileType == .image,
-                let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImageVideoCollectionViewCell.cellIdentifier, for: indexPath) as? ImageVideoCollectionViewCell {
+                let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.cellIdentifier, for: indexPath) as? ImageCollectionViewCell {
                 //            cell.postImageView.kf.setImage(with: URL(string: "https://beta-likeminds-media.s3.amazonaws.com/post/c6c4aa41-cdca-4c1d-863c-89c2ea3bc922/SamplePNGImage_20mbmb-1679906349694.png"))
                 cell.setupImageVideoView(self.viewModel.imageAndVideoAttachments[indexPath.row].url)
                 cell.delegate = self
                 defaultCell = cell
             } else if item.fileType == .video,
-                      let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell1.cellIdentifier, for: indexPath) as? VideoCollectionViewCell1,
+                      let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.cellIdentifier, for: indexPath) as? VideoCollectionViewCell,
                       let url = item.url {
                 cell.setupVideoData(url: url)
-                
+                cell.delegate = self
                 defaultCell = cell
             }
             
@@ -224,6 +255,16 @@ extension CreatePostViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension CreatePostViewController: UITextViewDelegate {
     
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = true
+    }
+    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if self.viewModel.currentSelectedUploadeType == .unknown || self.viewModel.currentSelectedUploadeType == .link {
             debounceForDecodeLink?.invalidate()
@@ -232,14 +273,12 @@ extension CreatePostViewController: UITextViewDelegate {
                 self?.viewModel.parseMessageForLink(message: enteredString)
             }
         }
-//        attachmentView.isHidden = false
-//        let contentSize = textView.contentSize
-//        let textViewSize = textView.frame.size
-//        if contentSize.height > textViewSize.height {
-//            textView.isScrollEnabled = true
-//        } else {
-//            textView.isScrollEnabled = false
-//        }
+        if textView.bounds.height >= 145 {
+            textView.isScrollEnabled = true
+        } else {
+            textView.isScrollEnabled = false
+            textView.superview?.layoutSubviews()
+        }
         return true
     }
     
@@ -253,19 +292,20 @@ extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
         switch self.viewModel.currentSelectedUploadeType {
         case .video, .image:
             self.viewModel.imageAndVideoAttachments.remove(at: indexPath.row)
-            attachmentCollectionView.reloadData()
+            reloadAttachmentsView()
         case .document:
             self.viewModel.documentAttachments.remove(at: indexPath.row)
-            attachmentCollectionView.reloadData()
+            reloadAttachmentsView()
         case .link:
             self.viewModel.linkAttatchment = nil
             self.viewModel.currentSelectedUploadeType = .unknown
-            attachmentCollectionView.reloadData()
+            reloadAttachmentsView()
         default:
             break
         }
         if self.viewModel.documentAttachments.count == 0 && self.viewModel.imageAndVideoAttachments.count == 0 {
             self.viewModel.currentSelectedUploadeType = .unknown
+            self.uploadActionViewHeightConstraint.constant = uploadActionsHeight
         }
     }
 }
@@ -290,9 +330,25 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
     
-    func reloadCollectionView() {
-        attachmentView.isHidden = false
+    func reloadAttachmentsView() {
+        switch viewModel.currentSelectedUploadeType {
+        case .image, .video:
+            let isCountGreaterThanZero = viewModel.imageAndVideoAttachments.count > 0
+            attachmentView.isHidden = !isCountGreaterThanZero
+            self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
+        case .document:
+            let isCountGreaterThanZero = viewModel.documentAttachments.count > 0
+            attachmentView.isHidden = !isCountGreaterThanZero
+            self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
+        default:
+            self.uploadActionViewHeightConstraint.constant = uploadActionsHeight
+            break
+        }
         attachmentCollectionView.reloadData()
+    }
+    
+    func reloadCollectionView() {
+        reloadAttachmentsView()
     }
     
     func reloadActionTableView() {

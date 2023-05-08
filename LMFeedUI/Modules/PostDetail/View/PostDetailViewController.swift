@@ -7,31 +7,28 @@
 
 import UIKit
 
-class PostDetailViewController: UIViewController {
+class PostDetailViewController: BaseViewController {
     
     @IBOutlet weak var postDetailTableView: UITableView!
     @IBOutlet weak var commentTextView: LMTextView!
     @IBOutlet weak var sendButton: LMButton!
     
+    var viewModel: PostDetailViewModel = PostDetailViewModel()
+    
     let textViewPlaceHolder: LMLabel = {
         let label = LMLabel()
         label.numberOfLines = 1
-        label.font = LMBranding.shared.font(16, .regular)
+        label.font = LMBranding.shared.font(14, .regular)
         label.textColor = .lightGray
         label.text = "Write a comment"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
-    var myHeaderData: [String] = [ "",
-        "Section 0aj dflaj dlj lajlf aljd flja dfl",
-        "Section 1 ajdlfaj lfj aljsd flja sdljf ajd lasdjf lasdfj ladjf lasjd flasjdf lasjd flaj sdlfj asldf jlajdf laj flajsdflj aldjf lajd flj aljdf lkajdf lajfijw flksjalh ialjf lkajsf ilja lskfjlajs flajflaj ifjlk laljfld jaljdflaif ljaf alifjlajdf lkadf lasjflak jsdflkasjf ilasj flkasdjf ilasj flkajsf aldjf lkajf lajf ilaj flaj filajflia fladjf lkajdflak dflaijdflaf lasdfjiaj fla",
-        "Section 2 aldjf lasjd fl alsdfj la dsf aljdlfj alfdj lajd flnew",
-    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.delegate = self
         postDetailTableView.rowHeight = 50
         postDetailTableView.keyboardDismissMode = .onDrag
         
@@ -47,34 +44,46 @@ class PostDetailViewController: UIViewController {
         commentTextView.addSubview(textViewPlaceHolder)
         textViewPlaceHolder.centerYAnchor.constraint(equalTo: commentTextView.centerYAnchor).isActive = true
         commentTextView.delegate = self
+        commentTextView.centerVertically()
+        viewModel.getPostDetails()
     }
 }
 
 extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return myHeaderData.count
+        guard let postDetail = viewModel.postDetail else { return 0 }
+        return viewModel.comments.count + 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 { return 1}
-        return 12
+        return viewModel.comments[section - 1].replies.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0,
-           let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as? HomeFeedImageVideoTableViewCell
+           let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as? HomeFeedImageVideoTableViewCell,
+           let post = viewModel.postDetail
         {
-            cell.setupFeedCell(HomeFeedViewModel.tempFeedData, withDelegate: nil)
+            cell.setupFeedCell(post, withDelegate: self)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: ReplyCommentTableViewCell.reuseIdentifier, for: indexPath) as! ReplyCommentTableViewCell
-        cell.commentLabel.text = "\(indexPath)"
+        cell.setupDataView(comment: viewModel.comments[indexPath.section - 1].replies[indexPath.row])
         return cell
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 { return nil}
         let commentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CommentHeaderViewCell.reuseIdentifier) as! CommentHeaderViewCell
-        commentView.commentLabel.text = myHeaderData[section]
+        commentView.setupDataView(comment: viewModel.comments[section - 1])
         return commentView
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            
+            return nil
+        }
+        return nil
     }
 }
 
@@ -89,5 +98,37 @@ extension PostDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textViewPlaceHolder.isHidden = true
     }
+}
+
+extension PostDetailViewController: PostDetailViewModelDelegate {
     
+    func didReceiveComments() {
+        postDetailTableView.reloadData()
+    }
+}
+
+extension PostDetailViewController: ActionsFooterViewDelegate {
+    
+    func didTappedAction(withActionType actionType: CellActionType, postData: PostFeedDataView?) {
+        switch actionType {
+        case .like:
+            guard let postId = postData?.postId else { return }
+//            homeFeedViewModel.likePost(postId: postId)
+        case .savePost:
+            guard let postId = postData?.postId else { return }
+//            homeFeedViewModel.savePost(postId: postId)
+        case .comment:
+            guard let postId = postData?.postId else { return }
+            HomeFeedViewModel.postId = postId
+        case .likeCount:
+            guard let postId = postData?.postId else { return }
+            let likedUserListView = LikedUserListViewController()
+            likedUserListView.viewModel = .init(postId: postId, commentId: nil)
+            self.navigationController?.pushViewController(likedUserListView, animated: true)
+        case .sharePost:
+            break
+        default:
+            break
+        }
+    }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class VideoCollectionViewCell: UICollectionViewCell {
+class VideoCollectionViewCell2: UICollectionViewCell {
     
     static let cellIdentifier = "VideoCollectionViewCell"
     static let nibName = "VideoCollectionViewCell"
@@ -83,45 +83,46 @@ class VideoCollectionViewCell: UICollectionViewCell {
     
 }
 
-class VideoCollectionViewCell1: UICollectionViewCell {
+class VideoCollectionViewCell: UICollectionViewCell {
     
-    static let cellIdentifier = "VideoCollectionViewCell1"
+    static let cellIdentifier = "VideoCollectionViewCell"
+    
+    // The PlayerView
+    var playerView: PlayerView = {
+        var player = PlayerView()
+        player.backgroundColor = .black
+        return player
+    }()
+    
+    let removeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
+        button.tintColor = .darkGray
+        button.setPreferredSymbolConfiguration(.init(pointSize: 20, weight: .light, scale: .large), forImageIn: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setSizeConstraint(width: 30, height: 30)
+        return button
+    }()
+    
+    weak var delegate: AttachmentCollectionViewCellDelegate?
+    // The AVPlayer
+    var videoPlayer: AVPlayer? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         // add the imageview to the UICollectionView
         addSubview(playerView)
-        // we are taking care of the constraints
         playerView.translatesAutoresizingMaskIntoConstraints = false
-        // pin the image to the whole collectionview - it is the same size as the container
         playerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         playerView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         playerView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         playerView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-    }
-    
-    // The PlayerView
-    var playerView: PlayerView = {
-        var player = PlayerView()
-        player.backgroundColor = .lightGray
-        return player
-    }()
-    
-    // The AVPlayer
-    var videoPlayer: AVPlayer? = nil
-    
-    func playVideo() {
-        // path of the video in the bundle
-        guard let path = Bundle.main.path(forResource: "AppInventorL1Setupemulator", ofType:"mp4") else {
-            debugPrint("video.m4v not found")
-            return
-        }
-        // set the video player with the path
-        videoPlayer = AVPlayer(url: URL(fileURLWithPath: path))
-        // play the video now!
-        videoPlayer?.playImmediately(atRate: 1)
-        // setup the AVPlayer as the player
-        playerView.player = videoPlayer
+        
+        addSubview(removeButton)
+        removeButton.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        removeButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        removeButton.addTarget(self, action: #selector(removeClicked), for: .touchUpInside)
+        bringSubviewToFront(self.removeButton)
     }
     
     func stopVideo() {
@@ -138,9 +139,10 @@ class VideoCollectionViewCell1: UICollectionViewCell {
             return
         }
         // set the video player with the path
-        videoPlayer = AVPlayer(url: urL)
+//        videoPlayer = AVPlayer(url: urL)
         // play the video now!
         videoPlayer?.playImmediately(atRate: 1)
+        videoPlayer?.isMuted = true
         // setup the AVPlayer as the player
         playerView.player = videoPlayer
     }
@@ -151,5 +153,9 @@ class VideoCollectionViewCell1: UICollectionViewCell {
         //        if let image : UIImage = UIImage(named: image) {
         //            hotelImageView.image = image
         //        }
+    }
+    
+    @objc func removeClicked() {
+        delegate?.removeAttachment(self)
     }
 }

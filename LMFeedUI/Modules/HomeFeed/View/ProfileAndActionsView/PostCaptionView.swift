@@ -39,7 +39,7 @@ class PostCaptionView: UIView {
         postCaptionTextView.addConstraints(equalToView: self, top: topBottomMargin, bottom: topBottomMargin, left: leftRightMargin, right: -leftRightMargin)
     }
     
-    func setupCaptionSectionData(_ feedDataView: HomeFeedDataView) {
+    func setupCaptionSectionData(_ feedDataView: PostFeedDataView) {
         self.postCaptionTextView.text = "Test caption"//feedDataView.caption
     }
 }

@@ -82,9 +82,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        HomeFeedViewModel.tempFeedData = homeFeedViewModel.feeds[indexPath.row]
-        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
-        self.navigationController?.pushViewController(postDetail, animated: true)
+        
     }
     
 }
@@ -97,7 +95,7 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
 }
 
 extension HomeFeedViewControler: ProfileHeaderViewDelegate {
-    func didTapOnMoreButton(selectedPost: HomeFeedDataView?) {
+    func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }
         print("more taped reached VC")
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -106,6 +104,8 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
             case .report:
                 actionSheet.addAction(withOptions: menu.name) {
                     print("report menu clicked \(selectedPost?.caption)")
+                    let postDetail = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
+                    self.navigationController?.pushViewController(postDetail, animated: true)
                 }
             default:
                 break
@@ -118,7 +118,7 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
 
 extension HomeFeedViewControler: ActionsFooterViewDelegate {
    
-    func didTappedAction(withActionType actionType: ActionType, postData: HomeFeedDataView?) {
+    func didTappedAction(withActionType actionType: CellActionType, postData: PostFeedDataView?) {
         switch actionType {
         case .like:
             guard let postId = postData?.postId else { return }
@@ -127,13 +127,18 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             guard let postId = postData?.postId else { return }
             homeFeedViewModel.savePost(postId: postId)
         case .comment:
-            break
+            guard let postId = postData?.postId else { return }
+            HomeFeedViewModel.postId = postId
+            let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+            self.navigationController?.pushViewController(postDetail, animated: true)
         case .likeCount:
             guard let postId = postData?.postId else { return }
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: nil)
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
+            break
+        default:
             break
         }
     }

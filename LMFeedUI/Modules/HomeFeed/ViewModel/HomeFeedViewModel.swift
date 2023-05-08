@@ -15,11 +15,12 @@ protocol HomeFeedViewModelDelegate: AnyObject {
 class HomeFeedViewModel {
     
     weak var delegate: HomeFeedViewModelDelegate?
-    var feeds: [HomeFeedDataView] = []
+    var feeds: [PostFeedDataView] = []
     var currentPage: Int = 1
-    static var tempFeedData: HomeFeedDataView!
+    static var postId: String!
     func getFeed() {
         let requestFeed = GetFeedRequest(page: currentPage)
+            .pageSize(40)
         LMFeedClient.shared.getFeeds(requestFeed) { [weak self] result in
             print(result)
             if result.success,
@@ -67,7 +68,7 @@ class HomeFeedViewModel {
     }
     
     func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {
-        feeds = posts.map { HomeFeedDataView(post: $0, user: users[$0.userID ?? ""])}
+        feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])}
         delegate?.didFeedReceived()
     }
     

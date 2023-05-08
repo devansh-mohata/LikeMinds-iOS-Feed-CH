@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileHeaderViewDelegate: HomeFeedTableViewCellDelegate {
-    func didTapOnMoreButton(selectedPost: HomeFeedDataView?)
+    func didTapOnMoreButton(selectedPost: PostFeedDataView?)
 }
 
 class ProfileHeaderView: UIView {
@@ -121,7 +121,7 @@ class ProfileHeaderView: UIView {
         imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "pin.circle")
+        imageView.image = UIImage(systemName: ImageIcon.pinIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -134,14 +134,14 @@ class ProfileHeaderView: UIView {
         imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "ellipsis")
+        imageView.image = UIImage(systemName: ImageIcon.moreIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    weak var feedData: HomeFeedDataView?
+    weak var feedData: PostFeedDataView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -187,16 +187,16 @@ class ProfileHeaderView: UIView {
         moreImageView.addGestureRecognizer(moreActionTapGesture)
     }
     
-    func setupProfileSectionData(_ feedDataView: HomeFeedDataView, delegate: HomeFeedTableViewCellDelegate?) {
+    func setupProfileSectionData(_ feedDataView: PostFeedDataView, delegate: HomeFeedTableViewCellDelegate?) {
         self.delegate = delegate as? ProfileHeaderViewDelegate
         self.feedData = feedDataView
         setupProfile(profileData: feedDataView.feedByUser)
         timeLabel.text = Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()
         pinImageView.isHidden = !(self.feedData?.isPinned ?? false)
-        editTitleLabel.text = " • Edited" //(feedData?.isEdited ?? false) ? " • Edited" : ""
+        editTitleLabel.text = (feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : ""
     }
     
-    private func setupProfile(profileData: HomeFeedDataView.PostByUser?){
+    private func setupProfile(profileData: PostFeedDataView.PostByUser?){
         usernameLabel.text = profileData?.name
         usernameTitleSetup(title: profileData?.customTitle)
         let profilePlaceHolder = UIImage.generateLetterImage(with: profileData?.name) ?? UIImage()

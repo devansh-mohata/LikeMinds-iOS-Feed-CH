@@ -30,7 +30,11 @@ class LinkCollectionViewCell: UICollectionViewCell {
         self.linkTitleLabel.text = title
         self.linkDescriptionLabel.text = description
         self.linkLabel.text = link
-        guard let url = linkThumbnailUrl?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else { return }
+        let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
+        guard let url = linkThumbnailUrl?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else {
+//            self.linkThumbnailImageView.image = placeHolder
+            return
+        }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
                 self?.linkThumbnailImageView.kf.setImage(with: URL(string: url))

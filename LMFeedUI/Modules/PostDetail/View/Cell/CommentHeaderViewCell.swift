@@ -7,11 +7,27 @@
 
 import UIKit
 
+protocol CommentHeaderViewCellDelegate: AnyObject {
+    func didTapActionButton(cell: UIView)
+}
+
 class CommentHeaderViewCell: UITableViewHeaderFooterView {
 
     static let reuseIdentifier: String = String(describing: CommentHeaderViewCell.self)
+    private weak var delegate: ActionsFooterViewDelegate?
+    private var section: Int?
     
     let commentHeaderStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis  = .vertical
+        sv.alignment = .fill
+        sv.distribution = .fill
+        sv.spacing = 10
+        sv.translatesAutoresizingMaskIntoConstraints = false;
+        return sv
+    }()
+    
+    let usernameAndCaptionStackView: UIStackView = {
         let sv = UIStackView()
         sv.axis  = .vertical
         sv.alignment = .fill
@@ -35,6 +51,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         let imageSize = 18.0
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
         imageView.image = UIImage(systemName: "person.circle")
+        imageView.isHidden = true
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setSizeConstraint(width: imageSize, height: imageSize)
@@ -86,7 +103,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "ellipsis")
+        imageView.image = UIImage(systemName: ImageIcon.moreIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -119,7 +136,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "suit.heart")
+        imageView.image = UIImage(systemName: ImageIcon.likeIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 15, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -168,7 +185,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         let label = LMLabel()
         label.textColor = LMBranding.shared.buttonColor
         label.font = LMBranding.shared.font(12, .regular)
-        label.text = "3 Replies"
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -183,7 +200,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         let label = LMLabel()
         label.textColor = .gray
         label.font = LMBranding.shared.font(12, .regular)
-        label.text = "2h"
+        label.text = ""
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -192,19 +209,19 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         commonInit()
+        setupActions()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
+        setupActions()
     }
     
     func commonInit() -> Void {
-        
-//        contentView.addSubview(commentLabel)
         contentView.backgroundColor = .white
         contentView.addSubview(commentHeaderStackView)
-        commentHeaderStackView.addArrangedSubview(usernameAndBadgeStackView)
+        usernameAndCaptionStackView.addArrangedSubview(usernameAndBadgeStackView)
         usernameAndBadgeStackView.addArrangedSubview(usernameLabel)
         usernameAndBadgeStackView.addArrangedSubview(badgeImageView)
         usernameAndBadgeStackView.addArrangedSubview(badgeSpaceView)
@@ -213,7 +230,8 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         commentAndMoreStackView.addArrangedSubview(spaceView)
         spaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 10).isActive = true
         commentAndMoreStackView.addArrangedSubview(moreImageView)
-        commentHeaderStackView.addArrangedSubview(commentAndMoreStackView)
+        usernameAndCaptionStackView.addArrangedSubview(commentAndMoreStackView)
+        commentHeaderStackView.addArrangedSubview(usernameAndCaptionStackView)
         likeStackView.addArrangedSubview(likeImageView)
         likeStackView.addArrangedSubview(likeCountLabel)
         likeAndReplyStackView.addArrangedSubview(likeStackView)
@@ -232,7 +250,71 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
             commentHeaderStackView.trailingAnchor.constraint(equalTo: g.trailingAnchor),
             commentHeaderStackView.bottomAnchor.constraint(equalTo: g.bottomAnchor)
         ])
-        
     }
     
+    private func setupActions() {
+        let likeCountsTapGesture = LMTapGesture(target: self, action: #selector(self.likeCountsTapped(sender:)))
+        let likeTapGesture = LMTapGesture(target: self, action: #selector(self.likeTapped(sender:)))
+        let replyTapGesture = LMTapGesture(target: self, action: #selector(self.replyTapped(sender:)))
+        let replyCountTapGesture = LMTapGesture(target: self, action: #selector(self.replyCountTapped(sender:)))
+        let moreActionTapGesture = LMTapGesture(target: self, action: #selector(self.moreTapped(sender:)))
+        moreImageView.isUserInteractionEnabled = true
+        moreImageView.addGestureRecognizer(moreActionTapGesture)
+        likeImageView.isUserInteractionEnabled = true
+        likeImageView.addGestureRecognizer(likeTapGesture)
+        likeCountLabel.isUserInteractionEnabled = true
+        likeCountLabel.addGestureRecognizer(likeCountsTapGesture)
+        replyCountLabel.isUserInteractionEnabled = true
+        replyCountLabel.addGestureRecognizer(replyCountTapGesture)
+        replyLabel.isUserInteractionEnabled = true
+        replyLabel.addGestureRecognizer(replyTapGesture)
+    }
+    
+    func setupDataView(comment: PostDetailDataModel.Comment) {
+        self.usernameLabel.text = comment.user.name
+        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.caption ?? "", forTextView: false)
+        self.likeCountLabel.text = comment.likeCounts()
+        self.replyCountLabel.text = comment.repliesCounts()
+        self.timeLabel.text = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
+    }
+    
+    @objc private func likeTapped(sender: LMTapGesture) {
+        print("like Button Tapped")
+//        delegate?.didTappedAction(withActionType: .like, postData: self.feedData)
+//        let isLike = !(self.feedData?.isLiked ?? false)
+//        self.feedData?.isLiked = isLike
+//        self.feedData?.likedCount += isLike ? 1 : -1
+//        likeDataView()
+    }
+    
+    func likeDataView() {
+//        likeCountLabel.text = self.feedData?.likeCounts()
+//        if feedData?.isLiked ?? true {
+//            likeImageView.image = UIImage(systemName: ImageIcon.likeFillIcon)
+//            likeImageView.tintColor = .red
+//        } else {
+//            likeImageView.image = UIImage(systemName: ImageIcon.likeIcon)
+//            likeImageView.tintColor = .darkGray
+//        }
+    }
+    
+    @objc private func replyTapped(sender: LMTapGesture) {
+        print("reply Button Tapped")
+//        delegate?.didTappedAction(withActionType: .comment, postData: self.feedData)
+    }
+    
+    @objc private func replyCountTapped(sender: LMTapGesture) {
+        print("reply count Button Tapped")
+        //        delegate?.didTappedAction(withActionType: .comment, postData: self.feedData)
+    }
+    
+    @objc private func likeCountsTapped(sender: LMTapGesture) {
+        print("likecount Button Tapped")
+//        delegate?.didTappedAction(withActionType: .likeCount, postData: self.feedData)
+    }
+    
+    @objc private func moreTapped(sender: LMTapGesture) {
+        print("More Button Tapped")
+//        delegate?.didTapOnMoreButton(selectedPost: self.feedData)
+    }
 }

@@ -7,16 +7,18 @@
 
 import UIKit
 
-enum ActionType: String {
+enum CellActionType: String {
     case like
     case likeCount
     case savePost
     case sharePost
     case comment
+    case commentCount
+    case more
 }
 
 protocol ActionsFooterViewDelegate: HomeFeedTableViewCellDelegate {
-    func didTappedAction(withActionType actionType: ActionType, postData: HomeFeedDataView?)
+    func didTappedAction(withActionType actionType: CellActionType, postData: PostFeedDataView?)
 }
 
 class ActionsFooterView: UIView {
@@ -49,7 +51,7 @@ class ActionsFooterView: UIView {
 //        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "suit.heart")
+        imageView.image = UIImage(systemName: ImageIcon.likeIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +84,7 @@ class ActionsFooterView: UIView {
 //        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "message")
+        imageView.image = UIImage(systemName: ImageIcon.commentIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,7 +96,7 @@ class ActionsFooterView: UIView {
         let label = LMLabel()
         label.textColor = .gray
         label.font = LMBranding.shared.font(14, .regular)
-        label.text = "Comment"
+        label.text = "Add comment"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -115,7 +117,7 @@ class ActionsFooterView: UIView {
 //        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "bookmark")
+        imageView.image = UIImage(systemName: ImageIcon.bookmarkIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +131,7 @@ class ActionsFooterView: UIView {
 //        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: "arrowshape.turn.up.forward")
+        imageView.image = UIImage(systemName: ImageIcon.shareIcon)
         imageView.tintColor = .darkGray
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -137,7 +139,7 @@ class ActionsFooterView: UIView {
         return imageView
     }()
     
-    weak var feedData: HomeFeedDataView?
+    weak var feedData: PostFeedDataView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -178,6 +180,8 @@ class ActionsFooterView: UIView {
         let likeTapGesture = LMTapGesture(target: self, action: #selector(self.likeTapped(sender:)))
         let bookmarkTapGesture = LMTapGesture(target: self, action: #selector(self.saveTapped(sender:)))
         let shareTapGesture = LMTapGesture(target: self, action: #selector(self.shareTapped(sender:)))
+        let commentTapGesture = LMTapGesture(target: self, action: #selector(self.commentTapped(sender:)))
+        let commentImageTapGesture = LMTapGesture(target: self, action: #selector(self.commentTapped(sender:)))
         
         likeImageView.isUserInteractionEnabled = true
         likeImageView.addGestureRecognizer(likeTapGesture)
@@ -187,6 +191,10 @@ class ActionsFooterView: UIView {
         savedImageView.addGestureRecognizer(bookmarkTapGesture)
         shareImageView.isUserInteractionEnabled = true
         shareImageView.addGestureRecognizer(shareTapGesture)
+        commentCountLabel.isUserInteractionEnabled = true
+        commentCountLabel.addGestureRecognizer(commentTapGesture)
+        commentImageView.isUserInteractionEnabled = true
+        commentImageView.addGestureRecognizer(commentImageTapGesture)
     }
     
     @objc private func shareTapped(sender: LMTapGesture) {
@@ -220,7 +228,7 @@ class ActionsFooterView: UIView {
         delegate?.didTappedAction(withActionType: .likeCount, postData: self.feedData)
     }
     
-    func setupActionFooterSectionData(_ feedDataView: HomeFeedDataView, delegate: HomeFeedTableViewCellDelegate?) {
+    func setupActionFooterSectionData(_ feedDataView: PostFeedDataView, delegate: HomeFeedTableViewCellDelegate?) {
         self.delegate = delegate as? ActionsFooterViewDelegate
         self.feedData = feedDataView
         likeDataView()
@@ -231,19 +239,19 @@ class ActionsFooterView: UIView {
     func likeDataView() {
         likeCountLabel.text = self.feedData?.likeCounts()
         if feedData?.isLiked ?? true {
-            likeImageView.image = UIImage(systemName: "suit.heart.fill")
+            likeImageView.image = UIImage(systemName: ImageIcon.likeFillIcon)
             likeImageView.tintColor = .red
         } else {
-            likeImageView.image = UIImage(systemName: "suit.heart")
+            likeImageView.image = UIImage(systemName: ImageIcon.likeIcon)
             likeImageView.tintColor = .darkGray
         }
     }
     
     func savedDataView() {
         if feedData?.isSaved ?? true {
-            savedImageView.image = UIImage(systemName: "bookmark.fill")
+            savedImageView.image = UIImage(systemName: ImageIcon.bookmarkFillIcon)
         } else {
-            savedImageView.image = UIImage(systemName: "bookmark")
+            savedImageView.image = UIImage(systemName: ImageIcon.bookmarkIcon)
         }
     }
     

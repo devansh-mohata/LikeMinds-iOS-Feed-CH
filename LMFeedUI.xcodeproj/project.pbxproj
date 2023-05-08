@@ -7,11 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */; };
+		F405D0FF29E7E0800074F531 /* ReportContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */; };
+		F405D10029E7E0800074F531 /* ReportContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F405D0FE29E7E0800074F531 /* ReportContentViewController.xib */; };
+		F405D10329E80F820074F531 /* ImageIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10229E80F820074F531 /* ImageIcon.swift */; };
+		F405D10529E811600074F531 /* SpecialCharString.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10429E811600074F531 /* SpecialCharString.swift */; };
+		F405D10729E8843F0074F531 /* ReportContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10629E8843F0074F531 /* ReportContentViewModel.swift */; };
+		F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10829E885660074F531 /* ASImageDownloader.swift */; };
+		F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */; };
+		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
+		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
+		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
 		F49C76DF29DF45B100325AD9 /* AWSS3Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DC29DF45B100325AD9 /* AWSS3Manager.swift */; };
 		F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DD29DF45B100325AD9 /* AWSAttachmentUploader.swift */; };
 		F49C76E129DF45B100325AD9 /* AWSFileUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DE29DF45B100325AD9 /* AWSFileUtility.swift */; };
 		F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76E429E1E43F00325AD9 /* VideoCollectionViewCell.swift */; };
-		F49C76E729E1E43F00325AD9 /* VideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F49C76E529E1E43F00325AD9 /* VideoCollectionViewCell.xib */; };
 		F49C76EE29E3106100325AD9 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76EC29E3106100325AD9 /* PostDetailViewController.swift */; };
 		F49C76EF29E3106100325AD9 /* PostDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F49C76ED29E3106100325AD9 /* PostDetailViewController.xib */; };
 		F49C76F229E323CF00325AD9 /* CommentHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76F129E323CF00325AD9 /* CommentHeaderViewCell.swift */; };
@@ -26,6 +36,8 @@
 		F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2329E57674001D57CB /* LikedUserListViewController.swift */; };
 		F4A20D2629E5F2A4001D57CB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2529E5F2A3001D57CB /* UIImage+Extension.swift */; };
 		F4A20D2829E5FA4C001D57CB /* TaggedRouteParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */; };
+		F4A3DD2E29E7D2F600498363 /* DeleteContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3DD2C29E7D2F600498363 /* DeleteContentViewController.swift */; };
+		F4A3DD2F29E7D2F600498363 /* DeleteContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A3DD2D29E7D2F600498363 /* DeleteContentViewController.xib */; };
 		F4A4EFA229D58EC600829E5E /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4EFA129D58EC600829E5E /* UserDefault+Extension.swift */; };
 		F4A4EFBB29D6BB6C00829E5E /* LMFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */; };
 		F4A4EFBC29D6BB6C00829E5E /* LMFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -34,14 +46,14 @@
 		F4A5BD7429DA0A07006FC78D /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */; };
 		F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7729DAACBF006FC78D /* UIAlertController+Extension.swift */; };
 		F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */; };
+		F4A85D2029E931F700FB8DAF /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */; };
+		F4A85D2229E9338900FB8DAF /* ReportTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */; };
 		F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */; };
 		F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */; };
 		F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9617E29DC03C100F395AD /* DocumentCollectionCell.swift */; };
-		F4A9618129DC03C100F395AD /* DocumentCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9617F29DC03C100F395AD /* DocumentCollectionCell.xib */; };
 		F4A9618429DC06D300F395AD /* LinkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618229DC06D300F395AD /* LinkCollectionViewCell.swift */; };
 		F4A9618529DC06D300F395AD /* LinkCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9618329DC06D300F395AD /* LinkCollectionViewCell.xib */; };
-		F4A9618829DC41E100F395AD /* ImageVideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618629DC41E100F395AD /* ImageVideoCollectionViewCell.swift */; };
-		F4A9618929DC41E100F395AD /* ImageVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9618729DC41E100F395AD /* ImageVideoCollectionViewCell.xib */; };
+		F4A9618829DC41E100F395AD /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618629DC41E100F395AD /* ImageCollectionViewCell.swift */; };
 		F4A9618D29DC612F00F395AD /* CreatePostViewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618C29DC612F00F395AD /* CreatePostViewDataModel.swift */; };
 		F4A9618F29DC614400F395AD /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */; };
 		F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9619029DD409D00F395AD /* UIColor+Extension.swift */; };
@@ -72,6 +84,7 @@
 		F4D98B2629D452B600CF9743 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B2529D452B600CF9743 /* UIView+Extension.swift */; };
 		F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B2729D452E700CF9743 /* UIViewController+Extension.swift */; };
 		F4D98B2B29D553C800CF9743 /* HomeFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B2A29D553C800CF9743 /* HomeFeedViewModel.swift */; };
+		F4DE47112A06CB6400BF5C2C /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DE47102A06CB6400BF5C2C /* RoundButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -89,11 +102,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11997E91A908DC373D966341 /* Pods-LMFeedUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LMFeedUI.debug.xcconfig"; path = "Target Support Files/Pods-LMFeedUI/Pods-LMFeedUI.debug.xcconfig"; sourceTree = "<group>"; };
+		36610B4636B7E6B92AE8F0F8 /* Pods_LMFeedUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LMFeedUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B76955F0308C8E5E16D39C64 /* Pods-LMFeedUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LMFeedUI.release.xcconfig"; path = "Target Support Files/Pods-LMFeedUI/Pods-LMFeedUI.release.xcconfig"; sourceTree = "<group>"; };
+		F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContentViewModel.swift; sourceTree = "<group>"; };
+		F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewController.swift; sourceTree = "<group>"; };
+		F405D0FE29E7E0800074F531 /* ReportContentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportContentViewController.xib; sourceTree = "<group>"; };
+		F405D10229E80F820074F531 /* ImageIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageIcon.swift; sourceTree = "<group>"; };
+		F405D10429E811600074F531 /* SpecialCharString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialCharString.swift; sourceTree = "<group>"; };
+		F405D10629E8843F0074F531 /* ReportContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewModel.swift; sourceTree = "<group>"; };
+		F405D10829E885660074F531 /* ASImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASImageDownloader.swift; sourceTree = "<group>"; };
+		F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedOtherAttachmentTableViewCell.swift; sourceTree = "<group>"; };
+		F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewCell.swift; sourceTree = "<group>"; };
+		F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionViewCell.swift; sourceTree = "<group>"; };
+		F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
 		F49C76DC29DF45B100325AD9 /* AWSS3Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSS3Manager.swift; sourceTree = "<group>"; };
 		F49C76DD29DF45B100325AD9 /* AWSAttachmentUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSAttachmentUploader.swift; sourceTree = "<group>"; };
 		F49C76DE29DF45B100325AD9 /* AWSFileUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSFileUtility.swift; sourceTree = "<group>"; };
 		F49C76E429E1E43F00325AD9 /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
-		F49C76E529E1E43F00325AD9 /* VideoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoCollectionViewCell.xib; sourceTree = "<group>"; };
 		F49C76EC29E3106100325AD9 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		F49C76ED29E3106100325AD9 /* PostDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailViewController.xib; sourceTree = "<group>"; };
 		F49C76F129E323CF00325AD9 /* CommentHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHeaderViewCell.swift; sourceTree = "<group>"; };
@@ -108,6 +134,8 @@
 		F4A20D2329E57674001D57CB /* LikedUserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserListViewController.swift; sourceTree = "<group>"; };
 		F4A20D2529E5F2A3001D57CB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedRouteParser.swift; sourceTree = "<group>"; };
+		F4A3DD2C29E7D2F600498363 /* DeleteContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContentViewController.swift; sourceTree = "<group>"; };
+		F4A3DD2D29E7D2F600498363 /* DeleteContentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeleteContentViewController.xib; sourceTree = "<group>"; };
 		F4A4EFA129D58EC600829E5E /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
 		F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LMFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A5BD6F29D99180006FC78D /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
@@ -115,14 +143,14 @@
 		F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		F4A5BD7729DAACBF006FC78D /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionView.swift; sourceTree = "<group>"; };
+		F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
+		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePostViewController.xib; sourceTree = "<group>"; };
 		F4A9617E29DC03C100F395AD /* DocumentCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCollectionCell.swift; sourceTree = "<group>"; };
-		F4A9617F29DC03C100F395AD /* DocumentCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentCollectionCell.xib; sourceTree = "<group>"; };
 		F4A9618229DC06D300F395AD /* LinkCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4A9618329DC06D300F395AD /* LinkCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkCollectionViewCell.xib; sourceTree = "<group>"; };
-		F4A9618629DC41E100F395AD /* ImageVideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageVideoCollectionViewCell.swift; sourceTree = "<group>"; };
-		F4A9618729DC41E100F395AD /* ImageVideoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageVideoCollectionViewCell.xib; sourceTree = "<group>"; };
+		F4A9618629DC41E100F395AD /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4A9618C29DC612F00F395AD /* CreatePostViewDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewDataModel.swift; sourceTree = "<group>"; };
 		F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		F4A9619029DD409D00F395AD /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -155,6 +183,7 @@
 		F4D98B2529D452B600CF9743 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		F4D98B2729D452E700CF9743 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		F4D98B2A29D553C800CF9743 /* HomeFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedViewModel.swift; sourceTree = "<group>"; };
+		F4DE47102A06CB6400BF5C2C /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,8 +201,40 @@
 		A10A3C721AB69038A36DD11C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				11997E91A908DC373D966341 /* Pods-LMFeedUI.debug.xcconfig */,
+				B76955F0308C8E5E16D39C64 /* Pods-LMFeedUI.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		F405D0FC29E7E0410074F531 /* ReportContent */ = {
+			isa = PBXGroup;
+			children = (
+				F4A85D1C29E931AE00FB8DAF /* TagCollectionCell */,
+				F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */,
+				F405D0FE29E7E0800074F531 /* ReportContentViewController.xib */,
+				F405D10629E8843F0074F531 /* ReportContentViewModel.swift */,
+			);
+			path = ReportContent;
+			sourceTree = "<group>";
+		};
+		F405D10129E80F550074F531 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				F405D10229E80F820074F531 /* ImageIcon.swift */,
+				F405D10429E811600074F531 /* SpecialCharString.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
+		F41CFF7329E7361B000AE987 /* OtherCells */ = {
+			isa = PBXGroup;
+			children = (
+				F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */,
+				F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */,
+				F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */,
+			);
+			path = OtherCells;
 			sourceTree = "<group>";
 		};
 		F49C76DB29DF45B100325AD9 /* AWSS3Manager */ = {
@@ -236,6 +297,7 @@
 			children = (
 				F49C76FA29E3EB8C00325AD9 /* DataDetector.swift */,
 				F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */,
+				F405D10829E885660074F531 /* ASImageDownloader.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -243,6 +305,7 @@
 		F49C76FC29E4342C00325AD9 /* VideoPlayerCell */ = {
 			isa = PBXGroup;
 			children = (
+				F49C76E429E1E43F00325AD9 /* VideoCollectionViewCell.swift */,
 				F49C76FD29E4345200325AD9 /* PlayerView.swift */,
 			);
 			path = VideoPlayerCell;
@@ -259,11 +322,22 @@
 			path = LikesList;
 			sourceTree = "<group>";
 		};
+		F4A3DD2B29E7D29400498363 /* DeleteContent */ = {
+			isa = PBXGroup;
+			children = (
+				F4A3DD2C29E7D2F600498363 /* DeleteContentViewController.swift */,
+				F4A3DD2D29E7D2F600498363 /* DeleteContentViewController.xib */,
+				F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */,
+			);
+			path = DeleteContent;
+			sourceTree = "<group>";
+		};
 		F4A4EFA329D6A5E500829E5E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				F4D58B5129DECAD8000C1648 /* BSImagePicker.framework */,
 				F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */,
+				36610B4636B7E6B92AE8F0F8 /* Pods_LMFeedUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -275,6 +349,7 @@
 				F4D98B1729D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib */,
 				F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */,
 				F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */,
+				F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */,
 			);
 			path = HomeFeedImageVideoCell;
 			sourceTree = "<group>";
@@ -287,6 +362,15 @@
 				F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */,
 			);
 			path = ProfileAndActionsView;
+			sourceTree = "<group>";
+		};
+		F4A85D1C29E931AE00FB8DAF /* TagCollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */,
+				F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */,
+			);
+			path = TagCollectionCell;
 			sourceTree = "<group>";
 		};
 		F4A9617629DBF9E500F395AD /* CreatePost */ = {
@@ -302,6 +386,8 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				F405D0FC29E7E0410074F531 /* ReportContent */,
+				F4A3DD2B29E7D29400498363 /* DeleteContent */,
 				F4A20D1C29E575D4001D57CB /* LikesList */,
 				F49C76E829E3101000325AD9 /* PostDetail */,
 				F4A9617629DBF9E500F395AD /* CreatePost */,
@@ -313,6 +399,7 @@
 		F4A9617829DBFAB500F395AD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F41CFF7329E7361B000AE987 /* OtherCells */,
 				F4A9617D29DC033800F395AD /* AttachmentCells */,
 				F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */,
 				F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */,
@@ -325,14 +412,10 @@
 			children = (
 				F49C76FC29E4342C00325AD9 /* VideoPlayerCell */,
 				F4A9617E29DC03C100F395AD /* DocumentCollectionCell.swift */,
-				F4A9617F29DC03C100F395AD /* DocumentCollectionCell.xib */,
 				F4A9618229DC06D300F395AD /* LinkCollectionViewCell.swift */,
 				F4A9618329DC06D300F395AD /* LinkCollectionViewCell.xib */,
-				F4A9618629DC41E100F395AD /* ImageVideoCollectionViewCell.swift */,
-				F4A9618729DC41E100F395AD /* ImageVideoCollectionViewCell.xib */,
+				F4A9618629DC41E100F395AD /* ImageCollectionViewCell.swift */,
 				F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */,
-				F49C76E429E1E43F00325AD9 /* VideoCollectionViewCell.swift */,
-				F49C76E529E1E43F00325AD9 /* VideoCollectionViewCell.xib */,
 			);
 			path = AttachmentCells;
 			sourceTree = "<group>";
@@ -382,6 +465,7 @@
 		F4C3330529CDC83200AD5F52 /* LMFeedUI */ = {
 			isa = PBXGroup;
 			children = (
+				F405D10129E80F550074F531 /* Constant */,
 				F49C76F929E3EB6D00325AD9 /* Helper */,
 				F49C76DB29DF45B100325AD9 /* AWSS3Manager */,
 				F4B6D91C29DD77FB008BD8A7 /* IconAssets */,
@@ -424,6 +508,7 @@
 				F4D98B0529D188BF00CF9743 /* LMTextView.swift */,
 				F4D98B0629D188BF00CF9743 /* LMBranding.swift */,
 				F4D98B1129D1916600CF9743 /* LMFonts.swift */,
+				F4DE47102A06CB6400BF5C2C /* RoundButton.swift */,
 			);
 			path = CustomUI;
 			sourceTree = SOURCE_ROOT;
@@ -491,6 +576,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4C3330C29CDC83300AD5F52 /* Build configuration list for PBXNativeTarget "LMFeedUI" */;
 			buildPhases = (
+				18C3005C5187B10BABCF5B76 /* [CP] Check Pods Manifest.lock */,
 				F4C332FE29CDC83200AD5F52 /* Headers */,
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
@@ -545,17 +631,41 @@
 			files = (
 				F4B6D91E29DD7828008BD8A7 /* IconAssets.xcassets in Resources */,
 				F4A9618529DC06D300F395AD /* LinkCollectionViewCell.xib in Resources */,
-				F49C76E729E1E43F00325AD9 /* VideoCollectionViewCell.xib in Resources */,
-				F4A9618929DC41E100F395AD /* ImageVideoCollectionViewCell.xib in Resources */,
 				F49C76EF29E3106100325AD9 /* PostDetailViewController.xib in Resources */,
+				F4A3DD2F29E7D2F600498363 /* DeleteContentViewController.xib in Resources */,
 				F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */,
 				F4D98B1929D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib in Resources */,
+				F405D10029E7E0800074F531 /* ReportContentViewController.xib in Resources */,
 				F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */,
-				F4A9618129DC03C100F395AD /* DocumentCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		18C3005C5187B10BABCF5B76 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LMFeedUI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F4C332FF29CDC83200AD5F52 /* Sources */ = {
@@ -565,17 +675,20 @@
 				F4A9618D29DC612F00F395AD /* CreatePostViewDataModel.swift in Sources */,
 				F4D98B1229D1916600CF9743 /* LMFonts.swift in Sources */,
 				F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */,
-				F4A9618829DC41E100F395AD /* ImageVideoCollectionViewCell.swift in Sources */,
+				F4A9618829DC41E100F395AD /* ImageCollectionViewCell.swift in Sources */,
 				F49C76F629E3CFE200325AD9 /* PostDetailDataModel.swift in Sources */,
+				F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */,
 				F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */,
 				F4D98B0A29D188BF00CF9743 /* LMTextField.swift in Sources */,
 				F4A5BD7429DA0A07006FC78D /* UIImageView+Extension.swift in Sources */,
 				F49C76F229E323CF00325AD9 /* CommentHeaderViewCell.swift in Sources */,
 				F4C3330829CDC83300AD5F52 /* LMFeedUI.docc in Sources */,
 				F4A9618429DC06D300F395AD /* LinkCollectionViewCell.swift in Sources */,
+				F405D0FF29E7E0800074F531 /* ReportContentViewController.swift in Sources */,
 				F49C76FE29E4345300325AD9 /* PlayerView.swift in Sources */,
 				F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */,
 				F4D98B0C29D188BF00CF9743 /* LMBranding.swift in Sources */,
+				F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */,
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
 				F49C76F829E3CFFA00325AD9 /* PostDetailViewModel.swift in Sources */,
@@ -590,29 +703,40 @@
 				F4A20D2029E57628001D57CB /* LikedUserDataView.swift in Sources */,
 				F4D98B0B29D188BF00CF9743 /* LMTextView.swift in Sources */,
 				F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */,
+				F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */,
+				F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */,
 				F49C76F429E3387E00325AD9 /* ReplyCommentTableViewCell.swift in Sources */,
 				F49C76DF29DF45B100325AD9 /* AWSS3Manager.swift in Sources */,
 				F4D58B5929DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift in Sources */,
 				F4A20D2229E57654001D57CB /* LikedUserTableViewCell.swift in Sources */,
 				F49C76EE29E3106100325AD9 /* PostDetailViewController.swift in Sources */,
+				F4A85D2229E9338900FB8DAF /* ReportTagCollectionViewCell.swift in Sources */,
+				F405D10729E8843F0074F531 /* ReportContentViewModel.swift in Sources */,
+				F4A3DD2E29E7D2F600498363 /* DeleteContentViewController.swift in Sources */,
 				F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */,
 				F4D98B2429D4528900CF9743 /* String+Extension.swift in Sources */,
+				F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */,
 				F49C76FB29E3EB8C00325AD9 /* DataDetector.swift in Sources */,
 				F4A4EFA229D58EC600829E5E /* UserDefault+Extension.swift in Sources */,
 				F4A9619429DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift in Sources */,
 				F4D98B1829D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift in Sources */,
+				F4A85D2029E931F700FB8DAF /* TagFlowLayout.swift in Sources */,
+				F405D10529E811600074F531 /* SpecialCharString.swift in Sources */,
 				F4A20D2629E5F2A4001D57CB /* UIImage+Extension.swift in Sources */,
 				F4D98B0F29D1890300CF9743 /* Font+Extension.swift in Sources */,
+				F405D10329E80F820074F531 /* ImageIcon.swift in Sources */,
 				F4D98B1E29D44DD500CF9743 /* HomeFeedViewData.swift in Sources */,
 				F4D98B2629D452B600CF9743 /* UIView+Extension.swift in Sources */,
 				F4A20D1E29E5760D001D57CB /* LikedUserListViewModel.swift in Sources */,
 				F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */,
 				F4A9618F29DC614400F395AD /* CreatePostViewModel.swift in Sources */,
+				F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */,
 				F4D98B2029D450C100CF9743 /* Extensions.swift in Sources */,
 				F4D98B0929D188BF00CF9743 /* LMSegmentedControl.swift in Sources */,
 				F4D98B0829D188BF00CF9743 /* LMLabel.swift in Sources */,
 				F4D98AFF29D1889B00CF9743 /* BaseNavigationController.swift in Sources */,
 				F4A20D2829E5FA4C001D57CB /* TaggedRouteParser.swift in Sources */,
+				F4DE47112A06CB6400BF5C2C /* RoundButton.swift in Sources */,
 				F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */,
 				F4D98B1529D1A08400CF9743 /* HomeFeedViewController.swift in Sources */,
 			);
@@ -743,6 +867,7 @@
 		};
 		F4C3330D29CDC83300AD5F52 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11997E91A908DC373D966341 /* Pods-LMFeedUI.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -771,6 +896,7 @@
 		};
 		F4C3330E29CDC83300AD5F52 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B76955F0308C8E5E16D39C64 /* Pods-LMFeedUI.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

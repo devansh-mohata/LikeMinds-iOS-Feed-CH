@@ -46,7 +46,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         return captionView
     }()
     
-    var feedData: HomeFeedDataView?
+    var feedData: PostFeedDataView?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -80,7 +80,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
 //        postCaptionView.addConstraints(equalToView: self.captionSectionView)
     }
     
-    func setupFeedCell(_ feedDataView: HomeFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
+    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
@@ -89,13 +89,10 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     }
     
     func setupImageCollectionView() {
-        let nib = UINib(nibName: "ImageVideoCollectionViewCell", bundle: Bundle(for: ImageVideoCollectionViewCell.self))
-        self.imageVideoCollectionView.register(nib, forCellWithReuseIdentifier: ImageVideoCollectionViewCell.cellIdentifier)
         
-        self.imageVideoCollectionView.register(VideoCollectionViewCell1.self, forCellWithReuseIdentifier: VideoCollectionViewCell1.cellIdentifier)
-        
-        let docNib = UINib(nibName: "DocumentCollectionCell", bundle: Bundle(for: DocumentCollectionCell.self))
-        self.imageVideoCollectionView.register(docNib, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+        self.imageVideoCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
+        self.imageVideoCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+        self.imageVideoCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
         let linkNib = UINib(nibName: "LinkCollectionViewCell", bundle: Bundle(for: LinkCollectionViewCell.self))
         self.imageVideoCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
@@ -142,7 +139,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     
     private func setupCaption() {
         let caption = self.feedData?.caption ?? ""
-        self.captionLabel.text = caption//.isEmpty ? " testa aldjf lasd fald falsdjf la d ladjfladj fla dflaj ldfj aldfj lasdf  flajdf laj flaj d aljdflaj sdflj alsdfj laj dslfj aldfj lajd flaj sdlf jalsdjf lkasj dfl asdfl jals dfa sdflkasdj flajs dflaj sdfj laksdfj lasd jfas djflasjdfl asldfjlas djflas dflasjd fa https://www.google.com this lafdlaj www.google.co" : caption
+        self.captionLabel.text = caption
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true)
     }
@@ -171,14 +168,14 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
         if let imageVideoItem = self.feedData?.imageVideos?[indexPath.row]{
             switch imageVideoItem.fileType {
             case .image:
-                guard let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImageVideoCollectionViewCell.cellIdentifier, for: indexPath) as? ImageVideoCollectionViewCell else { return defaultCell}
+                guard let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.cellIdentifier, for: indexPath) as? ImageCollectionViewCell else { return defaultCell}
                 cell.setupImageVideoView(imageVideoItem.url)
                 cell.removeButton.alpha = 0
                 defaultCell = cell
             case .video:
-                guard let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell1.cellIdentifier, for: indexPath) as? VideoCollectionViewCell1 else { return defaultCell}
+                guard let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.cellIdentifier, for: indexPath) as? VideoCollectionViewCell else { return defaultCell}
                 cell.setupVideoData(url: imageVideoItem.url ?? "")
-//                cell.removeButton.alpha = 0
+                cell.removeButton.alpha = 0
                 defaultCell = cell
             default:
                 break

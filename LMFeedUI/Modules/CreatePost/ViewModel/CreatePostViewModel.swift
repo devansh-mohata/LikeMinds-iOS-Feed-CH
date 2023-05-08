@@ -16,9 +16,9 @@ protocol CreatePostViewModelDelegate: AnyObject {
 
 final class CreatePostViewModel {
     
-    var imageAndVideoAttachments: [HomeFeedDataView.ImageVideo] = []
-    var documentAttachments: [HomeFeedDataView.Attachment] = []
-    var linkAttatchment: HomeFeedDataView.LinkAttachment?
+    var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
+    var documentAttachments: [PostFeedDataView.Attachment] = []
+    var linkAttatchment: PostFeedDataView.LinkAttachment?
     let attachmentUploadTypes: [AttachmentUploadType] = [.image, .video, .document]
     var currentSelectedUploadeType: CreatePostViewModel.AttachmentUploadType = .unknown
     weak var delegate: CreatePostViewModelDelegate?
@@ -32,7 +32,7 @@ final class CreatePostViewModel {
     }
     
     func addDocumentAttachment(fileUrl: URL) {
-        var attachment = HomeFeedDataView.Attachment(attachmentUrl: fileUrl.relativePath, attachmentType: "PDF", attachmentSize: 0, numberOfPages: 0)
+        var attachment = PostFeedDataView.Attachment(attachmentUrl: fileUrl.relativePath, attachmentType: "PDF", attachmentSize: 0, numberOfPages: 0)
         if let pdf = CGPDFDocument(fileUrl as CFURL) {
             print("number of page: \(pdf.numberOfPages)")
             attachment.numberOfPages = pdf.numberOfPages
@@ -45,7 +45,7 @@ final class CreatePostViewModel {
     }
     
     func addImageVideoAttachment(fileUrl: URL, type: AttachmentUploadType) {
-        var attachment = HomeFeedDataView.ImageVideo(fileType: type == .image ? .image : .video)
+        var attachment = PostFeedDataView.ImageVideo(fileType: type == .image ? .image : .video)
         attachment.url = fileUrl.absoluteString
         attachment.type = fileUrl.pathExtension
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {

@@ -8,7 +8,7 @@
 import Foundation
 import LMFeed
 
-final class HomeFeedDataView {
+final class PostFeedDataView {
     var postId: String
     var feedByUser: PostByUser?
     var imageVideos : [ImageVideo]?
@@ -83,7 +83,7 @@ final class HomeFeedDataView {
     }
     
     func commentCounts() -> String {
-        let commentPlural = self.commentCount > 1 ? "Comments" : "Comment"
+        let commentPlural = self.commentCount > 1 ? "Comments" : (self.commentCount > 0 ? "Comment" : "Add Comment")
         let counts = self.commentCount > 0 ? "\(self.commentCount) \(commentPlural)" : "\(commentPlural)"
         return counts
     }
