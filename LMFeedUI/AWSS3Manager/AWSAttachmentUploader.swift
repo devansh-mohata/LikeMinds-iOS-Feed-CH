@@ -10,7 +10,6 @@ import AVFoundation
 import AWSCognito
 import AWSS3
 
-
 enum UploaderType{
     case image
     case video
@@ -19,14 +18,15 @@ enum UploaderType{
 }
 
 
-class AWSAttachmentUploader {
+class AWSUploadManager {
     
-    static let sharedInstance = AWSAttachmentUploader()
+    static let sharedInstance = AWSUploadManager()
+    //"files/post/<user_unique_id>/<filename>-<current_time_inmillis>"
     
-    func awsUploader(uploaderType: UploaderType, awsFilePath: String, image: Data?, localFilePath: String, content: String = "", thumbNailUrl:String? = nil,index: Int?, progress: ProgressBlock?, completion: CompletionBlock?) {
+    func awsUploader(uploaderType: UploaderType, filePath: String = "", image: UIImage = UIImage(), path: String = "", content: String = "", thumbNailUrl:String? = nil,index: Int?, progress: progressBlock?, completion: completionBlock?) {
         
         if uploaderType == .video {
-            awsUploadVideo(filePath: awsFilePath, videoPath: localFilePath, thumbNail: thumbNailUrl ?? "", progress: {( uploadProgress) in
+            awsUploadVideo(filePath: filePath, videoPath: path, thumbNail: thumbNailUrl ?? "", progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
                 DispatchQueue.main.async {
@@ -35,11 +35,17 @@ class AWSAttachmentUploader {
                 
             }) { (uploadedFileUrl, thumbNailUrl, error, index) in
                 
-                completion?(uploadedFileUrl, thumbNailUrl, error,index )
+                if let finalPath = uploadedFileUrl as? String {
+                    guard let completionBlock = completion else { return }
+                    completionBlock(finalPath, thumbNailUrl, nil, nil)
+                } else {
+                    //print("\(String(describing: error?.localizedDescription))")
+                }
+                
             }
             
         } else if uploaderType == .audio {
-            awsUploadAudio(filePath: awsFilePath, audioPath: localFilePath, progress: {( uploadProgress) in
+            awsUploadAudio(filePath: filePath, audioPath: path, progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
                 DispatchQueue.main.async {
@@ -48,12 +54,18 @@ class AWSAttachmentUploader {
                 
             }) { (uploadedFileUrl, thumbNailUrl, error,index)  in
                 
-                completion?(uploadedFileUrl, thumbNailUrl, error,index )
+                if let finalPath = uploadedFileUrl as? String {
+                    guard let completionBlock = completion else { return }
+                    completionBlock(finalPath, nil, nil ,nil)
+                } else {
+                    //print("\(String(describing: error?.localizedDescription))")
+                }
+                
             }
             
         }else if uploaderType == .file {
             
-            awsUploadFile(filePath: awsFilePath, fileUrlString: localFilePath, content: content ,progress: {( uploadProgress) in
+            awsUploadFile(filePath: filePath, fileUrlString: path, content: content ,progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
                 DispatchQueue.main.async {
@@ -61,15 +73,18 @@ class AWSAttachmentUploader {
                 }
                 
             }) { (uploadedFileUrl, thumbNailUrl, error,index) in
-                completion?(uploadedFileUrl, thumbNailUrl, error,index )
+                
+                if let finalPath = uploadedFileUrl as? String {
+                    guard let completionBlock = completion else { return }
+                    completionBlock(finalPath, nil, nil,nil)
+                } else {
+                    //print("\(String(describing: error?.localizedDescription))")
+                }
+                
             }
             
         }else if uploaderType == .image {
-            guard let image = image else {
-                completion?(nil, nil , nil, index)
-                return
-            }
-            awsUploadImage(filePath: awsFilePath, imageData: image, index: index, progress: {( uploadProgress) in
+            awsUploadImage(filePath: filePath, image: image, index: index, progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
                 DispatchQueue.main.async {
@@ -77,13 +92,32 @@ class AWSAttachmentUploader {
                 }
                 
             }) { (uploadedFileUrl,thumbNailUrl, error,index) in
-                completion?(uploadedFileUrl, thumbNailUrl, error,index )
+                
+                if let finalPath = uploadedFileUrl as? String {
+                    guard let completionBlock = completion else { return }
+                    completionBlock(finalPath, nil , nil, index)
+                } else {
+                    //print("\(String(describing: error?.localizedDescription))")
+                }
+                
             }
         }
         
     }
     
-    func awsUploadGifImage(filePath: String, fileURL: URL, index: Int?, progress: ProgressBlock?, completion: CompletionBlock?) {
+    func fireBaseUploader(uploaderType:UploaderType, progress: progressBlock?, completion: completionBlock?) {
+        if uploaderType == .video {
+            
+        }else if uploaderType == .audio {
+            
+        }else if uploaderType == .file {
+            
+        }else if uploaderType == .image {
+            
+        }
+    }
+    
+    func awsUploadGifImage(filePath: String, fileURL: URL, index: Int?, progress: progressBlock?, completion: completionBlock?) {
         AWSS3Manager.shared.uploadOtherFile(filePath: filePath, fileUrl: fileURL, conentType: "gif", progress: {(progressValue) in
             
             guard let uploadProgress = progress else { return }
@@ -93,14 +127,20 @@ class AWSAttachmentUploader {
             
         }) { (uploadedFileUrl, thumbNailUrl, error,index ) in
             
-            completion?(uploadedFileUrl, thumbNailUrl, error,index )
+            if let finalPath = uploadedFileUrl as? String {
+                guard let completionBlock = completion else { return }
+                completionBlock(finalPath, nil, nil, index)
+            } else {
+                //print("\(String(describing: error?.localizedDescription))")
+            }
         }
     }
 }
 
-extension AWSAttachmentUploader {
-    private func awsUploadImage(filePath: String = "", imageData: Data?, index: Int?, progress: ProgressBlock?, completion: CompletionBlock?) {
-        AWSS3Manager.shared.uploadImage(filePath: filePath, imageData: imageData, index: index, progress: {(progressValue) in
+extension AWSUploadManager {
+    private func awsUploadImage(filePath: String = "", image: UIImage?, index: Int?, progress: progressBlock?, completion: completionBlock?) {
+        guard let image = image else { return } //1
+        AWSS3Manager.shared.uploadImage(filePath: filePath, image: image, imageData: Data(), index: index, progress: {(progressValue) in
             
             guard let uploadProgress = progress else { return }
             DispatchQueue.main.async {
@@ -108,11 +148,18 @@ extension AWSAttachmentUploader {
             }
             
         }) { (uploadedFileUrl, thumbNailUrl, error,index ) in
-            completion?(uploadedFileUrl, thumbNailUrl, error,index )
+            
+            if let finalPath = uploadedFileUrl as? String {
+                guard let completionBlock = completion else { return }
+                completionBlock(finalPath, nil, nil, index)
+            } else {
+                //print("\(String(describing: error?.localizedDescription))")
+            }
+            
         }
     }
     
-    private func awsUploadVideo(filePath: String = "", videoPath: String, thumbNail: String, progress: ProgressBlock?, completion: CompletionBlock?) {
+    private func awsUploadVideo(filePath: String = "", videoPath: String, thumbNail: String, progress: progressBlock?, completion: completionBlock?) {
         let videoUrl = URL(fileURLWithPath: videoPath)
         AWSS3Manager.shared.uploadVideo(filePath: filePath, videoUrl: videoUrl, thumbNail: thumbNail, progress: { (progressValue) in
             
@@ -122,11 +169,18 @@ extension AWSAttachmentUploader {
             }
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index)  in
-            completion?(uploadedFileUrl, thumbNailUrl, error,index )
+            
+            if let finalPath = uploadedFileUrl as? String {
+                guard let completionBlock = completion else { return }
+                completionBlock(finalPath, thumbNailUrl, nil,nil)
+            } else {
+                //print("\(String(describing: error?.localizedDescription))")
+            }
+            
         }
     }
     
-    private func awsUploadAudio(filePath: String = "", audioPath: String, progress: ProgressBlock?, completion: CompletionBlock?) {
+    private func awsUploadAudio(filePath: String = "", audioPath: String, progress: progressBlock?, completion: completionBlock?) {
         let audioUrl = URL(fileURLWithPath: audioPath)
         AWSS3Manager.shared.uploadAudio(filePath: filePath, audioUrl: audioUrl, progress: { (progressValue) in
             
@@ -136,12 +190,19 @@ extension AWSAttachmentUploader {
             }
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index)  in
-            completion?(uploadedFileUrl, thumbNailUrl, error,index )
+            
+            if let finalPath = uploadedFileUrl as? String {
+                guard let completionBlock = completion else { return }
+                completionBlock(finalPath, nil, nil,nil)
+            } else {
+                //print("\(String(describing: error?.localizedDescription))")
+            }
+            
         }
         
     }
     
-    private func awsUploadFile(filePath: String = "", fileUrlString: String, content: String, progress: ProgressBlock?, completion: CompletionBlock?) {
+    private func awsUploadFile(filePath: String = "", fileUrlString: String, content: String, progress: progressBlock?, completion: completionBlock?) {
         let fileURL = URL(fileURLWithPath: fileUrlString)
         AWSS3Manager.shared.uploadOtherFile(filePath: filePath, fileUrl: fileURL, conentType: content,  progress: {(progressValue) in
             
@@ -151,11 +212,18 @@ extension AWSAttachmentUploader {
             }
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index) in
-            completion?(uploadedFileUrl, thumbNailUrl, error,index )
+            
+            if let finalPath = uploadedFileUrl as? String {
+                guard let completionBlock = completion else { return }
+                completionBlock(finalPath, nil, nil, nil)
+            } else {
+                //print("\(String(describing: error?.localizedDescription))")
+            }
+            
         }
     }
     
-    func awsUploadFromFileUrl(filePath: String = "", fileUrlString: String, content: String, progress: ProgressBlock?, completion: CompletionBlock?) {
+    func awsUploadFromFileUrl(filePath: String = "", fileUrlString: String, content: String, progress: progressBlock?, completion: completionBlock?) {
         let fileURL = URL(fileURLWithPath: fileUrlString)
         AWSS3Manager.shared.uploadOtherFile(filePath: filePath, fileUrl: fileURL, conentType: content,  progress: {(progressValue) in
             
@@ -165,7 +233,14 @@ extension AWSAttachmentUploader {
             }
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index) in
-            completion?(uploadedFileUrl, thumbNailUrl, error,index )
+            
+            if let finalPath = uploadedFileUrl as? String {
+                guard let completionBlock = completion else { return }
+                completionBlock(finalPath, nil, nil, nil)
+            } else {
+                print("\(String(describing: error?.localizedDescription))")
+            }
+            
         }
     }
 }

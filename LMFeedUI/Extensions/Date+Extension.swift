@@ -9,6 +9,13 @@ import Foundation
 
 extension Date {
     
+    var millisecondsSince1970: Double {
+        return (self.timeIntervalSince1970 * 1000.0).rounded()
+    }
+    init(milliseconds: Double) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds)/1000.0)
+    }
+    
     func timeAgoDisplay() -> String {
         let secondsAgo = Int(Date().timeIntervalSince(self))
         
@@ -66,15 +73,16 @@ extension Date {
             return "Just now"
         }
         if secondsAgo < minute {
-            return "\(secondsAgo)s"
+//            return "\(secondsAgo)s"
+            return "Just now"
         } else if secondsAgo < hour {
-            return "\(secondsAgo / minute)m"
+            return "\(secondsAgo / minute)min"
         } else if secondsAgo < day {
             return "\(secondsAgo / hour)h"
         } else if secondsAgo < week {
             return "\(secondsAgo / day)d"
         }
         
-        return "\(secondsAgo / week)wk"
+        return "\(secondsAgo / day)d" //"\(secondsAgo / week)wk"
     }
 }

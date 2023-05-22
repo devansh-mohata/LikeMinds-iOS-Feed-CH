@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,6 +19,8 @@
                 <outlet property="captionTextViewHeightConstraint" destination="Q9k-Rm-WyI" id="52b-rx-8qV"/>
                 <outlet property="collectionSuperViewHeightConstraint" destination="iSi-AF-i7J" id="lA8-zV-meV"/>
                 <outlet property="postinLabel" destination="Xdt-uR-Cql" id="MBr-ek-qkj"/>
+                <outlet property="taggingListViewContainer" destination="XZE-Np-r9Z" id="j7a-qX-8WW"/>
+                <outlet property="taggingViewHeightConstraint" destination="Ajr-C5-Jnx" id="chB-xd-u1M"/>
                 <outlet property="uploadActionViewHeightConstraint" destination="haC-Xz-X3T" id="f2W-lx-xIY"/>
                 <outlet property="uploadActionsTableView" destination="kId-gs-Li4" id="DfF-gW-geE"/>
                 <outlet property="uploadAttachmentActionsView" destination="f74-bF-iIH" id="yre-sq-MXI"/>
@@ -34,7 +36,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="luD-tG-AFY">
-                    <rect key="frame" x="0.0" y="47" width="375" height="603"/>
+                    <rect key="frame" x="0.0" y="50" width="375" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L0g-2K-JXQ">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="658"/>
@@ -53,7 +55,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="vGX-dJ-tSo">
-                                                    <rect key="frame" x="50" y="10.333333333333334" width="293" height="19.333333333333329"/>
+                                                    <rect key="frame" x="50" y="10.333333333333327" width="293" height="19.333333333333329"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pushpendra" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7V0-M8-hoS" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="89.666666666666671" height="19.333333333333332"/>
@@ -99,6 +101,7 @@
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dIc-YX-JVA" customClass="LMTextView" customModule="LMFeedUI" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="0.0" width="355" height="140"/>
+                                                    <color key="backgroundColor" systemColor="systemMintColor"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -162,6 +165,13 @@
                                         </view>
                                     </subviews>
                                 </stackView>
+                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XZE-Np-r9Z" userLabel="TaggingListContainer">
+                                    <rect key="frame" x="0.0" y="190" width="375" height="60"/>
+                                    <color key="backgroundColor" systemColor="systemRedColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="60" id="Ajr-C5-Jnx"/>
+                                    </constraints>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
@@ -171,6 +181,7 @@
                                 <constraint firstAttribute="trailing" secondItem="iwM-HR-YoK" secondAttribute="trailing" id="XYa-w4-BwA"/>
                                 <constraint firstAttribute="bottom" secondItem="iwM-HR-YoK" secondAttribute="bottom" id="g4e-xd-CwX"/>
                                 <constraint firstItem="Gup-ER-zkn" firstAttribute="leading" secondItem="L0g-2K-JXQ" secondAttribute="leading" id="rUp-2c-DbS"/>
+                                <constraint firstItem="XZE-Np-r9Z" firstAttribute="top" secondItem="dIc-YX-JVA" secondAttribute="bottom" id="wDN-lx-fc7"/>
                                 <constraint firstItem="Gup-ER-zkn" firstAttribute="top" secondItem="L0g-2K-JXQ" secondAttribute="top" id="zIV-9a-j1g"/>
                             </constraints>
                         </view>
@@ -223,8 +234,14 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemMintColor">
+            <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

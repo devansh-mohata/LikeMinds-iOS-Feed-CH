@@ -98,6 +98,8 @@ class DocumentCollectionCell: UICollectionViewCell {
         documentStackView.addArrangedSubview(removeButton)
         documentContainerView.addSubview(documentStackView)
         documentStackView.addConstraints(equalToView: documentContainerView, top: 10, bottom: -10, left: 20, right: -10)
+        removeButton.addTarget(self, action: #selector(removeClicked), for: .touchUpInside)
+        bringSubviewToFront(self.removeButton)
     }
 
     func setupDocumentCell(_ documentName: String, documentDetails: String) {

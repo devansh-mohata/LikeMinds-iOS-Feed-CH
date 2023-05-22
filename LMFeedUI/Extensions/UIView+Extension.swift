@@ -67,4 +67,19 @@ extension UIView {
         }
     }
     
+    func addShadow(scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 5
+        layer.zPosition = 5.0
+    }
+    
+    func makeCircleView() {
+        self.layer.cornerRadius = self.bounds.height/2
+        self.clipsToBounds = true
+        self.contentMode = .scaleToFill
+    }
+    
 }

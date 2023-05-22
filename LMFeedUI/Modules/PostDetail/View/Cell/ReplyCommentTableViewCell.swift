@@ -8,12 +8,13 @@
 import UIKit
 
 protocol ReplyCommentTableViewCellDelegate: AnyObject {
-    func didTapActionButton(cell: UITableViewCell)
+    func didTapActionButton(withActionType actionType: CellActionType, cell: UITableViewCell)
 }
 
 class ReplyCommentTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier: String = String(describing: CommentHeaderViewCell.self)
+    static let reuseIdentifier: String = String(describing: ReplyCommentTableViewCell.self)
+    weak var delegate: ReplyCommentTableViewCellDelegate?
     
     let commentHeaderStackView: UIStackView = {
         let sv = UIStackView()
@@ -40,6 +41,7 @@ class ReplyCommentTableViewCell: UITableViewCell {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
         imageView.image = UIImage(systemName: "person.circle")
         imageView.contentMode = .scaleAspectFill
+        imageView.isHidden = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setSizeConstraint(width: imageSize, height: imageSize)
         imageView.drawCornerRadius(radius: CGSize(width: imageSize, height: imageSize))
@@ -158,10 +160,13 @@ class ReplyCommentTableViewCell: UITableViewCell {
         return label
     }()
     
+    weak var comment: PostDetailDataModel.Comment?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         commonInit()
+        setupActions()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -209,29 +214,39 @@ class ReplyCommentTableViewCell: UITableViewCell {
     }
     
     func setupDataView(comment: PostDetailDataModel.Comment) {
+        self.comment = comment
         self.usernameLabel.text = comment.user.name
-        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.caption ?? "", forTextView: false)
+        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false)
         self.likeCountLabel.text = comment.likeCounts()
         self.timeLabel.text = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
+        likeDataView()
+    }
+
+    @objc private func likeTapped(sender: LMTapGesture) {
+        delegate?.didTapActionButton(withActionType: .like, cell: self)
+        let isLike = !(self.comment?.isLiked ?? false)
+        self.comment?.isLiked = isLike
+        self.comment?.likedCount += isLike ? 1 : -1
+        likeDataView()
     }
     
-    @objc private func likeTapped(sender: LMTapGesture) {
-        print("like Button Tapped")
-        //        delegate?.didTappedAction(withActionType: .like, postData: self.feedData)
-        //        let isLike = !(self.feedData?.isLiked ?? false)
-        //        self.feedData?.isLiked = isLike
-        //        self.feedData?.likedCount += isLike ? 1 : -1
-        //        likeDataView()
+    func likeDataView() {
+        likeCountLabel.text = self.comment?.likeCounts()
+        if comment?.isLiked ?? true {
+            likeImageView.image = UIImage(systemName: ImageIcon.likeFillIcon)
+            likeImageView.tintColor = .red
+        } else {
+            likeImageView.image = UIImage(systemName: ImageIcon.likeIcon)
+            likeImageView.tintColor = .darkGray
+        }
     }
     
     @objc private func likeCountsTapped(sender: LMTapGesture) {
-        print("likecount Button Tapped")
-        //        delegate?.didTappedAction(withActionType: .likeCount, postData: self.feedData)
+        delegate?.didTapActionButton(withActionType: .likeCount, cell: self)
     }
     
     @objc private func moreTapped(sender: LMTapGesture) {
-        print("More Button Tapped")
-//        delegate?.didTapOnMoreButton(selectedPost: self.feedData)
+        delegate?.didTapActionButton(withActionType: .more, cell: self)
     }
 
 }

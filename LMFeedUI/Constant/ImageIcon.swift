@@ -18,4 +18,10 @@ struct ImageIcon {
     static let pinIcon = "pin.circle"
     static let moreIcon = "ellipsis"
     static let linkIcon = "link"
+    static let personInCircle = "person.circle"
+    static let backIcon = "chevron.backward"
+    static let bellFillIcon = "bell.fill"
+    static let docIcon = "doc"
+    static let photoIcon = "photo"
+    static let video = "video"
 }

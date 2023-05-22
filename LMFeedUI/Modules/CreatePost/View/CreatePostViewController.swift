@@ -8,6 +8,7 @@
 import UIKit
 import BSImagePicker
 import PDFKit
+import LMFeed
 
 class CreatePostViewController: BaseViewController {
     
@@ -24,6 +25,8 @@ class CreatePostViewController: BaseViewController {
     @IBOutlet weak var uploadAttachmentSuperViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var captionTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var uploadActionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var taggingListViewContainer: UIView!
+    @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
     var debounceForDecodeLink:Timer?
     var uploadActionsHeight:CGFloat = 43 * 3
     var placeholderLabel: LMLabel = {
@@ -35,17 +38,27 @@ class CreatePostViewController: BaseViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+   
     let viewModel: CreatePostViewModel = CreatePostViewModel()
+    let taggingUserList: TaggedUserList =  {
+        guard let userList = TaggedUserList.nibView() else { return TaggedUserList() }
+        userList.translatesAutoresizingMaskIntoConstraints = false
+        return userList
+    }()
+    var isTaggingViewHidden = true
+    var isReloadTaggingListView = true
+    var typeTextRangeInTextView: NSRange?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
+        self.userProfileImage.makeCircleView()
         captionTextView.delegate = self
         captionTextView.addSubview(placeholderLabel)
         placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
         placeholderLabel.textColor = .tertiaryLabel
         placeholderLabel.isHidden = !captionTextView.text.isEmpty
-        attachmentView.isHidden = true
+//        attachmentView.isHidden = true
         viewModel.delegate = self
         attachmentCollectionView.dataSource = self
         attachmentCollectionView.delegate = self
@@ -57,7 +70,8 @@ class CreatePostViewController: BaseViewController {
         addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
         addMoreButton.tintColor = LMBranding.shared.buttonColor
         addMoreButton.layer.cornerRadius = 8
-        
+        addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
+        addMoreButton.superview?.isHidden = true
         self.attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
         self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
@@ -66,6 +80,17 @@ class CreatePostViewController: BaseViewController {
         self.attachmentCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
         self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
         self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+        self.setupProfileData()
+        self.setupTaggingView()
+        self.setTitleAndSubtile(title: "Create a post", subTitle: nil)
+    }
+    
+    func setupTaggingView() {
+        self.taggingListViewContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.taggingListViewContainer.addSubview(taggingUserList)
+        taggingUserList.addConstraints(equalToView: self.taggingListViewContainer)
+        taggingUserList.setUp()
+        taggingUserList.delegate = self
     }
     
     func setupNavigationItems() {
@@ -77,9 +102,40 @@ class CreatePostViewController: BaseViewController {
         self.navigationItem.rightBarButtonItem = postButtonItem
     }
     
+    func setupProfileData() {
+        guard let user = LocalPrefrerences.getUserData() else {
+            return
+        }
+        let placeholder = UIImage.generateLetterImage(with: user.name)
+        self.userProfileImage.setImage(withUrl: user.imageUrl ?? "", placeholder: placeholder)
+        self.usernameLabel.text = user.name
+    }
+    
     @objc func createPost() {
         print("post data")
         self.view.endEditing(true)
+        let text = self.captionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.viewModel.createPost(text)
+        self.navigationController?.popViewController(animated: true)
+        //"files/post/<user_unique_id>/<filename>-<current_time_inmillis>"
+//        let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
+//        let imageUrl = viewModel.imageAndVideoAttachments.first
+//        guard let url = URL(string: imageUrl?.url ?? "")
+//              let data = try? Data(contentsOf:url),
+//              let image = UIImage(data: data)
+//        else { return }
+        
+//        AWSUploadManager.sharedInstance.awsUploader(uploaderType: .video, filePath: filePath, image: image, thumbNailUrl: nil,index: 1) { (progress) in
+//        } completion: { (imageResponse,thumbnailUrl, error, nil)  in
+//            print(imageResponse)
+//        }
+        
+//        AWSUploadManager.sharedInstance.awsUploader(uploaderType: .video, filePath: filePath, path: url.path , thumbNailUrl: nil, index: 1 ) { (progress) in
+//
+//        } completion: { (videoResponse, thumbnailUrl, error, nil)  in
+//            print(videoResponse)
+//        }
+
     }
     
     func openImagePicker(_ mediaType: Settings.Fetch.Assets.MediaTypes) {
@@ -95,13 +151,11 @@ class CreatePostViewController: BaseViewController {
             asset.getURL { responseURL in
                 guard let url = responseURL else {return }
                 let mediaType: CreatePostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
-                print("selected: \(responseURL?.absoluteString)")
                 self?.viewModel.addImageVideoAttachment(fileUrl: url, type: mediaType)
             }
         }, deselect: {[weak self] (asset) in
             print("Deselected: \(asset)")
             asset.getURL { responseURL in
-                print("selected: \(responseURL?.absoluteString)")
                 self?.viewModel.imageAndVideoAttachments.removeAll(where: {$0.url == responseURL?.absoluteString})
             }
         }, cancel: { (assets) in
@@ -128,7 +182,7 @@ class CreatePostViewController: BaseViewController {
         self.present(documentPicker, animated: true, completion: nil)
     }
     
-    func addMoreAction() {
+    @objc func addMoreAction() {
         switch self.viewModel.currentSelectedUploadeType {
         case .image:
             openImagePicker(.image)
@@ -273,6 +327,11 @@ extension CreatePostViewController: UITextViewDelegate {
                 self?.viewModel.parseMessageForLink(message: enteredString)
             }
         }
+        self.typeTextRangeInTextView = range
+        if text != "" {
+            typeTextRangeInTextView?.location += 1
+        }
+        taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
         if textView.bounds.height >= 145 {
             textView.isScrollEnabled = true
         } else {
@@ -331,20 +390,22 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
 extension CreatePostViewController: CreatePostViewModelDelegate {
     
     func reloadAttachmentsView() {
+        var isCountGreaterThanZero = false
         switch viewModel.currentSelectedUploadeType {
         case .image, .video:
-            let isCountGreaterThanZero = viewModel.imageAndVideoAttachments.count > 0
-            attachmentView.isHidden = !isCountGreaterThanZero
+             isCountGreaterThanZero = viewModel.imageAndVideoAttachments.count > 0
+//            attachmentView.isHidden = !isCountGreaterThanZero
             self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
         case .document:
-            let isCountGreaterThanZero = viewModel.documentAttachments.count > 0
-            attachmentView.isHidden = !isCountGreaterThanZero
+             isCountGreaterThanZero = viewModel.documentAttachments.count > 0
+//            attachmentView.isHidden = !isCountGreaterThanZero
             self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
         default:
             self.uploadActionViewHeightConstraint.constant = uploadActionsHeight
             break
         }
         attachmentCollectionView.reloadData()
+        addMoreButton.superview?.isHidden = !isCountGreaterThanZero
     }
     
     func reloadCollectionView() {
@@ -353,5 +414,49 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     
     func reloadActionTableView() {
         self.uploadActionsTableView.reloadData()
+    }
+}
+
+extension CreatePostViewController: TaggedUserListDelegate {
+    
+    func didSelectMemberFromTagList(_ user: User) {
+        hideTaggingViewContainer()
+        var attributedMessage:NSAttributedString?
+        if let attributedText = captionTextView.attributedText {
+            attributedMessage = attributedText
+        }
+        if let selectedRange = captionTextView.selectedTextRange {
+            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
+            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
+            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
+                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
+            }
+        }
+        if !viewModel.taggedUsers.contains(where: {$0.userUniqueId == user.userUniqueId}) {
+            viewModel.taggedUsers.append(user)
+        }
+    }
+
+    func hideTaggingViewContainer() {
+        isTaggingViewHidden = true
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .showHideTransitionViews, animations: {
+            self.taggingListViewContainer.alpha = 0
+            self.taggingViewHeightConstraint.constant = 48
+            self.view.layoutIfNeeded()
+            
+        }) { finished in
+        }
+    }
+    
+    func unhideTaggingViewContainer(heightValue: CGFloat) {
+        if !isReloadTaggingListView {return}
+        isTaggingViewHidden = false
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .transitionCurlUp, animations: {
+            self.taggingListViewContainer.alpha = 1
+            self.taggingViewHeightConstraint.constant = heightValue
+            self.view.layoutIfNeeded()
+            
+        }) { finished in
+        }
     }
 }

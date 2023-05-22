@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="105" id="KGk-i7-Jjw" customClass="NotificationFeedTableViewCell" customModule="LMFeedUI" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="340" height="105"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="340" height="105"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="hZa-m3-Daf">
+                        <rect key="frame" x="16" y="10" width="308" height="85"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tgx-Xy-xrm">
+                                <rect key="frame" x="0.0" y="0.0" width="54" height="54"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="52K-6K-cKu" userLabel="ProfileImageView">
+                                        <rect key="frame" x="3" y="1" width="48" height="46.666666666666671"/>
+                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="Xor-ZA-bsE"/>
+                                            <constraint firstAttribute="width" constant="48" id="zMm-Dx-07J"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDk-lo-Deq">
+                                        <rect key="frame" x="25" y="28" width="26" height="26"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Opw-kh-i8u" userLabel="AttachmentIconImageView">
+                                                <rect key="frame" x="3.3333333333333357" y="6.6666666666666661" width="19.333333333333332" height="12.999999999999998"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <imageReference key="image" image="video" catalog="system" symbolScale="small" renderingMode="template"/>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small" weight="regular"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="linkColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="26" id="3QX-2T-zjU"/>
+                                            <constraint firstAttribute="width" constant="26" id="DYN-HG-QLm"/>
+                                            <constraint firstItem="Opw-kh-i8u" firstAttribute="centerY" secondItem="NDk-lo-Deq" secondAttribute="centerY" id="Sfs-kK-jRl"/>
+                                            <constraint firstItem="Opw-kh-i8u" firstAttribute="centerX" secondItem="NDk-lo-Deq" secondAttribute="centerX" id="wGG-yJ-iLu"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="52K-6K-cKu" firstAttribute="centerX" secondItem="Tgx-Xy-xrm" secondAttribute="centerX" id="6ho-Q6-M0T"/>
+                                    <constraint firstAttribute="height" constant="54" id="PxO-52-lJG"/>
+                                    <constraint firstItem="52K-6K-cKu" firstAttribute="top" secondItem="Tgx-Xy-xrm" secondAttribute="top" id="hBt-rg-tDb"/>
+                                    <constraint firstAttribute="bottom" secondItem="NDk-lo-Deq" secondAttribute="bottom" id="u9K-lc-lXV"/>
+                                    <constraint firstItem="NDk-lo-Deq" firstAttribute="trailing" secondItem="52K-6K-cKu" secondAttribute="trailing" id="vKa-c2-a8Y"/>
+                                    <constraint firstAttribute="width" constant="54" id="zfY-CS-VAb"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MHZ-lK-es9">
+                                <rect key="frame" x="64" y="0.0" width="244" height="77.333333333333329"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Qr-Fi-ad0">
+                                        <rect key="frame" x="0.0" y="0.0" width="244" height="50.333333333333336"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nishkarsh Kaushik liked your post: “Here is a list of social media tools to help you...”" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vh7-7d-QRV" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="204" height="50.333333333333336"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ebG-W0-vSe" customClass="LMButton" customModule="LMFeedUI" customModuleProvider="target">
+                                                <rect key="frame" x="214" y="10.333333333333332" width="30" height="29.999999999999996"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="hEv-5c-SzI"/>
+                                                    <constraint firstAttribute="height" constant="30" id="mZT-gk-uDe"/>
+                                                </constraints>
+                                                <color key="tintColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="ellipsis" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="regular"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 days ago" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XV0-La-zg0" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="60.333333333333329" width="244" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="hZa-m3-Daf" secondAttribute="bottom" constant="10" id="90O-SP-k7R"/>
+                    <constraint firstAttribute="trailing" secondItem="hZa-m3-Daf" secondAttribute="trailing" constant="16" id="NYb-B7-KYf"/>
+                    <constraint firstItem="hZa-m3-Daf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="XV3-D8-3WK"/>
+                    <constraint firstItem="hZa-m3-Daf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="ecs-WT-rhu"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="docIconImageView" destination="Opw-kh-i8u" id="Jig-IK-LD9"/>
+                <outlet property="moreMenuButton" destination="ebG-W0-vSe" id="k1s-eW-2T0"/>
+                <outlet property="notificationDetailLabel" destination="Vh7-7d-QRV" id="f3h-ef-veJ"/>
+                <outlet property="profileImageView" destination="52K-6K-cKu" id="ZwV-de-qfq"/>
+                <outlet property="timeLabel" destination="XV0-La-zg0" id="5uG-YK-D5f"/>
+            </connections>
+            <point key="canvasLocation" x="-41.221374045801525" y="41.197183098591552"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="person.circle" catalog="system" width="128" height="123"/>
+        <image name="video" catalog="system" width="128" height="82"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

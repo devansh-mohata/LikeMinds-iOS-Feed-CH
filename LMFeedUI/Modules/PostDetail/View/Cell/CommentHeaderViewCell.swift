@@ -8,14 +8,14 @@
 import UIKit
 
 protocol CommentHeaderViewCellDelegate: AnyObject {
-    func didTapActionButton(cell: UIView)
+    func didTapActionButton(withActionType actionType: CellActionType, section: Int?)
 }
 
 class CommentHeaderViewCell: UITableViewHeaderFooterView {
 
     static let reuseIdentifier: String = String(describing: CommentHeaderViewCell.self)
-    private weak var delegate: ActionsFooterViewDelegate?
-    private var section: Int?
+    weak var delegate: CommentHeaderViewCellDelegate?
+    var section: Int?
     
     let commentHeaderStackView: UIStackView = {
         let sv = UIStackView()
@@ -206,6 +206,8 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         return label
     }()
     
+    weak var comment: PostDetailDataModel.Comment?
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         commonInit()
@@ -271,50 +273,47 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     }
     
     func setupDataView(comment: PostDetailDataModel.Comment) {
+        self.comment = comment
         self.usernameLabel.text = comment.user.name
-        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.caption ?? "", forTextView: false)
+        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false)
         self.likeCountLabel.text = comment.likeCounts()
         self.replyCountLabel.text = comment.repliesCounts()
         self.timeLabel.text = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
+        likeDataView()
     }
     
     @objc private func likeTapped(sender: LMTapGesture) {
-        print("like Button Tapped")
-//        delegate?.didTappedAction(withActionType: .like, postData: self.feedData)
-//        let isLike = !(self.feedData?.isLiked ?? false)
-//        self.feedData?.isLiked = isLike
-//        self.feedData?.likedCount += isLike ? 1 : -1
-//        likeDataView()
+        delegate?.didTapActionButton(withActionType: .like, section: self.section)
+        let isLike = !(self.comment?.isLiked ?? false)
+        self.comment?.isLiked = isLike
+        self.comment?.likedCount += isLike ? 1 : -1
+        likeDataView()
     }
     
     func likeDataView() {
-//        likeCountLabel.text = self.feedData?.likeCounts()
-//        if feedData?.isLiked ?? true {
-//            likeImageView.image = UIImage(systemName: ImageIcon.likeFillIcon)
-//            likeImageView.tintColor = .red
-//        } else {
-//            likeImageView.image = UIImage(systemName: ImageIcon.likeIcon)
-//            likeImageView.tintColor = .darkGray
-//        }
+        likeCountLabel.text = self.comment?.likeCounts()
+        if comment?.isLiked ?? true {
+            likeImageView.image = UIImage(systemName: ImageIcon.likeFillIcon)
+            likeImageView.tintColor = .red
+        } else {
+            likeImageView.image = UIImage(systemName: ImageIcon.likeIcon)
+            likeImageView.tintColor = .darkGray
+        }
     }
     
     @objc private func replyTapped(sender: LMTapGesture) {
-        print("reply Button Tapped")
-//        delegate?.didTappedAction(withActionType: .comment, postData: self.feedData)
+        delegate?.didTapActionButton(withActionType: .comment, section: self.section)
     }
     
     @objc private func replyCountTapped(sender: LMTapGesture) {
-        print("reply count Button Tapped")
-        //        delegate?.didTappedAction(withActionType: .comment, postData: self.feedData)
+        delegate?.didTapActionButton(withActionType: .commentCount, section: self.section)
     }
     
     @objc private func likeCountsTapped(sender: LMTapGesture) {
-        print("likecount Button Tapped")
-//        delegate?.didTappedAction(withActionType: .likeCount, postData: self.feedData)
+        delegate?.didTapActionButton(withActionType: .likeCount, section: self.section)
     }
     
     @objc private func moreTapped(sender: LMTapGesture) {
-        print("More Button Tapped")
-//        delegate?.didTapOnMoreButton(selectedPost: self.feedData)
+        delegate?.didTapActionButton(withActionType: .more, section: self.section)
     }
 }

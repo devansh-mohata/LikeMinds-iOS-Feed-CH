@@ -10,20 +10,22 @@ import Foundation
 class AWSFileUploadRequest {
     let fileUrl: String
     let fileType: UploaderType
+    let name: String
     let index: Int
     var awsFilePath: String
     var awsUploadedUrl: String?
     
-    init(fileUrl: String, awsFilePath: String, fileType: UploaderType, index: Int) {
+    init(fileUrl: String, awsFilePath: String, fileType: UploaderType, index: Int, name: String) {
         self.fileUrl = fileUrl
         self.awsFilePath = awsFilePath
         self.fileType = fileType
         self.index = index
+        self.name = name
     }
 }
 
 class AWSFileUtility {
-    
+   /*
     static let shared = AWSFileUtility()
     private var dispatchGroupOperation = DispatchGroup()
     private var uploadProgress: Double = 0
@@ -85,4 +87,5 @@ class AWSFileUtility {
     
     func cancelAllOperation() {
     }
+    */
 }

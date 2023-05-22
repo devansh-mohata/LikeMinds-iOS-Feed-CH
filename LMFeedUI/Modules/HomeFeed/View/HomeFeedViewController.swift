@@ -13,6 +13,8 @@ public final class HomeFeedViewControler: BaseViewController {
     
     let feedTableView: UITableView = UITableView()
     let homeFeedViewModel = HomeFeedViewModel()
+    let refreshControl = UIRefreshControl()
+    var bottomLoadSpinner: UIActivityIndicatorView!
     let createPostButton: LMButton = {
         let createPost = LMButton()
         createPost.setImage(UIImage(systemName: "calendar.badge.plus"), for: .normal)
@@ -25,26 +27,84 @@ public final class HomeFeedViewControler: BaseViewController {
         return createPost
     }()
     
+    let postingProgressStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis  = .horizontal
+        sv.alignment = .center
+        sv.distribution = .fill
+        sv.spacing = 16
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.backgroundColor = .red
+        return sv
+    }()
+    
+    let postingImageView: UIImageView = {
+        let imageSize = 50.0
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
+        imageView.image = UIImage(systemName: "person.circle")
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setSizeConstraint(width: imageSize, height: imageSize)
+        imageView.drawCornerRadius(radius: CGSize(width: imageSize, height: imageSize))
+        return imageView
+    }()
+    
+    let postingLabel: LMLabel = {
+        let label = LMLabel()
+        label.font = LMBranding.shared.font(16, .bold)
+        label.text = "Posting"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return label
+    }()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
         setupTableView()
         setupCreateButton()
+        setupPostingProgress()
         homeFeedViewModel.delegate = self
         homeFeedViewModel.getFeed()
         homeFeedViewModel.getMemberState()
         createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(postCreationCompleted), name: .postCreationCompleted, object: nil)
+        self.setTitleAndSubtile(title: "Home Feed", subTitle: nil)
+        self.setRightItemsOfNavigationBar()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(LocalPrefrerences.getUserData())
+    }
+    
+    func setRightItemsOfNavigationBar() {
+        let containView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        let profileImageview = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        profileImageview.makeCircleView()
+        profileImageview.setImage(withUrl: LocalPrefrerences.getUserData()?.imageUrl ?? "", placeholder: UIImage.generateLetterImage(with:  LocalPrefrerences.getUserData()?.name ?? ""))
+        
+        containView.addSubview(profileImageview)
+        let profileBarButton = UIBarButtonItem(customView: containView)
+        let notificationFeedBarButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.bellFillIcon), style: .plain, target: self, action: #selector(notificationIconClicked))
+        notificationFeedBarButton.tintColor = ColorConstant.textBlackColor
+        notificationFeedBarButton.addBadge(number: 2)
+        self.navigationItem.rightBarButtonItems = [profileBarButton, notificationFeedBarButton]
+    }
+    
+    @objc func postCreationCompleted(notification: Notification) {
+        print("postCreationCompleted")
+        refreshFeed()
+        self.postingImageView.isHidden = true
+        self.postingLabel.isHidden = true
     }
     
     func setupTableView() {
+        self.view.addSubview(postingProgressStackView)
         self.view.addSubview(feedTableView)
         self.view.addSubview(createPostButton)
+        
         feedTableView.translatesAutoresizingMaskIntoConstraints = false
-        feedTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        feedTableView.topAnchor.constraint(equalTo: postingProgressStackView.bottomAnchor).isActive = true
         feedTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         feedTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         feedTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -53,6 +113,15 @@ public final class HomeFeedViewControler: BaseViewController {
         feedTableView.delegate = self
         feedTableView.dataSource = self
         feedTableView.separatorStyle = .none
+        refreshControl.addTarget(self, action: #selector(refreshFeed), for: .valueChanged)
+        feedTableView.refreshControl = refreshControl
+        setupSpinner()
+    }
+    func setupSpinner(){
+        bottomLoadSpinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height:40))
+        bottomLoadSpinner.color = .gray
+        self.feedTableView.tableFooterView = bottomLoadSpinner
+        bottomLoadSpinner.hidesWhenStopped = true
     }
     
     func setupCreateButton() {
@@ -63,9 +132,26 @@ public final class HomeFeedViewControler: BaseViewController {
         createPostButton.layer.cornerRadius = 25
     }
     
+    func setupPostingProgress() {
+        postingProgressStackView.addArrangedSubview(postingImageView)
+        postingProgressStackView.addArrangedSubview(postingLabel)
+        postingProgressStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        postingProgressStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        postingProgressStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+    }
+    
     @objc func createNewPost() {
         let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle(for: CreatePostViewController.self))
         self.navigationController?.pushViewController(createView, animated: true)
+    }
+    
+    @objc func refreshFeed() {
+        homeFeedViewModel.pullToRefresh()
+    }
+    
+    @objc func notificationIconClicked() {
+        let notificationFeedVC = NotificationFeedViewController()
+        self.navigationController?.pushViewController(notificationFeedVC, animated: true)
     }
 }
 
@@ -85,11 +171,25 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - (scrollView.frame.height + 60) && !bottomLoadSpinner.isAnimating && !homeFeedViewModel.isFeedLoading
+        {
+            bottomLoadSpinner.startAnimating()
+            homeFeedViewModel.getFeed()
+        }
+    }
+    
 }
 
 extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     
-    func didFeedReceived() {
+    func didReceivedFeedData(success: Bool) {
+        bottomLoadSpinner.stopAnimating()
+        refreshControl.endRefreshing()
+        guard success else {return}
         feedTableView.reloadData()
     }
 }
@@ -106,6 +206,14 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                     print("report menu clicked \(selectedPost?.caption)")
                     let postDetail = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     self.navigationController?.pushViewController(postDetail, animated: true)
+                }
+            case .delete:
+                actionSheet.addAction(withOptions: menu.name) {
+                    print("delete post menu clicked \(selectedPost?.caption)")
+                }
+            case .edit:
+                actionSheet.addAction(withOptions: menu.name) {
+                    print("edit post menu clicked \(selectedPost?.caption)")
                 }
             default:
                 break

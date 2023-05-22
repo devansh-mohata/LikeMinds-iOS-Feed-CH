@@ -14,7 +14,7 @@ class PostDetailDataModel {
         var commentId: String
         var postId: String?
         var likedCount: Int
-        var caption: String?
+        var text: String?
         var commentCount: Int
         var isLiked : Bool
         var isEdited: Bool
@@ -27,7 +27,7 @@ class PostDetailDataModel {
         init(comment: LMFeed.Comment, user: User?) {
             self.commentId = comment.id
             self.postId = comment.postId
-            self.caption = comment.text
+            self.text = comment.text
             self.commentCount = comment.commentsCount ?? 0
             self.likedCount = comment.likesCount ?? 0
             self.isLiked = comment.isLiked ?? false

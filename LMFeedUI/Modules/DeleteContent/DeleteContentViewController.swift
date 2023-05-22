@@ -17,6 +17,8 @@ class DeleteContentViewController: UIViewController {
     @IBOutlet weak var textField: LMTextField!
     @IBOutlet weak var btnDropDown: LMButton!
     @IBOutlet weak var reasonPickerView: UIPickerView!
+    @IBOutlet weak var reasonTextView: LMTextView!
+    @IBOutlet weak var reasonTextViewHeightConstraints: NSLayoutConstraint!
     
     @IBOutlet weak var pickerviewHeightConstraints: NSLayoutConstraint!
     

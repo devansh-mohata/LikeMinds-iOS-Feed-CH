@@ -9,7 +9,7 @@ import Foundation
 import LMFeed
 
 protocol HomeFeedViewModelDelegate: AnyObject {
-    func didFeedReceived()
+    func didReceivedFeedData(success: Bool)
 }
 
 class HomeFeedViewModel {
@@ -18,19 +18,30 @@ class HomeFeedViewModel {
     var feeds: [PostFeedDataView] = []
     var currentPage: Int = 1
     static var postId: String!
+    var isFeedLoading: Bool = false
+    
     func getFeed() {
+        self.isFeedLoading = true
         let requestFeed = GetFeedRequest(page: currentPage)
-            .pageSize(40)
+            .pageSize(20)
         LMFeedClient.shared.getFeeds(requestFeed) { [weak self] result in
             print(result)
+            self?.isFeedLoading = false
             if result.success,
                let postsData = result.data?.posts,
-               let users = result.data?.users {
+               let users = result.data?.users, postsData.count > 0 {
                 self?.prepareHomeFeedDataView(postsData, users: users)
+                self?.currentPage += 1
             } else {
                 print(result.errorMessage ?? "")
+                self?.delegate?.didReceivedFeedData(success: false)
             }
         }
+    }
+    
+    func pullToRefresh() {
+        self.currentPage = 1
+        getFeed()
     }
     
     func getMemberState() {
@@ -68,8 +79,12 @@ class HomeFeedViewModel {
     }
     
     func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {
-        feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])}
-        delegate?.didFeedReceived()
+        if self.currentPage > 1 {
+            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])})
+        } else {
+            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])}
+        }
+        delegate?.didReceivedFeedData(success:  true)
     }
     
 }

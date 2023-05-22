@@ -55,7 +55,7 @@ class ProfileHeaderView: UIView {
         return sv
     }()
     
-    let usernameLabel: UILabel = {
+    let usernameLabel: LMLabel = {
         let label = LMLabel()
         label.font = LMBranding.shared.font(16, .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +63,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let usernameTitleLabel: UILabel = {
+    let usernameTitleLabel: LMLabel = {
         let label = LMPaddedLabel()
         label.paddingLeft = 8
         label.paddingRight = 8
@@ -88,7 +88,7 @@ class ProfileHeaderView: UIView {
         return sv
     }()
     
-    let timeLabel: UILabel = {
+    let timeLabel: LMLabel = {
         let label = LMLabel()
         label.textColor = .gray
         label.font = LMBranding.shared.font(12, .regular)
@@ -97,7 +97,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let editTitleLabel: UILabel = {
+    let editTitleLabel: LMLabel = {
         let label = LMLabel()
         label.textColor = .gray
         label.font = LMBranding.shared.font(12, .regular)

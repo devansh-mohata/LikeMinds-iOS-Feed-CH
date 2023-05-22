@@ -136,7 +136,9 @@ final class PostFeedDataView {
             case unpin = 3
             case report = 4
             case edit = 5
-            case follow = 6
+            case commentDelete = 6
+            case commentReport = 7
+            case commentEdit = 8
             case unknown = -1
         }
         let id: State
