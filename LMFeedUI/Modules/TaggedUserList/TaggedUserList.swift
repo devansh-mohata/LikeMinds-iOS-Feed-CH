@@ -30,12 +30,13 @@ extension TaggedUserListDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     var isPrivateChatroom: Bool = false
-    var delegate: TaggedUserListDelegate?
+    weak var delegate: TaggedUserListDelegate?
     let cellIdentifier = "TaggedListTableViewCell"
     var viewModel = TaggedUserListViewModel()
     var typeTextRangeInTextView: NSRange?
     var isTaggingViewHidden = true
     var isReloadTaggingListView = true
+    var cellHeight = 50
     
     
     class func nibView() -> TaggedUserList? {
@@ -54,32 +55,6 @@ extension TaggedUserListDelegate {
     func searchTaggedUserName(_ searchName: String) {
         viewModel.getTaggedUserList(searchName)
     }
-
-    /*
-    func hideTaggingViewContainer() {
-        isTaggingViewHidden = true
-        UIView.animate(withDuration: 0.2, delay: 0.0, options: .showHideTransitionViews, animations: {
-            //            self.taggingUserListContainer.alpha = 0
-            self.tableViewHeightConstraint.constant = 0.1
-            self.layoutIfNeeded()
-        }) { finished in
-            //            self.taggingUserListContainer.isHidden = true
-        }
-    }
-    
-    func unhideTaggingViewContainer(heightValue: CGFloat = 250) {
-        if !isReloadTaggingListView {return}
-        isTaggingViewHidden = false
-        UIView.animate(withDuration: 0.2, delay: 0.0, options: .transitionCurlUp, animations: {
-            //            self.taggingUserListContainer.alpha = 1
-            self.tableViewHeightConstraint.constant = heightValue
-            self.layoutIfNeeded()
-            
-        }) { finished in
-            //            self.taggingUserListContainer.isHidden = false
-        }
-    }
-    */
     
     func showTaggingList(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) {
         
@@ -139,7 +114,7 @@ extension TaggedUserList: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return CGFloat(cellHeight)
     }
 }
 
@@ -153,13 +128,13 @@ extension TaggedUserList: UIScrollViewDelegate {
 }
 
 extension TaggedUserList: TaggedUserListViewModelDelegate {
-    
     func didReceiveTaggedUserList() {
         if viewModel.taggingUsers.count > 0 {
-            var heightValue = CGFloat(60 * viewModel.taggingUsers.count)
-            heightValue = heightValue > 300 ? 300 : heightValue
+            var heightValue = cellHeight * viewModel.taggingUsers.count
+            let maxHeight:Int = 4 * cellHeight
+            heightValue = heightValue > maxHeight ? maxHeight : heightValue
             self.isTaggingViewHidden = false
-            self.delegate?.unhideTaggingViewContainer(heightValue:  heightValue)
+            self.delegate?.unhideTaggingViewContainer(heightValue:  CGFloat(heightValue))
             tableView.reloadData()
         } else {
             self.isTaggingViewHidden = true

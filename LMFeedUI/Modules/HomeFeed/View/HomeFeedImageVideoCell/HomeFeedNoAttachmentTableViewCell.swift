@@ -33,6 +33,7 @@ class HomeFeedNoAttachmentTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.captionLabel.tintColor = LMBranding.shared.textLinkColor
         setupProfileSectionHeader()
         setupActionSectionFooter()
     }

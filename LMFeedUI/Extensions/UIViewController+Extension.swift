@@ -48,10 +48,45 @@ extension UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(named: "diffBgColor")
     }
     
-    func presentAlert(message: String){
-        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+    func presentAlert(title: String? = "", message: String, handler: (() -> Void)? = nil){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { alert in
+            handler?()
+        }))
         self.present(alert, animated: true)
     }
     
+    func share(firstActivityItem description: String = "", secondActivityItem url: String, image: UIImage? = nil) {
+        let uRl = URL(string: url)
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [url, image], applicationActivities: nil)
+        
+        // This lines is for the popover you need to show in iPad
+//        activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
+//
+//        // This line remove the arrow of the popover to show in iPad
+//        activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down
+//        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        // Pre-configuring activity items
+        activityViewController.activityItemsConfiguration = [
+            UIActivity.ActivityType.message
+        ] as? UIActivityItemsConfigurationReading
+        
+        // Anything you want to exclude
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.addToReadingList
+//            UIActivity.ActivityType.postToFlickr,
+//            UIActivity.ActivityType.postToVimeo,
+//            UIActivity.ActivityType.postToTencentWeibo,
+//            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        activityViewController.isModalInPresentation = true
+        self.present(activityViewController, animated: true, completion: nil)
+    }
 }

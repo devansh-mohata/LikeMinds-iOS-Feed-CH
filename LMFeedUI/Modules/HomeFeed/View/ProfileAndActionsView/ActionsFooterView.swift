@@ -61,7 +61,7 @@ class ActionsFooterView: UIView {
     
     let likeCountLabel: UILabel = {
         let label = LMLabel()
-        label.textColor = .gray
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(14, .regular)
         label.text = "Like"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -94,7 +94,7 @@ class ActionsFooterView: UIView {
     
     let commentCountLabel: UILabel = {
         let label = LMLabel()
-        label.textColor = .gray
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(14, .regular)
         label.text = "Add comment"
         label.translatesAutoresizingMaskIntoConstraints = false

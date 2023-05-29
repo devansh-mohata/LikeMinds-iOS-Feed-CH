@@ -8,6 +8,7 @@
 import Foundation
 import PDFKit
 import LMFeed
+import AVFoundation
 
 protocol CreatePostViewModelDelegate: AnyObject {
     func reloadCollectionView()
@@ -36,7 +37,7 @@ final class CreatePostViewModel {
     func addDocumentAttachment(fileUrl: URL) {
         guard let docData = try? Data(contentsOf: fileUrl) else { return }
         try? docData.write(to: fileUrl)
-        var attachment = PostFeedDataView.Attachment(attachmentUrl: fileUrl.absoluteString, attachmentType: "PDF", attachmentSize: 0, numberOfPages: 0)
+        var attachment = PostFeedDataView.Attachment(attachmentUrl: fileUrl.path, attachmentType: "PDF", attachmentSize: 0, numberOfPages: 0)
         if let pdf = CGPDFDocument(fileUrl as CFURL) {
             print("number of page: \(pdf.numberOfPages)")
             attachment.numberOfPages = pdf.numberOfPages
@@ -44,7 +45,9 @@ final class CreatePostViewModel {
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             attachment.attachmentSize = attr[.size] as? Int
         }
-        if let image = generatePdfThumbnail(of: CGSize(width: 100, height: 100), for: fileUrl, atPage: 0){}
+        if let image = generatePdfThumbnail(of: CGSize(width: 100, height: 100), for: fileUrl, atPage: 0){
+            attachment.thumbnailImage = image
+        }
         self.documentAttachments.append(attachment)
         self.delegate?.reloadCollectionView()
     }
@@ -56,6 +59,11 @@ final class CreatePostViewModel {
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             attachment.size = attr[.size] as? Int
         }
+        if type == .image {
+            attachment.thumbnailImage = UIImage(contentsOfFile: fileUrl.absoluteString)
+        } else {
+            attachment.thumbnailImage = generateVideoThumbnail(forUrl: fileUrl)
+        }
         self.imageAndVideoAttachments.append(attachment)
     }
     
@@ -63,6 +71,19 @@ final class CreatePostViewModel {
         let pdfDocument = PDFDocument(url: documentUrl)
         let pdfDocumentPage = pdfDocument?.page(at: pageIndex)
         return pdfDocumentPage?.thumbnail(of: thumbnailSize, for: PDFDisplayBox.trimBox)
+    }
+    
+    func generateVideoThumbnail(forUrl url: URL) -> UIImage? {
+        let asset: AVAsset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        
+        do {
+            let thumbnailImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1, timescale: 60), actualTime: nil)
+            return UIImage(cgImage: thumbnailImage)
+        } catch let error {
+            print(error)
+        }
+        return nil
     }
     
     func parseMessageForLink(message: String) {
@@ -94,21 +115,65 @@ final class CreatePostViewModel {
         let parsedTaggedUserPostText = self.editAnswerTextWithTaggedList(text: text)
         let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
         if self.imageAndVideoAttachments.count > 0 {
-            var imageVideoAttachs: [AWSFileUploadRequest] = []
+            var imageVideoAttachments: [AWSFileUploadRequest] = []
             var index = 0
             for attachedItem in self.imageAndVideoAttachments {
                 guard let fileUrl = attachedItem.url else { continue }
                 let fileType: UploaderType = attachedItem.fileType == .image ? .image : .video
                 let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.url?.components(separatedBy: "/").last ?? "attache_\(Date().millisecondsSince1970)")
-                imageVideoAttachs.append(item)
+                item.thumbnailImage = attachedItem.thumbnailImage
+                imageVideoAttachments.append(item)
                 index += 1
             }
-            NetworkOperationQueueManager.shared.createPostOperation(attachmentList: imageVideoAttachs, postCaption: parsedTaggedUserPostText)
+            CreatePostOperation.shared.createPostWithAttachment(attachments: imageVideoAttachments, postCaption: parsedTaggedUserPostText)
         } else if self.documentAttachments.count > 0 {
-            
-        } else {
-            NetworkOperationQueueManager.shared.createPostOperation(attachmentList: [], postCaption: parsedTaggedUserPostText)
+            var documentAttachments: [AWSFileUploadRequest] = []
+            var index = 0
+            for attachedItem in self.documentAttachments {
+                guard let fileUrl = attachedItem.attachmentUrl else { continue }
+                let fileType: UploaderType = .file
+                let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.attachmentUrl?.components(separatedBy: "/").last ?? "attache_\(Date().millisecondsSince1970)")
+                item.thumbnailImage = attachedItem.thumbnailImage
+                documentAttachments.append(item)
+                index += 1
+            }
+            CreatePostOperation.shared.createPostWithAttachment(attachments: documentAttachments, postCaption: parsedTaggedUserPostText)
+        } else if self.linkAttatchment != nil {
+            self.createPostWithLinkAttachment(postCaption: parsedTaggedUserPostText)
+        } else if !parsedTaggedUserPostText.isEmpty {
+            self.createPostWithOutAttachment(postCaption: parsedTaggedUserPostText)
         }
+    }
+    
+    private func createPostWithLinkAttachment(postCaption: String?) {
+        guard let linkAttatchment = self.linkAttatchment else { return }
+        let attachmentMeta = AttachmentMeta()
+            .ogTags(.init()
+                .image(linkAttatchment.linkThumbnailUrl ?? "")
+                .title(linkAttatchment.title ?? "")
+                .description(linkAttatchment.description ?? "")
+                .url(linkAttatchment.url ?? ""))
+        let attachmentRequest = Attachment()
+            .attachmentType(.link)
+            .attachmentMeta(attachmentMeta)
+        let addPostRequest = AddPostRequest()
+            .text(postCaption)
+            .attachments([attachmentRequest])
+        CreatePostOperation.shared.createPost(request: addPostRequest)
+    }
+    
+    private func createPostWithDocAttachment(postCaption: String?) {
+        
+    }
+    
+    private func createPostWithImageOrVideoAttachment(postCaption: String?) {
+        
+    }
+    
+    private func createPostWithOutAttachment(postCaption: String?) {
+        let addPostRequest = AddPostRequest()
+            .text(postCaption)
+        CreatePostOperation.shared.createPost(request: addPostRequest)
     }
     
     func editAnswerTextWithTaggedList(text: String?) -> String  {

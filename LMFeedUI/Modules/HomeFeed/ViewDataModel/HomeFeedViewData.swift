@@ -7,6 +7,7 @@
 
 import Foundation
 import LMFeed
+import UIKit
 
 final class PostFeedDataView {
     var postId: String
@@ -70,10 +71,6 @@ final class PostFeedDataView {
                           profileImageUrl: user.imageUrl ?? "https://beta-likeminds-media.s3.amazonaws.com/post/c6c4aa41-cdca-4c1d-863c-89c2ea3bc922/SamplePNGImage_20mbmb-1679906349694.png",
                           customTitle: user.customTitle,
                           userId: userId)
-//        return PostByUser(name: "Pushpendra",
-//                          profileImageUrl: "https://beta-likeminds-media.s3.amazonaws.com/post/c6c4aa41-cdca-4c1d-863c-89c2ea3bc922/SamplePNGImage_20mbmb-1679906349694.png",
-//                          customTitle: "Admin",
-//                          userId: userId)
     }
     
     func likeCounts() -> String {
@@ -101,12 +98,14 @@ final class PostFeedDataView {
         var duration: Int?
         var size: Int?
         var fileType: PostAttachmentType
+        var thumbnailImage: UIImage?
     }
     struct Attachment {
         var attachmentUrl: String?
         var attachmentType: String?
         var attachmentSize: Int?
         var numberOfPages: Int?
+        var thumbnailImage: UIImage?
         
         func attachmentName() -> String {
             return (self.attachmentUrl as? NSString)?.lastPathComponent ?? "No name"

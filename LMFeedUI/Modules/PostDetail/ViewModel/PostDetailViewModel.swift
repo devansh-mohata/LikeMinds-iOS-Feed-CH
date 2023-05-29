@@ -19,6 +19,7 @@ final class PostDetailViewModel {
     var comments: [PostDetailDataModel.Comment] = []
     var postDetail: PostFeedDataView?
     private var commentCurrentPage: Int = 1
+    var commentPageSize: Int = 10
     private var repliesCurrentPage1: Int = 1
     var isCommentLoading: Bool = false
     var isCommentRepliesLoading: Bool = false
@@ -72,7 +73,7 @@ final class PostDetailViewModel {
         guard !self.isCommentLoading else { return }
         let request = GetPostRequest(postId: self.postId)
             .page(commentCurrentPage)
-            .pageSize(5)
+            .pageSize(commentPageSize)
         self.isCommentLoading = true
         LMFeedClient.shared.getPost(request) {[weak self] response in
             guard let postDetails = response.data?.post, let users =  response.data?.users else {
@@ -106,7 +107,11 @@ final class PostDetailViewModel {
                 self?.isCommentRepliesLoading = false
                 return
             }
-            selectedComment.replies.append(contentsOf: comment.replies?.compactMap({.init(comment: $0, user: users[$0.userId])}) ?? [])
+            if repliesCurrentPage > 1 {
+                selectedComment.replies.append(contentsOf: comment.replies?.compactMap({.init(comment: $0, user: users[$0.userId])}) ?? [])
+            } else {
+                selectedComment.replies = comment.replies?.compactMap({.init(comment: $0, user: users[$0.userId])}) ?? []
+            }
             self?.delegate?.didReceiveCommentsReply()
             self?.isCommentRepliesLoading = false
         }
@@ -119,6 +124,7 @@ final class PostDetailViewModel {
                 return
             }
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
+            self?.postDetail?.commentCount += 1
             self?.comments.insert(postComment, at: 0)
             self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: NSNotFound, section: 1))
         }
@@ -132,6 +138,7 @@ final class PostDetailViewModel {
             }
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
             self?.replyOnComment?.replies.insert(postComment, at: 0)
+            self?.replyOnComment?.commentCount += 1
             guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
                 self?.delegate?.didReceiveCommentsReply()
                 return
@@ -173,4 +180,43 @@ final class PostDetailViewModel {
         }
     }
     
+    func hasRightForCommentOnPost() -> Bool {
+        guard let rights = LocalPrefrerences.getMemberStateData()?.memberRights,
+              let right = rights.filter({$0.state == .commentOrReplyOnPost}).first else {
+            return true
+        }
+        return right.isSelected ?? true
+    }
+    
+    func isAdmin() -> Bool {
+        guard let member = LocalPrefrerences.getMemberStateData()?.member else { return false }
+        return member.state == 1
+    }
+    
+    func isOwnPost() -> Bool {
+        guard let member = LocalPrefrerences.getMemberStateData()?.member, let post = self.postDetail else { return false }
+        return post.feedByUser?.userId == member.userUniqueId
+    }
+    
+    func isOwnComment(section: Int) -> Bool {
+        guard let member = LocalPrefrerences.getMemberStateData()?.member  else { return false }
+        let comment = self.comments[section]
+        return comment.user.userId == member.userUniqueId
+    }
+    
+    func isOwnReply(section: Int, row: Int) -> Bool {
+        guard let member = LocalPrefrerences.getMemberStateData()?.member  else { return false }
+        let comment = self.comments[section].replies[row]
+        return comment.user.userId == member.userUniqueId
+    }
+    
+    func totalCommentsCount() -> String {
+        let count = (self.postDetail?.commentCount) ?? 0
+        let commentString = count > 1 ? "comments" : "comment"
+        return "\(count) \(commentString)"
+    }
+    
+    func sharePostUrl(postId: String) -> String {
+        return "\(LMFeedClient.shared.domainUrl())/post?post_id=\(postId)"
+    }
 }

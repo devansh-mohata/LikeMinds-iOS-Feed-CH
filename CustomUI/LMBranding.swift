@@ -7,8 +7,8 @@ public class LMBranding {
     public static let shared = LMBranding()
 
     var buttonColor : UIColor = UIColor(hexString: "#5046E5")
-    var headerColor : UIColor = UIColor(white: 249.0 / 255.0, alpha: 1)
-    var textLinkColor : UIColor = .blue
+    var headerColor : UIColor = UIColor(hexString: "#5046E5")
+    var textLinkColor : UIColor = UIColor(hexString: "#007AFF")
     
     let key = "BrandingModel"
     /// Custom fonts data
@@ -18,7 +18,10 @@ public class LMBranding {
     
     
     public func setBranding(_ bradingRequest: SetBrandingRequest) {
-        
+        self.buttonColor = bradingRequest.buttonColor
+        self.headerColor = bradingRequest.headerColor
+        self.textLinkColor = bradingRequest.textLinkColor
+        self.fonts = bradingRequest.fonts
     }
     
     /// To set new costom fonts
@@ -62,10 +65,37 @@ public class LMBranding {
 
 
 public class SetBrandingRequest {
+    var buttonColor : UIColor = UIColor(hexString: "#5046E5")
+    var headerColor : UIColor = UIColor(hexString: "#5046E5")
+    var textLinkColor : UIColor = UIColor(hexString: "#007AFF")
+    var fonts: LMFonts = LMFonts(regular: "Roboto",
+                                 medium: "Roboto-Medium",
+                                 bold: "Roboto-Bold")
+    public init() {}
     
+    public func buttonColor(_ color: UIColor) -> SetBrandingRequest {
+        self.buttonColor = color
+        return self
+    }
+    
+    public func headerColor(_ color: UIColor) -> SetBrandingRequest {
+        self.headerColor = color
+        return self
+    }
+    
+    public func textLinkColor(_ color: UIColor) -> SetBrandingRequest {
+        self.textLinkColor = color
+        return self
+    }
+    
+    public func fonts(_ fonts: LMFonts) -> SetBrandingRequest {
+        self.fonts = fonts
+        return self
+    }
 }
 
 
+/*
 struct Branding: Decodable, Encodable {
     var basic: Basic?
     var advance: Advance?
@@ -94,3 +124,5 @@ struct Advance: Decodable, Encodable {
         case textLinksColour = "text_links_colour"
     }
 }
+
+*/

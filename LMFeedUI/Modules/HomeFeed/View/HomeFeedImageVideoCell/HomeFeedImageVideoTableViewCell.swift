@@ -21,7 +21,12 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var captionLabel: LMTextView!
+    @IBOutlet weak var captionLabel: LMTextView! {
+        didSet{
+//            captionLabel.textContainer.maximumNumberOfLines = 3
+//            captionLabel.textContainer.lineBreakMode = .byTruncatingTail
+        }
+    }
     @IBOutlet weak var pageControl: UIPageControl?
     @IBOutlet weak var pageControlView: UIView?
     @IBOutlet weak var imageVideoCollectionView: UICollectionView!
@@ -50,6 +55,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.captionLabel.tintColor = LMBranding.shared.textLinkColor
         setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
@@ -86,6 +92,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupContainerData()
+        self.layoutIfNeeded()
     }
     
     func setupImageCollectionView() {
@@ -141,7 +148,9 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         let caption = self.feedData?.caption ?? ""
         self.captionLabel.text = caption
         self.captionSectionView.isHidden = caption.isEmpty
-        self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true)
+        self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
+        let numLines = captionLabel.contentSize.height/captionLabel.font!.lineHeight
+        print("number ofline of post : \(numLines)")
     }
     
 }
@@ -197,7 +206,10 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch self.feedData?.postAttachmentType() ?? .unknown {
-        case .link, .image, .video:
+        case .image, .video:
+            self.collectionSuperViewHeightConstraint.constant = UIScreen.main.bounds.width
+            return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+        case .link:
             self.collectionSuperViewHeightConstraint.constant = UIScreen.main.bounds.width
             return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
         case .document:
@@ -217,8 +229,63 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
         return 0
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let linkAttachment = self.feedData?.linkAttachment,
+           let urlString = linkAttachment.url {
+            let myURL:URL?
+            if urlString.hasPrefix("https://") || urlString.hasPrefix("http://"){
+                myURL = URL(string: urlString)
+            }else {
+                let correctedURL = "http://\(urlString)"
+                 myURL = URL(string: correctedURL)
+            }
+            guard let url = myURL else { return }
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        (cell as? VideoCollectionViewCell)?.playVideo()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        (cell as? VideoCollectionViewCell)?.pauseVideo()
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.frame.width)    }
+        pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.frame.width)
+    }
+    
+    func pauseAllInVisibleVideos() {
+        for cell in imageVideoCollectionView.visibleCells {
+            (cell as? VideoCollectionViewCell)?.pauseVideo()
+        }
+    }
+    
+    func playVisibleVideo() {
+        for cell in imageVideoCollectionView.visibleCells {
+            (cell as? VideoCollectionViewCell)?.playVideo()
+            return
+        }
+    }
+    
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        imageVideoCollectionView.visibleCells.forEach { cell in
+//            // TODO: write logic to stop the video before it begins scrolling
+//            if let cell = cell as? VideoCollectionViewCell {
+//                cell.pauseVideo()
+//            }
+//        }
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        imageVideoCollectionView.visibleCells.forEach { cell in
+//            // TODO: write logic to start the video after it ends scrolling
+//            if let cell = cell as? VideoCollectionViewCell {
+//                cell.playVideo()
+//            }
+//        }
+//    }
     
 }
 

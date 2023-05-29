@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class AWSFileUploadRequest {
     let fileUrl: String
@@ -14,6 +15,7 @@ class AWSFileUploadRequest {
     let index: Int
     var awsFilePath: String
     var awsUploadedUrl: String?
+    var thumbnailImage: UIImage?
     
     init(fileUrl: String, awsFilePath: String, fileType: UploaderType, index: Int, name: String) {
         self.fileUrl = fileUrl

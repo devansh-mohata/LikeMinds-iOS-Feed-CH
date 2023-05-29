@@ -57,6 +57,7 @@ class ProfileHeaderView: UIView {
     
     let usernameLabel: LMLabel = {
         let label = LMLabel()
+        label.textColor = ColorConstant.userNameTextColor
         label.font = LMBranding.shared.font(16, .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -90,7 +91,7 @@ class ProfileHeaderView: UIView {
     
     let timeLabel: LMLabel = {
         let label = LMLabel()
-        label.textColor = .gray
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = "6h"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +100,7 @@ class ProfileHeaderView: UIView {
     
     let editTitleLabel: LMLabel = {
         let label = LMLabel()
-        label.textColor = .gray
+        label.textColor = ColorConstant.editedTextColor
         label.font = LMBranding.shared.font(12, .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

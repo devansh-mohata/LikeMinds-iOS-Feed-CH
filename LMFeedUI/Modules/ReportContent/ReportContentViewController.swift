@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import LMFeed
 
 class ReportContentViewController: BaseViewController {
     
@@ -22,15 +23,21 @@ class ReportContentViewController: BaseViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     var viewModel: ReportContentViewModel!
+    var entityId: String?
+    var entityCreatorId: String?
+    var reportEntityType: ReportEntityType = .post
     @IBOutlet weak var collectionViewHeightContraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = ReportContentViewModel()
+        viewModel.entityId = self.entityId
+        viewModel.entityCreatorId = self.entityCreatorId
+        viewModel.reportEntityType = self.reportEntityType
         setupViews()
         viewModel.fetchReportTags()
+        self.setTitleAndSubtile(title: "Report Abuse", subTitle: nil)
     }
     
     func setupViews() {
@@ -41,7 +48,9 @@ class ReportContentViewController: BaseViewController {
         layout.estimatedItemSize = CGSize(width: 140, height: 40)
         reportCollectionView.collectionViewLayout = layout
         viewModel.delegate = self
-        reportButton.backgroundColor = LMBranding.shared.buttonColor
+        reportButton.backgroundColor = .lightGray //LMBranding.shared.buttonColor
+        reportButton.isEnabled = false
+        self.reportButton.addTarget(self, action: #selector(reportButtonClicked), for: .touchUpInside)
         otherTextView.superview?.isHidden = true
         otherTextViewBottomLine.backgroundColor = LMBranding.shared.buttonColor
         otherTextView.delegate = self
@@ -52,7 +61,23 @@ class ReportContentViewController: BaseViewController {
     }
     
     func showTextView(_ tag: String) {
+        reportButton.backgroundColor = LMBranding.shared.buttonColor
+        reportButton.isEnabled = true
         self.otherTextView.superview?.isHidden = !(tag.lowercased() == "others")
+    }
+    
+    @objc func reportButtonClicked() {
+        guard let tag = self.viewModel.selected.first, let tagName = tag.name else { return }
+        if (tagName.lowercased() == "others") {
+            let otherReason = otherTextView.text.trimmingCharacters(in: .newlines)
+            guard !otherReason.isEmpty else {
+                self.presentAlert(message: "Please enter the reason!")
+                return
+            }
+            viewModel.reportContent(reason: otherReason)
+        } else {
+            viewModel.reportContent(reason: tagName)
+        }
     }
 }
 
@@ -67,9 +92,10 @@ extension ReportContentViewController: UICollectionViewDataSource, UICollectionV
                                                             for: indexPath) as? ReportTagCollectionViewCell else {
             return ReportTagCollectionViewCell()
         }
-        cell.tagLabel.text = viewModel.reportTags[indexPath.row]
+        cell.tagLabel.text = viewModel.reportTags[indexPath.row].name
         cell.tagLabel.preferredMaxLayoutWidth = collectionView.frame.width - 16
-        if viewModel.selected.contains(viewModel.reportTags[indexPath.row]) {
+        let tag = viewModel.reportTags[indexPath.row]
+        if viewModel.selected.contains(where: {$0.name == tag.name}) {
             cell.highLightCell()
         } else {
             cell.unhighLightCell()
@@ -78,10 +104,11 @@ extension ReportContentViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ReportTagCollectionViewCell, let text = cell.tagLabel.text else {return}
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ReportTagCollectionViewCell else {return}
         viewModel.selected.removeAll()
-        viewModel.selected.append(text)
-        showTextView(text)
+        let tag = viewModel.reportTags[indexPath.row]
+        viewModel.selected.append(tag)
+        showTextView(tag.name ?? "")
         collectionView.reloadData()
     }
     
@@ -91,6 +118,20 @@ extension ReportContentViewController: UICollectionViewDataSource, UICollectionV
 }
 
 extension ReportContentViewController: ReportContentViewModelDelegate {
+    
+    func didReceivedReportRespone(_ errorMessage: String?) {
+        let reportContentType = viewModel.reportEntityType == .post ? "Post" : "Comment"
+        let title = String(format: "%@ is reported for review", reportContentType)
+        let message = String(format: "Our team will look into your feedback and will take appropriate action on this %@", reportContentType)
+        guard let error = errorMessage else {
+            self.presentAlert(title: title, message: message) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            return
+        }
+        self.presentAlert(message: error, handler: nil)
+    }
+
     func reloadReportTags() {
         self.reportCollectionView.reloadData()
         let height = self.reportCollectionView.collectionViewLayout.collectionViewContentSize.height

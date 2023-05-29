@@ -22,7 +22,7 @@ class TaggedRouteParser {
     private func replaceRouteToName(with answer: String, andPrefix prefix: String?, forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = nil, withHighlightedColor highlightedColour: UIColor, isShowLink showLink: Bool) -> NSMutableAttributedString {
         let prefixString = prefix ?? ""
         let nameWithRoutes = getUserNames(in: answer)
-        let textFont = font ?? LMBranding.shared.font(forTextView ? 15 : 13, .regular)
+        let textFont = font ?? LMBranding.shared.font(forTextView ? 16 : 13, .regular)
         let attrString = NSMutableAttributedString(string: answer, attributes: [
             NSAttributedString.Key.foregroundColor: textColor,
             NSAttributedString.Key.font: textFont
@@ -65,7 +65,7 @@ class TaggedRouteParser {
         return nameWithRoutes
     }
     
-    @objc func getTaggedParsedAttributedString(with answer: String?, andPrefix prefix: String? = "@", forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = LMBranding.shared.font(15, .regular), withHighlightedColor highlightedColour: UIColor = LMBranding.shared.textLinkColor, isShowLink showLink: Bool = true) -> NSMutableAttributedString?  {
+    @objc func getTaggedParsedAttributedString(with answer: String?, andPrefix prefix: String? = "@", forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = LMBranding.shared.font(16, .regular), withHighlightedColor highlightedColour: UIColor = LMBranding.shared.textLinkColor, isShowLink showLink: Bool = true) -> NSMutableAttributedString?  {
         return replaceRouteToName(with: answer ?? "", andPrefix: prefix, forTextView: forTextView, withTextColor: textColor, withFont: font, withHighlightedColor: highlightedColour, isShowLink: showLink)
     }
     

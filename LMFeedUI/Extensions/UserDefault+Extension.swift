@@ -8,6 +8,11 @@
 import Foundation
 import LMFeed
 
+public struct LocalPreferencesKey {
+    public static let userDetails = "user_details"
+    public static let memberStates = "member_state"
+}
+
 public class LocalPrefrerences {
     
     public static func saveObject<T: Encodable>(_ object: T, forKey: String) {
@@ -18,12 +23,30 @@ public class LocalPrefrerences {
         }
     }
     
+    public static func userUniqueId() -> String {
+        return Self.getUserData()?.userUniqueId ?? ""
+    }
+    
     public static func getUserData() -> User? {
         let defaults = UserDefaults.standard
-        if let savedData = defaults.object(forKey: "UserData") as? Data {
+        if let savedData = defaults.object(forKey: LocalPreferencesKey.userDetails) as? Data {
             do {
                 let decoder = JSONDecoder()
                 let saved = try decoder.decode(User.self, from: savedData)
+                return saved
+            } catch let error {
+                print("Error getting cart from defaults \(error)")
+            }
+        }
+        return nil
+    }
+    
+    public static func getMemberStateData() -> GetMemberStateResponse? {
+        let defaults = UserDefaults.standard
+        if let savedData = defaults.object(forKey: LocalPreferencesKey.memberStates) as? Data {
+            do {
+                let decoder = JSONDecoder()
+                let saved = try decoder.decode(GetMemberStateResponse.self, from: savedData)
                 return saved
             } catch let error {
                 print("Error getting cart from defaults \(error)")

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,23 +18,23 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DfE-uq-BLo">
-                        <rect key="frame" x="0.0" y="8" width="371" height="64"/>
+                        <rect key="frame" x="0.0" y="6" width="371" height="64"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="64" id="gXu-w3-M08"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bjw-lo-VI3">
-                        <rect key="frame" x="0.0" y="72" width="371" height="431"/>
+                        <rect key="frame" x="0.0" y="70" width="371" height="435"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="G8L-TL-xCl">
-                                <rect key="frame" x="0.0" y="0.0" width="371" height="431"/>
+                                <rect key="frame" x="0.0" y="0.0" width="371" height="435"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r90-Rt-NUU">
-                                        <rect key="frame" x="0.0" y="0.0" width="371" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="371" height="44"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TnN-ny-eB9" customClass="LMTextView" customModule="LMFeedUI" customModuleProvider="target">
-                                                <rect key="frame" x="10" y="0.0" width="351" height="40"/>
+                                                <rect key="frame" x="10" y="0.0" width="351" height="44"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, google.com consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore ma</string>
                                                 <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -52,7 +52,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="alc-yf-csI">
-                                        <rect key="frame" x="0.0" y="45" width="371" height="371"/>
+                                        <rect key="frame" x="0.0" y="49" width="371" height="371"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="CQT-TG-loH">
                                                 <rect key="frame" x="0.0" y="0.0" width="371" height="371"/>
@@ -75,7 +75,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3g-3U-495">
-                                        <rect key="frame" x="0.0" y="421" width="371" height="10"/>
+                                        <rect key="frame" x="0.0" y="425" width="371" height="10"/>
                                         <subviews>
                                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Ero-js-alJ">
                                                 <rect key="frame" x="127.66666666666666" y="-8" width="115.66666666666666" height="26"/>
@@ -102,7 +102,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pYu-6U-fkS">
-                        <rect key="frame" x="0.0" y="503" width="371" height="50"/>
+                        <rect key="frame" x="0.0" y="505" width="371" height="50"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="9dT-wJ-rRn"/>
@@ -113,9 +113,9 @@
                 <constraints>
                     <constraint firstItem="pYu-6U-fkS" firstAttribute="top" secondItem="bjw-lo-VI3" secondAttribute="bottom" id="2qR-u8-UAA"/>
                     <constraint firstAttribute="trailing" secondItem="DfE-uq-BLo" secondAttribute="trailing" id="3aT-CD-1nd"/>
-                    <constraint firstAttribute="bottom" secondItem="pYu-6U-fkS" secondAttribute="bottom" constant="8" id="EUy-mH-CEn"/>
+                    <constraint firstAttribute="bottom" secondItem="pYu-6U-fkS" secondAttribute="bottom" constant="6" id="EUy-mH-CEn"/>
                     <constraint firstItem="bjw-lo-VI3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="GCj-fi-fsI"/>
-                    <constraint firstItem="DfE-uq-BLo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="SKs-3X-19d"/>
+                    <constraint firstItem="DfE-uq-BLo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="SKs-3X-19d"/>
                     <constraint firstAttribute="trailing" secondItem="pYu-6U-fkS" secondAttribute="trailing" id="WmT-aS-rB7"/>
                     <constraint firstAttribute="trailing" secondItem="bjw-lo-VI3" secondAttribute="trailing" id="a1U-yR-G7L"/>
                     <constraint firstItem="DfE-uq-BLo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="c5h-88-2fZ"/>

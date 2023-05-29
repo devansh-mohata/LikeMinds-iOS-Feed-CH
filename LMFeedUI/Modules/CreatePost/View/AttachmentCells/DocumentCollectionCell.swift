@@ -55,6 +55,7 @@ class DocumentCollectionCell: UICollectionViewCell {
     let documentNameLabel: LMLabel = {
         let label = LMLabel()
         label.font = LMBranding.shared.font(16, .medium)
+        label.textColor = ColorConstant.postCaptionColor
         label.translatesAutoresizingMaskIntoConstraints = false
 //        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
@@ -63,7 +64,7 @@ class DocumentCollectionCell: UICollectionViewCell {
     let documentDetailLabel: LMLabel = {
         let label = LMLabel()
         label.font = LMBranding.shared.font(14, .regular)
-        label.textColor = .lightGray
+        label.textColor = ColorConstant.editedTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
 //        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
@@ -90,7 +91,7 @@ class DocumentCollectionCell: UICollectionViewCell {
     
     func setupSubview() {
         self.addSubview(documentContainerView)
-        documentContainerView.addConstraints(equalToView: self, top: 5, bottom: -5, left: 16, right: -10)
+        documentContainerView.addConstraints(equalToView: self, top: 5, bottom: -5, left: 16, right: -16)
         documentStackView.addArrangedSubview(documentImageView)
         documentNameAndDetailStackView.addArrangedSubview(documentNameLabel)
         documentNameAndDetailStackView.addArrangedSubview(documentDetailLabel)

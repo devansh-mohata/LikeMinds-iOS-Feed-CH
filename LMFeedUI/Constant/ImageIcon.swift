@@ -24,4 +24,5 @@ struct ImageIcon {
     static let docIcon = "doc"
     static let photoIcon = "photo"
     static let video = "video"
+    static let crossIcon = "multiply.circle.fill"
 }

@@ -16,7 +16,12 @@ class CreatePostViewController: BaseViewController {
     @IBOutlet weak var usernameLabel: LMLabel!
     @IBOutlet weak var addMoreButton: LMButton!
     @IBOutlet weak var postinLabel: LMLabel!
-    @IBOutlet weak var captionTextView: LMTextView!
+    @IBOutlet weak var captionTextView: LMTextView! {
+        didSet{
+            captionTextView.textColor = ColorConstant.textBlackColor
+        }
+    }
+    @IBOutlet weak var pageControl: UIPageControl?
     @IBOutlet weak var attachmentView: UIView!
     @IBOutlet weak var attachmentCollectionView: UICollectionView!
     @IBOutlet weak var uploadAttachmentActionsView: UIView!
@@ -42,12 +47,12 @@ class CreatePostViewController: BaseViewController {
     let viewModel: CreatePostViewModel = CreatePostViewModel()
     let taggingUserList: TaggedUserList =  {
         guard let userList = TaggedUserList.nibView() else { return TaggedUserList() }
-        userList.translatesAutoresizingMaskIntoConstraints = false
         return userList
     }()
     var isTaggingViewHidden = true
     var isReloadTaggingListView = true
     var typeTextRangeInTextView: NSRange?
+    var postButtonItem: UIBarButtonItem?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,23 +88,32 @@ class CreatePostViewController: BaseViewController {
         self.setupProfileData()
         self.setupTaggingView()
         self.setTitleAndSubtile(title: "Create a post", subTitle: nil)
+        self.hideTaggingViewContainer()
+        self.pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     func setupTaggingView() {
-        self.taggingListViewContainer.translatesAutoresizingMaskIntoConstraints = false
         self.taggingListViewContainer.addSubview(taggingUserList)
         taggingUserList.addConstraints(equalToView: self.taggingListViewContainer)
         taggingUserList.setUp()
         taggingUserList.delegate = self
+//        taggingListViewContainer.addShadow()
+        taggingListViewContainer.layer.cornerRadius = 8
+        
     }
     
     func setupNavigationItems() {
-        let postButtonItem = UIBarButtonItem(title: "POST",
+         postButtonItem = UIBarButtonItem(title: "Post",
                         style: .plain,
                         target: self,
                         action: #selector(createPost))
-        postButtonItem.tintColor = LMBranding.shared.buttonColor
+        postButtonItem?.tintColor = LMBranding.shared.buttonColor
         self.navigationItem.rightBarButtonItem = postButtonItem
+        postButtonItem?.isEnabled = false
     }
     
     func setupProfileData() {
@@ -140,7 +154,7 @@ class CreatePostViewController: BaseViewController {
     
     func openImagePicker(_ mediaType: Settings.Fetch.Assets.MediaTypes) {
         let imagePicker = ImagePickerController()
-        imagePicker.settings.selection.max = 5
+        imagePicker.settings.selection.max = (10 - self.viewModel.imageAndVideoAttachments.count)
         imagePicker.settings.theme.selectionStyle = .numbered
         imagePicker.settings.fetch.assets.supportedMediaTypes = [mediaType]
         imagePicker.settings.selection.unselectOnReachingMax = true
@@ -193,6 +207,13 @@ class CreatePostViewController: BaseViewController {
         default:
             break
         }
+    }
+    
+    func enablePostButton() {
+        let imageVideoCount = self.viewModel.imageAndVideoAttachments.count != 0
+        let documentCount = self.viewModel.documentAttachments.count != 0
+        let captionText = !captionTextView.text.isEmpty
+        postButtonItem?.isEnabled = imageVideoCount || documentCount || captionText
     }
 }
 
@@ -251,7 +272,15 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.bounds.width)
+        switch self.viewModel.currentSelectedUploadeType  {
+        case .link, .image, .video:
+            return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+        case .document:
+            return CGSize(width: UIScreen.main.bounds.width, height: 90)
+        default:
+            break
+        }
+        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -262,8 +291,7 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.frame.width)
-        //        currentPageIndicatorImage(forPage: Int(scrollView.contentOffset.x  / self.frame.width))
+        pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.view.frame.width)
     }
     
 }
@@ -332,12 +360,20 @@ extension CreatePostViewController: UITextViewDelegate {
             typeTextRangeInTextView?.location += 1
         }
         taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-        if textView.bounds.height >= 145 {
-            textView.isScrollEnabled = true
-        } else {
-            textView.isScrollEnabled = false
-            textView.superview?.layoutSubviews()
+        enablePostButton()
+        if textView.textColor == LMBranding.shared.textLinkColor {
+            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
+                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
+            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
+            let combination = NSMutableAttributedString()
+            combination.append(textView.attributedText)
+            combination.append(attributedString)
+            textView.attributedText = combination
+            return false
         }
+        
+        let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
+        textView.isScrollEnabled = (textView.bounds.height >= 145) && (numLines > 6)
         return true
     }
     
@@ -396,16 +432,30 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
              isCountGreaterThanZero = viewModel.imageAndVideoAttachments.count > 0
 //            attachmentView.isHidden = !isCountGreaterThanZero
             self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
+            self.collectionSuperViewHeightConstraint.constant = 393
+            let imageCount = viewModel.imageAndVideoAttachments.count
+            pageControl?.superview?.isHidden = imageCount < 2
+            pageControl?.numberOfPages = imageCount
         case .document:
              isCountGreaterThanZero = viewModel.documentAttachments.count > 0
 //            attachmentView.isHidden = !isCountGreaterThanZero
             self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
+            let docHeight = CGFloat(viewModel.documentAttachments.count * 90)
+            self.collectionSuperViewHeightConstraint.constant = docHeight < 393 ? 393 : docHeight
+            pageControl?.superview?.isHidden = true
         default:
             self.uploadActionViewHeightConstraint.constant = uploadActionsHeight
+            self.collectionSuperViewHeightConstraint.constant = 393
+            pageControl?.superview?.isHidden = true
             break
         }
+        enablePostButton()
         attachmentCollectionView.reloadData()
         addMoreButton.superview?.isHidden = !isCountGreaterThanZero
+        if hasReachedMaximumAttachment() {
+            addMoreButton.superview?.isHidden = true
+            self.uploadActionViewHeightConstraint.constant = 0
+        }
     }
     
     func reloadCollectionView() {
@@ -414,6 +464,10 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     
     func reloadActionTableView() {
         self.uploadActionsTableView.reloadData()
+    }
+    
+    func hasReachedMaximumAttachment() -> Bool {
+        (viewModel.imageAndVideoAttachments.count > 0 && viewModel.imageAndVideoAttachments.count == 10) || (viewModel.documentAttachments.count > 0 && viewModel.documentAttachments.count == 10)
     }
 }
 
@@ -443,7 +497,6 @@ extension CreatePostViewController: TaggedUserListDelegate {
             self.taggingListViewContainer.alpha = 0
             self.taggingViewHeightConstraint.constant = 48
             self.view.layoutIfNeeded()
-            
         }) { finished in
         }
     }

@@ -26,8 +26,10 @@ class TaggedUserListViewModel {
             .pageSize(10)
         LMFeedClient.shared.getTaggingList(request) {[weak self] response in
             guard let users = response.data?.members, users.count > 0 else {
-//                self?.taggingUsers = []
-//                self?.delegate?.didReceiveTaggedUserList()
+                if (self?.currentPage ?? 0) == 1 {
+                    self?.taggingUsers = []
+                    self?.delegate?.didReceiveTaggedUserList()
+                }
                 return
             }
             if (self?.currentPage ?? 0) > 1 {

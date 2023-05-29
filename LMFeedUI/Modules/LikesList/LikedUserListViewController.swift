@@ -20,6 +20,7 @@ class LikedUserListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
         self.view.addSubview(likedUserTableView)
         likedUserTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         likedUserTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -30,6 +31,7 @@ class LikedUserListViewController: BaseViewController {
         likedUserTableView.register(LikedUserTableViewCell.self, forCellReuseIdentifier: LikedUserTableViewCell.reuseIdentifier)
         self.viewModel?.delegate = self
         self.viewModel?.fetchLikedUsers()
+        self.setTitleAndSubtile(title: "Likes", subTitle: "")
     }
     
 
@@ -58,10 +60,17 @@ extension LikedUserListViewController: UITableViewDataSource, UITableViewDelegat
         cell.setupUserData(data)
         return cell
     }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        guard (scrollView.contentSize.height == (scrollView.frame.size.height + position)) else {return}
+        self.viewModel?.fetchLikedUsers()
+    }
 }
 
 extension LikedUserListViewController: LikedUserListViewModelDelegate {
     func reloadLikedUserList() {
+        let likes = (self.viewModel?.totalLikes ?? 0)
+        self.subTitleLabel.text = likes > 1 ? "\(likes) likes" : "\(likes) like"
         self.likedUserTableView.reloadData()
     }
 }

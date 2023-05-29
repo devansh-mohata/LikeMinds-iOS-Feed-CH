@@ -76,7 +76,7 @@ extension Date {
 //            return "\(secondsAgo)s"
             return "Just now"
         } else if secondsAgo < hour {
-            return "\(secondsAgo / minute)min"
+            return "\(secondsAgo / minute) min"
         } else if secondsAgo < day {
             return "\(secondsAgo / hour)h"
         } else if secondsAgo < week {

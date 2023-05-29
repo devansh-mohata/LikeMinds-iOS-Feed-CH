@@ -11,7 +11,11 @@ import LMFeed
 class PostDetailViewController: BaseViewController {
     
     @IBOutlet weak var postDetailTableView: UITableView!
-    @IBOutlet weak var commentTextView: LMTextView!
+    @IBOutlet weak var commentTextView: LMTextView! {
+        didSet{
+            commentTextView.textColor = ColorConstant.textBlackColor
+        }
+    }
     @IBOutlet weak var sendButton: LMButton!
     @IBOutlet weak var taggingUserListContainer: UIView!
     @IBOutlet weak var taggingUserListContainerHeightConstraints: NSLayoutConstraint!
@@ -30,11 +34,12 @@ class PostDetailViewController: BaseViewController {
     var typeTextRangeInTextView: NSRange?
     var isTaggingViewHidden = true
     var isReloadTaggingListView = true
+    var selectedReplyIndexPath: IndexPath?
+    var selectedCommentSection: Int?
 
     var viewModel: PostDetailViewModel = PostDetailViewModel()
     let taggingUserList: TaggedUserList =  {
         guard let userList = TaggedUserList.nibView() else { return TaggedUserList() }
-        userList.translatesAutoresizingMaskIntoConstraints = false
         return userList
     }()
     
@@ -50,11 +55,11 @@ class PostDetailViewController: BaseViewController {
     
     let noCommentsFooterView: LMLabel = {
         let label = LMLabel()
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         label.font = LMBranding.shared.font(17, .medium)
+        label.textAlignment = .center
         label.textColor = .lightGray
-        label.text = "Write a comment"
-        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -67,7 +72,7 @@ class PostDetailViewController: BaseViewController {
         closeReplyToUserButton.addTarget(self, action: #selector(closeReplyToUsersCommentView), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         postDetailTableView.refreshControl = refreshControl
-        postDetailTableView.keyboardDismissMode = .onDrag
+//        postDetailTableView.keyboardDismissMode = .onDrag
         
         postDetailTableView.sectionHeaderHeight = UITableView.automaticDimension
         postDetailTableView.estimatedSectionHeaderHeight = 75
@@ -76,6 +81,7 @@ class PostDetailViewController: BaseViewController {
         postDetailTableView.register(CommentHeaderViewCell.self, forHeaderFooterViewReuseIdentifier: CommentHeaderViewCell.reuseIdentifier)
         postDetailTableView.register(ViewMoreRepliesCell.self, forCellReuseIdentifier: ViewMoreRepliesCell.reuseIdentifier)
         postDetailTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
+        postDetailTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
         postDetailTableView.rowHeight = UITableView.automaticDimension
         postDetailTableView.estimatedRowHeight = 44
         postDetailTableView.separatorStyle = .none
@@ -89,7 +95,19 @@ class PostDetailViewController: BaseViewController {
         viewModel.getComments()
         self.setupTaggingView()
         hideTaggingViewContainer()
-        self.setTitleAndSubtile(title: "Post", subTitle: "0 comments")
+        self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
+        self.commentTextView.becomeFirstResponder()
+    }
+    
+    func setAttributedTextForNoComments() {
+        let myAttribute = [ NSAttributedString.Key.font: LMBranding.shared.font(18, .regular), NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor ]
+        let noCommentFound = NSMutableAttributedString(string: "No comment found", attributes: myAttribute )
+        let myAttribute2 = [ NSAttributedString.Key.font: LMBranding.shared.font(16, .regular), NSAttributedString.Key.foregroundColor: ColorConstant.postCaptionColor]
+        let beFirstOne = NSMutableAttributedString(string: "\nBe the first one to comment", attributes: myAttribute2 )
+        noCommentFound.append(beFirstOne)
+        noCommentsFooterView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
+        self.noCommentsFooterView.attributedText = noCommentFound
+        self.postDetailTableView.tableFooterView = noCommentsFooterView
     }
     
     func setupSpinner(){
@@ -112,7 +130,7 @@ class PostDetailViewController: BaseViewController {
         viewModel.pullToRefreshData()
     }
     
-    func moreMenuClicked(comment: PostDetailDataModel.Comment) {
+    func moreMenuClicked(comment: PostDetailDataModel.Comment, isReplied: Bool) {
         guard let menus = comment.menuItems else { return }
         print("more taped reached VC")
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -120,33 +138,34 @@ class PostDetailViewController: BaseViewController {
             switch menu.id {
             case .commentReport:
                 actionSheet.addAction(withOptions: menu.name) {
-                    let postDetail = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
-                    self.navigationController?.pushViewController(postDetail, animated: true)
+                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
+                    reportContent.entityId = comment.commentId
+                    reportContent.entityCreatorId = comment.user.userId
+                    reportContent.reportEntityType = isReplied ? .reply : .comment
+                    self.navigationController?.pushViewController(reportContent, animated: true)
                 }
             case .commentDelete:
-                actionSheet.addAction(withOptions: menu.name) {}
+                actionSheet.addAction(withOptions: menu.name) {
+                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
+                    deleteController.modalPresentationStyle = .overCurrentContext
+                    deleteController.postId = comment.postId
+                    deleteController.commentId = comment.commentId
+                    deleteController.delegate = self
+                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (comment.user.userId) ? self.viewModel.isAdmin() :  false
+                    self.navigationController?.present(deleteController, animated: false)
+                }
             case .commentEdit:
-                actionSheet.addAction(withOptions: menu.name) {}
+//                actionSheet.addAction(withOptions: menu.name) {}
+                break
             case .pin:
-                actionSheet.addAction(withOptions: menu.name) {}
+//                actionSheet.addAction(withOptions: menu.name) {}
+                break
             default:
                 break
             }
         }
         actionSheet.addCancelAction(withOptions: "Cancel", actionHandler: nil)
         self.present(actionSheet, animated: true)
-    }
-    
-    func getSuggestionsFor(_ inputString: String, range: NSRange? = nil) {
-        var inputString = inputString.lowercased()
-        if let range = range, range.location <= inputString.count {
-            let index = inputString.index(inputString.startIndex, offsetBy: range.location)
-            inputString = String(inputString[..<index])
-//            substring(to: range.location)
-        }
-        let seperatedStingsArray = inputString.components(separatedBy: "@")
-        inputString = seperatedStingsArray.last ?? ""
-        taggingUserList.searchTaggedUserName(inputString)
     }
     
     @objc func closeReplyToUsersCommentView() {
@@ -159,6 +178,26 @@ class PostDetailViewController: BaseViewController {
         let text = commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         viewModel.postComment(text: text)
         commentTextView.text = ""
+    }
+    
+    @objc
+    override func keyboardWillShow(_ sender: Notification) {
+        guard let userInfo = sender.userInfo,
+              let durationValue = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey],
+              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              let curveValue = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] else {
+            return
+        }
+        self.textViewContainerBottomConstraints.constant = (frame.size.height - self.view.safeAreaInsets.bottom)
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc
+    override func keyboardWillHide(_ sender: Notification) {
+        self.textViewContainerBottomConstraints.constant = 0
+        self.view.layoutIfNeeded()
     }
 }
 
@@ -175,11 +214,18 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0,
-           let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as? HomeFeedImageVideoTableViewCell,
            let post = viewModel.postDetail
         {
-            cell.setupFeedCell(post, withDelegate: self)
-            return cell
+            switch post.postAttachmentType() {
+            case .document:
+                let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedDocumentTableViewCell.nibName, for: indexPath) as! HomeFeedDocumentTableViewCell
+                cell.setupFeedCell(post, withDelegate: self)
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as! HomeFeedImageVideoTableViewCell
+                cell.setupFeedCell(post, withDelegate: self)
+                return cell
+            }
         }
         let comment = viewModel.comments[indexPath.section - 1]
         if indexPath.row < (comment.replies.count) {
@@ -199,6 +245,10 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
         commentView.delegate = self
         commentView.section = section
         commentView.setupDataView(comment: viewModel.comments[section - 1])
+        if (section == viewModel.comments.count), viewModel.comments.count < (viewModel.postDetail?.commentCount ?? 0), !viewModel.isCommentLoading {
+            postDetailTableView.tableFooterView?.isHidden = false
+            viewModel.getComments()
+        } 
         return commentView
     }
     
@@ -207,19 +257,25 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let comment = viewModel.comments[indexPath.section - 1]
-        if indexPath.row == comment.replies.count {
-            viewModel.getCommentReplies(commentId: comment.commentId)
+        if indexPath.section > 0 {
+            let comment = viewModel.comments[indexPath.section - 1]
+            if indexPath.row == comment.replies.count {
+                viewModel.getCommentReplies(commentId: comment.commentId)
+            }
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        guard (scrollView.contentSize.height == (scrollView.frame.size.height + position)), !spinner.isAnimating else {return}
-        spinner.startAnimating()
-        print("Next page...")
-        viewModel.getComments()
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
     }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let position = scrollView.contentOffset.y
+//        guard (scrollView.contentSize.height == (scrollView.frame.size.height + position)), !spinner.isAnimating else {return}
+//        postDetailTableView.tableFooterView?.isHidden = false
+//        print("Next page...")
+//        viewModel.getComments()
+//    }
     
 }
 
@@ -233,24 +289,25 @@ extension PostDetailViewController: UITextViewDelegate {
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
-        textView.isScrollEnabled = textView.bounds.height >= 80
-        textView.superview?.layoutIfNeeded()
         self.typeTextRangeInTextView = range
         if text != "" {
             typeTextRangeInTextView?.location += 1
         }
         taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-        if (taggingUserList.isTaggingViewHidden && text != "@" ){
-            if textView.textColor == LMBranding.shared.textLinkColor {
-                let colorAttr = [ NSAttributedString.Key.foregroundColor: UIColor.black,
-                                  NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
-                let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
-                let combination = NSMutableAttributedString()
-                combination.append(textView.attributedText)
-                combination.append(attributedString)
-                textView.attributedText = combination
-            }
+
+        if textView.textColor == LMBranding.shared.textLinkColor {
+            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
+                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
+            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
+            let combination = NSMutableAttributedString()
+            combination.append(textView.attributedText)
+            combination.append(attributedString)
+            textView.attributedText = combination
+            return false
         }
+        let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
+        textView.isScrollEnabled = (textView.bounds.height >= 80) && (numLines > 4)
+        self.view.layoutIfNeeded()
         return true
     }
     
@@ -263,10 +320,17 @@ extension PostDetailViewController: UITextViewDelegate {
 extension PostDetailViewController: PostDetailViewModelDelegate {
     
     func didReceiveComments() {
-        spinner.stopAnimating()
         refreshControl.endRefreshing()
         closeReplyToUsersCommentView()
         postDetailTableView.reloadData()
+        self.subTitleLabel.text = viewModel.totalCommentsCount()
+        postDetailTableView.tableFooterView?.isHidden = true
+        if viewModel.comments.count == 0 {
+            postDetailTableView.tableFooterView = nil
+            postDetailTableView.tableFooterView?.isHidden = false
+            self.setAttributedTextForNoComments()
+        }
+        
     }
     
     func didReceiveCommentsReply() {
@@ -277,11 +341,15 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
     func insertAndScrollToRecentComment(_ indexPath: IndexPath) {
         if indexPath.row == NSNotFound {
             postDetailTableView.insertSections([1], with: .automatic)
+            postDetailTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         } else {
-            postDetailTableView.insertRows(at: [indexPath], with: .automatic)
+//            postDetailTableView.insertRows(at: [indexPath], with: .automatic)
+            postDetailTableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
         }
         postDetailTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        postDetailTableView.tableFooterView?.isHidden = true
         closeReplyToUsersCommentView()
+        self.subTitleLabel.text = viewModel.totalCommentsCount()
     }
 }
 
@@ -299,11 +367,13 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
             closeReplyToUsersCommentView()
             commentTextView.becomeFirstResponder()
         case .likeCount:
+            guard (postData?.likedCount ?? 0) > 0 else {return}
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: nil)
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
-            break
+            guard let postId = postData?.postId else { return }
+            self.share(secondActivityItem: viewModel.sharePostUrl(postId: postId))
         default:
             break
         }
@@ -320,7 +390,9 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
             viewModel.likeComment(postId: selectedComment.postId ?? "", commentId: selectedComment.commentId)
         case .more:
             print("More Button Tapped - \(section)")
-            self.moreMenuClicked(comment: selectedComment)
+            self.selectedReplyIndexPath = nil
+            self.selectedCommentSection = section - 1
+            self.moreMenuClicked(comment: selectedComment, isReplied: false)
         case .comment:
             print("reply Button Tapped - \(section)")
             replyToUserContainer.isHidden = false
@@ -333,13 +405,14 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
             print("reply count Button Tapped - \(section)")
             if selectedComment.replies.count > 0 {
                 selectedComment.replies = []
-                postDetailTableView.reloadSections(IndexSet(integer: section), with: .automatic)
+                postDetailTableView.reloadSections(IndexSet(integer: section), with: .none)
             } else {
                 viewModel.getCommentReplies(commentId: selectedComment.commentId)
             }
         case .likeCount:
             print("likecount Button Tapped - \(section)")
             let postId = selectedComment.postId ?? ""
+            guard selectedComment.likedCount > 0 else {return}
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: selectedComment.commentId)
             self.navigationController?.pushViewController(likedUserListView, animated: true)
@@ -358,10 +431,13 @@ extension PostDetailViewController: ReplyCommentTableViewCellDelegate {
             print("like Button Tapped")
             viewModel.likeComment(postId: selectedComment.postId ?? "", commentId: selectedComment.commentId)
         case .more:
-            self.moreMenuClicked(comment: selectedComment)
+            self.selectedReplyIndexPath = indexPath
+            self.selectedCommentSection = nil
+            self.moreMenuClicked(comment: selectedComment, isReplied: true)
         case .likeCount:
             print("likecount Button Tapped")
             let postId = selectedComment.postId ?? ""
+            
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: selectedComment.commentId)
             self.navigationController?.pushViewController(likedUserListView, animated: true)
@@ -430,22 +506,53 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
             case .report:
                 actionSheet.addAction(withOptions: menu.name) {
                     print("report menu clicked \(selectedPost?.caption)")
-                    let postDetail = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
-                    self.navigationController?.pushViewController(postDetail, animated: true)
+                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
+                    reportContent.entityId = selectedPost?.postId
+                    reportContent.entityCreatorId = selectedPost?.feedByUser?.userId
+                    reportContent.reportEntityType = .post
+                    self.navigationController?.pushViewController(reportContent, animated: true)
                 }
             case .delete:
                 actionSheet.addAction(withOptions: menu.name) {
                     print("delete post menu clicked \(selectedPost?.caption)")
+                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
+                    deleteController.modalPresentationStyle = .overCurrentContext
+                    deleteController.postId = selectedPost?.postId
+                    deleteController.delegate = self
+                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.feedByUser?.userId ?? "") ? self.viewModel.isAdmin() :  false
+                    self.navigationController?.present(deleteController, animated: true)
                 }
             case .edit:
-                actionSheet.addAction(withOptions: menu.name) {
-                    print("edit post menu clicked \(selectedPost?.caption)")
-                }
+//                actionSheet.addAction(withOptions: menu.name) {
+//                    print("edit post menu clicked \(selectedPost?.caption)")
+//                }
+                break
             default:
                 break
             }
         }
         actionSheet.addCancelAction(withOptions: "Cancel", actionHandler: nil)
         self.present(actionSheet, animated: true)
+    }
+}
+
+extension PostDetailViewController: DeleteContentViewProtocol {
+    
+    func didReceivedDeletePostResponse(postId: String, commentId: String?) {
+        guard let commentId = commentId else {
+            NotificationCenter.default.post(name: .refreshHomeFeedData, object: nil)
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        if let section = self.selectedCommentSection {
+            self.viewModel.comments.remove(at: section)
+            self.viewModel.postDetail?.commentCount -= (self.viewModel.postDetail?.commentCount ?? 0) > 0 ? 1 : 0
+            self.subTitleLabel.text = self.viewModel.totalCommentsCount()
+        } else if let indexpath = self.selectedReplyIndexPath {
+            let comment = self.viewModel.comments[indexpath.section - 1]
+            comment.replies.remove(at: indexpath.row)
+            comment.commentCount -=  comment.commentCount > 0 ? 1 : 0
+        }
+        self.postDetailTableView.reloadData()
     }
 }

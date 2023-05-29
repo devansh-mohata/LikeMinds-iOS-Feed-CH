@@ -21,7 +21,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     let removeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
+        button.setImage(UIImage(systemName: ImageIcon.crossIcon), for: .normal)
         button.tintColor = .darkGray
         button.setPreferredSymbolConfiguration(.init(pointSize: 20, weight: .light, scale: .large), forImageIn: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -55,24 +55,25 @@ class ImageCollectionViewCell: UICollectionViewCell {
     }
     
     func setupImageVideoView(_ url: String?) {
+        self.postImageView.image = nil
         guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
-//        DispatchQueue.global().async { [weak self] in
-//            DispatchQueue.main.async {
-//                self?.postImageView.kf.setImage(with: URL(string: url))
-//            }
-//        }
-        
-        AsyncImageLoader.image(for: uRL, completionHandler: { (image) in
+        DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
-                if let img = image {
-                    self.postImageView.image = img
-                }else{
-                    let dummyImage = UIImage(named: "img_u")
-                    self.postImageView.image = dummyImage
-                }
+                self?.postImageView.kf.setImage(with: uRL)
             }
-            
-        })
+        }
+        
+//        AsyncImageLoader.image(for: uRL, completionHandler: { (image) in
+//            DispatchQueue.main.async {
+//                if let img = image {
+//                    self.postImageView.image = img
+//                }else{
+//                    let dummyImage = UIImage(named: "img_u")
+//                    self.postImageView.image = dummyImage
+//                }
+//            }
+//
+//        })
         
     }
     

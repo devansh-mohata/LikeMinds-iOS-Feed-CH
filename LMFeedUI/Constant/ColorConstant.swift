@@ -17,5 +17,6 @@ struct ColorConstant {
     static let userNameTextColor = UIColor(hexString: "#222020")
     static let saveRibanColor = UIColor(hexString: "#484F67")
     static let textBlackColor = UIColor(hexString: "#333333")
+    static let navigationTitleColor = UIColor(hexString: "#333149")
     
 }

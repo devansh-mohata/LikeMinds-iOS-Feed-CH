@@ -24,14 +24,18 @@ public class BaseViewController: UIViewController {
     let titleLabel: LMLabel = {
         let label = LMLabel()
         label.font = LMBranding.shared.font(18, .medium)
-        label.text = "No title"
+        label.text = ""
+        label.textColor = ColorConstant.navigationTitleColor
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let subTitleLabel: LMLabel = {
         let label = LMLabel()
-        label.font = LMBranding.shared.font(14, .regular)
+        label.font = LMBranding.shared.font(12, .regular)
+        label.textColor = ColorConstant.navigationTitleColor
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -43,7 +47,7 @@ public class BaseViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.pinIcon)
-        imageView.tintColor = .darkGray
+        imageView.tintColor = LMBranding.shared.buttonColor
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -52,8 +56,19 @@ public class BaseViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setBackButtonWithAction()
+        self.navigationBarColor()
+//        self.initializeHideKeyboard()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupKeyboardNotifications()
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeKeyboardNotifications()
+    }
     
     func setupKeyboardNotifications() {
         NotificationCenter.default.addObserver(self,
@@ -67,10 +82,28 @@ public class BaseViewController: UIViewController {
                                                object: nil)
     }
     
+    func removeKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func initializeHideKeyboard(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissMyKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissMyKeyboard(){
+        view.endEditing(true)
+    }
+    
     @objc
     func keyboardWillShow(_ sender: Notification) {
-        guard let info = sender.userInfo,
-              let frame = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+        guard let userInfo = sender.userInfo,
+              let durationValue = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey],
+              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              let curveValue = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] else {
             return
         }
 //        self.bottomConstraint.constant = frame.size.height
@@ -85,6 +118,15 @@ public class BaseViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
+    func navigationBarColor() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = LMBranding.shared.headerColor
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
     func setTitleAndSubtile(title: String, subTitle: String?) {
         self.titleLabel.text = title
         self.subTitleLabel.text = subTitle
@@ -97,8 +139,62 @@ public class BaseViewController: UIViewController {
     func setBackButtonWithAction() {
         let backImage = UIImage(systemName: ImageIcon.backIcon)
         self.navigationController?.navigationBar.backIndicatorImage = backImage
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage        
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        let backItem = UIBarButtonItem(title: nil, style: .plain, target: nil, action: nil)
+        backItem.tintColor = .white//LMBranding.shared.buttonColor
+        self.navigationItem.backBarButtonItem = backItem
     }
     
 }
+
+public class KeyboardHandlingBaseVC: UIViewController {
+    @IBOutlet weak var backgroundSV: UIScrollView!
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        subscribeToNotification(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShowOrHide))
+        subscribeToNotification(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillShowOrHide))
+        initializeHideKeyboard()
+    }
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromAllNotifications()
+    }
+}
+
+// MARK: Keyboard Dismissal Handling on Tap
+private extension KeyboardHandlingBaseVC {
+    func initializeHideKeyboard(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissMyKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    @objc func dismissMyKeyboard(){
+        view.endEditing(true)
+    }
+}
+
+private extension KeyboardHandlingBaseVC {
+    func subscribeToNotification(_ notification: NSNotification.Name, selector: Selector) {
+        NotificationCenter.default.addObserver(self, selector: selector, name: notification, object: nil)
+    }
+    func unsubscribeFromAllNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    @objc func keyboardWillShowOrHide(notification: NSNotification) {
+        if let scrollView = backgroundSV, let userInfo = notification.userInfo, let endValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey], let durationValue = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey], let curveValue = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] {
+            let endRect = view.convert((endValue as AnyObject).cgRectValue, from: view.window)
+            let keyboardOverlap = scrollView.frame.maxY - endRect.origin.y
+            scrollView.contentInset.bottom = keyboardOverlap
+            scrollView.scrollIndicatorInsets.bottom = keyboardOverlap
+            let duration = (durationValue as AnyObject).doubleValue
+            let options = UIView.AnimationOptions(rawValue: UInt((curveValue as AnyObject).integerValue << 16))
+            UIView.animate(withDuration: duration!, delay: 0, options: options, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+}
+
+
+

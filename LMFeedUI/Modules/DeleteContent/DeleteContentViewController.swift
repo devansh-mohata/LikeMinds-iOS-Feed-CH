@@ -7,7 +7,12 @@
 
 import UIKit
 
-class DeleteContentViewController: UIViewController {
+protocol DeleteContentViewProtocol: AnyObject {
+    func didReceivedDeletePostResponse(postId: String, commentId: String?)
+}
+
+
+class DeleteContentViewController: BaseViewController {
     
     @IBOutlet weak var btnLeft: LMButton!
     @IBOutlet weak var btnRight: LMButton!
@@ -18,16 +23,42 @@ class DeleteContentViewController: UIViewController {
     @IBOutlet weak var btnDropDown: LMButton!
     @IBOutlet weak var reasonPickerView: UIPickerView!
     @IBOutlet weak var reasonTextView: LMTextView!
+    @IBOutlet weak var pickerViewContainer: UIView!
     @IBOutlet weak var reasonTextViewHeightConstraints: NSLayoutConstraint!
-    
     @IBOutlet weak var pickerviewHeightConstraints: NSLayoutConstraint!
+    weak var delegate: DeleteContentViewProtocol?
+    var placeholderLabel: LMLabel = {
+        let label = LMLabel()
+        label.numberOfLines = 1
+        label.font = LMBranding.shared.font(16, .regular)
+        label.textColor = .lightGray
+        label.text = "Write Other reason.."
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
-    let viewModel = DeleteContentViewModel()
+    var isAdminRemoving: Bool = false
+    var postId: String?
+    var commentId: String?
+    private let popupTitle = "Delete %@?"
+    private let popupMessage = "Are you sure you want to delete this %@? This action cannot be reversed."
+    private let viewModel = DeleteContentViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetups()
-        viewModel.fetchReportTags(type: 0)
+        viewModel.delegate = self
+        validateUserView()
+        reasonTextViewHideAndShow()
+    }
+    
+    func validateUserView() {
+        if !isAdminRemoving {
+            self.pickerViewContainer.isHidden = true
+            self.reasonTextView.superview?.isHidden = true
+        } else {
+            viewModel.fetchReportTags(type: 0)
+        }
     }
 
 
@@ -44,11 +75,21 @@ class DeleteContentViewController: UIViewController {
         self.btnLeft.addTarget(self, action: #selector(leftButtonClicked(sender:)), for: .touchUpInside)
         self.btnRight.addTarget(self, action: #selector(rightButtonClicked(sender:)), for: .touchUpInside)
         self.btnDropDown.addTarget(self, action: #selector(dropDownButtonClicked(sender:)), for: .touchUpInside)
+        reasonTextView.delegate = self
+        reasonTextView.addSubview(placeholderLabel)
+//        placeholderLabel.topAnchor.constraint(equalTo: reasonTextView.topAnchor, constant: 8).isActive = true
+//        placeholderLabel.rightAnchor.constraint(equalTo: reasonTextView.rightAnchor, constant: 8).isActive = true
+        placeholderLabel.textColor = .tertiaryLabel
+        placeholderLabel.isHidden = !reasonTextView.text.isEmpty
+        reasonTextView.superview?.layer.cornerRadius = 8
+        reasonTextView.superview?.layer.borderWidth = 1
+        reasonTextView.superview?.layer.borderColor = ColorConstant.likeTextColor.cgColor
     }
     
     private func setTitleAndMessage()  {
-        self.lblPopupTitle.text = ""
-        self.lblMessage.text = ""
+        let deleteContentType = commentId == nil ? "Post" : "comment"
+        self.lblPopupTitle.text = String(format: popupTitle, deleteContentType)
+        self.lblMessage.text = String(format: popupMessage, deleteContentType)
     }
     
     
@@ -78,11 +119,42 @@ class DeleteContentViewController: UIViewController {
     }
     
     @objc func rightButtonClicked(sender: UIButton)  {
-       
+        if !isAdminRemoving {
+            deleteContent(reason: nil)
+        } else {
+            guard let reason = self.viewModel.selectedReason?.name else { return }
+            let otherReason = reasonTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            if reason.lowercased() == "others", !otherReason.isEmpty {
+                deleteContent(reason: otherReason)
+            } else if reason.lowercased() != "others" {
+                deleteContent(reason: reason)
+            }
+        }
+    }
+    
+    func deleteContent(reason: String?) {
+        guard let postId = self.postId else { return }
+        guard let commentId = self.commentId else {
+            self.viewModel.deletePost(postId: postId, reasonText: reason) {[weak self] in
+                self?.dismissViewController()
+            }
+            return
+        }
+        self.viewModel.deleteComment(postId: postId, commentId: commentId, reasonText: reason) {[weak self] in
+            self?.dismissViewController()
+        }
     }
     
     @objc func dismissViewController()  {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    func reasonTextViewHideAndShow() {
+        if (viewModel.selectedReason?.name ?? "").lowercased() == "others" {
+            reasonTextView.superview?.isHidden = false
+        } else {
+            reasonTextView.superview?.isHidden = true
+        }
     }
 
 }
@@ -104,7 +176,9 @@ extension DeleteContentViewController: UIPickerViewDataSource, UIPickerViewDeleg
             pickerLabel?.font = LMBranding.shared.font(20, .regular)
             pickerLabel?.textAlignment = .center
         }
+        viewModel.selectedReason = viewModel.reasons?[row]
         pickerLabel?.text = viewModel.reasons?[row].name
+//        reasonTextViewHideAndShow()
         return pickerLabel!
     }
     
@@ -113,6 +187,30 @@ extension DeleteContentViewController: UIPickerViewDataSource, UIPickerViewDeleg
         self.textField.text = viewModel.selectedReason?.name
         // self.btnRight.setTitleColor(.turquoise(), for: .normal)
         // self.btnRight.isEnabled = true
+        reasonTextViewHideAndShow()
     }
     
+}
+
+extension DeleteContentViewController: DeleteContentViewModelProtocol {
+    func didReceivedReportTags() {
+        self.reasonPickerView.reloadAllComponents()
+    }
+    
+    func didReceivedDeletePostResponse(postId: String, commentId: String?) {
+        self.delegate?.didReceivedDeletePostResponse(postId: postId, commentId: commentId)
+    }
+}
+
+extension DeleteContentViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = true
+    }
 }

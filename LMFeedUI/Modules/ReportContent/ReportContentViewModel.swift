@@ -10,20 +10,40 @@ import LMFeed
 
 protocol ReportContentViewModelDelegate: AnyObject {
     func reloadReportTags()
+    func didReceivedReportRespone(_ errorMessage: String?)
 }
 
 class ReportContentViewModel {
     
     weak var delegate: ReportContentViewModelDelegate?
-    var reportTags: [String] = []
-    var selected = [String]()
-    
+    var reportTags: [ReportTag] = []
+    var selected = [ReportTag]()
+    var entityId: String?
+    var entityCreatorId: String?
+    var reportEntityType: ReportEntityType = .post
     func fetchReportTags() {
         let request = GetReportTagRequest(3)
         LMFeedClient.shared.getReportTags(request) { [weak self] response in
             guard let tags = response.data?.reportTags else { return }
-            self?.reportTags = tags.compactMap({$0.name})
+            self?.reportTags = tags
             self?.delegate?.reloadReportTags()
+        }
+    }
+    
+    func reportContent(reason: String) {
+        let tagId = selected.first?.id ?? 0
+        let request = ReportRequest(entityId ?? "")
+            .entityType(reportEntityType)
+            .entityCreatorId(entityCreatorId ?? "")
+            .tagId(tagId)
+            .reason(reason)
+        print(request)
+        LMFeedClient.shared.report(request) {[weak self] response in
+            if response.success {
+                self?.delegate?.didReceivedReportRespone(nil)
+            } else {
+                self?.delegate?.didReceivedReportRespone(response.errorMessage)
+            }
         }
     }
     

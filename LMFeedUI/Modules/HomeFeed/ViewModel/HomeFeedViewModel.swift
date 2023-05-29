@@ -10,6 +10,7 @@ import LMFeed
 
 protocol HomeFeedViewModelDelegate: AnyObject {
     func didReceivedFeedData(success: Bool)
+    func didReceivedMemberState()
 }
 
 class HomeFeedViewModel {
@@ -45,14 +46,15 @@ class HomeFeedViewModel {
     }
     
     func getMemberState() {
-        let requestState = GetMemberStateRequest(memberId: "adl", communityId: 123)
-        LMFeedClient.shared.getMemberState(requestState) { [weak self] result in
+        LMFeedClient.shared.getMemberState() { [weak self] result in
             print(result)
             if result.success,
-               let postsData = result.data?.member {
+               let memberState = result.data {
+                LocalPrefrerences.saveObject(memberState, forKey: LocalPreferencesKey.memberStates)
             } else {
                 print(result.errorMessage ?? "")
             }
+            self?.delegate?.didReceivedMemberState()
         }
     }
     
@@ -85,6 +87,28 @@ class HomeFeedViewModel {
             feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])}
         }
         delegate?.didReceivedFeedData(success:  true)
+    }
+    
+    func hasRightForCreatePost() -> Bool {
+        guard let rights = LocalPrefrerences.getMemberStateData()?.memberRights,
+              let right = rights.filter({$0.state == .createPost}).first else {
+            return true
+        }
+        return right.isSelected ?? true
+    }
+    
+    func isAdmin() -> Bool {
+        guard let member = LocalPrefrerences.getMemberStateData()?.member else { return false }
+        return member.state == 1
+    }
+    func isOwnPost(index: Int) -> Bool {
+        guard let member = LocalPrefrerences.getMemberStateData()?.member else { return false }
+        let post = feeds[index]
+        return post.feedByUser?.userId == member.userUniqueId
+    }
+    
+    func sharePostUrl(postId: String) -> String {
+        return "\(LMFeedClient.shared.domainUrl())/post?post_id=\(postId)"
     }
     
 }

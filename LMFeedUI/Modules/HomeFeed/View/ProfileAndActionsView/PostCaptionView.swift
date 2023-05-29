@@ -13,9 +13,7 @@ class PostCaptionView: UIView {
     let postCaptionTextView: LMTextView = {
         let textView = LMTextView(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         textView.font = LMBranding.shared.font(16, .regular)
-        textView.textColor = .lightGray
-        textView.backgroundColor = .red
-        textView.text = "ajtoadj fla dflsdfj la"
+        textView.text = ""
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()

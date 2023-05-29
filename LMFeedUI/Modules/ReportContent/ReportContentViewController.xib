@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -45,10 +45,10 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vim-1i-i9Z">
-                            <rect key="frame" x="0.0" y="92.666666666666629" width="393" height="523"/>
+                            <rect key="frame" x="5" y="92.666666666666629" width="383" height="523"/>
                             <subviews>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Nok-h9-z3J">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="385"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="383" height="385"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="385" id="K3D-po-SPJ"/>
@@ -62,17 +62,17 @@
                                     <cells/>
                                 </collectionView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVn-LN-9MW">
-                                    <rect key="frame" x="0.0" y="395" width="393" height="128"/>
+                                    <rect key="frame" x="0.0" y="395" width="383" height="128"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bPW-ay-RcS" customClass="LMTextView" customModule="LMFeedUI" customModuleProvider="target">
-                                            <rect key="frame" x="16" y="0.0" width="361" height="126"/>
+                                            <rect key="frame" x="16" y="0.0" width="351" height="126"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <color key="textColor" systemColor="labelColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Auu-6f-ZkA">
-                                            <rect key="frame" x="16" y="126" width="361" height="2"/>
+                                            <rect key="frame" x="16" y="126" width="351" height="2"/>
                                             <color key="backgroundColor" systemColor="systemRedColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="2" id="vYD-W2-B9W"/>
@@ -116,12 +116,12 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="5Ii-0c-V8p" firstAttribute="top" secondItem="hFq-fQ-7Cr" secondAttribute="top" constant="20" id="3oU-hO-Pfj"/>
-                        <constraint firstAttribute="trailing" secondItem="Vim-1i-i9Z" secondAttribute="trailing" id="4cI-5h-9fc"/>
+                        <constraint firstAttribute="trailing" secondItem="Vim-1i-i9Z" secondAttribute="trailing" constant="5" id="4cI-5h-9fc"/>
                         <constraint firstAttribute="bottom" secondItem="7vj-mp-sNd" secondAttribute="bottom" constant="35" id="56S-UC-nci"/>
                         <constraint firstItem="7vj-mp-sNd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Vim-1i-i9Z" secondAttribute="bottom" constant="35" id="801-o1-ZFO"/>
                         <constraint firstAttribute="trailing" secondItem="5Ii-0c-V8p" secondAttribute="trailing" constant="16" id="MdW-3p-hMY"/>
                         <constraint firstItem="Vim-1i-i9Z" firstAttribute="top" secondItem="5Ii-0c-V8p" secondAttribute="bottom" constant="10" id="WS0-w8-ouW"/>
-                        <constraint firstItem="Vim-1i-i9Z" firstAttribute="leading" secondItem="hFq-fQ-7Cr" secondAttribute="leading" id="g8m-Pv-w4W"/>
+                        <constraint firstItem="Vim-1i-i9Z" firstAttribute="leading" secondItem="hFq-fQ-7Cr" secondAttribute="leading" constant="5" id="g8m-Pv-w4W"/>
                         <constraint firstItem="5Ii-0c-V8p" firstAttribute="leading" secondItem="hFq-fQ-7Cr" secondAttribute="leading" constant="16" id="iJp-9d-U9c"/>
                         <constraint firstItem="7vj-mp-sNd" firstAttribute="centerX" secondItem="hFq-fQ-7Cr" secondAttribute="centerX" id="pbh-Mt-wz5"/>
                     </constraints>

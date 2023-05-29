@@ -15,7 +15,7 @@ class NetworkOperationQueueManager {
     lazy var operationQueue :OperationQueue = {
         var queue = OperationQueue()
         queue.name = "likeminds.file.upload.queue"
-        queue.maxConcurrentOperationCount = 1
+        queue.maxConcurrentOperationCount = 5
         return queue
     }()
     

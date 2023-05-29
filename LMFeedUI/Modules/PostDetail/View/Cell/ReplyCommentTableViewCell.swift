@@ -73,10 +73,14 @@ class ReplyCommentTableViewCell: UITableViewCell {
         return sv
     }()
     
-    var commentLabel: LMLabel = {
-        let label = LMLabel()
-        label.numberOfLines = 0
+    var commentLabel: LMTextView = {
+        let label = LMTextView(frame: .zero)
+        label.isEditable = false
+        label.isScrollEnabled = false
         label.font = LMBranding.shared.font(14, .regular)
+        label.tintColor = LMBranding.shared.textLinkColor
+        label.textContainer.lineFragmentPadding = 0
+        label.textContainerInset = .zero
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

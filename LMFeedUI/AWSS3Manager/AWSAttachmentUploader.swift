@@ -29,9 +29,7 @@ class AWSUploadManager {
             awsUploadVideo(filePath: filePath, videoPath: path, thumbNail: thumbNailUrl ?? "", progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
-                DispatchQueue.main.async {
                     progress(uploadProgress)
-                }
                 
             }) { (uploadedFileUrl, thumbNailUrl, error, index) in
                 
@@ -48,10 +46,7 @@ class AWSUploadManager {
             awsUploadAudio(filePath: filePath, audioPath: path, progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
-                DispatchQueue.main.async {
-                    progress(uploadProgress)
-                }
-                
+                progress(uploadProgress)
             }) { (uploadedFileUrl, thumbNailUrl, error,index)  in
                 
                 if let finalPath = uploadedFileUrl as? String {
@@ -68,9 +63,8 @@ class AWSUploadManager {
             awsUploadFile(filePath: filePath, fileUrlString: path, content: content ,progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
-                DispatchQueue.main.async {
-                    progress(uploadProgress)
-                }
+                
+                progress(uploadProgress)
                 
             }) { (uploadedFileUrl, thumbNailUrl, error,index) in
                 
@@ -87,9 +81,7 @@ class AWSUploadManager {
             awsUploadImage(filePath: filePath, image: image, index: index, progress: {( uploadProgress) in
                 
                 guard let progress = progress else { return }
-                DispatchQueue.main.async {
                     progress(uploadProgress)
-                }
                 
             }) { (uploadedFileUrl,thumbNailUrl, error,index) in
                 
@@ -141,11 +133,8 @@ extension AWSUploadManager {
     private func awsUploadImage(filePath: String = "", image: UIImage?, index: Int?, progress: progressBlock?, completion: completionBlock?) {
         guard let image = image else { return } //1
         AWSS3Manager.shared.uploadImage(filePath: filePath, image: image, imageData: Data(), index: index, progress: {(progressValue) in
-            
             guard let uploadProgress = progress else { return }
-            DispatchQueue.main.async {
-                uploadProgress(progressValue)
-            }
+            uploadProgress(progressValue)
             
         }) { (uploadedFileUrl, thumbNailUrl, error,index ) in
             
@@ -164,9 +153,7 @@ extension AWSUploadManager {
         AWSS3Manager.shared.uploadVideo(filePath: filePath, videoUrl: videoUrl, thumbNail: thumbNail, progress: { (progressValue) in
             
             guard let uploadProgress = progress else { return }
-            DispatchQueue.main.async {
-                uploadProgress(progressValue)
-            }
+            uploadProgress(progressValue)
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index)  in
             
@@ -185,9 +172,7 @@ extension AWSUploadManager {
         AWSS3Manager.shared.uploadAudio(filePath: filePath, audioUrl: audioUrl, progress: { (progressValue) in
             
             guard let uploadProgress = progress else { return }
-            DispatchQueue.main.async {
-                uploadProgress(progressValue)
-            }
+            uploadProgress(progressValue)
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index)  in
             
@@ -207,9 +192,7 @@ extension AWSUploadManager {
         AWSS3Manager.shared.uploadOtherFile(filePath: filePath, fileUrl: fileURL, conentType: content,  progress: {(progressValue) in
             
             guard let uploadProgress = progress else { return }
-            DispatchQueue.main.async {
-                uploadProgress(progressValue)
-            }
+            uploadProgress(progressValue)
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index) in
             
@@ -228,9 +211,7 @@ extension AWSUploadManager {
         AWSS3Manager.shared.uploadOtherFile(filePath: filePath, fileUrl: fileURL, conentType: content,  progress: {(progressValue) in
             
             guard let uploadProgress = progress else { return }
-            DispatchQueue.main.async {
-                uploadProgress(progressValue)
-            }
+            uploadProgress(progressValue)
             
         }) { (uploadedFileUrl, thumbNailUrl, error, index) in
             

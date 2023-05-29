@@ -28,7 +28,7 @@ class LinkCollectionViewCell: UICollectionViewCell {
         linkDetailContainerView.layer.cornerRadius = 8
         linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
         linkDetailContainerView.clipsToBounds = true
-        linkThumbnailImageView.contentMode = .scaleToFill
+        linkThumbnailImageView.contentMode = .scaleAspectFill
     }
     
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {

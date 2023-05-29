@@ -40,6 +40,9 @@
 		F49F6BF42A1B3FAF005B2A81 /* NotificationFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F6BF22A1B3FAF005B2A81 /* NotificationFeedTableViewCell.swift */; };
 		F49F6BF52A1B3FAF005B2A81 /* NotificationFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F49F6BF32A1B3FAF005B2A81 /* NotificationFeedTableViewCell.xib */; };
 		F49F6BF72A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F6BF62A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift */; };
+		F49F6BF92A1C8AF1005B2A81 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F6BF82A1C8AF1005B2A81 /* Message.swift */; };
+		F49F6BFC2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49F6BFA2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift */; };
+		F49F6BFD2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F49F6BFB2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib */; };
 		F4A20D1E29E5760D001D57CB /* LikedUserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D1D29E5760D001D57CB /* LikedUserListViewModel.swift */; };
 		F4A20D2029E57628001D57CB /* LikedUserDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D1F29E57628001D57CB /* LikedUserDataView.swift */; };
 		F4A20D2229E57654001D57CB /* LikedUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A20D2129E57654001D57CB /* LikedUserTableViewCell.swift */; };
@@ -78,6 +81,8 @@
 		F4CE0F2D2A0CF9430089D743 /* TaggedUserList.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4CE0F292A0CF9430089D743 /* TaggedUserList.xib */; };
 		F4CE0F2F2A0CF9890089D743 /* TaggedUserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE0F2E2A0CF9890089D743 /* TaggedUserListViewModel.swift */; };
 		F4CE0F312A0CF99A0089D743 /* TaggedUserListDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE0F302A0CF99A0089D743 /* TaggedUserListDataView.swift */; };
+		F4D3059B2A1D436300964114 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D3059A2A1D436300964114 /* UITableViewCell+Extension.swift */; };
+		F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D305A12A20B1AE00964114 /* CreatePostOperation.swift */; };
 		F4D58B5729DED016000C1648 /* PHAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D58B5629DED016000C1648 /* PHAsset+Extension.swift */; };
 		F4D58B5929DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */; };
 		F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98AFC29D1886100CF9743 /* BaseViewController.swift */; };
@@ -158,6 +163,9 @@
 		F49F6BF22A1B3FAF005B2A81 /* NotificationFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFeedTableViewCell.swift; sourceTree = "<group>"; };
 		F49F6BF32A1B3FAF005B2A81 /* NotificationFeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationFeedTableViewCell.xib; sourceTree = "<group>"; };
 		F49F6BF62A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extension.swift"; sourceTree = "<group>"; };
+		F49F6BF82A1C8AF1005B2A81 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		F49F6BFA2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedDocumentTableViewCell.swift; sourceTree = "<group>"; };
+		F49F6BFB2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedDocumentTableViewCell.xib; sourceTree = "<group>"; };
 		F4A20D1D29E5760D001D57CB /* LikedUserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserListViewModel.swift; sourceTree = "<group>"; };
 		F4A20D1F29E57628001D57CB /* LikedUserDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserDataView.swift; sourceTree = "<group>"; };
 		F4A20D2129E57654001D57CB /* LikedUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedUserTableViewCell.swift; sourceTree = "<group>"; };
@@ -196,6 +204,8 @@
 		F4CE0F292A0CF9430089D743 /* TaggedUserList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaggedUserList.xib; sourceTree = "<group>"; };
 		F4CE0F2E2A0CF9890089D743 /* TaggedUserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedUserListViewModel.swift; sourceTree = "<group>"; };
 		F4CE0F302A0CF99A0089D743 /* TaggedUserListDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedUserListDataView.swift; sourceTree = "<group>"; };
+		F4D3059A2A1D436300964114 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
+		F4D305A12A20B1AE00964114 /* CreatePostOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostOperation.swift; sourceTree = "<group>"; };
 		F4D58B5129DECAD8000C1648 /* BSImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BSImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D58B5629DED016000C1648 /* PHAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHAsset+Extension.swift"; sourceTree = "<group>"; };
 		F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
@@ -264,6 +274,7 @@
 				F405D10229E80F820074F531 /* ImageIcon.swift */,
 				F405D10429E811600074F531 /* SpecialCharString.swift */,
 				F4EA97BA2A19592F0020E672 /* ColorConstant.swift */,
+				F49F6BF82A1C8AF1005B2A81 /* Message.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -426,6 +437,8 @@
 			children = (
 				F4D98B1629D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift */,
 				F4D98B1729D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib */,
+				F49F6BFA2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift */,
+				F49F6BFB2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib */,
 				F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */,
 				F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */,
 				F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */,
@@ -515,6 +528,7 @@
 			children = (
 				F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */,
 				F41731CB2A1A7DC0005FD279 /* AttachmentUploadOperation.swift */,
+				F4D305A12A20B1AE00964114 /* CreatePostOperation.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -627,6 +641,7 @@
 				F49D70D22A1392E0004ABD5B /* Array+Extension.swift */,
 				F41731CD2A1A8FBD005FD279 /* NotificationName+Extension.swift */,
 				F49F6BF62A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift */,
+				F4D3059A2A1D436300964114 /* UITableViewCell+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -748,6 +763,7 @@
 				F49F6BF52A1B3FAF005B2A81 /* NotificationFeedTableViewCell.xib in Resources */,
 				F405D10029E7E0800074F531 /* ReportContentViewController.xib in Resources */,
 				F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */,
+				F49F6BFD2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -788,6 +804,7 @@
 				F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */,
 				F4A9618829DC41E100F395AD /* ImageCollectionViewCell.swift in Sources */,
 				F49C76F629E3CFE200325AD9 /* PostDetailDataModel.swift in Sources */,
+				F49F6BFC2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift in Sources */,
 				F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */,
 				F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */,
 				F4D98B0A29D188BF00CF9743 /* LMTextField.swift in Sources */,
@@ -805,6 +822,7 @@
 				F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */,
 				F4CE0F2C2A0CF9430089D743 /* TaggedUserList.swift in Sources */,
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
+				F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
 				F49C76F829E3CFFA00325AD9 /* PostDetailViewModel.swift in Sources */,
 				F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */,
@@ -820,6 +838,7 @@
 				F4EA97BB2A19592F0020E672 /* ColorConstant.swift in Sources */,
 				F4D98B2B29D553C800CF9743 /* HomeFeedViewModel.swift in Sources */,
 				F4D58B5729DED016000C1648 /* PHAsset+Extension.swift in Sources */,
+				F49F6BF92A1C8AF1005B2A81 /* Message.swift in Sources */,
 				F4A20D2029E57628001D57CB /* LikedUserDataView.swift in Sources */,
 				F4D98B0B29D188BF00CF9743 /* LMTextView.swift in Sources */,
 				F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */,
@@ -857,6 +876,7 @@
 				F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */,
 				F4D98B2029D450C100CF9743 /* Extensions.swift in Sources */,
 				F41731CE2A1A8FBD005FD279 /* NotificationName+Extension.swift in Sources */,
+				F4D3059B2A1D436300964114 /* UITableViewCell+Extension.swift in Sources */,
 				F4D98B0929D188BF00CF9743 /* LMSegmentedControl.swift in Sources */,
 				F4EA97A92A1498740020E672 /* LMFeedAnalytics.swift in Sources */,
 				F4D98B0829D188BF00CF9743 /* LMLabel.swift in Sources */,

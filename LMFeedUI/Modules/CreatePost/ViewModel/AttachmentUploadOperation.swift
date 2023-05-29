@@ -124,13 +124,12 @@ class AttachmentUploadOperation: NetworkOperation {
     }
     
     override func main() {
-        
         print( "attachment upload starting...")
         if self.checkCancel() {
             print( "attachment upload cancelled...")
             return
         }
-        
+        NotificationCenter.default.post(name: .postCreationStarted, object: nil)
         guard let attachment = attachmentList.filter({$0.awsUploadedUrl == nil}).first else {
             print( "attachment upload completed...")
             createPost()

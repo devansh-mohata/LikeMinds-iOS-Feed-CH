@@ -30,5 +30,7 @@ class LMTextView: UITextView {
         let topOffset = (bounds.size.height - size.height * zoomScale) / 2
         let positiveTopOffset = max(1, topOffset)
         contentOffset.y = -positiveTopOffset
-    }  
+    }
+    
+    
 }
