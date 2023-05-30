@@ -65,7 +65,7 @@ public class LMBranding {
 
 
 public class SetBrandingRequest {
-    var buttonColor : UIColor = UIColor(hexString: "#5046E5")
+    var buttonColor : UIColor = UIColor(hexString: "#FB1609")
     var headerColor : UIColor = UIColor(hexString: "#5046E5")
     var textLinkColor : UIColor = UIColor(hexString: "#007AFF")
     var fonts: LMFonts = LMFonts(regular: "Roboto",
