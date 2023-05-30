@@ -61,13 +61,6 @@ extension UIViewController {
         let activityViewController : UIActivityViewController = UIActivityViewController(
             activityItems: [url, image], applicationActivities: nil)
         
-        // This lines is for the popover you need to show in iPad
-//        activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
-//
-//        // This line remove the arrow of the popover to show in iPad
-//        activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down
-//        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
-        
         // Pre-configuring activity items
         activityViewController.activityItemsConfiguration = [
             UIActivity.ActivityType.message
@@ -80,13 +73,24 @@ extension UIViewController {
             UIActivity.ActivityType.assignToContact,
             UIActivity.ActivityType.saveToCameraRoll,
             UIActivity.ActivityType.addToReadingList
-//            UIActivity.ActivityType.postToFlickr,
-//            UIActivity.ActivityType.postToVimeo,
-//            UIActivity.ActivityType.postToTencentWeibo,
-//            UIActivity.ActivityType.postToFacebook
         ]
         
         activityViewController.isModalInPresentation = true
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let navigationController = controller as? UINavigationController {
+            return topViewController(controller: navigationController.visibleViewController)
+        }
+        if let tabController = controller as? UITabBarController {
+            if let selected = tabController.selectedViewController {
+                return topViewController(controller: selected)
+            }
+        }
+        if let presented = controller?.presentedViewController {
+            return topViewController(controller: presented)
+        }
+        return controller
     }
 }

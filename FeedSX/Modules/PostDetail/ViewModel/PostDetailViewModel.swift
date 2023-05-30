@@ -24,7 +24,7 @@ final class PostDetailViewModel {
     var isCommentLoading: Bool = false
     var isCommentRepliesLoading: Bool = false
     weak var delegate: PostDetailViewModelDelegate?
-    var postId: String = HomeFeedViewModel.postId
+    var postId: String = ""
     var taggedUsers: [User] = []
     var replyOnComment: PostDetailDataModel.Comment?
     
@@ -99,7 +99,7 @@ final class PostDetailViewModel {
         guard let selectedComment = self.comments.filter({$0.commentId == commentId}).first else {return}
         self.isCommentRepliesLoading = true
         let repliesCurrentPage = (selectedComment.replies.count/5) + 1
-        let request = GetCommentRequest(postId: HomeFeedViewModel.postId, commentId: commentId)
+        let request = GetCommentRequest(postId: self.postId, commentId: commentId)
             .page(repliesCurrentPage)
             .pageSize(5)
         LMFeedClient.shared.getComment(request) {[weak self] response in
@@ -214,9 +214,5 @@ final class PostDetailViewModel {
         let count = (self.postDetail?.commentCount) ?? 0
         let commentString = count > 1 ? "comments" : "comment"
         return "\(count) \(commentString)"
-    }
-    
-    func sharePostUrl(postId: String) -> String {
-        return "\(LMFeedClient.shared.domainUrl())/post?post_id=\(postId)"
     }
 }

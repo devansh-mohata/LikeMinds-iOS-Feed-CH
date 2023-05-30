@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostDetailViewController" customModule="LMFeedUI" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostDetailViewController" customModule="FeedSX" customModuleProvider="target">
             <connections>
                 <outlet property="closeReplyToUserButton" destination="xGz-ps-vJ7" id="XSj-1l-o8s"/>
                 <outlet property="commentTextView" destination="det-vb-fsO" id="MTY-8l-RGP"/>
@@ -49,7 +49,7 @@
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eRL-5F-RDO" userLabel="ReplyToUser">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="32"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGz-ps-vJ7" customClass="LMButton" customModule="LMFeedUI" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGz-ps-vJ7" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                     <rect key="frame" x="358" y="0.0" width="30" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="30" id="HqB-NF-jsr"/>
@@ -60,7 +60,7 @@
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="medium"/>
                                     </state>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w8b-1t-QA2" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w8b-1t-QA2" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
                                     <rect key="frame" x="16" y="16" width="332" height="0.0"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
@@ -98,7 +98,7 @@
                                                 <constraint firstAttribute="height" constant="24" id="t7q-Sx-akB"/>
                                             </constraints>
                                         </imageView>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="det-vb-fsO" customClass="LMTextView" customModule="LMFeedUI" customModuleProvider="target">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="det-vb-fsO" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
                                             <rect key="frame" x="28" y="6.3333333333333712" width="290" height="35.333333333333336"/>
                                             <color key="textColor" systemColor="labelColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -106,7 +106,7 @@
                                         </textView>
                                     </subviews>
                                 </stackView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZ0-88-sTe" customClass="LMButton" customModule="LMFeedUI" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZ0-88-sTe" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                     <rect key="frame" x="333" y="0.0" width="50" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="51H-Ce-UCC"/>

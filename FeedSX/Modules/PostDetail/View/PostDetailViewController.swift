@@ -36,6 +36,8 @@ class PostDetailViewController: BaseViewController {
     var isReloadTaggingListView = true
     var selectedReplyIndexPath: IndexPath?
     var selectedCommentSection: Int?
+    var postId: String = ""
+    var commentId: String?
 
     var viewModel: PostDetailViewModel = PostDetailViewModel()
     let taggingUserList: TaggedUserList =  {
@@ -67,6 +69,7 @@ class PostDetailViewController: BaseViewController {
         super.viewDidLoad()
         setupSpinner()
         viewModel.delegate = self
+        viewModel.postId = self.postId
         postDetailTableView.rowHeight = 50
         refreshControl.addTarget(self, action: #selector(pullToRefreshData), for: .valueChanged)
         closeReplyToUserButton.addTarget(self, action: #selector(closeReplyToUsersCommentView), for: .touchUpInside)
@@ -98,7 +101,14 @@ class PostDetailViewController: BaseViewController {
         self.setupTaggingView()
         hideTaggingViewContainer()
         self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
-        self.commentTextView.becomeFirstResponder()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.commentTextView.becomeFirstResponder()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.setBackButtonIfNotExist()
     }
     
     func setAttributedTextForNoComments() {
@@ -126,6 +136,21 @@ class PostDetailViewController: BaseViewController {
         taggingUserList.addConstraints(equalToView: self.taggingUserListContainer)
         taggingUserList.setUp()
         taggingUserList.delegate = self
+    }
+    
+    func setBackButtonIfNotExist() {
+//        guard self.navigationItem.backBarButtonItem == nil else {return}
+        let backImage = UIImage(systemName: ImageIcon.backIcon)
+        let backItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(dismissController))
+        backItem.tintColor = LMBranding.shared.buttonColor
+        self.navigationItem.leftBarButtonItem = backItem
+    }
+    
+    @objc func dismissController() {
+        guard let _ = self.navigationController?.popViewController(animated: true) else {
+            self.dismiss(animated: true)
+            return
+        }
     }
     
     @objc func pullToRefreshData() {
@@ -180,6 +205,7 @@ class PostDetailViewController: BaseViewController {
         let text = commentTextView.trimmedText()
         guard !text.isEmpty else {return}
         viewModel.postComment(text: text)
+        sendButton.isEnabled = false
         commentTextView.text = ""
     }
     
@@ -368,7 +394,7 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
         case .savePost:
             viewModel.savePost(postId: postId)
         case .comment:
-            HomeFeedViewModel.postId = postId
+            viewModel.postId = postId
             closeReplyToUsersCommentView()
             commentTextView.becomeFirstResponder()
         case .likeCount:
@@ -378,7 +404,7 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }
-            self.share(secondActivityItem: viewModel.sharePostUrl(postId: postId))
+            self.share(secondActivityItem: LocalPrefrerences.sharePostUrl(postId: postId))
         default:
             break
         }

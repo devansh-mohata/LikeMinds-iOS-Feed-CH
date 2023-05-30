@@ -18,7 +18,6 @@ class HomeFeedViewModel {
     weak var delegate: HomeFeedViewModelDelegate?
     var feeds: [PostFeedDataView] = []
     var currentPage: Int = 1
-    static var postId: String!
     var isFeedLoading: Bool = false
     
     func getFeed() {
@@ -106,9 +105,4 @@ class HomeFeedViewModel {
         let post = feeds[index]
         return post.feedByUser?.userId == member.userUniqueId
     }
-    
-    func sharePostUrl(postId: String) -> String {
-        return "\(LMFeedClient.shared.domainUrl())/post?post_id=\(postId)"
-    }
-    
 }

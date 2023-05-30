@@ -65,4 +65,9 @@ public struct LocalPreferencesKey {
         }
         return nil
     }
+     
+   static func sharePostUrl(postId: String) -> String {
+        guard let domain = LocalPrefrerences.userDefault.string(forKey: LocalPreferencesKey.clientDomainUrl) else { return "" }
+         return "\(domain)/post?post_id=\(postId)"
+    }
 }

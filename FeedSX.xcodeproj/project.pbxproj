@@ -26,6 +26,9 @@
 		F46E15B12A25D1B9003C43BA /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F46E15AF2A25D1B0003C43BA /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */; };
 		F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D02A26197D003C43BA /* UITextView+Extension.swift */; };
+		F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D32A263448003C43BA /* RouteBuilderManager.swift */; };
+		F46E15D72A263448003C43BA /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D42A263448003C43BA /* DeepLinkManager.swift */; };
+		F46E15D82A263448003C43BA /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D52A263448003C43BA /* Routes.swift */; };
 		F49C76DF29DF45B100325AD9 /* AWSS3Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DC29DF45B100325AD9 /* AWSS3Manager.swift */; };
 		F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DD29DF45B100325AD9 /* AWSAttachmentUploader.swift */; };
 		F49C76E129DF45B100325AD9 /* AWSFileUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49C76DE29DF45B100325AD9 /* AWSFileUtility.swift */; };
@@ -160,6 +163,9 @@
 		F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeMindsFeedSX.swift; sourceTree = "<group>"; };
 		F46E15CA2A26095C003C43BA /* FirebaseMessaging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseMessaging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46E15D02A26197D003C43BA /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
+		F46E15D32A263448003C43BA /* RouteBuilderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderManager.swift; sourceTree = "<group>"; };
+		F46E15D42A263448003C43BA /* DeepLinkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
+		F46E15D52A263448003C43BA /* Routes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
 		F49C76DC29DF45B100325AD9 /* AWSS3Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSS3Manager.swift; sourceTree = "<group>"; };
 		F49C76DD29DF45B100325AD9 /* AWSAttachmentUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSAttachmentUploader.swift; sourceTree = "<group>"; };
 		F49C76DE29DF45B100325AD9 /* AWSFileUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AWSFileUtility.swift; sourceTree = "<group>"; };
@@ -322,6 +328,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F46E15D22A263448003C43BA /* LinkManager */ = {
+			isa = PBXGroup;
+			children = (
+				F46E15D32A263448003C43BA /* RouteBuilderManager.swift */,
+				F46E15D42A263448003C43BA /* DeepLinkManager.swift */,
+				F46E15D52A263448003C43BA /* Routes.swift */,
+			);
+			path = LinkManager;
+			sourceTree = "<group>";
+		};
 		F49C76DB29DF45B100325AD9 /* AWSS3Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,6 +398,7 @@
 		F49C76F929E3EB6D00325AD9 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				F46E15D22A263448003C43BA /* LinkManager */,
 				F49C76FA29E3EB8C00325AD9 /* DataDetector.swift */,
 				F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */,
 				F405D10829E885660074F531 /* ASImageDownloader.swift */,
@@ -866,6 +883,7 @@
 				F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */,
 				F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */,
 				F4CE0F2C2A0CF9430089D743 /* TaggedUserList.swift in Sources */,
+				F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */,
 				F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */,
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
 				F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */,
@@ -879,8 +897,10 @@
 				F4EA97AB2A1499930020E672 /* LMFeedAnalyticsEventName.swift in Sources */,
 				F49C76E129DF45B100325AD9 /* AWSFileUtility.swift in Sources */,
 				F4A5BD7029D99180006FC78D /* ProfileHeaderView.swift in Sources */,
+				F46E15D82A263448003C43BA /* Routes.swift in Sources */,
 				F49F6BF12A1B3DEA005B2A81 /* NotificationFeedViewModel.swift in Sources */,
 				F4A5BD7229D9919B006FC78D /* ActionsFooterView.swift in Sources */,
+				F46E15D72A263448003C43BA /* DeepLinkManager.swift in Sources */,
 				F4EA97BB2A19592F0020E672 /* ColorConstant.swift in Sources */,
 				F4D98B2B29D553C800CF9743 /* HomeFeedViewModel.swift in Sources */,
 				F4D58B5729DED016000C1648 /* PHAsset+Extension.swift in Sources */,

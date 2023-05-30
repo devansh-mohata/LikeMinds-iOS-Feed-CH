@@ -389,8 +389,8 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             homeFeedViewModel.savePost(postId: postId)
         case .comment:
             guard let postId = postData?.postId else { return }
-            HomeFeedViewModel.postId = postId
             let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+            postDetail.postId = postId
             self.navigationController?.pushViewController(postDetail, animated: true)
         case .likeCount:
             guard let postId = postData?.postId, (postData?.likedCount ?? 0) > 0 else { return }
@@ -399,7 +399,7 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }
-            self.share(secondActivityItem: homeFeedViewModel.sharePostUrl(postId: postId))
+            self.share(secondActivityItem: LocalPrefrerences.sharePostUrl(postId: postId))
         default:
             break
         }

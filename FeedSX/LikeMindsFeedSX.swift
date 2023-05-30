@@ -19,7 +19,7 @@ public class LikeMindsFeedSX {
         LocalPrefrerences.save(extras.getApiKey() , forKey: LocalPreferencesKey.feedApiKey)
         LocalPrefrerences.save(extras.getDomainUrl() ?? "" , forKey: LocalPreferencesKey.clientDomainUrl)
         LMBranding.shared.setBranding(extras.getBrandingData())
-//        FeedTokenManager.shared.lmCallback = extras.likemindsCallback
+        FeedTokenManager.shared.lmCallback = extras.likemindsCallback as? LMCallback
     }
     
     public func initiateLikeMindsFeed(withViewController viewController: UIViewController, apiKey: String, username: String, userId: String) {
@@ -57,6 +57,33 @@ public class LikeMindsFeedSX {
                 }
             }
         }
+    }
+    
+    func didTapOnNotificationRoute(userInfo: [AnyHashable: Any]) {
+//        MixPanelEventTriggerHelper.registerForNotificationClicked(userInfo: userInfo)
+//        guard let route = userInfo["route"] as? String, UIApplication.shared.applicationState == .inactive else {return}
+//        let pref = PreferencesFactory.userPreferences()
+//        pref.put(route, forKey: kPrefNotificationRouteUrl)
+//        _ = pref.save()
+//        DeepLinkManager.sharedInstance.routeToScreen(routeUrl: route, fromNotification: true, fromDeeplink: false)
+    }
+    
+    /**
+     Call this method in AppDelegate in didReceiveRemoteNotification
+     @param userInfo The info dict with the push
+     */
+    public func didReceieveNotification(userInfo: [AnyHashable: Any]) -> Bool {
+        guard let route = userInfo["route"] as? String, UIApplication.shared.applicationState == .inactive else {return false }
+        DeepLinkManager.sharedInstance.notificationRoute(routeUrl: route, fromNotification: true, fromDeeplink: false)
+        return true
+    }
+    
+    /**
+     Call this method when deeplink decoded url has received
+     @param deeplinkRequest: deeplink url with userid and username details
+     */
+    public func parseDeepLink(routeUrl: String) {
+        DeepLinkManager.sharedInstance.deeplinkRoute(routeUrl: routeUrl, fromNotification: false, fromDeeplink: true)
     }
 }
 
