@@ -12,6 +12,7 @@ protocol PostDetailViewModelDelegate: AnyObject {
     func didReceiveComments()
     func didReceiveCommentsReply()
     func insertAndScrollToRecentComment(_ indexPath: IndexPath)
+    func didReceivedMemberState()
 }
 
 final class PostDetailViewModel {
@@ -180,7 +181,21 @@ final class PostDetailViewModel {
         }
     }
     
+    func getMemberState() {
+        LMFeedClient.shared.getMemberState() { [weak self] result in
+            print(result)
+            if result.success,
+               let memberState = result.data {
+                LocalPrefrerences.saveObject(memberState, forKey: LocalPreferencesKey.memberStates)
+            } else {
+                print(result.errorMessage ?? "")
+            }
+            self?.delegate?.didReceivedMemberState()
+        }
+    }
+    
     func hasRightForCommentOnPost() -> Bool {
+        if self.isAdmin() { return true }
         guard let rights = LocalPrefrerences.getMemberStateData()?.memberRights,
               let right = rights.filter({$0.state == .commentOrReplyOnPost}).first else {
             return true

@@ -152,28 +152,37 @@ class DeleteContentViewController: BaseViewController {
     func reasonTextViewHideAndShow() {
         if (viewModel.selectedReason?.name ?? "").lowercased() == "others" {
             reasonTextView.superview?.isHidden = false
+            reasonTextView.becomeFirstResponder()
         } else {
+            reasonTextView.resignFirstResponder()
             reasonTextView.superview?.isHidden = true
         }
     }
     
     @objc
     override func keyboardWillShow(_ sender: Notification) {
-        guard let userInfo = sender.userInfo,
-              //              let durationValue = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey],
-              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-                  //              let curveValue = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] else {
-                  return
-              }
-//        self.textViewContainerBottomConstraints.constant = (frame.size.height - self.view.safeAreaInsets.bottom)
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
+
+        guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        
+        var shouldMoveViewUp = false
+        let bottomOfTextField = reasonTextView.convert(reasonTextView.superview!.bounds, to: self.view).maxY;
+        
+        let topOfKeyboard = self.view.frame.height - keyboardSize.height
+        
+        // if the bottom of Textfield is below the top of keyboard, move up
+        if bottomOfTextField > topOfKeyboard {
+            shouldMoveViewUp = true
+        }
+        if(shouldMoveViewUp) {
+            self.view.frame.origin.y = 0 - (keyboardSize.height - 80)
         }
     }
     
     @objc
     override func keyboardWillHide(_ sender: Notification) {
-//        self.textViewContainerBottomConstraints.constant = 0
+        self.view.frame.origin.y = 0
         self.view.layoutIfNeeded()
     }
     

@@ -55,6 +55,8 @@ class VideoCollectionViewCell: UICollectionViewCell {
     }
     
     func playVideo() {
+        try? AVAudioSession.sharedInstance().setCategory(.playback)
+        playerView.player?.playImmediately(atRate: 1)
         playerView.player?.play()
     }
     
@@ -74,10 +76,9 @@ class VideoCollectionViewCell: UICollectionViewCell {
         videoPlayer = AVPlayer(url: urL)
         // play the video now!
 //        videoPlayer?.playImmediately(atRate: 1)
-//        videoPlayer?.isMuted = true
+        videoPlayer?.isMuted = false
         // setup the AVPlayer as the player
         playerView.player = videoPlayer
-        playerView
     }
     
     // This is the function to setup the CollectionViewCell

@@ -48,7 +48,7 @@ class PostDetailViewController: BaseViewController {
     let textViewPlaceHolder: LMLabel = {
         let label = LMLabel()
         label.numberOfLines = 1
-        label.font = LMBranding.shared.font(17, .regular)
+        label.font = LMBranding.shared.font(16, .regular)
         label.textColor = .lightGray
         label.text = "Write a comment"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -97,18 +97,33 @@ class PostDetailViewController: BaseViewController {
         replyToUserContainer.isHidden = true
         replyToUserImageView.isHidden = true
         commentTextView.centerVertically()
+        viewModel.getMemberState()
         viewModel.getComments()
         self.setupTaggingView()
         hideTaggingViewContainer()
         self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            self.commentTextView.becomeFirstResponder()
-        }
+        
+        validateCommentRight()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setBackButtonIfNotExist()
+    }
+    
+    func validateCommentRight() {
+        if !viewModel.hasRightForCommentOnPost() {
+            textViewPlaceHolder.text = MessageConstant.restrictToCommentOnPost
+            sendButton.isHidden = true
+            commentTextView.isUserInteractionEnabled = false
+        } else {
+            textViewPlaceHolder.text = "Write a comment"
+            sendButton.isHidden = false
+            commentTextView.isUserInteractionEnabled = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                self.commentTextView.becomeFirstResponder()
+            }
+        }
     }
     
     func setAttributedTextForNoComments() {
@@ -381,6 +396,11 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         postDetailTableView.tableFooterView?.isHidden = true
         closeReplyToUsersCommentView()
         self.subTitleLabel.text = viewModel.totalCommentsCount()
+    }
+    
+    
+    func didReceivedMemberState() {
+        validateCommentRight()
     }
 }
 

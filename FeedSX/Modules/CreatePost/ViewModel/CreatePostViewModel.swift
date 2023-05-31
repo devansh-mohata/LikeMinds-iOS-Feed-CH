@@ -60,7 +60,7 @@ final class CreatePostViewModel {
             attachment.size = attr[.size] as? Int
         }
         if type == .image {
-            attachment.thumbnailImage = UIImage(contentsOfFile: fileUrl.absoluteString)
+            attachment.thumbnailImage = UIImage(contentsOfFile: fileUrl.path)
         } else {
             attachment.thumbnailImage = generateVideoThumbnail(forUrl: fileUrl)
         }
