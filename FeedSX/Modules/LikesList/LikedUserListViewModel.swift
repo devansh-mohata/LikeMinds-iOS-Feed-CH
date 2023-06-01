@@ -10,6 +10,7 @@ import LikeMindsFeed
 
 protocol LikedUserListViewModelDelegate: AnyObject {
     func reloadLikedUserList()
+    func responseFailed(withError error: String?)
 }
 
 final class LikedUserListViewModel {
@@ -57,7 +58,7 @@ final class LikedUserListViewModel {
                 self?.currentPage += 1
                 self?.delegate?.reloadLikedUserList()
             } else {
-                
+                self?.delegate?.responseFailed(withError: result.errorMessage)
             }
         }
     }
@@ -86,7 +87,7 @@ final class LikedUserListViewModel {
                 self?.currentPage += 1
                 self?.delegate?.reloadLikedUserList()
             } else {
-                
+                self?.delegate?.responseFailed(withError: result.errorMessage)
             }
         }
     }

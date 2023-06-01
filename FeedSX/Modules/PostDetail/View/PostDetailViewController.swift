@@ -38,6 +38,7 @@ class PostDetailViewController: BaseViewController {
     var selectedCommentSection: Int?
     var postId: String = ""
     var commentId: String?
+    var isViewPost: Bool = true
 
     var viewModel: PostDetailViewModel = PostDetailViewModel()
     let taggingUserList: TaggedUserList =  {
@@ -77,8 +78,7 @@ class PostDetailViewController: BaseViewController {
         sendButton.tintColor = LMBranding.shared.buttonColor
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         postDetailTableView.refreshControl = refreshControl
-//        postDetailTableView.keyboardDismissMode = .onDrag
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .postDetailErrorInApi, object: nil)
         postDetailTableView.sectionHeaderHeight = UITableView.automaticDimension
         postDetailTableView.estimatedSectionHeaderHeight = 75
         
@@ -90,6 +90,7 @@ class PostDetailViewController: BaseViewController {
         postDetailTableView.rowHeight = UITableView.automaticDimension
         postDetailTableView.estimatedRowHeight = 44
         postDetailTableView.separatorStyle = .none
+        self.postDetailTableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
         commentTextView.addSubview(textViewPlaceHolder)
         textViewPlaceHolder.topAnchor.constraint(equalTo: commentTextView.topAnchor, constant: 8).isActive = true
         textViewPlaceHolder.leftAnchor.constraint(equalTo: commentTextView.leftAnchor, constant: 5).isActive = true
@@ -99,7 +100,7 @@ class PostDetailViewController: BaseViewController {
         commentTextView.centerVertically()
         viewModel.getMemberState()
         viewModel.getComments()
-        self.setupTaggingView()
+        
         hideTaggingViewContainer()
         self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
         
@@ -109,6 +110,7 @@ class PostDetailViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setBackButtonIfNotExist()
+        self.setupTaggingView()
     }
     
     func validateCommentRight() {
@@ -121,7 +123,9 @@ class PostDetailViewController: BaseViewController {
             sendButton.isHidden = false
             commentTextView.isUserInteractionEnabled = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                self.commentTextView.becomeFirstResponder()
+                if !self.isViewPost {
+                    self.commentTextView.becomeFirstResponder()
+                }
             }
         }
     }
@@ -151,6 +155,9 @@ class PostDetailViewController: BaseViewController {
         taggingUserList.addConstraints(equalToView: self.taggingUserListContainer)
         taggingUserList.setUp()
         taggingUserList.delegate = self
+        self.taggingUserListContainer.layer.borderWidth = 1
+        self.taggingUserListContainer.layer.borderColor = ColorConstant.disableButtonColor.cgColor
+        taggingUserListContainer.layer.cornerRadius = 8
     }
     
     func setBackButtonIfNotExist() {
@@ -222,6 +229,7 @@ class PostDetailViewController: BaseViewController {
         viewModel.postComment(text: text)
         sendButton.isEnabled = false
         commentTextView.text = ""
+        commentTextView.resignFirstResponder()
     }
     
     @objc
@@ -312,15 +320,6 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
     }
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let position = scrollView.contentOffset.y
-//        guard (scrollView.contentSize.height == (scrollView.frame.size.height + position)), !spinner.isAnimating else {return}
-//        postDetailTableView.tableFooterView?.isHidden = false
-//        print("Next page...")
-//        viewModel.getComments()
-//    }
-    
 }
 
 extension PostDetailViewController: UITextViewDelegate {
@@ -339,9 +338,13 @@ extension PostDetailViewController: UITextViewDelegate {
         if text != "" {
             typeTextRangeInTextView?.location += 1
         }
-        taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
+        if text != " " {
+            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
+        } else {
+            hideTaggingViewContainer()
+        }
 
-        if textView.textColor == LMBranding.shared.textLinkColor {
+        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
             let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
                               NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
             let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
@@ -398,6 +401,10 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         self.subTitleLabel.text = viewModel.totalCommentsCount()
     }
     
+    func reloadSection(_ indexPath: IndexPath) {
+        postDetailTableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
+    }
+    
     
     func didReceivedMemberState() {
         validateCommentRight()
@@ -432,13 +439,14 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
 }
 
 extension PostDetailViewController: CommentHeaderViewCellDelegate {
+    
     func didTapActionButton(withActionType actionType: CellActionType, section: Int?) {
         guard let section = section else {return}
         let selectedComment = viewModel.comments[section-1]
         switch actionType {
         case .like:
             print("like Button Tapped - \(section)")
-            viewModel.likeComment(postId: selectedComment.postId ?? "", commentId: selectedComment.commentId)
+            viewModel.likeComment(postId: selectedComment.postId ?? "", commentId: selectedComment.commentId, section:(section-1), row: nil)
         case .more:
             print("More Button Tapped - \(section)")
             self.selectedReplyIndexPath = nil
@@ -479,16 +487,13 @@ extension PostDetailViewController: ReplyCommentTableViewCellDelegate {
         let selectedComment = viewModel.comments[indexPath.section-1].replies[indexPath.row]
         switch actionType {
         case .like:
-            print("like Button Tapped")
-            viewModel.likeComment(postId: selectedComment.postId ?? "", commentId: selectedComment.commentId)
+            viewModel.likeComment(postId: selectedComment.postId ?? "", commentId: selectedComment.commentId, section:(indexPath.section-1), row: indexPath.row)
         case .more:
             self.selectedReplyIndexPath = indexPath
             self.selectedCommentSection = nil
             self.moreMenuClicked(comment: selectedComment, isReplied: true)
         case .likeCount:
-            print("likecount Button Tapped")
             let postId = selectedComment.postId ?? ""
-            
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: selectedComment.commentId)
             self.navigationController?.pushViewController(likedUserListView, animated: true)
@@ -539,6 +544,7 @@ extension PostDetailViewController: TaggedUserListDelegate {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .transitionCurlUp, animations: {
             self.taggingUserListContainer.alpha = 1
             self.taggingUserListContainerHeightConstraints.constant = heightValue
+            self.taggingUserList.frame = self.taggingUserListContainer.bounds
             self.view.layoutIfNeeded()
             
         }) { finished in

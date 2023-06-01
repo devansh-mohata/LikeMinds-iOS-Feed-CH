@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="561" id="KGk-i7-Jjw" customClass="HomeFeedImageVideoTableViewCell" customModule="LMFeedUI" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="561" id="KGk-i7-Jjw" customClass="HomeFeedImageVideoTableViewCell" customModule="FeedSX" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="371" height="561"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -31,10 +31,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="371" height="435"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r90-Rt-NUU">
-                                        <rect key="frame" x="0.0" y="0.0" width="371" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="371" height="34"/>
                                         <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TnN-ny-eB9" customClass="LMTextView" customModule="LMFeedUI" customModuleProvider="target">
-                                                <rect key="frame" x="10" y="0.0" width="351" height="44"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TnN-ny-eB9" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
+                                                <rect key="frame" x="10" y="0.0" width="351" height="34"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, google.com consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore ma</string>
                                                 <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -52,7 +52,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="alc-yf-csI">
-                                        <rect key="frame" x="0.0" y="49" width="371" height="371"/>
+                                        <rect key="frame" x="0.0" y="39" width="371" height="371"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="CQT-TG-loH">
                                                 <rect key="frame" x="0.0" y="0.0" width="371" height="371"/>
@@ -75,19 +75,19 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3g-3U-495">
-                                        <rect key="frame" x="0.0" y="425" width="371" height="10"/>
+                                        <rect key="frame" x="0.0" y="415" width="371" height="20"/>
                                         <subviews>
                                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Ero-js-alJ">
-                                                <rect key="frame" x="127.66666666666666" y="-8" width="115.66666666666666" height="26"/>
+                                                <rect key="frame" x="127.66666666666666" y="2" width="115.66666666666666" height="26"/>
                                                 <color key="pageIndicatorTintColor" white="0.67000000000000004" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="currentPageIndicatorTintColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </pageControl>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="Ero-js-alJ" firstAttribute="centerY" secondItem="y3g-3U-495" secondAttribute="centerY" id="06a-aB-Y2b"/>
+                                            <constraint firstItem="Ero-js-alJ" firstAttribute="centerY" secondItem="y3g-3U-495" secondAttribute="centerY" constant="5" id="06a-aB-Y2b"/>
                                             <constraint firstItem="Ero-js-alJ" firstAttribute="centerX" secondItem="y3g-3U-495" secondAttribute="centerX" id="VrJ-xh-w3k"/>
-                                            <constraint firstAttribute="height" constant="10" id="mDi-VN-q3F"/>
+                                            <constraint firstAttribute="height" constant="20" id="mDi-VN-q3F"/>
                                         </constraints>
                                     </view>
                                 </subviews>

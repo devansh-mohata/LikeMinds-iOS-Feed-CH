@@ -25,7 +25,7 @@ public class BaseViewController: UIViewController {
         let label = LMLabel()
         label.font = LMBranding.shared.font(18, .medium)
         label.text = ""
-        label.textColor = ColorConstant.navigationTitleColor
+        label.textColor = LMBranding.shared.headerColor.isDarkColor ? .white : ColorConstant.navigationTitleColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -34,7 +34,7 @@ public class BaseViewController: UIViewController {
     let subTitleLabel: LMLabel = {
         let label = LMLabel()
         label.font = LMBranding.shared.font(12, .regular)
-        label.textColor = ColorConstant.navigationTitleColor
+        label.textColor = LMBranding.shared.headerColor.isDarkColor ? .white : ColorConstant.navigationTitleColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -150,6 +150,21 @@ public class BaseViewController: UIViewController {
         self.navigationItem.backBarButtonItem = backItem
     }
     
+    func showErrorAlert(_ title: String? = "Error", message: String?) {
+        print("error message: \(message)")
+        guard let message = message else { return }
+        self.presentAlert(title: title, message: message)
+    }
+    
+    @objc func errorMessage(notification: Notification) {
+        if let errorMessage = notification.object as? String {
+            self.showErrorAlert(message: errorMessage)
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 public class KeyboardHandlingBaseVC: UIViewController {

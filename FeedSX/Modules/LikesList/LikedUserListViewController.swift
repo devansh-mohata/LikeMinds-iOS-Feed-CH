@@ -20,6 +20,7 @@ class LikedUserListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .postDetailErrorInApi, object: nil)
         self.view.backgroundColor = .white
         self.view.addSubview(likedUserTableView)
         likedUserTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
@@ -72,5 +73,9 @@ extension LikedUserListViewController: LikedUserListViewModelDelegate {
         let likes = (self.viewModel?.totalLikes ?? 0)
         self.subTitleLabel.text = likes > 1 ? "\(likes) likes" : "\(likes) like"
         self.likedUserTableView.reloadData()
+    }
+    
+    func responseFailed(withError error: String?) {
+        self.showErrorAlert(message: error)
     }
 }

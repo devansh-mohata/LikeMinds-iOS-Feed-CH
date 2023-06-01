@@ -39,7 +39,7 @@ class CreatePostViewController: BaseViewController {
         label.numberOfLines = 1
         label.font = LMBranding.shared.font(16, .regular)
         label.textColor = .lightGray
-        label.text = "Write Description"
+        label.text = " Write Description"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -57,6 +57,7 @@ class CreatePostViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .createPostErrorInApi, object: nil)
         self.userProfileImage.makeCircleView()
         captionTextView.delegate = self
         captionTextView.addSubview(placeholderLabel)
@@ -86,7 +87,6 @@ class CreatePostViewController: BaseViewController {
         self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
         self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.setupProfileData()
-        self.setupTaggingView()
         self.setTitleAndSubtile(title: "Create a post", subTitle: nil)
         self.hideTaggingViewContainer()
         self.pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
@@ -94,6 +94,7 @@ class CreatePostViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.setupTaggingView()
     }
     
     func setupTaggingView() {
@@ -101,6 +102,8 @@ class CreatePostViewController: BaseViewController {
         taggingUserList.addConstraints(equalToView: self.taggingListViewContainer)
         taggingUserList.setUp()
         taggingUserList.delegate = self
+        self.taggingListViewContainer.layer.borderWidth = 1
+        self.taggingListViewContainer.layer.borderColor = ColorConstant.disableButtonColor.cgColor
 //        taggingListViewContainer.addShadow()
         taggingListViewContainer.layer.cornerRadius = 8
         
@@ -152,11 +155,11 @@ class CreatePostViewController: BaseViewController {
 
     }
     
-    func openImagePicker(_ mediaType: Settings.Fetch.Assets.MediaTypes) {
+    func openImagePicker(_ mediaType: Settings.Fetch.Assets.MediaTypes, forAddMore: Bool = false) {
         let imagePicker = ImagePickerController()
         imagePicker.settings.selection.max = (10 - self.viewModel.imageAndVideoAttachments.count)
         imagePicker.settings.theme.selectionStyle = .numbered
-        imagePicker.settings.fetch.assets.supportedMediaTypes = [mediaType]
+        imagePicker.settings.fetch.assets.supportedMediaTypes = forAddMore ? [.image, .video] : [mediaType]
         imagePicker.settings.selection.unselectOnReachingMax = true
         self.viewModel.currentSelectedUploadeType = mediaType == .image ? .image : .video
         let start = Date()
@@ -199,9 +202,9 @@ class CreatePostViewController: BaseViewController {
     @objc func addMoreAction() {
         switch self.viewModel.currentSelectedUploadeType {
         case .image:
-            openImagePicker(.image)
+            openImagePicker(.image, forAddMore: true)
         case .video:
-            openImagePicker(.video)
+            openImagePicker(.video, forAddMore: true)
         case .document:
             openDocumentPicker()
         default:
@@ -212,7 +215,7 @@ class CreatePostViewController: BaseViewController {
     func enablePostButton() {
         let imageVideoCount = self.viewModel.imageAndVideoAttachments.count != 0
         let documentCount = self.viewModel.documentAttachments.count != 0
-        let captionText = !captionTextView.text.isEmpty
+        let captionText = !captionTextView.trimmedText().isEmpty
         postButtonItem?.isEnabled = imageVideoCount || documentCount || captionText
     }
 }
@@ -339,12 +342,15 @@ extension CreatePostViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+        enablePostButton()
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+        enablePostButton()
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = true
+        enablePostButton()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -359,9 +365,13 @@ extension CreatePostViewController: UITextViewDelegate {
         if text != "" {
             typeTextRangeInTextView?.location += 1
         }
-        taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
+        if text != " " {
+            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
+        } else {
+            hideTaggingViewContainer()
+        }
         enablePostButton()
-        if textView.textColor == LMBranding.shared.textLinkColor {
+        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
             let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
                               NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
             let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
@@ -507,6 +517,7 @@ extension CreatePostViewController: TaggedUserListDelegate {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .transitionCurlUp, animations: {
             self.taggingListViewContainer.alpha = 1
             self.taggingViewHeightConstraint.constant = heightValue
+            self.taggingUserList.frame = self.taggingListViewContainer.bounds
             self.view.layoutIfNeeded()
             
         }) { finished in

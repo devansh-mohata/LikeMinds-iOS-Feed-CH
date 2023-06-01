@@ -46,8 +46,8 @@ class DeleteContentViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initialSetups()
         viewModel.delegate = self
+        initialSetups()
         validateUserView()
         reasonTextViewHideAndShow()
     }
@@ -231,7 +231,9 @@ extension DeleteContentViewController: DeleteContentViewModelProtocol {
     }
     
     func didReceivedDeletePostResponse(with error: String?) {
-        self.presentAlert(message: error ?? "")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.presentAlert(message: error ?? "")
+        }
     }
 }
 

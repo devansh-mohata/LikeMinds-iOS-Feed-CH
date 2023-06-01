@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreatePostViewController" customModule="LMFeedUI" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreatePostViewController" customModule="FeedSX" customModuleProvider="target">
             <connections>
                 <outlet property="addMoreButton" destination="lhY-A7-EHP" id="9ng-an-Gal"/>
                 <outlet property="attachmentCollectionView" destination="2hq-Zi-idj" id="7wr-p1-bxw"/>
@@ -37,7 +37,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="luD-tG-AFY">
-                    <rect key="frame" x="0.0" y="50" width="375" height="600"/>
+                    <rect key="frame" x="0.0" y="57" width="375" height="593"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L0g-2K-JXQ">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="668"/>
@@ -58,7 +58,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="vGX-dJ-tSo">
                                                     <rect key="frame" x="50" y="10.333333333333327" width="293" height="19.333333333333329"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pushpendra" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7V0-M8-hoS" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pushpendra" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7V0-M8-hoS" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="89.666666666666671" height="19.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                             <nil key="textColor"/>
@@ -67,13 +67,13 @@
                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5fx-5n-ZeS">
                                                             <rect key="frame" x="0.0" y="0.0" width="147" height="0.0"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post in: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdt-uR-Cql" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post in: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdt-uR-Cql" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="45.666666666666664" height="0.0"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.6705882353" green="0.6705882353" blue="0.6705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Building" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYu-lc-m4c" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Building" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYu-lc-m4c" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
                                                                     <rect key="frame" x="50.666666666666679" y="0.0" width="96.333333333333314" height="0.0"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                                     <color key="textColor" systemColor="systemPurpleColor"/>
@@ -100,7 +100,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yhw-nb-Mgg" userLabel="CaptionView">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="145"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dIc-YX-JVA" customClass="LMTextView" customModule="LMFeedUI" customModuleProvider="target">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dIc-YX-JVA" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="0.0" width="355" height="140"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -159,7 +159,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lN4-vC-L9M">
                                             <rect key="frame" x="0.0" y="558" width="375" height="50"/>
                                             <subviews>
-                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhY-A7-EHP" customClass="LMButton" customModule="LMFeedUI" customModuleProvider="target">
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhY-A7-EHP" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="112.66666666666669" y="5" width="150" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="150" id="9W6-AV-TM4"/>
@@ -182,24 +182,15 @@
                                         </view>
                                     </subviews>
                                 </stackView>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XZE-Np-r9Z" userLabel="TaggingListContainer">
-                                    <rect key="frame" x="0.0" y="190" width="375" height="60"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="60" id="Ajr-C5-Jnx"/>
-                                    </constraints>
-                                </view>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstItem="XZE-Np-r9Z" firstAttribute="leading" secondItem="iwM-HR-YoK" secondAttribute="leading" id="Agv-m4-tNe"/>
                                 <constraint firstItem="iwM-HR-YoK" firstAttribute="top" secondItem="Gup-ER-zkn" secondAttribute="bottom" constant="10" id="IEZ-cs-OaC"/>
-                                <constraint firstItem="XZE-Np-r9Z" firstAttribute="trailing" secondItem="iwM-HR-YoK" secondAttribute="trailing" id="U9S-L7-JA7"/>
                                 <constraint firstAttribute="trailing" secondItem="Gup-ER-zkn" secondAttribute="trailing" id="URA-L1-dI9"/>
                                 <constraint firstItem="iwM-HR-YoK" firstAttribute="leading" secondItem="L0g-2K-JXQ" secondAttribute="leading" id="VTO-e5-BuJ"/>
                                 <constraint firstAttribute="trailing" secondItem="iwM-HR-YoK" secondAttribute="trailing" id="XYa-w4-BwA"/>
                                 <constraint firstAttribute="bottom" secondItem="iwM-HR-YoK" secondAttribute="bottom" id="g4e-xd-CwX"/>
                                 <constraint firstItem="Gup-ER-zkn" firstAttribute="leading" secondItem="L0g-2K-JXQ" secondAttribute="leading" id="rUp-2c-DbS"/>
-                                <constraint firstItem="XZE-Np-r9Z" firstAttribute="top" secondItem="dIc-YX-JVA" secondAttribute="bottom" constant="-10" id="wDN-lx-fc7"/>
                                 <constraint firstItem="Gup-ER-zkn" firstAttribute="top" secondItem="L0g-2K-JXQ" secondAttribute="top" id="zIV-9a-j1g"/>
                             </constraints>
                         </view>
@@ -230,16 +221,25 @@
                         <constraint firstAttribute="bottom" secondItem="kId-gs-Li4" secondAttribute="bottom" id="wkQ-ds-iuH"/>
                     </constraints>
                 </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XZE-Np-r9Z" userLabel="TaggingListContainer">
+                    <rect key="frame" x="10" y="257" width="355" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="Ajr-C5-Jnx"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="luD-tG-AFY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="DGU-6l-MPP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="f74-bF-iIH" secondAttribute="bottom" id="IZe-yO-Abp"/>
+                <constraint firstItem="XZE-Np-r9Z" firstAttribute="trailing" secondItem="dIc-YX-JVA" secondAttribute="trailing" id="N6a-h7-iqH"/>
                 <constraint firstItem="f74-bF-iIH" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="V8x-tF-wgi"/>
+                <constraint firstItem="XZE-Np-r9Z" firstAttribute="top" secondItem="dIc-YX-JVA" secondAttribute="bottom" id="Wnz-SX-Hfv"/>
+                <constraint firstItem="XZE-Np-r9Z" firstAttribute="leading" secondItem="dIc-YX-JVA" secondAttribute="leading" id="dd5-mC-IhT"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="luD-tG-AFY" secondAttribute="trailing" id="dr2-vp-Hi5"/>
                 <constraint firstItem="luD-tG-AFY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="i91-Pz-6fg"/>
-                <constraint firstItem="luD-tG-AFY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="kqk-Cf-MkW"/>
+                <constraint firstItem="luD-tG-AFY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="kqk-Cf-MkW"/>
                 <constraint firstItem="f74-bF-iIH" firstAttribute="top" secondItem="luD-tG-AFY" secondAttribute="bottom" id="vWI-pL-Gjt"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="f74-bF-iIH" secondAttribute="trailing" id="y3Y-Gi-gnf"/>
             </constraints>

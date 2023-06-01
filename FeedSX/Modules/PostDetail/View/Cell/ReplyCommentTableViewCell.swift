@@ -21,7 +21,7 @@ class ReplyCommentTableViewCell: UITableViewCell {
         sv.axis  = .vertical
         sv.alignment = .fill
         sv.distribution = .fill
-        sv.spacing = 5
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -58,7 +58,6 @@ class ReplyCommentTableViewCell: UITableViewCell {
     
     var badgeSpaceView: UIView = {
         let uiView = UIView()
-        uiView.backgroundColor = .red
         uiView.translatesAutoresizingMaskIntoConstraints = false
         return uiView
     }()
@@ -87,22 +86,20 @@ class ReplyCommentTableViewCell: UITableViewCell {
     
     var spaceView: UIView = {
         let uiView = UIView()
-        uiView.backgroundColor = .red
         uiView.translatesAutoresizingMaskIntoConstraints = false
         return uiView
     }()
     
     let moreImageView: UIImageView = {
         let menuImageSize = 30
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: menuImageSize, height: menuImageSize))
-        imageView.backgroundColor = .white
+        let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: "ellipsis")
-        imageView.tintColor = .darkGray
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: 24, height: 22)
         return imageView
     }()
     
@@ -132,16 +129,20 @@ class ReplyCommentTableViewCell: UITableViewCell {
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: "suit.heart")
-        imageView.tintColor = .darkGray
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 15, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
         return imageView
     }()
     
     let likeCountLabel: LMLabel = {
-        let label = LMLabel()
-        label.textColor = .gray
+        let label = LMPaddedLabel()
+        label.paddingLeft = 5
+        label.paddingRight = 5
+        label.paddingTop = 5
+        label.paddingBottom = 5
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = "Like"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -156,7 +157,7 @@ class ReplyCommentTableViewCell: UITableViewCell {
     
     let timeLabel: LMLabel = {
         let label = LMLabel()
-        label.textColor = .gray
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = "2h"
         label.textAlignment = .right
@@ -203,6 +204,10 @@ class ReplyCommentTableViewCell: UITableViewCell {
             commentHeaderStackView.trailingAnchor.constraint(equalTo: g.trailingAnchor),
             commentHeaderStackView.bottomAnchor.constraint(equalTo: g.bottomAnchor)
         ])
+        likeImageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        likeImageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        moreImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        moreImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     private func setupActions() {
@@ -220,17 +225,17 @@ class ReplyCommentTableViewCell: UITableViewCell {
     func setupDataView(comment: PostDetailDataModel.Comment) {
         self.comment = comment
         self.usernameLabel.text = comment.user.name
-        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false)
+        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false, withFont: LMBranding.shared.font(14, .regular))
         self.likeCountLabel.text = comment.likeCounts()
         self.timeLabel.text = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
         likeDataView()
     }
 
     @objc private func likeTapped(sender: LMTapGesture) {
-        delegate?.didTapActionButton(withActionType: .like, cell: self)
         let isLike = !(self.comment?.isLiked ?? false)
         self.comment?.isLiked = isLike
         self.comment?.likedCount += isLike ? 1 : -1
+        delegate?.didTapActionButton(withActionType: .like, cell: self)
         likeDataView()
     }
     

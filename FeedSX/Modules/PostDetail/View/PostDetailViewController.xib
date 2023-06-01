@@ -30,7 +30,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Yrn-8d-oPh">
-                    <rect key="frame" x="0.0" y="59" width="393" height="677"/>
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="770"/>
                     <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="yWi-ng-s1a"/>
@@ -38,13 +38,13 @@
                     </connections>
                 </tableView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0iu-bZ-XGz" userLabel="TaggingUserListContainer">
-                    <rect key="frame" x="0.0" y="676" width="393" height="60"/>
+                    <rect key="frame" x="16" y="710" width="361" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="aqo-hj-ioz"/>
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oh9-q9-ezv">
-                    <rect key="frame" x="0.0" y="736" width="393" height="82"/>
+                    <rect key="frame" x="0.0" y="770" width="393" height="82"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eRL-5F-RDO" userLabel="ReplyToUser">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="32"/>
@@ -139,10 +139,10 @@
             <constraints>
                 <constraint firstItem="oh9-q9-ezv" firstAttribute="top" secondItem="Yrn-8d-oPh" secondAttribute="bottom" id="5w6-JA-ETl"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Yrn-8d-oPh" secondAttribute="trailing" id="Jcg-0e-4Py"/>
-                <constraint firstItem="0iu-bZ-XGz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="La6-bv-vWQ"/>
+                <constraint firstItem="0iu-bZ-XGz" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="-16" id="La6-bv-vWQ"/>
                 <constraint firstItem="oh9-q9-ezv" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="O1D-6G-tGU"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="oh9-q9-ezv" secondAttribute="bottom" id="RYT-Bn-LE8"/>
-                <constraint firstItem="0iu-bZ-XGz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="aQ5-yB-h9T"/>
+                <constraint firstItem="0iu-bZ-XGz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="aQ5-yB-h9T"/>
                 <constraint firstItem="oh9-q9-ezv" firstAttribute="top" secondItem="0iu-bZ-XGz" secondAttribute="bottom" id="bbF-5d-bCi"/>
                 <constraint firstItem="Yrn-8d-oPh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="cjH-Yf-FcA"/>
                 <constraint firstItem="Yrn-8d-oPh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="jAd-d4-Z4J"/>

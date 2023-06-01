@@ -13,10 +13,10 @@ protocol PostDetailViewModelDelegate: AnyObject {
     func didReceiveCommentsReply()
     func insertAndScrollToRecentComment(_ indexPath: IndexPath)
     func didReceivedMemberState()
+    func reloadSection(_ indexPath: IndexPath)
 }
 
 final class PostDetailViewModel {
-    
     var comments: [PostDetailDataModel.Comment] = []
     var postDetail: PostFeedDataView?
     private var commentCurrentPage: Int = 1
@@ -28,6 +28,14 @@ final class PostDetailViewModel {
     var postId: String = ""
     var taggedUsers: [User] = []
     var replyOnComment: PostDetailDataModel.Comment?
+    
+    func notifyObjectChanges() {
+        NotificationCenter.default.post(name: .refreshHomeFeedDataObject, object: postDetail)
+    }
+    
+    func postErrorMessageNotification(error: String?) {
+        NotificationCenter.default.post(name: .postDetailErrorInApi, object: error)
+    }
     
     func postComment(text: String) {
         let parsedTaggedUserText = self.editAnswerTextWithTaggedList(text: text)
@@ -77,6 +85,9 @@ final class PostDetailViewModel {
             .pageSize(commentPageSize)
         self.isCommentLoading = true
         LMFeedClient.shared.getPost(request) {[weak self] response in
+            if response.success == false {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
             guard let postDetails = response.data?.post, let users =  response.data?.users else {
                 self?.isCommentLoading = false
                 return
@@ -104,6 +115,9 @@ final class PostDetailViewModel {
             .page(repliesCurrentPage)
             .pageSize(5)
         LMFeedClient.shared.getComment(request) {[weak self] response in
+            if response.success == false {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 self?.isCommentRepliesLoading = false
                 return
@@ -121,6 +135,9 @@ final class PostDetailViewModel {
     private func postCommentOnPost(_ comment: String) {
         let request = AddCommentRequest(postId: self.postId, text: comment)
         LMFeedClient.shared.addComment(request) { [weak self] response in
+            if response.success == false {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
@@ -128,12 +145,16 @@ final class PostDetailViewModel {
             self?.postDetail?.commentCount += 1
             self?.comments.insert(postComment, at: 0)
             self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: NSNotFound, section: 1))
+            self?.notifyObjectChanges()
         }
     }
     
     private func postCommentsReply(commentId: String, comment: String) {
         let request = ReplyOnCommentRequest(postId: self.postId, text: comment, commentId: commentId)
         LMFeedClient.shared.replyOnComment(request) { [weak self] response in
+            if response.success == false {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
@@ -150,33 +171,53 @@ final class PostDetailViewModel {
     
     func likePost(postId: String) {
         let request = LikePostRequest(postId: postId)
-        LMFeedClient.shared.likePost(request) { response in
+        LMFeedClient.shared.likePost(request) {[weak self] response in
             if response.success {
-                
+                self?.notifyObjectChanges()
             } else {
                 print(response.errorMessage)
+                let isLike = !(self?.postDetail?.isLiked ?? false)
+                self?.postDetail?.isLiked = isLike
+                self?.postDetail?.likedCount += isLike ? 1 : -1
+                self?.delegate?.reloadSection(IndexPath(row: 0, section: 0))
+                self?.postErrorMessageNotification(error: response.errorMessage)
             }
         }
     }
     
-    func likeComment(postId: String, commentId: String) {
+    func likeComment(postId: String, commentId: String, section: Int?, row: Int?) {
         let request = LikeCommentRequest(postId: postId, commentId: commentId)
-        LMFeedClient.shared.likeComment(request) { response in
+        LMFeedClient.shared.likeComment(request) { [weak self] response in
             if response.success {
-                
+//                self?.notifyObjectChanges()
             } else {
                 print(response.errorMessage)
+                if let section = section, var comment = self?.comments[section] {
+                    var tmpRow: Int = 0
+                    if let row = row {
+                        comment =  comment.replies[row]
+                        tmpRow = row
+                    }
+                    let isLike = !(comment.isLiked)
+                    comment.isLiked = isLike
+                    comment.likedCount += isLike ? 1 : -1
+                    self?.delegate?.reloadSection(IndexPath(row: tmpRow, section: section))
+                }
+                self?.postErrorMessageNotification(error: response.errorMessage)
             }
         }
     }
 
     func savePost(postId: String) {
         let request = SavePostRequest(postId: postId)
-        LMFeedClient.shared.savePost(request) { response in
+        LMFeedClient.shared.savePost(request) { [weak self] response in
             if response.success {
-                
+                self?.notifyObjectChanges()
             } else {
                 print(response.errorMessage)
+                self?.postDetail?.isSaved = !(self?.postDetail?.isSaved ?? false)
+                self?.delegate?.reloadSection(IndexPath(row: 0, section: 0))
+                self?.postErrorMessageNotification(error: response.errorMessage)
             }
         }
     }

@@ -16,6 +16,9 @@ public final class HomeFeedViewControler: BaseViewController {
     let homeFeedViewModel = HomeFeedViewModel()
     let refreshControl = UIRefreshControl()
     var bottomLoadSpinner: UIActivityIndicatorView!
+    fileprivate var lastKnowScrollViewContentOfsset: CGFloat = 0
+    private var createButtonWidthConstraints: NSLayoutConstraint?
+    
     let createPostButton: LMButton = {
         let createPost = LMButton()
         createPost.setImage(UIImage(systemName: "calendar.badge.plus"), for: .normal)
@@ -33,6 +36,7 @@ public final class HomeFeedViewControler: BaseViewController {
         sv.axis  = .vertical
         sv.alignment = .fill
         sv.distribution = .fill
+        sv.backgroundColor = .white
         sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
@@ -79,16 +83,15 @@ public final class HomeFeedViewControler: BaseViewController {
     let leftTitleLabel: LMLabel = {
         let label = LMLabel()
         label.font = LMBranding.shared.font(24, .medium)
-        label.textColor = .white
+        label.textColor = LMBranding.shared.headerColor.isDarkColor ? .white : ColorConstant.navigationTitleColor
         label.text = "Scalix"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
     var spaceView: UIView = {
         let uiView = UIView()
-        uiView.backgroundColor = .red
         uiView.translatesAutoresizingMaskIntoConstraints = false
         return uiView
     }()
@@ -114,6 +117,8 @@ public final class HomeFeedViewControler: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationCompleted), name: .postCreationCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationStarted), name: .postCreationStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshFeed), name: .refreshHomeFeedData, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshDataObject), name: .refreshHomeFeedDataObject, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .homeFeedErrorInApi, object: nil)
 //        self.setTitleAndSubtile(title: "Home Feed", subTitle: nil)
         self.setRightItemsOfNavigationBar()
         self.setLeftItemOfNavigationBar()
@@ -129,25 +134,31 @@ public final class HomeFeedViewControler: BaseViewController {
         pauseAllVideo()
     }
     
+    @objc func refreshDataObject(notification: Notification) {
+        if let postData = notification.object as? PostFeedDataView {
+            self.homeFeedViewModel.refreshFeedDataObject(postData)
+            guard let index = homeFeedViewModel.feeds.firstIndex(where: {$0.postId == postData.postId}) else {return }
+            self.feedTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        }
+    }
+
     func setRightItemsOfNavigationBar() {
-        let containView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        let profileImageview = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        let containView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        let profileImageview = UIImageView(frame: CGRect(x: 0, y: 0, width: 34, height: 34))
+        profileImageview.center = containView.center
         profileImageview.makeCircleView()
         profileImageview.setImage(withUrl: LocalPrefrerences.getUserData()?.imageUrl ?? "", placeholder: UIImage.generateLetterImage(with:  LocalPrefrerences.getUserData()?.name ?? ""))
         
         containView.addSubview(profileImageview)
         let profileBarButton = UIBarButtonItem(customView: containView)
-        let notificationFeedBarButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.bellFillIcon), style: .plain, target: self, action: #selector(notificationIconClicked))
-        notificationFeedBarButton.tintColor = ColorConstant.textBlackColor
-        notificationFeedBarButton.addBadge(number: 2)
-        self.navigationItem.rightBarButtonItems = [profileBarButton, notificationFeedBarButton]
+//        let notificationFeedBarButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.bellFillIcon), style: .plain, target: self, action: #selector(notificationIconClicked))
+//        notificationFeedBarButton.tintColor = ColorConstant.textBlackColor
+//        notificationFeedBarButton.addBadge(number: 2)
+        self.navigationItem.rightBarButtonItems = [profileBarButton]
     }
     
     func setLeftItemOfNavigationBar() {
-        let containView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        leftTitleLabel.center = containView.center
-        containView.addSubview(leftTitleLabel)
-        let leftItem = UIBarButtonItem(customView: containView)
+        let leftItem = UIBarButtonItem(customView: leftTitleLabel)
         self.navigationItem.leftBarButtonItem = leftItem
     }
     
@@ -155,10 +166,12 @@ public final class HomeFeedViewControler: BaseViewController {
         print("postCreationStarted")
         self.postingImageSuperView.superview?.isHidden = false
         if let image = notification.object as? UIImage {
+            postingImageView.superview?.isHidden = false
             postingImageView.image = image
         } else {
-            postingImageView.image = UIImage(systemName: "photo")
+            self.postingImageSuperView.superview?.isHidden = true
         }
+        self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
     
     @objc func postCreationCompleted(notification: Notification) {
@@ -169,6 +182,7 @@ public final class HomeFeedViewControler: BaseViewController {
             return
         }
         refreshFeed()
+        self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
     
     
@@ -202,7 +216,10 @@ public final class HomeFeedViewControler: BaseViewController {
     func setupCreateButton() {
         createPostButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         createPostButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
-        createPostButton.setSizeConstraint(width: 150, height: 50)
+//        createPostButton.setSizeConstraint(width: 150, height: 50)
+        createButtonWidthConstraints = createPostButton.widthAnchor.constraint(equalToConstant: 150)
+        createButtonWidthConstraints?.isActive = true
+        createPostButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         createPostButton.setInsets(forContentPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), imageTitlePadding: 10)
         createPostButton.layer.cornerRadius = 25
     }
@@ -239,6 +256,33 @@ public final class HomeFeedViewControler: BaseViewController {
         let notificationFeedVC = NotificationFeedViewController()
         self.navigationController?.pushViewController(notificationFeedVC, animated: true)
     }
+    
+    func newPostButtonExapndAndCollapes(_ offsetY: CGFloat) {
+        if offsetY > self.lastKnowScrollViewContentOfsset {
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration:0.2) { [weak self] in
+                guard let weakSelf = self else {return}
+                weakSelf.createPostButton.setTitle(nil, for: .normal)
+                weakSelf.createPostButton.setInsets(forContentPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), imageTitlePadding: 0)
+                self?.createButtonWidthConstraints?.isActive = false
+                self?.createButtonWidthConstraints = self?.createPostButton.widthAnchor.constraint(equalToConstant: 50.0)
+                self?.createButtonWidthConstraints?.isActive = true
+                weakSelf.view.layoutIfNeeded()
+            }
+        }
+        else {
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.2) {[weak self] in
+                guard let weakSelf = self else {return}
+                weakSelf.createPostButton.setTitle("NEW POST", for: .normal)
+                weakSelf.createPostButton.setInsets(forContentPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), imageTitlePadding: 10)
+                self?.createButtonWidthConstraints?.isActive = false
+                self?.createButtonWidthConstraints = self?.createPostButton.widthAnchor.constraint(equalToConstant: 150.0)
+                self?.createButtonWidthConstraints?.isActive = true
+                weakSelf.view.layoutIfNeeded()
+            }
+        }
+    }
 }
 
 extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
@@ -274,16 +318,25 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let postData = homeFeedViewModel.feeds[indexPath.row]
+        let postId = postData.postId 
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        postDetail.postId = postId
+        self.navigationController?.pushViewController(postDetail, animated: true)
+    }
+
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.lastKnowScrollViewContentOfsset = scrollView.contentOffset.y
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
+        newPostButtonExapndAndCollapes(offsetY)
         let contentHeight = scrollView.contentSize.height
         checkWhichVideoToEnable()
         if offsetY > contentHeight - (scrollView.frame.height + 60) && !bottomLoadSpinner.isAnimating && !homeFeedViewModel.isFeedLoading
         {
-            bottomLoadSpinner.startAnimating()
+//            bottomLoadSpinner.startAnimating()
             homeFeedViewModel.getFeed()
         }
     }
@@ -305,7 +358,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
                 if visibleHeight > self.view.bounds.size.height * 0.6 {  // only if 60% of the cell is visible.
                     //cell is visible more than 60%
                     cell.playVisibleVideo()
-                    print(indexPath?.row) //your visible cell.
+//                    print(indexPath?.row) //your visible cell.
                 }
             } else {
                 (cell as? HomeFeedImageVideoTableViewCell)?.pauseAllInVisibleVideos()
@@ -337,6 +390,10 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
             self.createPostButton.backgroundColor = .lightGray
         }
     }
+    
+    func reloadSection(_ indexPath: IndexPath) {
+        self.feedTableView.reloadRows(at: [indexPath], with: .none)
+    }
 }
 
 extension HomeFeedViewControler: ProfileHeaderViewDelegate {
@@ -348,7 +405,6 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
             switch menu.id {
             case .report:
                 actionSheet.addAction(withOptions: menu.name) {
-                    print("report menu clicked \(selectedPost?.caption)")
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = selectedPost?.postId
                     reportContent.entityCreatorId = selectedPost?.feedByUser?.userId
@@ -357,7 +413,6 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                 }
             case .delete:
                 actionSheet.addAction(withOptions: menu.name) {
-                    print("delete post menu clicked \(selectedPost?.caption)")
                     let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
                     deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = selectedPost?.postId
@@ -368,12 +423,23 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
             case .edit:
 //                actionSheet.addAction(withOptions: menu.name) {}
                 break
+            case .pin:
+                break
+            case .unpin:
+                break
             default:
                 break
             }
         }
         actionSheet.addCancelAction(withOptions: "Cancel", actionHandler: nil)
         self.present(actionSheet, animated: true)
+    }
+    
+    func didTapOnFeedCollection(_ feedDataView: PostFeedDataView?) {
+        guard let postId = feedDataView?.postId else {return}
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        postDetail.postId = postId
+        self.navigationController?.pushViewController(postDetail, animated: true)
     }
 }
 
@@ -391,6 +457,7 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             guard let postId = postData?.postId else { return }
             let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
             postDetail.postId = postId
+            postDetail.isViewPost = false
             self.navigationController?.pushViewController(postDetail, animated: true)
         case .likeCount:
             guard let postId = postData?.postId, (postData?.likedCount ?? 0) > 0 else { return }
@@ -411,5 +478,17 @@ extension HomeFeedViewControler: DeleteContentViewProtocol {
     func didReceivedDeletePostResponse(postId: String, commentId: String?) {
         homeFeedViewModel.feeds.removeAll(where: {$0.postId == postId})
         feedTableView.reloadData()
+    }
+}
+extension HomeFeedViewControler: HomeFeedDocumentTableViewCellDelegate {
+    
+    func didClickedOnDocument() {
+    }
+    
+    func didTapOnCell(_ feedDataView: PostFeedDataView?) {
+        guard let postId = feedDataView?.postId else { return }
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        postDetail.postId = postId
+        self.navigationController?.pushViewController(postDetail, animated: true)
     }
 }

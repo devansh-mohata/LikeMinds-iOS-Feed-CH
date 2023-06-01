@@ -26,7 +26,6 @@ class LikedUserTableViewCell: UITableViewCell {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
         imageView.image = UIImage(systemName: "person.circle")
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = .red
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setSizeConstraint(width: imageSize, height: imageSize)
         imageView.drawCornerRadius(radius: CGSize(width: imageSize, height: imageSize))

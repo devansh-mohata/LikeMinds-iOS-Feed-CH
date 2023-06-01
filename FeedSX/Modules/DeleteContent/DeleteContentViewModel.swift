@@ -34,7 +34,7 @@ final class DeleteContentViewModel {
                 self?.reasons = tags
                 self?.delegate?.didReceivedReportTags()
             } else {
-                
+                self?.delegate?.didReceivedDeletePostResponse(with: result.errorMessage)
             }
         }
     }

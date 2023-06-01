@@ -9,7 +9,11 @@ import UIKit
 import Kingfisher
 
 protocol HomeFeedTableViewCellDelegate: AnyObject {
-    
+    func didTapOnFeedCollection(_ feedDataView: PostFeedDataView?)
+}
+
+extension HomeFeedTableViewCellDelegate {
+    func didTapOnFeedCollection(_ feedDataView: PostFeedDataView?) {}
 }
 
 class HomeFeedImageVideoTableViewCell: UITableViewCell {
@@ -59,11 +63,24 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
+        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
+        captionLabel.isUserInteractionEnabled = true
+        captionLabel.addGestureRecognizer(textViewTapGesture)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+    }
+    
+    @objc func tappedTextView(tapGesture: LMTapGesture) {
+        guard let textView = tapGesture.view as? LMTextView else { return }
+        guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
+        if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
+            UIApplication.shared.open(url)
+        } else {
+            delegate?.didTapOnFeedCollection(self.feedData)
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -88,6 +105,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
+        self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
@@ -149,8 +167,8 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         self.captionLabel.text = caption
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
-        let numLines = captionLabel.contentSize.height/captionLabel.font!.lineHeight
-        print("number ofline of post : \(numLines)")
+//        let numLines = captionLabel.contentSize.height/captionLabel.font!.lineHeight
+//        print("number ofline of post : \(numLines)")
     }
     
 }
@@ -241,6 +259,8 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
             }
             guard let url = myURL else { return }
             UIApplication.shared.open(url)
+        } else {
+            delegate?.didTapOnFeedCollection(self.feedData)
         }
     }
     

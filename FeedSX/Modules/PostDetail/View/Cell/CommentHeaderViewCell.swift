@@ -22,7 +22,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         sv.axis  = .vertical
         sv.alignment = .fill
         sv.distribution = .fill
-        sv.spacing = 10
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -32,7 +32,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         sv.axis  = .vertical
         sv.alignment = .fill
         sv.distribution = .fill
-        sv.spacing = 5
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -104,14 +104,13 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     let moreImageView: UIImageView = {
         let menuImageSize = 30.0
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: menuImageSize, height: menuImageSize))
-        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.moreIcon)
-        imageView.tintColor = .darkGray
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: 27, height: 23)
         return imageView
     }()
     
@@ -120,7 +119,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 8
+        sv.spacing = 5
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -130,7 +129,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 8
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -141,16 +140,20 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.likeIcon)
-        imageView.tintColor = .darkGray
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 15, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
         return imageView
     }()
     
     let likeCountLabel: LMLabel = {
-        let label = LMLabel()
-        label.textColor = .gray
+        let label = LMPaddedLabel()
+        label.paddingLeft = 0
+        label.paddingRight = 5
+        label.paddingTop = 10
+        label.paddingBottom = 10
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = "Like"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -161,7 +164,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         let label = LMLabel()
         label.font = LMBranding.shared.font(16, .regular)
         label.text = "|"
-        label.textColor = .gray
+        label.textColor = ColorConstant.likeTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -171,14 +174,18 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 8
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
     
     let replyLabel: LMLabel = {
-        let label = LMLabel()
-        label.textColor = .gray
+        let label = LMPaddedLabel()
+        label.paddingLeft = 0
+        label.paddingRight = 4
+        label.paddingTop = 10
+        label.paddingBottom = 10
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = "Reply"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -186,7 +193,11 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     }()
     
     let replyCountLabel: LMLabel = {
-        let label = LMLabel()
+        let label = LMPaddedLabel()
+        label.paddingLeft = 0
+        label.paddingRight = 0
+        label.paddingTop = 10
+        label.paddingBottom = 10
         label.textColor = LMBranding.shared.buttonColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = ""
@@ -202,7 +213,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     
     let timeLabel: LMLabel = {
         let label = LMLabel()
-        label.textColor = .gray
+        label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = ""
         label.textAlignment = .right
@@ -256,6 +267,11 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
             commentHeaderStackView.trailingAnchor.constraint(equalTo: g.trailingAnchor),
             commentHeaderStackView.bottomAnchor.constraint(equalTo: g.bottomAnchor)
         ])
+        
+        likeImageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        likeImageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        moreImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        moreImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     private func setupActions() {
@@ -279,7 +295,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     func setupDataView(comment: PostDetailDataModel.Comment) {
         self.comment = comment
         self.usernameLabel.text = comment.user.name
-        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false)
+        self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false, withFont: LMBranding.shared.font(14, .regular))
         self.likeCountLabel.text = comment.likeCounts()
         self.replyCountLabel.text = comment.repliesCounts()
         self.timeLabel.text = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
@@ -287,10 +303,10 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     }
     
     @objc private func likeTapped(sender: LMTapGesture) {
-        delegate?.didTapActionButton(withActionType: .like, section: self.section)
         let isLike = !(self.comment?.isLiked ?? false)
         self.comment?.isLiked = isLike
         self.comment?.likedCount += isLike ? 1 : -1
+        delegate?.didTapActionButton(withActionType: .like, section: self.section)
         likeDataView()
     }
     

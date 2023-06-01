@@ -27,6 +27,7 @@ class LinkCollectionViewCell: UICollectionViewCell {
         linkDetailContainerView.layer.borderWidth = 1
         linkDetailContainerView.layer.cornerRadius = 8
         linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
+        linkThumbnailImageView.tintColor = .white
         linkDetailContainerView.clipsToBounds = true
         linkThumbnailImageView.contentMode = .scaleAspectFill
     }
@@ -36,7 +37,7 @@ class LinkCollectionViewCell: UICollectionViewCell {
         self.linkDescriptionLabel.text = description
         self.linkLabel.text = link
         let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
-        self.linkThumbnailImageView.setImage(withUrl: linkThumbnailUrl ?? "", placeholder: nil)
+        self.linkThumbnailImageView.setImage(withUrl: linkThumbnailUrl ?? "", placeholder: placeHolder)
     }
     
     @objc func removeClicked() {

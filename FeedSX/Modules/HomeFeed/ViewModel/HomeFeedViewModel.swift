@@ -11,6 +11,7 @@ import LikeMindsFeed
 protocol HomeFeedViewModelDelegate: AnyObject {
     func didReceivedFeedData(success: Bool)
     func didReceivedMemberState()
+    func reloadSection(_ indexPath: IndexPath)
 }
 
 class HomeFeedViewModel {
@@ -35,6 +36,7 @@ class HomeFeedViewModel {
             } else {
                 print(result.errorMessage ?? "")
                 self?.delegate?.didReceivedFeedData(success: false)
+                self?.postErrorMessageNotification(error: result.errorMessage)
             }
         }
     }
@@ -42,6 +44,15 @@ class HomeFeedViewModel {
     func pullToRefresh() {
         self.currentPage = 1
         getFeed()
+    }
+    
+    func refreshFeedDataObject(_ postData: PostFeedDataView) {
+        guard let index = self.feeds.firstIndex(where: {$0.postId == postData.postId}) else {return }
+        self.feeds[index] = postData
+    }
+    
+    func postErrorMessageNotification(error: String?) {
+        NotificationCenter.default.post(name: .homeFeedErrorInApi, object: error)
     }
     
     func getMemberState() {
@@ -59,22 +70,36 @@ class HomeFeedViewModel {
     
     func likePost(postId: String) {
         let request = LikePostRequest(postId: postId)
-        LMFeedClient.shared.likePost(request) { response in
+        LMFeedClient.shared.likePost(request) { [weak self] response in
             if response.success {
                 
             } else {
                 print(response.errorMessage)
+                guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
+                    return
+                }
+                let isLike = !(feed.isLiked)
+                feed.isLiked = isLike
+                feed.likedCount += isLike ? 1 : -1
+                self?.delegate?.reloadSection(IndexPath(row: index, section: 0))
+                self?.postErrorMessageNotification(error: response.errorMessage)
             }
         }
     }
     
     func savePost(postId: String) {
         let request = SavePostRequest(postId: postId)
-        LMFeedClient.shared.savePost(request) { response in
+        LMFeedClient.shared.savePost(request) { [weak self] response in
             if response.success {
                 
             } else {
                 print(response.errorMessage)
+                guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
+                    return
+                }
+                feed.isSaved = !(feed.isSaved)
+                self?.delegate?.reloadSection(IndexPath(row: index, section: 0))
+                self?.postErrorMessageNotification(error: response.errorMessage)
             }
         }
     }

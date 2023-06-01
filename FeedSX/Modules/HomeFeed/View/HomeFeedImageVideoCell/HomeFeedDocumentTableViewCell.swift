@@ -9,6 +9,11 @@ import UIKit
 
 protocol HomeFeedDocumentTableViewCellDelegate: AnyObject {
     func didClickedOnDocument()
+    func didTapOnCell(_ feedDataView: PostFeedDataView?)
+}
+
+extension HomeFeedDocumentTableViewCellDelegate {
+    func didTapOnCell(_ feedDataView: PostFeedDataView?) {}
 }
 
 class HomeFeedDocumentTableViewCell: UITableViewCell {
@@ -53,6 +58,9 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
+        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
+        captionLabel.isUserInteractionEnabled = true
+        captionLabel.addGestureRecognizer(textViewTapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -63,6 +71,16 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
+    }
+    
+    @objc func tappedTextView(tapGesture: LMTapGesture) {
+        guard let textView = tapGesture.view as? LMTextView else { return }
+        guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
+        if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
+            UIApplication.shared.open(url)
+        } else {
+            delegate?.didTapOnCell(self.feedData)
+        }
     }
     
     fileprivate func setupActionSectionFooter() {

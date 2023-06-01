@@ -28,7 +28,7 @@ extension TaggedUserListDelegate {
 @objcMembers class TaggedUserList: UIView {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     var isPrivateChatroom: Bool = false
     weak var delegate: TaggedUserListDelegate?
     let cellIdentifier = "TaggedListTableViewCell"
@@ -36,7 +36,7 @@ extension TaggedUserListDelegate {
     var typeTextRangeInTextView: NSRange?
     var isTaggingViewHidden = true
     var isReloadTaggingListView = true
-    var cellHeight = 50
+    var cellHeight = 60
     
     
     class func nibView() -> TaggedUserList? {
@@ -50,6 +50,7 @@ extension TaggedUserListDelegate {
     func setUp() {
         viewModel.delegate = self
         tableView.register(UINib(nibName: TaggedListTableViewCell.cellIdentifier, bundle: Bundle(for: TaggedListTableViewCell.self)), forCellReuseIdentifier: TaggedListTableViewCell.cellIdentifier)
+        tableView.superview?.addShadow()
     }
     
     func searchTaggedUserName(_ searchName: String) {

@@ -113,7 +113,8 @@ final class PostFeedDataView {
         
         func attachmentDetails() -> String {
             let size = (self.attachmentSize ?? 0)/1000
-            return "\(self.numberOfPages ?? 0) Pages • \(size) Kb • \(self.attachmentType ?? "")"
+            let numberOfPagesString = (self.numberOfPages ?? 0) > 0 ? "\(self.numberOfPages ?? 0) Pages • " : ""
+            return "\(numberOfPagesString)\(size) Kb • \(self.attachmentType ?? "")"
         }
     }
     

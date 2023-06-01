@@ -26,6 +26,7 @@ class LMLabel: UILabel {
 }
 
 class LMPaddedLabel: LMLabel {
+
     var textEdgeInsets = UIEdgeInsets.zero {
         didSet { invalidateIntrinsicContentSize() }
     }

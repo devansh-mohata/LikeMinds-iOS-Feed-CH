@@ -30,7 +30,7 @@ class ActionsFooterView: UIView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 16
+        sv.spacing = 10
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -40,7 +40,7 @@ class ActionsFooterView: UIView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 8
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -48,19 +48,22 @@ class ActionsFooterView: UIView {
     let likeImageView: UIImageView = {
         let imageSize = 25.0
         let imageView = UIImageView()
-//        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.likeIcon)
-        imageView.tintColor = .darkGray
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
         return imageView
     }()
     
     let likeCountLabel: UILabel = {
-        let label = LMLabel()
+        let label = LMPaddedLabel()
+        label.paddingLeft = 0
+        label.paddingRight = 5
+        label.paddingTop = 10
+        label.paddingBottom = 10
         label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(14, .regular)
         label.text = "Like"
@@ -73,7 +76,7 @@ class ActionsFooterView: UIView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 8
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -81,19 +84,22 @@ class ActionsFooterView: UIView {
     let commentImageView: UIImageView = {
         let imageSize = 25.0
         let imageView = UIImageView()
-//        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.commentIcon)
-        imageView.tintColor = .darkGray
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
         return imageView
     }()
     
     let commentCountLabel: UILabel = {
-        let label = LMLabel()
+        let label = LMPaddedLabel()
+        label.paddingLeft = 0
+        label.paddingRight = 5
+        label.paddingTop = 10
+        label.paddingBottom = 10
         label.textColor = ColorConstant.likeTextColor
         label.font = LMBranding.shared.font(14, .regular)
         label.text = "Add comment"
@@ -106,7 +112,7 @@ class ActionsFooterView: UIView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 16
+        sv.spacing = 5
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -114,28 +120,26 @@ class ActionsFooterView: UIView {
     let savedImageView: UIImageView = {
         let imageSize = 20.0
         let imageView = UIImageView()
-//        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.bookmarkIcon)
-        imageView.tintColor = .darkGray
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
         return imageView
     }()
     
     let shareImageView: UIImageView = {
         let imageSize = 25.0
         let imageView = UIImageView()
-//        imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.shareIcon)
         imageView.tintColor = .darkGray
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
         return imageView
     }()
     
@@ -195,6 +199,16 @@ class ActionsFooterView: UIView {
         commentCountLabel.addGestureRecognizer(commentTapGesture)
         commentImageView.isUserInteractionEnabled = true
         commentImageView.addGestureRecognizer(commentImageTapGesture)
+        
+        savedImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        savedImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        shareImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        shareImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        likeImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        likeImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        commentImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        commentImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     @objc private func shareTapped(sender: LMTapGesture) {
@@ -204,18 +218,18 @@ class ActionsFooterView: UIView {
     
     @objc private func saveTapped(sender: LMTapGesture) {
         print("Bookmark Button Tapped")
-        delegate?.didTappedAction(withActionType: .savePost, postData: self.feedData)
         self.feedData?.isSaved = !(self.feedData?.isSaved ?? false)
+        delegate?.didTappedAction(withActionType: .savePost, postData: self.feedData)
         savedDataView()
     }
     
     @objc private func likeTapped(sender: LMTapGesture) {
         print("like Button Tapped")
-        delegate?.didTappedAction(withActionType: .like, postData: self.feedData)
         let isLike = !(self.feedData?.isLiked ?? false)
         self.feedData?.isLiked = isLike
         self.feedData?.likedCount += isLike ? 1 : -1
         likeDataView()
+        delegate?.didTappedAction(withActionType: .like, postData: self.feedData)
     }
     
     @objc private func commentTapped(sender: LMTapGesture) {

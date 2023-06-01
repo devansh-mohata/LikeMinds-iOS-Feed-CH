@@ -31,7 +31,6 @@ class ViewMoreRepliesCell: UITableViewCell {
     
     var spaceView: UIView = {
         let uiView = UIView()
-        uiView.backgroundColor = .red
         uiView.translatesAutoresizingMaskIntoConstraints = false
         return uiView
     }()

@@ -131,12 +131,12 @@ class ProfileHeaderView: UIView {
     
     let moreImageView: UIImageView = {
         let menuImageSize = 30
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: menuImageSize, height: menuImageSize))
-        imageView.backgroundColor = .white
+        let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.moreIcon)
         imageView.tintColor = .darkGray
+        imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -169,6 +169,8 @@ class ProfileHeaderView: UIView {
         addSubview(pinAndActionsStackView)
         pinAndActionsStackView.addArrangedSubview(pinImageView)
         pinAndActionsStackView.addArrangedSubview(moreImageView)
+        moreImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        moreImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         avatarAndUsernameStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
         pinAndActionsStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true

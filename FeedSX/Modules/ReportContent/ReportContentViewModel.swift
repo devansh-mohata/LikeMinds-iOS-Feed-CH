@@ -24,6 +24,9 @@ class ReportContentViewModel {
     func fetchReportTags() {
         let request = GetReportTagRequest(3)
         LMFeedClient.shared.getReportTags(request) { [weak self] response in
+            if response.success == false {
+                self?.delegate?.didReceivedReportRespone(response.errorMessage)
+            }
             guard let tags = response.data?.reportTags else { return }
             self?.reportTags = tags
             self?.delegate?.reloadReportTags()
