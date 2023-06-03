@@ -23,9 +23,19 @@ class PlayerView: UIView {
         return layer as! AVPlayerLayer
     }
     
-    var player: AVPlayer? {
+//    var player: AVPlayer? {
+//        get {
+//            return playerLayer.player
+//        }
+//        
+//        set {
+//            playerLayer.player = newValue
+//        }
+//    }
+    
+    var player: AVQueuePlayer? {
         get {
-            return playerLayer.player
+            return playerLayer.player as? AVQueuePlayer
         }
         
         set {

@@ -74,6 +74,7 @@ class PostDetailViewController: BaseViewController {
         postDetailTableView.rowHeight = 50
         refreshControl.addTarget(self, action: #selector(pullToRefreshData), for: .valueChanged)
         closeReplyToUserButton.addTarget(self, action: #selector(closeReplyToUsersCommentView), for: .touchUpInside)
+        postDetailTableView.backgroundColor = ColorConstant.backgroudColor
         sendButton.isEnabled = false
         sendButton.tintColor = LMBranding.shared.buttonColor
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
@@ -333,7 +334,7 @@ extension PostDetailViewController: UITextViewDelegate {
         sendButton.isEnabled = !textView.trimmedText().isEmpty
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-
+        textViewPlaceHolder.isHidden = true
         self.typeTextRangeInTextView = range
         if text != "" {
             typeTextRangeInTextView?.location += 1
@@ -540,6 +541,10 @@ extension PostDetailViewController: TaggedUserListDelegate {
     
     func unhideTaggingViewContainer(heightValue: CGFloat) {
         if !isReloadTaggingListView {return}
+        if commentTextView.trimmedText().isEmpty {
+            self.hideTaggingViewContainer()
+            return
+        }
         isTaggingViewHidden = false
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .transitionCurlUp, animations: {
             self.taggingUserListContainer.alpha = 1

@@ -31,6 +31,7 @@ final class CreatePostViewModel {
         case image = "Add Photo"
         case video = "Add Video"
         case link
+        case dontAttachOgTag
         case unknown
     }
     
@@ -87,13 +88,33 @@ final class CreatePostViewModel {
     }
     
     func parseMessageForLink(message: String) {
-        guard let link = message.detectedFirstLink else {
-            self.currentSelectedUploadeType = .unknown
+        guard let link = message.detectedFirstLink, currentSelectedUploadeType != .dontAttachOgTag else {
+//            self.currentSelectedUploadeType = .unknown
             self.linkAttatchment = nil
             self.delegate?.reloadCollectionView()
             return
         }
         decodeUrl(stringUrl: link)
+    }
+    
+    func verifyOgTagsAndCreatePost(message: String, completion: (() -> Void)?) {
+        guard let link = message.detectedFirstLink else {
+            self.linkAttatchment = nil
+            completion?()
+            return
+        }
+        let request = DecodeUrlRequest(link)
+        LMFeedClient.shared.decodeUrl(request) {[weak self] response in
+            print(response)
+            if response.success, let ogTags = response.data?.oGTags {
+                self?.currentSelectedUploadeType = .link
+                self?.linkAttatchment = .init(title: ogTags.title, linkThumbnailUrl: ogTags.image, description: ogTags.description, url: ogTags.url)
+            } else {
+//                self?.currentSelectedUploadeType = .unknown
+                self?.linkAttatchment = nil
+            }
+            completion?()
+        }
     }
     
     func decodeUrl(stringUrl: String) {
@@ -104,7 +125,7 @@ final class CreatePostViewModel {
                 self?.currentSelectedUploadeType = .link
                 self?.linkAttatchment = .init(title: ogTags.title, linkThumbnailUrl: ogTags.image, description: ogTags.description, url: ogTags.url)
             } else {
-                self?.currentSelectedUploadeType = .unknown
+//                self?.currentSelectedUploadeType = .unknown
                 self?.linkAttatchment = nil
             }
             self?.delegate?.reloadCollectionView()

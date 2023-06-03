@@ -169,7 +169,7 @@ public final class HomeFeedViewControler: BaseViewController {
             postingImageView.superview?.isHidden = false
             postingImageView.image = image
         } else {
-            self.postingImageSuperView.superview?.isHidden = true
+            self.postingImageView.isHidden = true
         }
         self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }

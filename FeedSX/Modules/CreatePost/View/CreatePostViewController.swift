@@ -131,28 +131,16 @@ class CreatePostViewController: BaseViewController {
     @objc func createPost() {
         print("post data")
         self.view.endEditing(true)
-        let text = self.captionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        self.viewModel.createPost(text)
-        self.navigationController?.popViewController(animated: true)
-        //"files/post/<user_unique_id>/<filename>-<current_time_inmillis>"
-//        let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
-//        let imageUrl = viewModel.imageAndVideoAttachments.first
-//        guard let url = URL(string: imageUrl?.url ?? "")
-//              let data = try? Data(contentsOf:url),
-//              let image = UIImage(data: data)
-//        else { return }
-        
-//        AWSUploadManager.sharedInstance.awsUploader(uploaderType: .video, filePath: filePath, image: image, thumbNailUrl: nil,index: 1) { (progress) in
-//        } completion: { (imageResponse,thumbnailUrl, error, nil)  in
-//            print(imageResponse)
-//        }
-        
-//        AWSUploadManager.sharedInstance.awsUploader(uploaderType: .video, filePath: filePath, path: url.path , thumbNailUrl: nil, index: 1 ) { (progress) in
-//
-//        } completion: { (videoResponse, thumbnailUrl, error, nil)  in
-//            print(videoResponse)
-//        }
-
+        let text = self.captionTextView.trimmedText()
+        if (self.viewModel.currentSelectedUploadeType == .link), let _ = text.detectedFirstLink {
+            self.viewModel.verifyOgTagsAndCreatePost(message: text) {[weak self] in
+                self?.viewModel.createPost(text)
+                self?.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            self.viewModel.createPost(text)
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func openImagePicker(_ mediaType: Settings.Fetch.Assets.MediaTypes, forAddMore: Bool = false) {
@@ -354,9 +342,10 @@ extension CreatePostViewController: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if self.viewModel.currentSelectedUploadeType == .unknown || self.viewModel.currentSelectedUploadeType == .link {
+        placeholderLabel.isHidden = true
+        if (self.viewModel.currentSelectedUploadeType == .unknown || self.viewModel.currentSelectedUploadeType == .link) && (self.viewModel.currentSelectedUploadeType != .dontAttachOgTag) {
             debounceForDecodeLink?.invalidate()
-            debounceForDecodeLink = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) {[weak self] _ in
+            debounceForDecodeLink = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) {[weak self] _ in
                 let enteredString = textView.text + text
                 self?.viewModel.parseMessageForLink(message: enteredString)
             }
@@ -403,12 +392,12 @@ extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
             reloadAttachmentsView()
         case .link:
             self.viewModel.linkAttatchment = nil
-            self.viewModel.currentSelectedUploadeType = .unknown
+            self.viewModel.currentSelectedUploadeType = .dontAttachOgTag
             reloadAttachmentsView()
         default:
             break
         }
-        if self.viewModel.documentAttachments.count == 0 && self.viewModel.imageAndVideoAttachments.count == 0 {
+        if self.viewModel.documentAttachments.count == 0 && self.viewModel.imageAndVideoAttachments.count == 0 && (self.viewModel.currentSelectedUploadeType != .dontAttachOgTag) {
             self.viewModel.currentSelectedUploadeType = .unknown
             self.uploadActionViewHeightConstraint.constant = uploadActionsHeight
         }

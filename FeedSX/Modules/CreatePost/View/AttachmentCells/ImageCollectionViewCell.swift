@@ -15,6 +15,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.tintColor = ColorConstant.likeTextColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -55,26 +56,14 @@ class ImageCollectionViewCell: UICollectionViewCell {
     }
     
     func setupImageVideoView(_ url: String?) {
-        self.postImageView.image = nil
+        let imagePlaceholder = UIImage(named: "imageplaceholder", in: Bundle(for: ImageCollectionViewCell.self), with: nil)
+        self.postImageView.image = imagePlaceholder
         guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
-                self?.postImageView.kf.setImage(with: uRL)
+                self?.postImageView.kf.setImage(with: uRL, placeholder: imagePlaceholder)
             }
         }
-        
-//        AsyncImageLoader.image(for: uRL, completionHandler: { (image) in
-//            DispatchQueue.main.async {
-//                if let img = image {
-//                    self.postImageView.image = img
-//                }else{
-//                    let dummyImage = UIImage(named: "img_u")
-//                    self.postImageView.image = dummyImage
-//                }
-//            }
-//
-//        })
-        
     }
     
     @objc func removeClicked() {

@@ -56,6 +56,11 @@ class TaggedUserListViewModel {
         self.fetchTaggingList(searchName)
     }
     
+    func checkTextForTag(range: NSRange, text: String) -> Bool {
+        guard text.count >= range.location, let lastText = text.substring(to: text.index(text.startIndex, offsetBy: range.location)).components(separatedBy: " ").last else {return false}
+        return lastText.range(of: "@") != nil
+    }
+    
     func getSuggestionsFor(_ inputString: String, range: NSRange? = nil) {
         taggingSearchDebounceTime?.invalidate()
         taggingSearchDebounceTime = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [weak self] (timer) in

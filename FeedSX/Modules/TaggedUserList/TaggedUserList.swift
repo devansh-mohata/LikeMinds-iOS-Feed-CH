@@ -62,11 +62,11 @@ extension TaggedUserListDelegate {
         isReloadTaggingListView = true
         if text == "@" {
             viewModel.getSuggestionsFor(text, range: range)
-        } else if !isTaggingViewHidden || checkTextForTag(range: range, text: textView.text) {
+        } else if viewModel.checkTextForTag(range: range, text: textView.text) {
             var inputString = ""
             if textView.text.count == 0 {
                 return
-            } else if (text == "") && (textView.text[textView.text.index(textView.text.startIndex, offsetBy: range.location)] == "@") {
+            } else if (text == "") && textView.text.count >= range.location && (textView.text[textView.text.index(textView.text.startIndex, offsetBy: range.location)] == "@") {
                 isReloadTaggingListView = false
                 self.delegate?.hideTaggingViewContainer()
                 return
@@ -81,11 +81,6 @@ extension TaggedUserListDelegate {
         } else {
             self.delegate?.hideTaggingViewContainer()
         }
-    }
-    
-    func checkTextForTag(range: NSRange, text: String) -> Bool {
-        guard text.count >= range.location, let lastText = text.substring(to: text.index(text.startIndex, offsetBy: range.location)).components(separatedBy: " ").last else {return false}
-        return lastText.range(of: "@") != nil
     }
     
 }

@@ -110,15 +110,13 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupContainerData()
-        self.layoutIfNeeded()
+//        self.layoutIfNeeded()
     }
     
     func setupImageCollectionView() {
         
         self.imageVideoCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
         self.imageVideoCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
-        self.imageVideoCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
-        
         let linkNib = UINib(nibName: "LinkCollectionViewCell", bundle: Bundle(for: LinkCollectionViewCell.self))
         self.imageVideoCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
         
@@ -181,9 +179,6 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
             return 1
         case .image, .video:
             return self.feedData?.imageVideos?.count ?? 0
-        case .document:
-            let count = self.feedData?.attachments?.count ?? 0
-            return count > 3 ? 3 : count
         default:
             break
         }
@@ -208,11 +203,6 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
                 break
             }
            
-        } else if let attachmentItem = self.feedData?.attachments?[indexPath.row],
-                  let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: DocumentCollectionCell.cellIdentifier, for: indexPath) as? DocumentCollectionCell {
-            cell.setupDocumentCell(attachmentItem.attachmentName(), documentDetails: attachmentItem.attachmentDetails())
-            cell.removeButton.alpha = 0
-            defaultCell = cell
         } else if let linkAttachment = self.feedData?.linkAttachment,
                     let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: LinkCollectionViewCell.cellIdentifier, for: indexPath) as? LinkCollectionViewCell {
             cell.setupLinkCell(linkAttachment.title, description: linkAttachment.description, link: linkAttachment.url, linkThumbnailUrl: linkAttachment.linkThumbnailUrl)
@@ -230,14 +220,10 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
         case .link:
             self.collectionSuperViewHeightConstraint.constant = UIScreen.main.bounds.width
             return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-        case .document:
-            let count = self.feedData?.attachments?.count ?? 0
-            self.collectionSuperViewHeightConstraint.constant = CGFloat(90 * (count > 3 ? 3 : count))
-            return CGSize(width: UIScreen.main.bounds.width, height: 90)
         default:
             break
         }
-        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+        return CGSize(width: UIScreen.main.bounds.width - 2, height: UIScreen.main.bounds.width - 2)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
