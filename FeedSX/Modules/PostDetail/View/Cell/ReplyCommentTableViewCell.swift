@@ -227,7 +227,9 @@ class ReplyCommentTableViewCell: UITableViewCell {
         self.usernameLabel.text = comment.user.name
         self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false, withFont: LMBranding.shared.font(14, .regular))
         self.likeCountLabel.text = comment.likeCounts()
-        self.timeLabel.text = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
+        let postTime = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
+        let postTimeWithEdited = comment.isEdited ? "Edited \(SpecialCharString.centerDot) \(postTime)" : postTime
+        self.timeLabel.text = postTimeWithEdited
         likeDataView()
     }
 
