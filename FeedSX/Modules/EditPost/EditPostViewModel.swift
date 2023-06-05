@@ -1,8 +1,8 @@
 //
-//  CreatePostViewModel.swift
-//  LMFeedUI
+//  EditPostViewModel.swift
+//  FeedSX
 //
-//  Created by Pushpendra Singh on 04/04/23.
+//  Created by Pushpendra Singh on 04/06/23.
 //
 
 import Foundation
@@ -10,30 +10,24 @@ import PDFKit
 import LikeMindsFeed
 import AVFoundation
 
-protocol CreatePostViewModelDelegate: AnyObject {
+protocol EditPostViewModelDelegate: AnyObject {
     func reloadCollectionView()
     func reloadActionTableView()
+    func didReceivedPostDetails()
 }
 
-class TaggedUser {
-    var user: User
-    var range: NSRange
-    init(_ user: User, range: NSRange) {
-        self.user = user
-        self.range = range
-    }
-}
-
-final class CreatePostViewModel {
+final class EditPostViewModel: BaseViewModel {
     
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
     var documentAttachments: [PostFeedDataView.Attachment] = []
     var linkAttatchment: PostFeedDataView.LinkAttachment?
     let attachmentUploadTypes: [AttachmentUploadType] = [.image, .video, .document]
     var currentSelectedUploadeType: CreatePostViewModel.AttachmentUploadType = .unknown
-    weak var delegate: CreatePostViewModelDelegate?
+    weak var delegate: EditPostViewModelDelegate?
     var postCaption: String?
-    var taggedUsers: [TaggedUser] = []
+    var taggedUsers: [User] = []
+    var postId: String = ""
+    var postDetail: PostFeedDataView?
     
     enum AttachmentUploadType: String {
         case document = "Attach Files"
@@ -42,6 +36,46 @@ final class CreatePostViewModel {
         case link
         case dontAttachOgTag
         case unknown
+    }
+    
+    func getPost() {
+        let request = GetPostRequest(postId: self.postId)
+            .page(1)
+            .pageSize(1)
+        LMFeedClient.shared.getPost(request) {[weak self] response in
+            if response.success == false {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
+            guard let postDetails = response.data?.post, let users =  response.data?.users else {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+                return
+            }
+            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""])
+            self?.postDetailsAttachments()
+        }
+    }
+    
+    func postDetailsAttachments() {
+        if let attachments = self.postDetail?.attachments, !attachments.isEmpty {
+            for attachment in attachments {
+                documentAttachments.append(PostFeedDataView.Attachment(attachmentUrl: attachment.attachmentUrl, attachmentType: attachment.attachmentType, attachmentSize: attachment.attachmentSize, numberOfPages: attachment.numberOfPages))
+            }
+            self.currentSelectedUploadeType = .document
+        }
+        
+        if let attachments = self.postDetail?.imageVideos, !attachments.isEmpty {
+            for attachment in attachments {
+                imageAndVideoAttachments.append(attachment)
+            }
+            self.currentSelectedUploadeType = attachments.first?.fileType == .image ? .image : .video
+        }
+        
+        if let attachment = self.postDetail?.linkAttachment {
+            self.linkAttatchment = attachment
+            self.currentSelectedUploadeType = .link
+        }
+//        self.delegate?.reloadCollectionView()
+        self.delegate?.didReceivedPostDetails()
     }
     
     func addDocumentAttachment(fileUrl: URL) {
@@ -98,7 +132,7 @@ final class CreatePostViewModel {
     
     func parseMessageForLink(message: String) {
         guard let link = message.detectedFirstLink, currentSelectedUploadeType != .dontAttachOgTag else {
-//            self.currentSelectedUploadeType = .unknown
+            //            self.currentSelectedUploadeType = .unknown
             self.linkAttatchment = nil
             self.delegate?.reloadCollectionView()
             return
@@ -106,7 +140,7 @@ final class CreatePostViewModel {
         decodeUrl(stringUrl: link)
     }
     
-    func verifyOgTagsAndCreatePost(message: String, completion: (() -> Void)?) {
+    func verifyOgTagsAndEditPost(message: String, completion: (() -> Void)?) {
         guard let link = message.detectedFirstLink else {
             self.linkAttatchment = nil
             completion?()
@@ -119,7 +153,7 @@ final class CreatePostViewModel {
                 self?.currentSelectedUploadeType = .link
                 self?.linkAttatchment = .init(title: ogTags.title, linkThumbnailUrl: ogTags.image, description: ogTags.description, url: ogTags.url)
             } else {
-//                self?.currentSelectedUploadeType = .unknown
+                //                self?.currentSelectedUploadeType = .unknown
                 self?.linkAttatchment = nil
             }
             completion?()
@@ -134,14 +168,15 @@ final class CreatePostViewModel {
                 self?.currentSelectedUploadeType = .link
                 self?.linkAttatchment = .init(title: ogTags.title, linkThumbnailUrl: ogTags.image, description: ogTags.description, url: ogTags.url)
             } else {
-//                self?.currentSelectedUploadeType = .unknown
+                //                self?.currentSelectedUploadeType = .unknown
                 self?.linkAttatchment = nil
             }
             self?.delegate?.reloadCollectionView()
         }
     }
     
-    func createPost(_ text: String?) {
+    func editPost(_ text: String?) {
+        return 
         let parsedTaggedUserPostText = self.editAnswerTextWithTaggedList(text: text)
         let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
         if self.imageAndVideoAttachments.count > 0 {
@@ -209,11 +244,11 @@ final class CreatePostViewModel {
     func editAnswerTextWithTaggedList(text: String?) -> String  {
         if var answerText = text, self.taggedUsers.count > 0 {
             for member in taggedUsers {
-                if let memberName = member.user.name {
+                if let memberName = member.name {
                     let memberNameWithTag = "@"+memberName
                     if answerText.contains(memberNameWithTag) {
                         if let _ = answerText.range(of: memberNameWithTag) {
-                            answerText = answerText.replacingOccurrences(of: memberNameWithTag, with: "<<\(memberName)|route://member/\(member.user.userUniqueId ?? "")>>")
+                            answerText = answerText.replacingOccurrences(of: memberNameWithTag, with: "<<\(memberName)|route://member/\(member.userUniqueId ?? "")>>")
                         }
                     }
                 }
@@ -224,3 +259,4 @@ final class CreatePostViewModel {
         return text ?? ""
     }
 }
+

@@ -110,7 +110,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupContainerData()
-//        self.layoutIfNeeded()
+        self.layoutIfNeeded()
     }
     
     func setupImageCollectionView() {

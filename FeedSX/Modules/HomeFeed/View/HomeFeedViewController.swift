@@ -198,6 +198,7 @@ public final class HomeFeedViewControler: BaseViewController {
         feedTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         feedTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
         feedTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)
 //        feedTableView.register(ImageVideoCollectionTableViewCell.self, forCellReuseIdentifier: ImageVideoCollectionTableViewCell.cellIdentifier)
         feedTableView.delegate = self
         feedTableView.dataSource = self
@@ -296,6 +297,10 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         switch feed.postAttachmentType() {
         case .document:
             let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedDocumentTableViewCell.nibName, for: indexPath) as! HomeFeedDocumentTableViewCell
+            cell.setupFeedCell(feed, withDelegate: self)
+            return cell
+        case .link:
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkTableViewCell.nibName, for: indexPath) as! HomeFeedLinkTableViewCell
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         default:
@@ -421,12 +426,16 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                     self.navigationController?.present(deleteController, animated: false)
                 }
             case .edit:
-//                actionSheet.addAction(withOptions: menu.name) {}
-                break
+                actionSheet.addAction(withOptions: menu.name) {
+                    guard let postId = selectedPost?.postId else {return}
+                    let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle(for: EditPostViewController.self))
+                    editPost.postId = postId
+                    self.navigationController?.pushViewController(editPost, animated: true)
+                }
             case .pin:
-                break
+                actionSheet.addAction(withOptions: menu.name) {}
             case .unpin:
-                break
+                actionSheet.addAction(withOptions: menu.name) {}
             default:
                 break
             }

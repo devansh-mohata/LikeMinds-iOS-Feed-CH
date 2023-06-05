@@ -88,6 +88,7 @@ class PostDetailViewController: BaseViewController {
         postDetailTableView.register(ViewMoreRepliesCell.self, forCellReuseIdentifier: ViewMoreRepliesCell.reuseIdentifier)
         postDetailTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
         postDetailTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
+        postDetailTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)
         postDetailTableView.rowHeight = UITableView.automaticDimension
         postDetailTableView.estimatedRowHeight = 44
         postDetailTableView.separatorStyle = .none
@@ -272,6 +273,10 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
             switch post.postAttachmentType() {
             case .document:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedDocumentTableViewCell.nibName, for: indexPath) as! HomeFeedDocumentTableViewCell
+                cell.setupFeedCell(post, withDelegate: self)
+                return cell
+            case .link:
+                let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkTableViewCell.nibName, for: indexPath) as! HomeFeedLinkTableViewCell
                 cell.setupFeedCell(post, withDelegate: self)
                 return cell
             default:

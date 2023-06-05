@@ -16,7 +16,7 @@ protocol PostDetailViewModelDelegate: AnyObject {
     func reloadSection(_ indexPath: IndexPath)
 }
 
-final class PostDetailViewModel {
+final class PostDetailViewModel: BaseViewModel {
     var comments: [PostDetailDataModel.Comment] = []
     var postDetail: PostFeedDataView?
     private var commentCurrentPage: Int = 1
@@ -31,10 +31,6 @@ final class PostDetailViewModel {
     
     func notifyObjectChanges() {
         NotificationCenter.default.post(name: .refreshHomeFeedDataObject, object: postDetail)
-    }
-    
-    func postErrorMessageNotification(error: String?) {
-        NotificationCenter.default.post(name: .postDetailErrorInApi, object: error)
     }
     
     func postComment(text: String) {
