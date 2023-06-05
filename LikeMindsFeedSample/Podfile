@@ -1,0 +1,15 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+def sdk_pods
+  podspec :path => '../FeedSX/FeedSX.podspec'
+end
+
+target 'LikeMindsFeedSample' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for LikeMindsFeedSample
+  sdk_pods
+  pod 'Alamofire'
+end
