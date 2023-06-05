@@ -43,6 +43,8 @@ class ReportContentViewModel {
         print(request)
         LMFeedClient.shared.report(request) {[weak self] response in
             if response.success {
+                let entityType = reportEntityType == .post ? "post" : "comment"
+                LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.reported, eventProperties: ["post_id": postId, "\(entityType)_id": (entityId ?? "") , "user_id": (entityCreatorId ?? ""), "reason": reason])
                 self?.delegate?.didReceivedReportRespone(nil)
             } else {
                 self?.delegate?.didReceivedReportRespone(response.errorMessage)

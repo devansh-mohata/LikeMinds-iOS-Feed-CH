@@ -122,6 +122,7 @@ public final class HomeFeedViewControler: BaseViewController {
 //        self.setTitleAndSubtile(title: "Home Feed", subTitle: nil)
         self.setRightItemsOfNavigationBar()
         self.setLeftItemOfNavigationBar()
+        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Feed.opened, eventProperties: ["feed_type": "universal_feed"])
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -245,6 +246,7 @@ public final class HomeFeedViewControler: BaseViewController {
             return
         }
         let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle(for: CreatePostViewController.self))
+        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.creationStarted, eventProperties: nil)
         self.navigationController?.pushViewController(createView, animated: true)
     }
     
@@ -458,11 +460,13 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
             postDetail.postId = postId
             postDetail.isViewPost = false
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.listOpened, eventProperties: ["post_id": postId])
             self.navigationController?.pushViewController(postDetail, animated: true)
         case .likeCount:
             guard let postId = postData?.postId, (postData?.likedCount ?? 0) > 0 else { return }
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: nil)
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.likeListOpen, eventProperties: ["post_id": postId])
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }

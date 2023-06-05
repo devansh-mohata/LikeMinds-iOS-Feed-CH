@@ -141,6 +141,7 @@ final class PostDetailViewModel {
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.onPost, eventProperties: ["post_id": postId, "comment_id": comment.commentId])
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
             self?.postDetail?.commentCount += 1
             self?.comments.insert(postComment, at: 0)
@@ -158,6 +159,7 @@ final class PostDetailViewModel {
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.reply, eventProperties: ["post_id": postId, "comment_reply_id": comment.commentId, "comment_id": commentId])
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
             self?.replyOnComment?.replies.insert(postComment, at: 0)
             self?.replyOnComment?.commentCount += 1

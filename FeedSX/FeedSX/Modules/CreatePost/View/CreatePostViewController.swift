@@ -315,10 +315,13 @@ extension CreatePostViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch viewModel.attachmentUploadTypes[indexPath.row] {
         case .image:
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "image"])
             openImagePicker(.image)
         case .video:
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "video"])
             openImagePicker(.video)
         case .document:
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "file"])
             openDocumentPicker()
         default:
             break

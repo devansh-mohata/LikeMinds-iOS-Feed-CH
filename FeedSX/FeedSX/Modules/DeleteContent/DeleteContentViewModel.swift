@@ -58,6 +58,7 @@ final class DeleteContentViewModel {
             .deleteReason(reasonText)
         LMFeedClient.shared.deleteComment(request) { [weak self] response in
             if response.success{
+                LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.deleted, eventProperties: ["post_id": postId, "comment_id": commentId])
                 self?.delegate?.didReceivedDeletePostResponse(postId: postId, commentId: commentId)
                 completion?()
             } else {
