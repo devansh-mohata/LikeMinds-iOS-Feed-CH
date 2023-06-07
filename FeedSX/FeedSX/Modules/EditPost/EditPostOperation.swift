@@ -1,8 +1,8 @@
 //
-//  PostCreateOperation.swift
-//  LMFeedUI
+//  EditPostOperation.swift
+//  FeedSX
 //
-//  Created by Pushpendra Singh on 26/05/23.
+//  Created by Pushpendra Singh on 06/06/23.
 //
 
 import Foundation
@@ -10,35 +10,47 @@ import LikeMindsFeed
 import UIKit
 import AVFoundation
 
-class CreatePostOperation {
+class EditPostOperation {
     
-    static let shared = CreatePostOperation()
+    static let shared = EditPostOperation()
     var attachmentList: [AWSFileUploadRequest]?
     let dispatchGroup = DispatchGroup()
     private init(){}
     
-    private func postMessageForCompleteCreatePost(with error: String?) {
-        NotificationCenter.default.post(name: .postCreationCompleted, object: error)
+    private func postMessageForCompleteEditPost(with error: Any?) {
+        NotificationCenter.default.post(name: .postEditCompleted, object: error)
     }
     
-    private func postMessageForCreatingPost(with object: Any? = nil) {
+    private func postMessageForEditingPost(with object: Any? = nil) {
         let attachment = attachmentList?.first
-        NotificationCenter.default.post(name: .postCreationStarted, object: attachment?.thumbnailImage)
+        NotificationCenter.default.post(name: .postEditStarted, object: attachment?.thumbnailImage)
     }
     
-    func createPost(request: AddPostRequest) {
-        postMessageForCreatingPost()
-        LMFeedClient.shared.addPost(request) { [weak self] response in
+    func editPost(request: EditPostRequest, postId: String) {
+        postMessageForEditingPost()
+        LMFeedClient.shared.editPost(request) { [weak self] response in
             self?.attachmentList = nil
-            self?.postMessageForCompleteCreatePost(with: response.errorMessage)
+            if response.success == false {
+                self?.postMessageForCompleteEditPost(with: response.errorMessage)
+            }
+            guard let postDetails = response.data?.post, let users =  response.data?.users else {
+                self?.postMessageForCompleteEditPost(with: response.errorMessage)
+                return
+            }
+            
+            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""]))
         }
     }
     
-    func createPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?) {
+    func editPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, postId: String) {
         self.attachmentList = attachments
-        guard attachments.count > 0 else { return }
-        postMessageForCreatingPost()
-        for attachment in attachments {
+        guard let newAttachments = self.attachmentList?.filter({($0.awsUploadedUrl ?? "").isEmpty}), newAttachments.count > 0 else {
+            postMessageForEditingPost()
+            self.editPostWithAttachments(postId: postId, postCaption: postCaption)
+            return
+        }
+        postMessageForEditingPost()
+        for attachment in newAttachments {
             dispatchGroup.enter()
             switch attachment.fileType {
             case .image:
@@ -82,6 +94,8 @@ class CreatePostOperation {
             }
         }
         self.dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
+            self?.editPostWithAttachments(postId: postId, postCaption: postCaption)
+           /*
             guard let attachmentList = self?.attachmentList else {return}
             if attachmentList.count > 0 {
                 var attachments: [Attachment] = []
@@ -100,19 +114,64 @@ class CreatePostOperation {
                         break
                     }
                 }
-                let addPostRequest = AddPostRequest()
+                let editPostRequest = EditPostRequest(postId)
                     .text(postCaption)
                     .attachments(attachments)
-                LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
-                    print("Post Creation with attachment done....")
+                LMFeedClient.shared.editPost(editPostRequest) { [weak self] response in
                     self?.attachmentList = nil
-                    self?.postMessageForCompleteCreatePost(with: response.errorMessage)
+                    if response.success == false {
+                        self?.postMessageForCompleteEditPost(with: response.errorMessage)
+                    }
+                    guard let postDetails = response.data?.post, let users =  response.data?.users else {
+                        self?.postMessageForCompleteEditPost(with: response.errorMessage)
+                        return
+                    }
+                    
+                    self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""]))
+                    
                 }
+            }
+            */
+        }
+    }
+    
+    private func editPostWithAttachments(postId: String, postCaption: String?) {
+        guard let attachmentList = self.attachmentList else {return}
+        if attachmentList.count > 0 {
+            var attachments: [Attachment] = []
+            for attachedItem in attachmentList {
+                switch attachedItem.fileType {
+                case .image:
+                    let imageAttachment = self.imageAttachmentData(attachment: attachedItem)
+                    attachments.append(imageAttachment)
+                case .video:
+                     let videoAttachment = self.videoAttachmentData(attachment: attachedItem)
+                    attachments.append(videoAttachment)
+                case .file:
+                     let docAttachment = self.fileAttachmentData(attachment: attachedItem)
+                    attachments.append(docAttachment)
+                default:
+                    break
+                }
+            }
+            let editPostRequest = EditPostRequest(postId)
+                .text(postCaption)
+                .attachments(attachments)
+            LMFeedClient.shared.editPost(editPostRequest) { [weak self] response in
+                self?.attachmentList = nil
+                if response.success == false {
+                    self?.postMessageForCompleteEditPost(with: response.errorMessage)
+                }
+                guard let postDetails = response.data?.post, let users =  response.data?.users else {
+                    self?.postMessageForCompleteEditPost(with: response.errorMessage)
+                    return
+                }
+                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""]))
             }
         }
     }
     
-    func imageAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
+    private func imageAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
         var size: Int?
         if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
@@ -127,7 +186,7 @@ class CreatePostOperation {
         return attachmentRequest
     }
     
-    func fileAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
+    private func fileAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
         var size: Int?
         var numberOfPages: Int?
         guard let fileUrl = URL(string: attachment.fileUrl) else { return Attachment() }
@@ -150,7 +209,7 @@ class CreatePostOperation {
         return attachmentRequest
     }
     
-    func videoAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
+    private func videoAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
         var size: Int?
         if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
@@ -171,3 +230,4 @@ class CreatePostOperation {
     }
     
 }
+

@@ -34,7 +34,7 @@ class EditPostViewController: BaseViewController {
     @IBOutlet weak var taggingListViewContainer: UIView!
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
     var debounceForDecodeLink:Timer?
-    var uploadActionsHeight:CGFloat = 43 * 3
+    var uploadActionsHeight:CGFloat = 0//43 * 3
     var placeholderLabel: LMLabel = {
         let label = LMLabel()
         label.numberOfLines = 1

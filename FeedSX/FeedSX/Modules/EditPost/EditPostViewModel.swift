@@ -28,6 +28,7 @@ final class EditPostViewModel: BaseViewModel {
     var taggedUsers: [User] = []
     var postId: String = ""
     var postDetail: PostFeedDataView?
+    private let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
     
     enum AttachmentUploadType: String {
         case document = "Attach Files"
@@ -55,18 +56,14 @@ final class EditPostViewModel: BaseViewModel {
         }
     }
     
-    func postDetailsAttachments() {
+    private func postDetailsAttachments() {
         if let attachments = self.postDetail?.attachments, !attachments.isEmpty {
-            for attachment in attachments {
-                documentAttachments.append(PostFeedDataView.Attachment(attachmentUrl: attachment.attachmentUrl, attachmentType: attachment.attachmentType, attachmentSize: attachment.attachmentSize, numberOfPages: attachment.numberOfPages))
-            }
+            documentAttachments.append(contentsOf: attachments)
             self.currentSelectedUploadeType = .document
         }
         
         if let attachments = self.postDetail?.imageVideos, !attachments.isEmpty {
-            for attachment in attachments {
-                imageAndVideoAttachments.append(attachment)
-            }
+            imageAndVideoAttachments.append(contentsOf: attachments)
             self.currentSelectedUploadeType = attachments.first?.fileType == .image ? .image : .video
         }
         
@@ -74,7 +71,6 @@ final class EditPostViewModel: BaseViewModel {
             self.linkAttatchment = attachment
             self.currentSelectedUploadeType = .link
         }
-//        self.delegate?.reloadCollectionView()
         self.delegate?.didReceivedPostDetails()
     }
     
@@ -92,6 +88,7 @@ final class EditPostViewModel: BaseViewModel {
         if let image = generatePdfThumbnail(of: CGSize(width: 100, height: 100), for: fileUrl, atPage: 0){
             attachment.thumbnailImage = image
         }
+        attachment.name = fileUrl.pathComponents.last ?? "attachment_\(Date().millisecondsSince1970)"
         self.documentAttachments.append(attachment)
         self.delegate?.reloadCollectionView()
     }
@@ -108,16 +105,17 @@ final class EditPostViewModel: BaseViewModel {
         } else {
             attachment.thumbnailImage = generateVideoThumbnail(forUrl: fileUrl)
         }
+        attachment.name = fileUrl.pathComponents.last ?? "media_\(Date().millisecondsSince1970)"
         self.imageAndVideoAttachments.append(attachment)
     }
     
-    func generatePdfThumbnail(of thumbnailSize: CGSize , for documentUrl: URL, atPage pageIndex: Int) -> UIImage? {
+    private func generatePdfThumbnail(of thumbnailSize: CGSize , for documentUrl: URL, atPage pageIndex: Int) -> UIImage? {
         let pdfDocument = PDFDocument(url: documentUrl)
         let pdfDocumentPage = pdfDocument?.page(at: pageIndex)
         return pdfDocumentPage?.thumbnail(of: thumbnailSize, for: PDFDisplayBox.trimBox)
     }
     
-    func generateVideoThumbnail(forUrl url: URL) -> UIImage? {
+    private func generateVideoThumbnail(forUrl url: URL) -> UIImage? {
         let asset: AVAsset = AVAsset(url: url)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         
@@ -168,7 +166,7 @@ final class EditPostViewModel: BaseViewModel {
                 self?.currentSelectedUploadeType = .link
                 self?.linkAttatchment = .init(title: ogTags.title, linkThumbnailUrl: ogTags.image, description: ogTags.description, url: ogTags.url)
             } else {
-                //                self?.currentSelectedUploadeType = .unknown
+                self?.currentSelectedUploadeType = .unknown
                 self?.linkAttatchment = nil
             }
             self?.delegate?.reloadCollectionView()
@@ -176,41 +174,19 @@ final class EditPostViewModel: BaseViewModel {
     }
     
     func editPost(_ text: String?) {
-        return 
         let parsedTaggedUserPostText = self.editAnswerTextWithTaggedList(text: text)
-        let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
         if self.imageAndVideoAttachments.count > 0 {
-            var imageVideoAttachments: [AWSFileUploadRequest] = []
-            var index = 0
-            for attachedItem in self.imageAndVideoAttachments {
-                guard let fileUrl = attachedItem.url else { continue }
-                let fileType: UploaderType = attachedItem.fileType == .image ? .image : .video
-                let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.url?.components(separatedBy: "/").last ?? "attache_\(Date().millisecondsSince1970)")
-                item.thumbnailImage = attachedItem.thumbnailImage
-                imageVideoAttachments.append(item)
-                index += 1
-            }
-            CreatePostOperation.shared.createPostWithAttachment(attachments: imageVideoAttachments, postCaption: parsedTaggedUserPostText)
+            self.editPostWithImageOrVideoAttachment(postCaption: parsedTaggedUserPostText)
         } else if self.documentAttachments.count > 0 {
-            var documentAttachments: [AWSFileUploadRequest] = []
-            var index = 0
-            for attachedItem in self.documentAttachments {
-                guard let fileUrl = attachedItem.attachmentUrl else { continue }
-                let fileType: UploaderType = .file
-                let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.attachmentUrl?.components(separatedBy: "/").last ?? "attache_\(Date().millisecondsSince1970)")
-                item.thumbnailImage = attachedItem.thumbnailImage
-                documentAttachments.append(item)
-                index += 1
-            }
-            CreatePostOperation.shared.createPostWithAttachment(attachments: documentAttachments, postCaption: parsedTaggedUserPostText)
+            self.editPostWithDocAttachment(postCaption: parsedTaggedUserPostText)
         } else if self.linkAttatchment != nil {
-            self.createPostWithLinkAttachment(postCaption: parsedTaggedUserPostText)
+            self.editPostWithLinkAttachment(postCaption: parsedTaggedUserPostText)
         } else if !parsedTaggedUserPostText.isEmpty {
-            self.createPostWithOutAttachment(postCaption: parsedTaggedUserPostText)
+            self.editPostWithOutAttachment(postCaption: parsedTaggedUserPostText)
         }
     }
     
-    private func createPostWithLinkAttachment(postCaption: String?) {
+    private func editPostWithLinkAttachment(postCaption: String?) {
         guard let linkAttatchment = self.linkAttatchment else { return }
         let attachmentMeta = AttachmentMeta()
             .ogTags(.init()
@@ -221,24 +197,46 @@ final class EditPostViewModel: BaseViewModel {
         let attachmentRequest = Attachment()
             .attachmentType(.link)
             .attachmentMeta(attachmentMeta)
-        let addPostRequest = AddPostRequest()
+        let editPostRequest = EditPostRequest(postId)
             .text(postCaption)
             .attachments([attachmentRequest])
-        CreatePostOperation.shared.createPost(request: addPostRequest)
+        EditPostOperation.shared.editPost(request: editPostRequest, postId: self.postId)
     }
     
-    private func createPostWithDocAttachment(postCaption: String?) {
-        
+    private func editPostWithDocAttachment(postCaption: String) {
+        var documentAttachments: [AWSFileUploadRequest] = []
+        var index = 0
+        for attachedItem in self.documentAttachments {
+            guard let fileUrl = attachedItem.attachmentUrl else { continue }
+            let fileType: UploaderType = .file
+            let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.name ?? "document_\(Date().millisecondsSince1970)")
+            item.awsUploadedUrl = fileUrl.hasPrefix("https://s3.ap-south-1.amazonaws.com") ? fileUrl : nil
+            item.thumbnailImage = attachedItem.thumbnailImage
+            documentAttachments.append(item)
+            index += 1
+        }
+        EditPostOperation.shared.editPostWithAttachment(attachments: documentAttachments, postCaption: postCaption, postId: self.postId)
     }
     
-    private func createPostWithImageOrVideoAttachment(postCaption: String?) {
-        
+    private func editPostWithImageOrVideoAttachment(postCaption: String) {
+        var imageVideoAttachments: [AWSFileUploadRequest] = []
+        var index = 0
+        for attachedItem in self.imageAndVideoAttachments {
+            guard let fileUrl = attachedItem.url else { continue }
+            let fileType: UploaderType = attachedItem.fileType == .image ? .image : .video
+            let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.name ?? "media_\(Date().millisecondsSince1970)")
+            item.awsUploadedUrl = fileUrl.hasPrefix("https://s3.ap-south-1.amazonaws.com") ? fileUrl : nil
+            item.thumbnailImage = attachedItem.thumbnailImage
+            imageVideoAttachments.append(item)
+            index += 1
+        }
+        EditPostOperation.shared.editPostWithAttachment(attachments: imageVideoAttachments, postCaption: postCaption, postId: self.postId)
     }
     
-    private func createPostWithOutAttachment(postCaption: String?) {
-        let addPostRequest = AddPostRequest()
+    private func editPostWithOutAttachment(postCaption: String?) {
+        let editPostRequest = EditPostRequest(postId)
             .text(postCaption)
-        CreatePostOperation.shared.createPost(request: addPostRequest)
+        EditPostOperation.shared.editPost(request: editPostRequest, postId: self.postId)
     }
     
     func editAnswerTextWithTaggedList(text: String?) -> String  {

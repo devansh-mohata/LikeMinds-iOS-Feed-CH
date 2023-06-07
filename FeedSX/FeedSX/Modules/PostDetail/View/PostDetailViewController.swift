@@ -587,10 +587,22 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                     self.navigationController?.present(deleteController, animated: true)
                 }
             case .edit:
-//                actionSheet.addAction(withOptions: menu.name) {
-//                    print("edit post menu clicked \(selectedPost?.caption)")
-//                }
-                break
+                actionSheet.addAction(withOptions: menu.name) {
+                    guard let postId = selectedPost?.postId else {return}
+                    let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle(for: EditPostViewController.self))
+                    editPost.postId = postId
+                    self.navigationController?.pushViewController(editPost, animated: true)
+                }
+            case .pin:
+                actionSheet.addAction(withOptions: menu.name) { [weak self] in
+                    guard let postId = selectedPost?.postId else {return}
+                    self?.viewModel.pinUnpinPost(postId: postId)
+                }
+            case .unpin:
+                actionSheet.addAction(withOptions: menu.name) { [weak self] in
+                    guard let postId = selectedPost?.postId else {return}
+                    self?.viewModel.pinUnpinPost(postId: postId)
+                }
             default:
                 break
             }

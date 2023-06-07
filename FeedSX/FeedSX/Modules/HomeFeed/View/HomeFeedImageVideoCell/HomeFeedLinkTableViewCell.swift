@@ -53,6 +53,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         self.captionLabel.tintColor = LMBranding.shared.textLinkColor
+        linkTitleLabel.textColor = ColorConstant.textBlackColor
         setupProfileSectionHeader()
         setupActionSectionFooter()
         let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
@@ -63,6 +64,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
         linkThumbnailImageView.tintColor = ColorConstant.likeTextColor
         linkDetailContainerView.clipsToBounds = true
+        linkThumbnailImageView.contentMode = .scaleAspectFill
     }
     
     required init?(coder: NSCoder) {

@@ -46,12 +46,12 @@ final class PostFeedDataView {
     private func docAttachments(post: Post) -> [Attachment]? {
         guard let attachments = post.attachments, attachments.contains(where: {$0.attachmentType?.rawValue == 3}) else { return nil }
         
-        return attachments.map { Attachment(attachmentUrl: $0.attachmentMeta?.attachmentUrl, attachmentType: $0.attachmentMeta?.format, attachmentSize: $0.attachmentMeta?.size, numberOfPages: $0.attachmentMeta?.pageCount)}
+        return attachments.map { Attachment(attachmentUrl: $0.attachmentMeta?.attachmentUrl, attachmentType: $0.attachmentMeta?.format, attachmentSize: $0.attachmentMeta?.size, numberOfPages: $0.attachmentMeta?.pageCount, name: $0.attachmentMeta?.name)}
     }
     
     private func imageVideoAttachments(post: Post) -> [ImageVideo]? {
         guard let attachments = post.attachments, attachments.contains(where: {$0.attachmentType?.rawValue == 1 || $0.attachmentType?.rawValue == 2}) else { return nil }
-        return attachments.map { ImageVideo(url: $0.attachmentMeta?.attachmentUrl, type: $0.attachmentMeta?.format, duration: $0.attachmentMeta?.duration, size: $0.attachmentMeta?.size, fileType: $0.attachmentType == .image ? .image : .video)}
+        return attachments.map { ImageVideo(url: $0.attachmentMeta?.attachmentUrl, type: $0.attachmentMeta?.format, duration: $0.attachmentMeta?.duration, size: $0.attachmentMeta?.size, fileType: $0.attachmentType == .image ? .image : .video, name: $0.attachmentMeta?.name)}
     }
     
     private func linkAttachment(post: Post) -> LinkAttachment? {
@@ -64,11 +64,22 @@ final class PostFeedDataView {
         return menuItems.map { MenuItem(id: .init(rawValue: $0.id) ?? .unknown, name: $0.title ?? "NA")}
     }
     
+    func updatePinUnpinMenu() {
+        guard let index = self.postMenuItems?.firstIndex(where: {$0.id == .unpin || $0.id == .pin}) else { return }
+        if self.isPinned {
+            let menu = MenuItem(id: .unpin, name: "Unpin this Post")
+            self.postMenuItems?[index] = menu
+        } else {
+            let menu = MenuItem(id: .pin, name: "Pin this Post")
+            self.postMenuItems?[index] = menu
+        }
+    }
+    
     private func postByUser(user: User?) -> PostByUser? {
         guard let user = user,
               let userId = user.userUniqueId else { return  nil }
         return PostByUser(name: user.name ?? "Test",
-                          profileImageUrl: user.imageUrl ?? "https://beta-likeminds-media.s3.amazonaws.com/post/c6c4aa41-cdca-4c1d-863c-89c2ea3bc922/SamplePNGImage_20mbmb-1679906349694.png",
+                          profileImageUrl: user.imageUrl ?? "",
                           customTitle: user.customTitle,
                           userId: userId)
     }
@@ -99,6 +110,7 @@ final class PostFeedDataView {
         var size: Int?
         var fileType: PostAttachmentType
         var thumbnailImage: UIImage?
+        var name: String?
     }
     struct Attachment {
         var attachmentUrl: String?
@@ -106,6 +118,7 @@ final class PostFeedDataView {
         var attachmentSize: Int?
         var numberOfPages: Int?
         var thumbnailImage: UIImage?
+        var name: String?
         
         func attachmentName() -> String {
             return (self.attachmentUrl as? NSString)?.lastPathComponent ?? "No name"

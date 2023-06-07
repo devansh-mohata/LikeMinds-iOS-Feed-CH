@@ -101,13 +101,15 @@ class VideoCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        avQueuePlayer = AVQueuePlayer()
-        avPlayerItem = AVPlayerItem(url: pathURL)
-        avPlayerlayerLooper = AVPlayerLooper(player: avQueuePlayer!, templateItem: avPlayerItem!)
+//        avQueuePlayer = AVQueuePlayer()
+//        avPlayerItem = AVPlayerItem(url: pathURL)
+//        avPlayerlayerLooper = AVPlayerLooper(player: avQueuePlayer!, templateItem: avPlayerItem!)
+        
 //        playerView.frame = fanVideoShowView.bounds
 //        playerView.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
 //        fanVideoShowView.layer.insertSublayer(fanPlayerLayer, at: 1)
-        playerView.player = avQueuePlayer
+        
+//        playerView.player = avQueuePlayer
         if playerView.player != nil {
             playerView.player?.play()
             playerView.player?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)

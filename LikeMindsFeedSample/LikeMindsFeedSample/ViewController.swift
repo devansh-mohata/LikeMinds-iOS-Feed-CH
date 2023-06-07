@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         username.isHidden = true
         userId.isHidden = true
-        self.apiKey.text = "" //"62e0b2f3-1861-4b0f-a14e-e5fb263894e3" 
+        self.apiKey.text = "62e0b2f3-1861-4b0f-a14e-e5fb263894e3" 
         let un =  userDefault.string(forKey: "username") ?? ""
         let ui = userDefault.string(forKey: "userid") ?? ""
         if !un.isEmpty && !ui.isEmpty {

@@ -137,7 +137,7 @@ final class PostDetailViewModel: BaseViewModel {
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
-            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.onPost, eventProperties: ["post_id": postId, "comment_id": comment.commentId])
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.onPost, eventProperties: ["post_id": self?.postId ?? "", "comment_id": comment.id])
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
             self?.postDetail?.commentCount += 1
             self?.comments.insert(postComment, at: 0)
@@ -155,7 +155,7 @@ final class PostDetailViewModel: BaseViewModel {
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
-            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.reply, eventProperties: ["post_id": postId, "comment_reply_id": comment.commentId, "comment_id": commentId])
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.reply, eventProperties: ["post_id": self?.postId ?? "", "comment_reply_id": comment.id, "comment_id": commentId])
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
             self?.replyOnComment?.replies.insert(postComment, at: 0)
             self?.replyOnComment?.commentCount += 1
@@ -212,9 +212,22 @@ final class PostDetailViewModel: BaseViewModel {
             if response.success {
                 self?.notifyObjectChanges()
             } else {
-                print(response.errorMessage)
                 self?.postDetail?.isSaved = !(self?.postDetail?.isSaved ?? false)
                 self?.delegate?.reloadSection(IndexPath(row: 0, section: 0))
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
+        }
+    }
+    
+    func pinUnpinPost(postId: String) {
+        let request = PinPostRequest(postId: postId)
+        LMFeedClient.shared.pinPost(request) {[weak self] response in
+            if response.success {
+                self?.postDetail?.isPinned = !(self?.postDetail?.isPinned ?? false)
+                self?.postDetail?.updatePinUnpinMenu()
+                self?.delegate?.reloadSection(IndexPath(row: 0, section: 0))
+                self?.notifyObjectChanges()
+            } else {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }
         }
