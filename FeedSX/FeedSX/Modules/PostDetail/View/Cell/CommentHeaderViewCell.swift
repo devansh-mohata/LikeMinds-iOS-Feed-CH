@@ -60,9 +60,13 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     }()
     
     let usernameLabel: LMLabel = {
-        let label = LMLabel()
+        let label = LMPaddedLabel()
+        label.paddingLeft = 0
+        label.paddingRight = 0
+        label.paddingTop = 10
+        label.paddingBottom = 10
         label.font = LMBranding.shared.font(14, .bold)
-        label.text = "Pushpendra"
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -268,10 +272,10 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
             commentHeaderStackView.bottomAnchor.constraint(equalTo: g.bottomAnchor)
         ])
         
-        likeImageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        likeImageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        moreImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        moreImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        likeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        likeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        moreImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        moreImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
     private func setupActions() {

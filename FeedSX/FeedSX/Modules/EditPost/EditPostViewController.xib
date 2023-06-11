@@ -16,6 +16,7 @@
                 <outlet property="attachmentCollectionView" destination="ATU-x9-ofS" id="abh-oM-NB1"/>
                 <outlet property="attachmentView" destination="K4O-WR-zv2" id="06d-xm-Tip"/>
                 <outlet property="captionTextView" destination="wZ8-1r-yLo" id="Iv8-v2-EXF"/>
+                <outlet property="captionTextViewHeightConstraint" destination="Uj5-Te-FaG" id="ThC-bN-CN4"/>
                 <outlet property="collectionSuperViewHeightConstraint" destination="UIs-bg-jRy" id="3AK-7o-jDR"/>
                 <outlet property="pageControl" destination="Xlz-fw-a0V" id="mO7-3v-uVr"/>
                 <outlet property="postinLabel" destination="S7h-H5-Ahw" id="HXe-ip-Smk"/>
@@ -35,11 +36,11 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ka-j1-UKB">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ka-j1-UKB">
                     <rect key="frame" x="0.0" y="69" width="393" height="749"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGv-C3-KWI">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="618"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="558"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y8e-Xl-ZFD" userLabel="ProfileHeaderView">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
@@ -93,14 +94,14 @@
                                         <constraint firstAttribute="trailing" secondItem="t3A-O2-vdq" secondAttribute="trailing" constant="16" id="v1O-3P-0XU"/>
                                     </constraints>
                                 </view>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Z9p-l3-Pwn">
-                                    <rect key="frame" x="0.0" y="60" width="393" height="558"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Z9p-l3-Pwn">
+                                    <rect key="frame" x="0.0" y="60" width="393" height="498"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RkX-k5-ihA" userLabel="CaptionView">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="145"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wZ8-1r-yLo" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                                    <rect key="frame" x="10" y="0.0" width="373" height="140"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wZ8-1r-yLo" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
+                                                    <rect key="frame" x="10" y="0.0" width="373" height="45"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -110,16 +111,16 @@
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="wZ8-1r-yLo" firstAttribute="leading" secondItem="RkX-k5-ihA" secondAttribute="leading" constant="10" id="J3j-Pl-zXS"/>
-                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="Uj5-Te-FaG"/>
+                                                <constraint firstAttribute="height" constant="50" id="Uj5-Te-FaG"/>
                                                 <constraint firstAttribute="trailing" secondItem="wZ8-1r-yLo" secondAttribute="trailing" constant="10" id="jr9-zL-UL0"/>
                                                 <constraint firstItem="wZ8-1r-yLo" firstAttribute="top" secondItem="RkX-k5-ihA" secondAttribute="top" id="kl9-Sb-MIY"/>
                                                 <constraint firstAttribute="bottom" secondItem="wZ8-1r-yLo" secondAttribute="bottom" constant="5" id="maB-f3-Wtg"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K4O-WR-zv2" userLabel="AttachmentView">
-                                            <rect key="frame" x="0.0" y="155" width="393" height="393"/>
+                                            <rect key="frame" x="0.0" y="55" width="393" height="393"/>
                                             <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ATU-x9-ofS">
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ATU-x9-ofS">
                                                     <rect key="frame" x="0.0" y="0.0" width="393" height="393"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Sec-pn-pwX">
@@ -139,11 +140,11 @@
                                                 <constraint firstAttribute="height" constant="393" id="UIs-bg-jRy"/>
                                             </constraints>
                                         </view>
-                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNx-qw-yWR" userLabel="Pagecounter">
-                                            <rect key="frame" x="0.0" y="553" width="393" height="10"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNx-qw-yWR" userLabel="Pagecounter">
+                                            <rect key="frame" x="0.0" y="453" width="393" height="40"/>
                                             <subviews>
                                                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Xlz-fw-a0V">
-                                                    <rect key="frame" x="138.66666666666666" y="-8" width="115.66666666666666" height="26"/>
+                                                    <rect key="frame" x="138.66666666666666" y="7" width="115.66666666666666" height="26"/>
                                                     <color key="pageIndicatorTintColor" white="0.67000000000000004" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="currentPageIndicatorTintColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </pageControl>
@@ -151,12 +152,12 @@
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="Xlz-fw-a0V" firstAttribute="centerX" secondItem="FNx-qw-yWR" secondAttribute="centerX" id="4cT-Se-fqm"/>
-                                                <constraint firstAttribute="height" constant="10" id="nQM-Fv-mej"/>
+                                                <constraint firstAttribute="height" constant="40" id="nQM-Fv-mej"/>
                                                 <constraint firstItem="Xlz-fw-a0V" firstAttribute="centerY" secondItem="FNx-qw-yWR" secondAttribute="centerY" id="ybd-Qa-6AR"/>
                                             </constraints>
                                         </view>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h8H-cF-f3H">
-                                            <rect key="frame" x="0.0" y="558" width="393" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="498" width="393" height="0.0"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZu-es-cpb" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="121.66666666666669" y="-20" width="150" height="40"/>
@@ -204,7 +205,7 @@
                     </constraints>
                 </scrollView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O06-0s-Lfg" userLabel="TaggingListContainer">
-                    <rect key="frame" x="10" y="269" width="373" height="60"/>
+                    <rect key="frame" x="10" y="174" width="373" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="izW-DE-gIP"/>
                     </constraints>
@@ -237,7 +238,6 @@
                 <constraint firstItem="O06-0s-Lfg" firstAttribute="leading" secondItem="wZ8-1r-yLo" secondAttribute="leading" id="McX-Qd-OWk"/>
                 <constraint firstItem="O06-0s-Lfg" firstAttribute="trailing" secondItem="wZ8-1r-yLo" secondAttribute="trailing" id="Scf-Qg-0ok"/>
                 <constraint firstItem="0hn-hp-1Fw" firstAttribute="top" secondItem="0Ka-j1-UKB" secondAttribute="bottom" id="ZOz-dS-Hv5"/>
-                <constraint firstItem="0hn-hp-1Fw" firstAttribute="top" secondItem="0Ka-j1-UKB" secondAttribute="bottom" id="crf-6G-BqK"/>
                 <constraint firstItem="0Ka-j1-UKB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kPi-C5-NhC"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0hn-hp-1Fw" secondAttribute="trailing" id="nUl-b2-Obz"/>
                 <constraint firstItem="0hn-hp-1Fw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oXU-O2-8Ow"/>
@@ -246,8 +246,8 @@
         </view>
     </objects>
     <resources>
-        <image name="person.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="person.circle.fill" catalog="system" width="32" height="32"/>
+        <image name="plus" catalog="system" width="32" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -329,17 +329,24 @@ extension CreatePostViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension CreatePostViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = true
+        enablePostButton()
+    }
     
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
         enablePostButton()
+        taggingUserList.textViewDidChange(textView)
     }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        taggingUserList.textViewDidChangeSelection(textView)
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
-        enablePostButton()
-    }
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        placeholderLabel.isHidden = true
         enablePostButton()
     }
     
@@ -356,37 +363,29 @@ extension CreatePostViewController: UITextViewDelegate {
         if text != "" {
             typeTextRangeInTextView?.location += 1
         }
-        if text != " " {
-            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-        } else {
-            hideTaggingViewContainer()
-        }
+        taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
         enablePostButton()
-        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
-            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
-                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
-            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
-            let combination = NSMutableAttributedString()
-            combination.append(textView.attributedText)
-            combination.append(attributedString)
-            textView.attributedText = combination
-            return false
-        }
+//        if text != " " {
+//            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
+//        } else {
+//            hideTaggingViewContainer()
+//        }
+//
+//        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
+//            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
+//                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
+//            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
+//            let combination = NSMutableAttributedString()
+//            combination.append(textView.attributedText)
+//            combination.append(attributedString)
+//            textView.attributedText = combination
+//            return false
+//        }
         
         let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
         textView.isScrollEnabled = (textView.bounds.height >= 145) && (numLines > 6)
         return true
     }
-    
-    func checkDeleteLocation(range: NSRange) {
-        if self.viewModel.taggedUsers.contains(where: {$0.range.location == range.location}) {
-            let inputString = captionTextView.text
-//            let startIndex = 
-//            captionTextView.text.repl
-//                .replacingOccurrences(of: memberNameWithTag, with: "<<\(memberName)|route://member/\(member.user.userUniqueId ?? "")>>")
-        }
-    }
-    
 }
 
 extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
@@ -483,29 +482,34 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 
 extension CreatePostViewController: TaggedUserListDelegate {
     
-    func didSelectMemberFromTagList(_ user: User) {
+    func didChangedTaggedList(taggedList: [TaggedUser]) {
         hideTaggingViewContainer()
-        var attributedMessage:NSAttributedString?
-        var range = self.typeTextRangeInTextView
-        if let attributedText = captionTextView.attributedText {
-            attributedMessage = attributedText
-        }
-        if let selectedRange = captionTextView.selectedTextRange {
-            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
-            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
-            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
-                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
-                range?.location += increasedLength
-            }
-        }
-//        if !viewModel.taggedUsers.contains(where: {$0.userUniqueId == user.userUniqueId}) {
-            guard let range = range else {
-                return
-            }
-            let us = TaggedUser(user, range: range)
-            viewModel.taggedUsers.append(us)
-//        }
+        viewModel.taggedUsers = taggedList
     }
+    
+//    func didSelectMemberFromTagList(_ user: User) {
+//        hideTaggingViewContainer()
+//        var attributedMessage:NSAttributedString?
+//        var range = self.typeTextRangeInTextView
+//        if let attributedText = captionTextView.attributedText {
+//            attributedMessage = attributedText
+//        }
+//        if let selectedRange = captionTextView.selectedTextRange {
+//            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
+//            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
+//            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
+//                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
+//                range?.location += increasedLength
+//            }
+//        }
+////        if !viewModel.taggedUsers.contains(where: {$0.userUniqueId == user.userUniqueId}) {
+//            guard let range = range else {
+//                return
+//            }
+//        let us = TaggedUser(TaggingUser(name: user.name ?? "", id: user.userUniqueId ?? ""), range: range)
+//            viewModel.taggedUsers.append(us)
+////        }
+//    }
 
     func hideTaggingViewContainer() {
         isTaggingViewHidden = true

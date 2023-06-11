@@ -26,15 +26,16 @@ final class PostDetailViewModel: BaseViewModel {
     var isCommentRepliesLoading: Bool = false
     weak var delegate: PostDetailViewModelDelegate?
     var postId: String = ""
-    var taggedUsers: [User] = []
+    var taggedUsers: [TaggedUser] = []
     var replyOnComment: PostDetailDataModel.Comment?
+    var editingComment: PostDetailDataModel.Comment?
     
     func notifyObjectChanges() {
         NotificationCenter.default.post(name: .refreshHomeFeedDataObject, object: postDetail)
     }
     
     func postComment(text: String) {
-        let parsedTaggedUserText = self.editAnswerTextWithTaggedList(text: text)
+        let parsedTaggedUserText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: text, taggedUsers: self.taggedUsers)
         if let replyOnComment = self.replyOnComment {
             self.postCommentsReply(commentId: replyOnComment.commentId, comment: parsedTaggedUserText)
         } else {
@@ -42,22 +43,13 @@ final class PostDetailViewModel: BaseViewModel {
         }
     }
     
-    func editAnswerTextWithTaggedList(text: String?) -> String  {
-        if var answerText = text, self.taggedUsers.count > 0 {
-            for member in taggedUsers {
-                if let memberName = member.name {
-                    let memberNameWithTag = "@"+memberName
-                    if answerText.contains(memberNameWithTag) {
-                        if let _ = answerText.range(of: memberNameWithTag) {
-                            answerText = answerText.replacingOccurrences(of: memberNameWithTag, with: "<<\(memberName)|route://member/\(member.userUniqueId ?? "")>>")
-                        }
-                    }
-                }
-            }
-            answerText = answerText.trimmedText()
-            return answerText
+    func editComment(comment: String, section: Int?, row: Int?) {
+        let parsedTaggedUserText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: comment, taggedUsers: self.taggedUsers)
+        if let editingComment = self.editingComment,
+           let postId = editingComment.postId {
+            self.editComment(postId: postId, commentId: editingComment.commentId, comment: parsedTaggedUserText, section: section, row: row)
+            self.editingComment = nil
         }
-        return text ?? ""
     }
     
     func repliesCount(section: Int) -> Int {
@@ -173,7 +165,6 @@ final class PostDetailViewModel: BaseViewModel {
             if response.success {
                 self?.notifyObjectChanges()
             } else {
-                print(response.errorMessage)
                 let isLike = !(self?.postDetail?.isLiked ?? false)
                 self?.postDetail?.isLiked = isLike
                 self?.postDetail?.likedCount += isLike ? 1 : -1
@@ -189,7 +180,6 @@ final class PostDetailViewModel: BaseViewModel {
             if response.success {
 //                self?.notifyObjectChanges()
             } else {
-                print(response.errorMessage)
                 if let section = section, var comment = self?.comments[section] {
                     var tmpRow: Int = 0
                     if let row = row {
@@ -227,6 +217,31 @@ final class PostDetailViewModel: BaseViewModel {
                 self?.postDetail?.updatePinUnpinMenu()
                 self?.delegate?.reloadSection(IndexPath(row: 0, section: 0))
                 self?.notifyObjectChanges()
+            } else {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
+        }
+    }
+    
+    func editComment(postId: String, commentId: String, comment: String, section: Int?, row: Int?) {
+        let request = EditCommentRequest(postId: postId, commentId: commentId)
+            .text(comment)
+        LMFeedClient.shared.editComment(request) {[weak self] response in
+            if response.success {
+                guard let comment = response.data?.comment, let users =  response.data?.users else {
+                    return
+                }
+                let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
+                guard let section = section else  {
+                    return
+                }
+                if let row = row {
+                    self?.comments[section].replies[row] = postComment
+                    self?.delegate?.reloadSection(IndexPath(row: row, section: section + 1))
+                } else {
+                    self?.comments[section] = postComment
+                    self?.delegate?.reloadSection(IndexPath(row: NSNotFound, section: section))
+                }
             } else {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }

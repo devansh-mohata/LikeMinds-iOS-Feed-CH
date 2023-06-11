@@ -7,11 +7,15 @@
 
 import UIKit
 
+protocol HomeFeedLinkTableViewCellDelegate: HomeFeedTableViewCellDelegate {
+    func didTapOnCell(_ feedDataView: PostFeedDataView?)
+}
+
 class HomeFeedLinkTableViewCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedLinkTableViewCell"
     static let bundle = Bundle(for: HomeFeedLinkTableViewCell.self)
-    weak var delegate: HomeFeedTableViewCellDelegate?
+    weak var delegate: HomeFeedLinkTableViewCellDelegate?
     
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var containerView: UIView!
@@ -83,7 +87,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
             UIApplication.shared.open(url)
         } else {
-//            delegate?.didTapOnCell(self.feedData)
+            delegate?.didTapOnCell(self.feedData)
         }
     }
     
@@ -106,9 +110,9 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
+        self.delegate = delegate as? HomeFeedLinkTableViewCellDelegate 
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
-        let count = self.feedData?.attachments?.count ?? 0
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)
         self.layoutIfNeeded()
@@ -118,8 +122,12 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         self.linkTitleLabel.text = title
         self.linkDescriptionLabel.text = description
         self.linkLabel.text = link
-        let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
-        self.linkThumbnailImageView.setImage(withUrl: linkThumbnailUrl ?? "")
+        let placeHolder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
+        if let link = linkThumbnailUrl {
+            self.linkThumbnailImageView.setImage(withUrl: link, placeholder: placeHolder)
+        } else {
+            self.linkThumbnailImageView.image = placeHolder
+        }
     }
     
     private func setupCaption() {
@@ -128,50 +136,19 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
     }
-}
-
-extension HomeFeedLinkTableViewCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var defaultCell = UICollectionViewCell()
-        if let attachmentItem = self.feedData?.linkAttachment,
-           let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: LinkCollectionViewCell.cellIdentifier, for: indexPath) as? LinkCollectionViewCell {
-            cell.setupLinkCell(attachmentItem.title, description: attachmentItem.description, link: attachmentItem.url, linkThumbnailUrl: attachmentItem.linkThumbnailUrl)
-            cell.removeButton.alpha = 0
-            defaultCell = cell
-        }
-        return defaultCell
-    }
-    /*
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch self.feedData?.postAttachmentType() ?? .unknown {
-        case .document:
-            return CGSize(width: UIScreen.main.bounds.width, height: 90)
-        default:
-            break
-        }
-        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-    }
-    */
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let attachmentItem = self.feedData?.attachments?[indexPath.row],
-           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: docUrl) {
+    @IBAction func clickedLinkView(_ sender: UIButton) {
+        if let linkAttachment = self.feedData?.linkAttachment,
+           let urlString = linkAttachment.url {
+            let myURL:URL?
+            if urlString.hasPrefix("https://") || urlString.hasPrefix("http://"){
+                myURL = URL(string: urlString)
+            }else {
+                let correctedURL = "http://\(urlString)"
+                myURL = URL(string: correctedURL)
+            }
+            guard let url = myURL else { return }
             UIApplication.shared.open(url)
         }
     }
-    
 }

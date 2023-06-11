@@ -25,7 +25,7 @@ final class EditPostViewModel: BaseViewModel {
     var currentSelectedUploadeType: CreatePostViewModel.AttachmentUploadType = .unknown
     weak var delegate: EditPostViewModelDelegate?
     var postCaption: String?
-    var taggedUsers: [User] = []
+    var taggedUsers: [TaggedUser] = []
     var postId: String = ""
     var postDetail: PostFeedDataView?
     private let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
@@ -130,7 +130,6 @@ final class EditPostViewModel: BaseViewModel {
     
     func parseMessageForLink(message: String) {
         guard let link = message.detectedFirstLink, currentSelectedUploadeType != .dontAttachOgTag else {
-            //            self.currentSelectedUploadeType = .unknown
             self.linkAttatchment = nil
             self.delegate?.reloadCollectionView()
             return
@@ -174,7 +173,7 @@ final class EditPostViewModel: BaseViewModel {
     }
     
     func editPost(_ text: String?) {
-        let parsedTaggedUserPostText = self.editAnswerTextWithTaggedList(text: text)
+        let parsedTaggedUserPostText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: text, taggedUsers: self.taggedUsers)
         if self.imageAndVideoAttachments.count > 0 {
             self.editPostWithImageOrVideoAttachment(postCaption: parsedTaggedUserPostText)
         } else if self.documentAttachments.count > 0 {
@@ -237,24 +236,6 @@ final class EditPostViewModel: BaseViewModel {
         let editPostRequest = EditPostRequest(postId)
             .text(postCaption)
         EditPostOperation.shared.editPost(request: editPostRequest, postId: self.postId)
-    }
-    
-    func editAnswerTextWithTaggedList(text: String?) -> String  {
-        if var answerText = text, self.taggedUsers.count > 0 {
-            for member in taggedUsers {
-                if let memberName = member.name {
-                    let memberNameWithTag = "@"+memberName
-                    if answerText.contains(memberNameWithTag) {
-                        if let _ = answerText.range(of: memberNameWithTag) {
-                            answerText = answerText.replacingOccurrences(of: memberNameWithTag, with: "<<\(memberName)|route://member/\(member.userUniqueId ?? "")>>")
-                        }
-                    }
-                }
-            }
-            answerText = answerText.trimmingCharacters(in: .whitespacesAndNewlines)
-            return answerText
-        }
-        return text ?? ""
     }
 }
 

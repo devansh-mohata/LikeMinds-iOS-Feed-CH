@@ -109,6 +109,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
+//        self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
         let count = self.feedData?.attachments?.count ?? 0

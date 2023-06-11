@@ -110,6 +110,12 @@ class HomeFeedViewModel: BaseViewModel {
         }
     }
     
+    func updateEditedPost(postDetail: PostFeedDataView?) -> Int {
+        guard let postDetail = postDetail, let index = feeds.firstIndex(where: {$0.postId == postDetail.postId}) else { return 0 }
+        feeds[index] = postDetail
+        return index
+    }
+    
     func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {
         if self.currentPage > 1 {
             feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])})

@@ -114,6 +114,7 @@ public final class HomeFeedViewControler: BaseViewController {
         self.postingImageSuperView.superview?.isHidden = true
         homeFeedViewModel.getFeed()
         createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(postEditCompleted), name: .postEditCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationCompleted), name: .postCreationCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationStarted), name: .postCreationStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshFeed), name: .refreshHomeFeedData, object: nil)
@@ -186,6 +187,29 @@ public final class HomeFeedViewControler: BaseViewController {
         self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
     
+    @objc func postEditingStarted(notification: Notification) {
+        print("postEditingStarted")
+        self.postingImageSuperView.superview?.isHidden = false
+        if let image = notification.object as? UIImage {
+            postingImageView.superview?.isHidden = false
+            postingImageView.image = image
+        } else {
+            self.postingImageView.isHidden = true
+        }
+        self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+    }
+    
+    @objc func postEditCompleted(notification: Notification) {
+        print("postEditCompleted")
+        self.postingImageSuperView.superview?.isHidden = true
+        let notificationObject = notification.object
+        if let error = notificationObject as? String {
+            self.presentAlert(message: error)
+            return
+        }
+        let updatedAtIndex = self.homeFeedViewModel.updateEditedPost(postDetail: notificationObject as? PostFeedDataView)
+        self.feedTableView.reloadRows(at: [IndexPath(row: updatedAtIndex, section: 0)], with: .none)
+    }
     
     func setupTableView() {
         self.view.addSubview(postingProgressSuperStackView)
@@ -197,6 +221,7 @@ public final class HomeFeedViewControler: BaseViewController {
         feedTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         feedTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         feedTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        feedTableView.showsVerticalScrollIndicator = false
         feedTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
         feedTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
         feedTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)

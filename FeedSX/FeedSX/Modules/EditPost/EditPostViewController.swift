@@ -133,10 +133,8 @@ class EditPostViewController: BaseViewController {
     }
     
     @objc func editPost() {
-        print("post data")
         self.view.endEditing(true)
         let text = self.captionTextView.trimmedText()
-        return
         if (self.viewModel.currentSelectedUploadeType == .link), let _ = text.detectedFirstLink {
             self.viewModel.verifyOgTagsAndEditPost(message: text) {[weak self] in
                 self?.viewModel.editPost(text)
@@ -210,6 +208,15 @@ class EditPostViewController: BaseViewController {
         let documentCount = self.viewModel.documentAttachments.count != 0
         let captionText = !captionTextView.trimmedText().isEmpty
         postButtonItem?.isEnabled = imageVideoCount || documentCount || captionText
+    }
+    
+    func adjustHeightOfTextView() {
+        captionTextView.isScrollEnabled = true
+        let maxHeight: CGFloat = 160
+        let fixedWidth = captionTextView.frame.size.width
+        let newSize = captionTextView.sizeThatFits(CGSize(width: fixedWidth, height: maxHeight))
+        self.captionTextViewHeightConstraint.constant = min(maxHeight, newSize.height)
+        self.view.layoutIfNeeded()
     }
 }
 
@@ -335,16 +342,24 @@ extension EditPostViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension EditPostViewController: UITextViewDelegate {
     
-    func textViewDidChange(_ textView: UITextView) {
-        placeholderLabel.isHidden = !textView.text.isEmpty
-        enablePostButton()
-    }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        placeholderLabel.isHidden = !textView.text.isEmpty
-        enablePostButton()
-    }
     func textViewDidBeginEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = true
+        enablePostButton()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+        adjustHeightOfTextView()
+        enablePostButton()
+        taggingUserList.textViewDidChange(textView)
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        taggingUserList.textViewDidChangeSelection(textView)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
         enablePostButton()
     }
     
@@ -361,25 +376,29 @@ extension EditPostViewController: UITextViewDelegate {
         if text != "" {
             typeTextRangeInTextView?.location += 1
         }
-        if text != " " {
-            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-        } else {
-            hideTaggingViewContainer()
-        }
+        taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
         enablePostButton()
-        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
-            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
-                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
-            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
-            let combination = NSMutableAttributedString()
-            combination.append(textView.attributedText)
-            combination.append(attributedString)
-            textView.attributedText = combination
-            return false
-        }
         
-        let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
-        textView.isScrollEnabled = (textView.bounds.height >= 145) && (numLines > 6)
+//        if text != " " {
+//            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
+//        } else {
+//            hideTaggingViewContainer()
+//        }
+//        
+//        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
+//            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
+//                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
+//            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
+//            let combination = NSMutableAttributedString()
+//            combination.append(textView.attributedText)
+//            combination.append(attributedString)
+//            textView.attributedText = combination
+//            return false
+//        }
+        
+//        let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
+//        textView.isScrollEnabled = (textView.bounds.height >= 145) && (numLines > 6)
+        adjustHeightOfTextView()
         return true
     }
     
@@ -433,9 +452,14 @@ extension EditPostViewController: UIDocumentPickerDelegate {
 extension EditPostViewController: EditPostViewModelDelegate {
     
     func didReceivedPostDetails() {
-        attachmentCollectionView.reloadData()
-        captionTextView.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: self.viewModel.postDetail?.caption ?? "", forTextView: true)
+//        attachmentCollectionView.reloadData()
+        self.reloadAttachmentsView()
+        let data  = TaggedRouteParser.shared.getTaggedParsedAttributedStringForEditText(with: self.viewModel.postDetail?.caption ?? "", forTextView: true)
+        captionTextView.attributedText = data.0
+        viewModel.taggedUsers = data.1
+        taggingUserList.initialTaggedUsers(taggedUsers: viewModel.taggedUsers)
         placeholderLabel.isHidden = !captionTextView.text.isEmpty
+        adjustHeightOfTextView()
     }
     
     func reloadAttachmentsView() {
@@ -462,13 +486,13 @@ extension EditPostViewController: EditPostViewModelDelegate {
             pageControl?.superview?.isHidden = true
             break
         }
-        enablePostButton()
+//        enablePostButton()
         attachmentCollectionView.reloadData()
-        addMoreButton.superview?.isHidden = !isCountGreaterThanZero
-        if hasReachedMaximumAttachment() {
-            addMoreButton.superview?.isHidden = true
-            self.uploadActionViewHeightConstraint.constant = 0
-        }
+//        addMoreButton.superview?.isHidden = !isCountGreaterThanZero
+//        if hasReachedMaximumAttachment() {
+//            addMoreButton.superview?.isHidden = true
+//            self.uploadActionViewHeightConstraint.constant = 0
+//        }
     }
     
     func reloadCollectionView() {
@@ -486,23 +510,28 @@ extension EditPostViewController: EditPostViewModelDelegate {
 
 extension EditPostViewController: TaggedUserListDelegate {
     
-    func didSelectMemberFromTagList(_ user: User) {
+    func didChangedTaggedList(taggedList: [TaggedUser]) {
         hideTaggingViewContainer()
-        var attributedMessage:NSAttributedString?
-        if let attributedText = captionTextView.attributedText {
-            attributedMessage = attributedText
-        }
-        if let selectedRange = captionTextView.selectedTextRange {
-            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
-            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
-            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
-                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
-            }
-        }
-        if !viewModel.taggedUsers.contains(where: {$0.userUniqueId == user.userUniqueId}) {
-            viewModel.taggedUsers.append(user)
-        }
+        viewModel.taggedUsers = taggedList
     }
+    
+//    func didSelectMemberFromTagList(_ user: User) {
+//        hideTaggingViewContainer()
+//        var attributedMessage:NSAttributedString?
+//        if let attributedText = captionTextView.attributedText {
+//            attributedMessage = attributedText
+//        }
+//        if let selectedRange = captionTextView.selectedTextRange {
+//            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
+//            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
+//            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
+//                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
+//            }
+//        }
+//        if !viewModel.taggedUsers.contains(where: {$0.user.id == user.userUniqueId}) {
+//            viewModel.taggedUsers.append(TaggedUser(TaggingUser(name: user.name, id: user.userUniqueId), range: captionTextView.selectedRange))
+//        }
+//    }
     
     func hideTaggingViewContainer() {
         isTaggingViewHidden = true
