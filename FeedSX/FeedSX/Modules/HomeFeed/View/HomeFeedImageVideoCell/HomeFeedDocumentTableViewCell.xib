@@ -113,6 +113,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" red="0.81568627449999997" green="0.84705882349999995" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="VGr-1M-J8h" firstAttribute="top" secondItem="zgA-MR-eg1" secondAttribute="bottom" id="71f-Ks-5ik"/>
                     <constraint firstItem="VGr-1M-J8h" firstAttribute="top" secondItem="zgA-MR-eg1" secondAttribute="bottom" id="8vV-eI-gVN"/>
@@ -128,6 +129,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" red="0.81568627449999997" green="0.84705882349999995" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
                 <outlet property="actionsSectionView" destination="VGr-1M-J8h" id="f87-Pr-7h5"/>
                 <outlet property="captionLabel" destination="OEU-xv-ghl" id="9tx-mq-jcs"/>

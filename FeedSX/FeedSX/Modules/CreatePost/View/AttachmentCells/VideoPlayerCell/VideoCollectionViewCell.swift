@@ -68,8 +68,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
 //        self.activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
 //        self.activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         try? AVAudioSession.sharedInstance().setCategory(.playback)
-        playerView.player?.playImmediately(atRate: 1)
-        playerView.player?.play()
+        if playerView.player != nil {
+            playerView.player?.playImmediately(atRate: 1)
+            playerView.player?.play()
+//            playerView.player?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+        }
     }
     
     func stopVideo() {
@@ -87,10 +90,10 @@ class VideoCollectionViewCell: UICollectionViewCell {
         createFanPlayer(videoName: url)
         return
         // set the video player with the path
-        videoPlayer = AVPlayer(url: urL)
+//        videoPlayer = AVPlayer(url: urL)
         // play the video now!
 //        videoPlayer?.playImmediately(atRate: 1)
-        videoPlayer?.isMuted = false
+//        videoPlayer?.isMuted = false
         // setup the AVPlayer as the player
         
     }
@@ -101,20 +104,22 @@ class VideoCollectionViewCell: UICollectionViewCell {
             return
         }
         
-//        avQueuePlayer = AVQueuePlayer()
-//        avPlayerItem = AVPlayerItem(url: pathURL)
-//        avPlayerlayerLooper = AVPlayerLooper(player: avQueuePlayer!, templateItem: avPlayerItem!)
+//        pauseVideo()
+        
+        avQueuePlayer = AVQueuePlayer()
+        avPlayerItem = AVPlayerItem(url: pathURL)
+        avPlayerlayerLooper = AVPlayerLooper(player: avQueuePlayer!, templateItem: avPlayerItem!)
         
 //        playerView.frame = fanVideoShowView.bounds
 //        playerView.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
 //        fanVideoShowView.layer.insertSublayer(fanPlayerLayer, at: 1)
         
-//        playerView.player = avQueuePlayer
-        if playerView.player != nil {
-            playerView.player?.play()
-            playerView.player?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-        }
-//        return fanPlayer
+        playerView.player = avQueuePlayer
+//        sharedPlayView = playerView
+//        if playerView.player != nil {
+//            playerView.player?.play()
+//            playerView.player?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+//        }
     }
     
     // This is the function to setup the CollectionViewCell
@@ -131,7 +136,9 @@ class VideoCollectionViewCell: UICollectionViewCell {
     
     deinit {
         print("videocell removed---")
-        playerView.player?.removeObserver(self, forKeyPath: "timeControlStatus")
+        if playerView.player != nil {
+//            playerView.player?.removeObserver(self, forKeyPath: "timeControlStatus")
+        }
     }
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

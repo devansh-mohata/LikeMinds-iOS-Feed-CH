@@ -91,6 +91,7 @@ class PostDetailViewController: BaseViewController {
         postDetailTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
         postDetailTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
         postDetailTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)
+        postDetailTableView.register(TotalCommentCountCell.self, forCellReuseIdentifier: TotalCommentCountCell.reuseIdentifier)
         postDetailTableView.rowHeight = UITableView.automaticDimension
         postDetailTableView.estimatedRowHeight = 44
         postDetailTableView.separatorStyle = .none
@@ -175,7 +176,9 @@ class PostDetailViewController: BaseViewController {
     }
     
     func setBackButtonIfNotExist() {
-//        guard self.navigationItem.backBarButtonItem == nil else {return}
+        if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
+            return
+        }
         let backImage = UIImage(systemName: ImageIcon.backIcon)
         let backItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(dismissController))
         backItem.tintColor = LMBranding.shared.buttonColor
@@ -240,7 +243,11 @@ class PostDetailViewController: BaseViewController {
         adjustHeightOfTextView()
         self.viewModel.editingComment = comment
         self.commentTextView.becomeFirstResponder()
-        
+    }
+    
+    func clearEditCommentData() {
+        self.selectedCommentSection = nil
+        self.selectedReplyIndexPath = nil
     }
     
     @objc func closeReplyToUsersCommentView() {
@@ -267,6 +274,7 @@ class PostDetailViewController: BaseViewController {
         self.viewModel.taggedUsers = []
         taggingUserList.initialTaggedUsers(taggedUsers: viewModel.taggedUsers)
         adjustHeightOfTextView()
+        hideTaggingViewContainer()
         commentTextView.resignFirstResponder()
     }
     
@@ -306,14 +314,19 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
         return viewModel.comments.count + 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 { return 1}
-//        return viewModel.comments[section - 1].replies.count
+        if section == 0 { return 1//(viewModel.postDetail?.commentCount ?? 0) > 0 ? 2 : 1
+        }
         return viewModel.repliesCount(section: section - 1)
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0,
            let post = viewModel.postDetail
         {
+            if indexPath.row == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: TotalCommentCountCell.reuseIdentifier, for: indexPath) as! TotalCommentCountCell
+                cell.setupDataView(post: post)
+                return cell
+            }
             switch post.postAttachmentType() {
             case .document:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedDocumentTableViewCell.nibName, for: indexPath) as! HomeFeedDocumentTableViewCell
@@ -395,25 +408,7 @@ extension PostDetailViewController: UITextViewDelegate {
         if text != "" {
             typeTextRangeInTextView?.location += 1
         }
-//        if text != " " {
-//            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-//        } else {
-//            hideTaggingViewContainer()
-//        }
         taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
-
-//        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
-//            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
-//                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
-//            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
-//            let combination = NSMutableAttributedString()
-//            combination.append(textView.attributedText)
-//            combination.append(attributedString)
-//            textView.attributedText = combination
-//            return false
-//        }
-//        self.enableScrollCommentTextView()
-//        adjustHeightOfTextView()
         return true
     }
     
@@ -433,15 +428,20 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         self.subTitleLabel.text = viewModel.totalCommentsCount()
         postDetailTableView.tableFooterView?.isHidden = true
         if viewModel.comments.count == 0 {
-            postDetailTableView.tableFooterView = nil
+//            postDetailTableView.tableFooterView = nil
             postDetailTableView.tableFooterView?.isHidden = false
             self.setAttributedTextForNoComments()
         }
         
     }
     
-    func didReceiveCommentsReply() {
+    func didReceiveCommentsReply(withCommentId commentId: String, withBatchFirstReplyId replyId: String) {
         postDetailTableView.reloadData()
+        if !replyId.isEmpty, let section = viewModel.comments.firstIndex(where: {$0.commentId == commentId}),
+           let row = viewModel.comments[section].replies.firstIndex(where: {$0.commentId == replyId}){
+            let indexPath = IndexPath(row: row, section: section + 1)
+            postDetailTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        }
         closeReplyToUsersCommentView()
     }
     
@@ -464,6 +464,15 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         } else {
             postDetailTableView.reloadRows(at: [indexPath], with: .none)
         }
+    }
+    
+    func didReceivedEditResponse(_ indexPath: IndexPath) {
+        if indexPath.row == NSNotFound {
+            postDetailTableView.reloadSections(IndexSet(integer: indexPath.section + 1), with: .none)
+        } else {
+            postDetailTableView.reloadRows(at: [indexPath], with: .none)
+        }
+        clearEditCommentData()
     }
     
     

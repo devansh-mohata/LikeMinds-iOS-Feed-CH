@@ -128,14 +128,14 @@ class CreatePostOperation {
     }
     
     func fileAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
-        var size: Int?
-        var numberOfPages: Int?
-        guard let fileUrl = URL(string: attachment.fileUrl) else { return Attachment() }
-        if let pdf = CGPDFDocument(fileUrl as CFURL) {
+        var size: Int? = attachment.documentAttachmentSize
+        var numberOfPages: Int? = attachment.documentNumberOfPages
+        guard let fileUrl = URL(string: attachment.fileUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return Attachment() }
+        if numberOfPages == nil, let pdf = CGPDFDocument(fileUrl as CFURL) {
             print("number of page: \(pdf.numberOfPages)")
             numberOfPages = pdf.numberOfPages
         }
-        if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
+        if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             size = attr[.size] as? Int
         }
         let attachmentMeta = AttachmentMeta()

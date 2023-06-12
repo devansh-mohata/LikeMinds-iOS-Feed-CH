@@ -460,6 +460,7 @@ extension EditPostViewController: EditPostViewModelDelegate {
         taggingUserList.initialTaggedUsers(taggedUsers: viewModel.taggedUsers)
         placeholderLabel.isHidden = !captionTextView.text.isEmpty
         adjustHeightOfTextView()
+        captionTextView.becomeFirstResponder()
     }
     
     func reloadAttachmentsView() {

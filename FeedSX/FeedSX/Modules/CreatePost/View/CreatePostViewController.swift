@@ -217,7 +217,7 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
         case .document:
             return viewModel.documentAttachments.count
         case .link:
-            return 1
+            return  self.viewModel.linkAttatchment == nil ? 0 : 1
         default:
             return 0
         }
@@ -365,23 +365,6 @@ extension CreatePostViewController: UITextViewDelegate {
         }
         taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
         enablePostButton()
-//        if text != " " {
-//            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-//        } else {
-//            hideTaggingViewContainer()
-//        }
-//
-//        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
-//            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
-//                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
-//            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
-//            let combination = NSMutableAttributedString()
-//            combination.append(textView.attributedText)
-//            combination.append(attributedString)
-//            textView.attributedText = combination
-//            return false
-//        }
-        
         let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
         textView.isScrollEnabled = (textView.bounds.height >= 145) && (numLines > 6)
         return true

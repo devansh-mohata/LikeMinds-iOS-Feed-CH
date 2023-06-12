@@ -16,6 +16,8 @@ class AWSFileUploadRequest {
     var awsFilePath: String
     var awsUploadedUrl: String?
     var thumbnailImage: UIImage?
+    var documentAttachmentSize: Int?
+    var documentNumberOfPages: Int?
     
     init(fileUrl: String, awsFilePath: String, fileType: UploaderType, index: Int, name: String) {
         self.fileUrl = fileUrl

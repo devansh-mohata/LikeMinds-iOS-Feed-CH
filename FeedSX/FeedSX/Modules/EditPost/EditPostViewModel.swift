@@ -211,6 +211,8 @@ final class EditPostViewModel: BaseViewModel {
             let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.name ?? "document_\(Date().millisecondsSince1970)")
             item.awsUploadedUrl = fileUrl.hasPrefix("https://s3.ap-south-1.amazonaws.com") ? fileUrl : nil
             item.thumbnailImage = attachedItem.thumbnailImage
+            item.documentAttachmentSize = attachedItem.attachmentSize
+            item.documentNumberOfPages = attachedItem.numberOfPages
             documentAttachments.append(item)
             index += 1
         }

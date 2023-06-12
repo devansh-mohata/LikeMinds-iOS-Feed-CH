@@ -19,16 +19,17 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jT4-ZO-ARP">
-                        <rect key="frame" x="16" y="5" width="264" height="247"/>
+                        <rect key="frame" x="16" y="5" width="264" height="241.33333333333334"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b9i-3p-9jq">
-                                <rect key="frame" x="0.0" y="0.0" width="264" height="154.33333333333334"/>
+                                <rect key="frame" x="0.0" y="0.0" width="264" height="148.66666666666666"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="230" id="ozC-EW-doj"/>
+                                    <constraint firstAttribute="width" secondItem="b9i-3p-9jq" secondAttribute="height" multiplier="16:9" priority="250" id="sfX-cY-QcG"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="J6i-Bq-e6g">
-                                <rect key="frame" x="16" y="170.33333333333334" width="238" height="60.666666666666657"/>
+                                <rect key="frame" x="16" y="164.66666666666666" width="238" height="60.666666666666657"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCD-Ry-WeS" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="32.666666666666664" height="19.333333333333332"/>
@@ -37,13 +38,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzp-iZ-pdV" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.333333333333314" width="74" height="17"/>
+                                        <rect key="frame" x="0.0" y="24.333333333333343" width="74" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZd-IC-C67" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="46.333333333333314" width="19.666666666666668" height="14.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="46.333333333333343" width="19.666666666666668" height="14.333333333333336"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -85,7 +86,7 @@
                 <constraint firstItem="jT4-ZO-ARP" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="Kas-Uz-J6W"/>
                 <constraint firstItem="jT4-ZO-ARP" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="v9H-cl-qSq"/>
                 <constraint firstAttribute="trailing" secondItem="jT4-ZO-ARP" secondAttribute="trailing" constant="16" id="xhY-BC-dZB"/>
-                <constraint firstAttribute="bottom" secondItem="jT4-ZO-ARP" secondAttribute="bottom" constant="5" id="xwD-ur-OgF"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="jT4-ZO-ARP" secondAttribute="bottom" constant="5" id="xwD-ur-OgF"/>
             </constraints>
             <size key="customSize" width="296" height="257"/>
             <connections>

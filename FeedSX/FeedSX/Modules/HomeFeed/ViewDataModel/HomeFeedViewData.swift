@@ -121,11 +121,12 @@ final class PostFeedDataView {
         var name: String?
         
         func attachmentName() -> String {
-            return (self.attachmentUrl as? NSString)?.lastPathComponent ?? "No name"
+            return self.name ?? ((self.attachmentUrl as? NSString)?.lastPathComponent ?? "No name")
         }
         
         func attachmentDetails() -> String {
             let size = (self.attachmentSize ?? 0)/1000
+//            let sizeString: String = (size > 1023) ? "\(size/1024) Mb" : "\(size) Kb"
             let numberOfPagesString = (self.numberOfPages ?? 0) > 0 ? "\(self.numberOfPages ?? 0) Pages • " : ""
             return "\(numberOfPagesString)\(size) Kb • \(self.attachmentType ?? "")"
         }

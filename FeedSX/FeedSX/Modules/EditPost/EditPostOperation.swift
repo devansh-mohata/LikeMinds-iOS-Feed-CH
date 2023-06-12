@@ -187,10 +187,10 @@ class EditPostOperation {
     }
     
     private func fileAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
-        var size: Int?
-        var numberOfPages: Int?
+        var size: Int? = attachment.documentAttachmentSize
+        var numberOfPages: Int? = attachment.documentNumberOfPages
         guard let fileUrl = URL(string: attachment.fileUrl) else { return Attachment() }
-        if let pdf = CGPDFDocument(fileUrl as CFURL) {
+        if (numberOfPages == nil || numberOfPages == 0), let pdf = CGPDFDocument(fileUrl as CFURL) {
             print("number of page: \(pdf.numberOfPages)")
             numberOfPages = pdf.numberOfPages
         }

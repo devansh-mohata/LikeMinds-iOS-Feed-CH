@@ -387,9 +387,9 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
                 let intersect = CGRectIntersection(feedTableView.frame, convertedRect)
                 let visibleHeight = CGRectGetHeight(intersect)
                 cell.pauseAllInVisibleVideos()
-                if visibleHeight > self.view.bounds.size.height * 0.6 {  // only if 60% of the cell is visible.
+                if visibleHeight > self.view.bounds.size.height * 0.7 {  // only if 60% of the cell is visible.
                     //cell is visible more than 60%
-                    cell.playVisibleVideo()
+//                    cell.playVisibleVideo()
 //                    print(indexPath?.row) //your visible cell.
                 }
             } else {
@@ -524,11 +524,7 @@ extension HomeFeedViewControler: DeleteContentViewProtocol {
         feedTableView.reloadData()
     }
 }
-extension HomeFeedViewControler: HomeFeedDocumentTableViewCellDelegate {
-    
-    func didClickedOnDocument() {
-    }
-    
+extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
     func didTapOnCell(_ feedDataView: PostFeedDataView?) {
         guard let postId = feedDataView?.postId else { return }
         let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))

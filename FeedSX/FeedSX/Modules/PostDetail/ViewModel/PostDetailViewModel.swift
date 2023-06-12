@@ -10,10 +10,11 @@ import LikeMindsFeed
 
 protocol PostDetailViewModelDelegate: AnyObject {
     func didReceiveComments()
-    func didReceiveCommentsReply()
+    func didReceiveCommentsReply(withCommentId commentId: String, withBatchFirstReplyId replyId: String)
     func insertAndScrollToRecentComment(_ indexPath: IndexPath)
     func didReceivedMemberState()
     func reloadSection(_ indexPath: IndexPath)
+    func didReceivedEditResponse(_ indexPath: IndexPath)
 }
 
 final class PostDetailViewModel: BaseViewModel {
@@ -115,7 +116,7 @@ final class PostDetailViewModel: BaseViewModel {
             } else {
                 selectedComment.replies = comment.replies?.compactMap({.init(comment: $0, user: users[$0.userId])}) ?? []
             }
-            self?.delegate?.didReceiveCommentsReply()
+            self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
             self?.isCommentRepliesLoading = false
         }
     }
@@ -152,7 +153,7 @@ final class PostDetailViewModel: BaseViewModel {
             self?.replyOnComment?.replies.insert(postComment, at: 0)
             self?.replyOnComment?.commentCount += 1
             guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
-                self?.delegate?.didReceiveCommentsReply()
+                self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
                 return
             }
             self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: 0, section: section+1))
@@ -237,10 +238,10 @@ final class PostDetailViewModel: BaseViewModel {
                 }
                 if let row = row {
                     self?.comments[section].replies[row] = postComment
-                    self?.delegate?.reloadSection(IndexPath(row: row, section: section + 1))
+                    self?.delegate?.didReceivedEditResponse(IndexPath(row: row, section: section + 1))
                 } else {
                     self?.comments[section] = postComment
-                    self?.delegate?.reloadSection(IndexPath(row: NSNotFound, section: section))
+                    self?.delegate?.didReceivedEditResponse(IndexPath(row: NSNotFound, section: section))
                 }
             } else {
                 self?.postErrorMessageNotification(error: response.errorMessage)

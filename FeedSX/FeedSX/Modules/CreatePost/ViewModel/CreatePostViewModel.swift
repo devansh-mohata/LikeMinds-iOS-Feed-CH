@@ -174,6 +174,8 @@ final class CreatePostViewModel {
                 let fileType: UploaderType = .file
                 let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.attachmentUrl?.components(separatedBy: "/").last ?? "attache_\(Date().millisecondsSince1970)")
                 item.thumbnailImage = attachedItem.thumbnailImage
+                item.documentNumberOfPages = attachedItem.numberOfPages
+                item.documentAttachmentSize = attachedItem.attachmentSize
                 documentAttachments.append(item)
                 index += 1
             }

@@ -7,15 +7,11 @@
 
 import UIKit
 
-protocol HomeFeedLinkTableViewCellDelegate: HomeFeedTableViewCellDelegate {
-    func didTapOnCell(_ feedDataView: PostFeedDataView?)
-}
-
 class HomeFeedLinkTableViewCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedLinkTableViewCell"
     static let bundle = Bundle(for: HomeFeedLinkTableViewCell.self)
-    weak var delegate: HomeFeedLinkTableViewCellDelegate?
+    weak var delegate: HomeFeedTableViewCellDelegate?
     
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var containerView: UIView!
@@ -110,7 +106,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
-        self.delegate = delegate as? HomeFeedLinkTableViewCellDelegate 
+        self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
@@ -121,13 +117,8 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
         self.linkTitleLabel.text = title
         self.linkDescriptionLabel.text = description
-        self.linkLabel.text = link
-        let placeHolder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
-        if let link = linkThumbnailUrl {
-            self.linkThumbnailImageView.setImage(withUrl: link, placeholder: placeHolder)
-        } else {
-            self.linkThumbnailImageView.image = placeHolder
-        }
+        self.linkLabel.text = link?.lowercased()
+        self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl ?? ""))
     }
     
     private func setupCaption() {

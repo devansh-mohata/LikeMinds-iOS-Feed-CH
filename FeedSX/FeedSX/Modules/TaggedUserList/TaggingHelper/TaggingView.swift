@@ -61,12 +61,7 @@ open class TaggingView: UIView {
     private var currentTaggingText: String? {
         didSet {
             guard let currentTaggingText = currentTaggingText
-//                    , let tagableList = tagableList
             else {return}
-//            let matchedTagableList = tagableList.filter {
-//                $0.contains(currentTaggingText.lowercased()) || $0.contains(currentTaggingText.uppercased())
-//            }
-//            dataSource?.tagging(self, didChangedTagableList: matchedTagableList)
             dataSource?.tagging(self, searchForTagableList: currentTaggingText)
         }
     }
@@ -86,14 +81,10 @@ open class TaggingView: UIView {
     
     public init() {
         super.init(frame: .zero)
-        
-//        commonSetup()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-//        commonSetup()
     }
     
     func initialTaggedList(list: [TaggedUser]) {
@@ -128,35 +119,8 @@ open class TaggingView: UIView {
         dataSource?.tagging(self, didChangedTaggedList: taggedList)
     }
     
-    // MARK: - Private methods
-    
-    private func commonSetup() {
-        setProperties()
-        addSubview(textView)
-        layout()
-    }
-    
-    private func setProperties() {
-        backgroundColor = .clear
-//        textView.delegate = self
-    }
-    
     private func tagFormat(_ text: String) -> String {
         return symbol.appending(text)
-    }
-    
-}
-
-// MARK: - Layout
-
-extension TaggingView {
-    
-    private func layout() {
-//        addConstraints(
-//            [NSLayoutConstraint(item: textView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0),
-//             NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0),
-//             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0),
-//             NSLayoutConstraint(item: textView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)])
     }
     
 }
