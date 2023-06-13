@@ -95,7 +95,6 @@ extension AttachmentTableViewCell: UICollectionViewDataSource {
             let item = self.imageAndVideoAttachments[indexPath.row]
             if  item.fileType == .image,
                 let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.cellIdentifier, for: indexPath) as? ImageCollectionViewCell {
-                //            cell.postImageView.kf.setImage(with: URL(string: "https://beta-likeminds-media.s3.amazonaws.com/post/c6c4aa41-cdca-4c1d-863c-89c2ea3bc922/SamplePNGImage_20mbmb-1679906349694.png"))
                 cell.setupImageVideoView(self.imageAndVideoAttachments[indexPath.row].url)
                 cell.delegate = self
                 defaultCell = cell

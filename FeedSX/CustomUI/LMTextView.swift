@@ -32,5 +32,8 @@ class LMTextView: UITextView {
         contentOffset.y = -positiveTopOffset
     }
     
+    override func selectionRects(for range: UITextRange) -> [UITextSelectionRect] {
+        return []
+    }
     
 }

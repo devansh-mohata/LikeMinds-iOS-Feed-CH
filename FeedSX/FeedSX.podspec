@@ -142,6 +142,6 @@ Pod::Spec.new do |spec|
   spec.dependency "FirebaseCore"
   spec.dependency "FirebaseMessaging"
   spec.dependency "IQKeyboardManagerSwift"
-  spec.dependency "LikeMindsFeed"
+  #spec.dependency "LikeMindsFeed"
 
 end

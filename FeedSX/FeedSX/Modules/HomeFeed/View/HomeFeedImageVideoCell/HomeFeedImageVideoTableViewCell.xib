@@ -65,7 +65,6 @@
                                                 </collectionViewFlowLayout>
                                             </collectionView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
                                         <constraints>
                                             <constraint firstItem="CQT-TG-loH" firstAttribute="top" secondItem="alc-yf-csI" secondAttribute="top" id="1Uu-kA-N6z"/>
                                             <constraint firstAttribute="trailing" secondItem="CQT-TG-loH" secondAttribute="trailing" id="8hW-EH-bw8"/>
@@ -141,9 +140,6 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

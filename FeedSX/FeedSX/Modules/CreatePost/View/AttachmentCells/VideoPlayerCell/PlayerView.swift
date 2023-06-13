@@ -12,6 +12,8 @@ import UIKit
 import AVKit
 import AVFoundation
 
+var sharedPlayView: PlayerView?
+
 class PlayerView: UIView {
     
     override static var layerClass: AnyClass {

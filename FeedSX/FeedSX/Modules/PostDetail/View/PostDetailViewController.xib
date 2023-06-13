@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="closeReplyToUserButton" destination="xGz-ps-vJ7" id="XSj-1l-o8s"/>
                 <outlet property="commentTextView" destination="det-vb-fsO" id="MTY-8l-RGP"/>
+                <outlet property="commentTextViewHeightConstraint" destination="n7g-fe-PLi" id="2rH-C3-uMC"/>
                 <outlet property="postDetailTableView" destination="Yrn-8d-oPh" id="KNR-1j-sfj"/>
                 <outlet property="replyToUserContainer" destination="eRL-5F-RDO" id="Fd3-Yf-6Hi"/>
                 <outlet property="replyToUserImageView" destination="HuH-LD-eLg" id="R8Q-fT-8AR"/>
@@ -29,8 +30,8 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Yrn-8d-oPh">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="770"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Yrn-8d-oPh">
+                    <rect key="frame" x="0.0" y="59" width="393" height="640"/>
                     <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="yWi-ng-s1a"/>
@@ -38,13 +39,13 @@
                     </connections>
                 </tableView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0iu-bZ-XGz" userLabel="TaggingUserListContainer">
-                    <rect key="frame" x="16" y="710" width="361" height="60"/>
+                    <rect key="frame" x="16" y="639" width="361" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="aqo-hj-ioz"/>
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oh9-q9-ezv">
-                    <rect key="frame" x="0.0" y="770" width="393" height="82"/>
+                    <rect key="frame" x="0.0" y="699" width="393" height="119"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eRL-5F-RDO" userLabel="ReplyToUser">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="32"/>
@@ -79,7 +80,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rmt-N1-eIh" userLabel="CommentContainer">
-                            <rect key="frame" x="0.0" y="32" width="393" height="50"/>
+                            <rect key="frame" x="0.0" y="32" width="393" height="87"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHa-ct-JvT">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="1"/>
@@ -89,17 +90,20 @@
                                     </constraints>
                                 </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="KXf-dD-Pgc">
-                                    <rect key="frame" x="10" y="2" width="318" height="48"/>
+                                    <rect key="frame" x="10" y="2" width="318" height="85"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HuH-LD-eLg">
-                                            <rect key="frame" x="0.0" y="12" width="24" height="24"/>
+                                            <rect key="frame" x="0.0" y="30.666666666666629" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="24" id="Pcv-tz-Ity"/>
                                                 <constraint firstAttribute="height" constant="24" id="t7q-Sx-akB"/>
                                             </constraints>
                                         </imageView>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="det-vb-fsO" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="28" y="6.3333333333333712" width="290" height="35.333333333333336"/>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="det-vb-fsO" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="28" y="22.666666666666629" width="290" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="n7g-fe-PLi"/>
+                                            </constraints>
                                             <color key="textColor" systemColor="labelColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -107,7 +111,7 @@
                                     </subviews>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZ0-88-sTe" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
-                                    <rect key="frame" x="333" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="333" y="18.666666666666629" width="50" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="51H-Ce-UCC"/>
                                         <constraint firstAttribute="width" constant="50" id="Wfp-nR-CE2"/>

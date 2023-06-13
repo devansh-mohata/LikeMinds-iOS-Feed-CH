@@ -35,9 +35,9 @@ class LinkCollectionViewCell: UICollectionViewCell {
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
         self.linkTitleLabel.text = title
         self.linkDescriptionLabel.text = description
-        self.linkLabel.text = link
+        self.linkLabel.text = link?.lowercased()
         let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
-        self.linkThumbnailImageView.setImage(withUrl: linkThumbnailUrl ?? "", placeholder: placeHolder)
+        self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl ?? ""), placeholder: placeHolder)
     }
     
     @objc func removeClicked() {
