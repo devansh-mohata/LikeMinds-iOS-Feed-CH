@@ -469,30 +469,6 @@ extension CreatePostViewController: TaggedUserListDelegate {
         hideTaggingViewContainer()
         viewModel.taggedUsers = taggedList
     }
-    
-//    func didSelectMemberFromTagList(_ user: User) {
-//        hideTaggingViewContainer()
-//        var attributedMessage:NSAttributedString?
-//        var range = self.typeTextRangeInTextView
-//        if let attributedText = captionTextView.attributedText {
-//            attributedMessage = attributedText
-//        }
-//        if let selectedRange = captionTextView.selectedTextRange {
-//            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
-//            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
-//            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
-//                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
-//                range?.location += increasedLength
-//            }
-//        }
-////        if !viewModel.taggedUsers.contains(where: {$0.userUniqueId == user.userUniqueId}) {
-//            guard let range = range else {
-//                return
-//            }
-//        let us = TaggedUser(TaggingUser(name: user.name ?? "", id: user.userUniqueId ?? ""), range: range)
-//            viewModel.taggedUsers.append(us)
-////        }
-//    }
 
     func hideTaggingViewContainer() {
         isTaggingViewHidden = true
