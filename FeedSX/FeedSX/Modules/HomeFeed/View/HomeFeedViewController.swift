@@ -387,13 +387,12 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
                 let intersect = CGRectIntersection(feedTableView.frame, convertedRect)
                 let visibleHeight = CGRectGetHeight(intersect)
                 cell.pauseAllInVisibleVideos()
-                if visibleHeight > self.view.bounds.size.height * 0.7 {  // only if 60% of the cell is visible.
+                if visibleHeight > self.view.bounds.size.height * 0.6 {  // only if 60% of the cell is visible.
                     //cell is visible more than 60%
-//                    cell.playVisibleVideo()
-//                    print(indexPath?.row) //your visible cell.
+                    cell.playVisibleVideo()
                 }
             } else {
-                (cell as? HomeFeedImageVideoTableViewCell)?.pauseAllInVisibleVideos()
+                pauseAllVideo()
             }
         }
     }
