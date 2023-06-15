@@ -217,7 +217,7 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
         case .document:
             return viewModel.documentAttachments.count
         case .link:
-            return 1
+            return  self.viewModel.linkAttatchment == nil ? 0 : 1
         default:
             return 0
         }
@@ -237,7 +237,6 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
             let item = self.viewModel.imageAndVideoAttachments[indexPath.row]
             if  item.fileType == .image,
                 let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.cellIdentifier, for: indexPath) as? ImageCollectionViewCell {
-                //            cell.postImageView.kf.setImage(with: URL(string: "https://beta-likeminds-media.s3.amazonaws.com/post/c6c4aa41-cdca-4c1d-863c-89c2ea3bc922/SamplePNGImage_20mbmb-1679906349694.png"))
                 cell.setupImageVideoView(self.viewModel.imageAndVideoAttachments[indexPath.row].url)
                 cell.delegate = self
                 defaultCell = cell
@@ -330,17 +329,24 @@ extension CreatePostViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension CreatePostViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = true
+        enablePostButton()
+    }
     
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
         enablePostButton()
+        taggingUserList.textViewDidChange(textView)
     }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        taggingUserList.textViewDidChangeSelection(textView)
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
-        enablePostButton()
-    }
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        placeholderLabel.isHidden = true
         enablePostButton()
     }
     
@@ -357,28 +363,12 @@ extension CreatePostViewController: UITextViewDelegate {
         if text != "" {
             typeTextRangeInTextView?.location += 1
         }
-        if text != " " {
-            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-        } else {
-            hideTaggingViewContainer()
-        }
+        taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
         enablePostButton()
-        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
-            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
-                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
-            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
-            let combination = NSMutableAttributedString()
-            combination.append(textView.attributedText)
-            combination.append(attributedString)
-            textView.attributedText = combination
-            return false
-        }
-        
         let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
         textView.isScrollEnabled = (textView.bounds.height >= 145) && (numLines > 6)
         return true
     }
-    
 }
 
 extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
@@ -475,22 +465,9 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
 
 extension CreatePostViewController: TaggedUserListDelegate {
     
-    func didSelectMemberFromTagList(_ user: User) {
+    func didChangedTaggedList(taggedList: [TaggedUser]) {
         hideTaggingViewContainer()
-        var attributedMessage:NSAttributedString?
-        if let attributedText = captionTextView.attributedText {
-            attributedMessage = attributedText
-        }
-        if let selectedRange = captionTextView.selectedTextRange {
-            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
-            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
-            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
-                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
-            }
-        }
-        if !viewModel.taggedUsers.contains(where: {$0.userUniqueId == user.userUniqueId}) {
-            viewModel.taggedUsers.append(user)
-        }
+        viewModel.taggedUsers = taggedList
     }
 
     func hideTaggingViewContainer() {

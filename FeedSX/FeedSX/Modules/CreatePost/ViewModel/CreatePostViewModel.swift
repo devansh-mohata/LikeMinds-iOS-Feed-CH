@@ -15,6 +15,25 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func reloadActionTableView()
 }
 
+class TaggedUser {
+    var user: TaggingUser
+    var range: NSRange
+    init(_ user: TaggingUser, range: NSRange) {
+        self.user = user
+        self.range = range
+    }
+}
+
+class TaggingUser {
+    var name: String?
+    var id: String
+    
+    init(name: String?, id: String?) {
+        self.name = name
+        self.id = id ?? ""
+    }
+}
+
 final class CreatePostViewModel {
     
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
@@ -24,7 +43,7 @@ final class CreatePostViewModel {
     var currentSelectedUploadeType: CreatePostViewModel.AttachmentUploadType = .unknown
     weak var delegate: CreatePostViewModelDelegate?
     var postCaption: String?
-    var taggedUsers: [User] = []
+    var taggedUsers: [TaggedUser] = []
     
     enum AttachmentUploadType: String {
         case document = "Attach Files"
@@ -133,7 +152,7 @@ final class CreatePostViewModel {
     }
     
     func createPost(_ text: String?) {
-        let parsedTaggedUserPostText = self.editAnswerTextWithTaggedList(text: text)
+        let parsedTaggedUserPostText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: text, taggedUsers: self.taggedUsers)
         let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
         if self.imageAndVideoAttachments.count > 0 {
             var imageVideoAttachments: [AWSFileUploadRequest] = []
@@ -155,6 +174,8 @@ final class CreatePostViewModel {
                 let fileType: UploaderType = .file
                 let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.attachmentUrl?.components(separatedBy: "/").last ?? "attache_\(Date().millisecondsSince1970)")
                 item.thumbnailImage = attachedItem.thumbnailImage
+                item.documentNumberOfPages = attachedItem.numberOfPages
+                item.documentAttachmentSize = attachedItem.attachmentSize
                 documentAttachments.append(item)
                 index += 1
             }
@@ -195,23 +216,5 @@ final class CreatePostViewModel {
         let addPostRequest = AddPostRequest()
             .text(postCaption)
         CreatePostOperation.shared.createPost(request: addPostRequest)
-    }
-    
-    func editAnswerTextWithTaggedList(text: String?) -> String  {
-        if var answerText = text, self.taggedUsers.count > 0 {
-            for member in taggedUsers {
-                if let memberName = member.name {
-                    let memberNameWithTag = "@"+memberName
-                    if answerText.contains(memberNameWithTag) {
-                        if let _ = answerText.range(of: memberNameWithTag) {
-                            answerText = answerText.replacingOccurrences(of: memberNameWithTag, with: "<<\(memberName)|route://member/\(member.userUniqueId ?? "")>>")
-                        }
-                    }
-                }
-            }
-            answerText = answerText.trimmingCharacters(in: .whitespacesAndNewlines)
-            return answerText
-        }
-        return text ?? ""
     }
 }

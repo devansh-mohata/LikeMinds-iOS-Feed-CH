@@ -114,6 +114,7 @@ public final class HomeFeedViewControler: BaseViewController {
         self.postingImageSuperView.superview?.isHidden = true
         homeFeedViewModel.getFeed()
         createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(postEditCompleted), name: .postEditCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationCompleted), name: .postCreationCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationStarted), name: .postCreationStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshFeed), name: .refreshHomeFeedData, object: nil)
@@ -186,6 +187,29 @@ public final class HomeFeedViewControler: BaseViewController {
         self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
     
+    @objc func postEditingStarted(notification: Notification) {
+        print("postEditingStarted")
+        self.postingImageSuperView.superview?.isHidden = false
+        if let image = notification.object as? UIImage {
+            postingImageView.superview?.isHidden = false
+            postingImageView.image = image
+        } else {
+            self.postingImageView.isHidden = true
+        }
+        self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+    }
+    
+    @objc func postEditCompleted(notification: Notification) {
+        print("postEditCompleted")
+        self.postingImageSuperView.superview?.isHidden = true
+        let notificationObject = notification.object
+        if let error = notificationObject as? String {
+            self.presentAlert(message: error)
+            return
+        }
+        let updatedAtIndex = self.homeFeedViewModel.updateEditedPost(postDetail: notificationObject as? PostFeedDataView)
+        self.feedTableView.reloadRows(at: [IndexPath(row: updatedAtIndex, section: 0)], with: .none)
+    }
     
     func setupTableView() {
         self.view.addSubview(postingProgressSuperStackView)
@@ -197,8 +221,10 @@ public final class HomeFeedViewControler: BaseViewController {
         feedTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         feedTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         feedTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        feedTableView.showsVerticalScrollIndicator = false
         feedTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
         feedTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)
 //        feedTableView.register(ImageVideoCollectionTableViewCell.self, forCellReuseIdentifier: ImageVideoCollectionTableViewCell.cellIdentifier)
         feedTableView.delegate = self
         feedTableView.dataSource = self
@@ -300,6 +326,10 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedDocumentTableViewCell.nibName, for: indexPath) as! HomeFeedDocumentTableViewCell
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
+        case .link:
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkTableViewCell.nibName, for: indexPath) as! HomeFeedLinkTableViewCell
+            cell.setupFeedCell(feed, withDelegate: self)
+            return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as! HomeFeedImageVideoTableViewCell
             cell.setupFeedCell(feed, withDelegate: self)
@@ -360,10 +390,9 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
                 if visibleHeight > self.view.bounds.size.height * 0.6 {  // only if 60% of the cell is visible.
                     //cell is visible more than 60%
                     cell.playVisibleVideo()
-//                    print(indexPath?.row) //your visible cell.
                 }
             } else {
-                (cell as? HomeFeedImageVideoTableViewCell)?.pauseAllInVisibleVideos()
+                pauseAllVideo()
             }
         }
     }
@@ -406,29 +435,39 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
         for menu in menues {
             switch menu.id {
             case .report:
-                actionSheet.addAction(withOptions: menu.name) {
+                actionSheet.addAction(withOptions: menu.name) { [weak self] in
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = selectedPost?.postId
                     reportContent.entityCreatorId = selectedPost?.feedByUser?.userId
                     reportContent.reportEntityType = .post
-                    self.navigationController?.pushViewController(reportContent, animated: true)
+                    self?.navigationController?.pushViewController(reportContent, animated: true)
                 }
             case .delete:
-                actionSheet.addAction(withOptions: menu.name) {
+                actionSheet.addAction(withOptions: menu.name) { [weak self] in
                     let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
                     deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.feedByUser?.userId ?? "") ? self.homeFeedViewModel.isAdmin() :  false
-                    self.navigationController?.present(deleteController, animated: false)
+                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.feedByUser?.userId ?? "") ? (self?.homeFeedViewModel.isAdmin() ?? false) :  false
+                    self?.navigationController?.present(deleteController, animated: false)
                 }
             case .edit:
-//                actionSheet.addAction(withOptions: menu.name) {}
-                break
+                actionSheet.addAction(withOptions: menu.name) { [weak self] in
+                    guard let postId = selectedPost?.postId else {return}
+                    let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle(for: EditPostViewController.self))
+                    editPost.postId = postId
+                    self?.navigationController?.pushViewController(editPost, animated: true)
+                }
             case .pin:
-                break
+                actionSheet.addAction(withOptions: menu.name) { [weak self] in
+                    guard let postId = selectedPost?.postId else {return}
+                    self?.homeFeedViewModel.pinUnpinPost(postId: postId)
+                }
             case .unpin:
-                break
+                actionSheet.addAction(withOptions: menu.name) { [weak self] in
+                    guard let postId = selectedPost?.postId else {return}
+                    self?.homeFeedViewModel.pinUnpinPost(postId: postId)
+                }
             default:
                 break
             }
@@ -484,11 +523,7 @@ extension HomeFeedViewControler: DeleteContentViewProtocol {
         feedTableView.reloadData()
     }
 }
-extension HomeFeedViewControler: HomeFeedDocumentTableViewCellDelegate {
-    
-    func didClickedOnDocument() {
-    }
-    
+extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
     func didTapOnCell(_ feedDataView: PostFeedDataView?) {
         guard let postId = feedDataView?.postId else { return }
         let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))

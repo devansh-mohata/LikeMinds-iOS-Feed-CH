@@ -7,20 +7,11 @@
 
 import UIKit
 
-protocol HomeFeedDocumentTableViewCellDelegate: AnyObject {
-    func didClickedOnDocument()
-    func didTapOnCell(_ feedDataView: PostFeedDataView?)
-}
-
-extension HomeFeedDocumentTableViewCellDelegate {
-    func didTapOnCell(_ feedDataView: PostFeedDataView?) {}
-}
-
 class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedDocumentTableViewCell"
     static let bundle = Bundle(for: HomeFeedDocumentTableViewCell.self)
-    weak var delegate: HomeFeedDocumentTableViewCellDelegate?
+    weak var delegate: HomeFeedTableViewCellDelegate?
     
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var containerView: UIView!
@@ -109,6 +100,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
+        self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
         let count = self.feedData?.attachments?.count ?? 0
@@ -125,12 +117,8 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     func setupImageCollectionView() {
         
-        self.imageVideoCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
-        self.imageVideoCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.imageVideoCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
-        let linkNib = UINib(nibName: "LinkCollectionViewCell", bundle: Bundle(for: LinkCollectionViewCell.self))
-        self.imageVideoCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
         self.moreAttachmentButton.superview?.isHidden = true
         imageVideoCollectionView.dataSource = self
         imageVideoCollectionView.delegate = self

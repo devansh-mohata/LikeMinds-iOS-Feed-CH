@@ -111,20 +111,20 @@ class ProfileHeaderView: UIView {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .equalCentering
-        sv.spacing = 14
+        sv.spacing = 5
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
     
     let pinImageView: UIImageView = {
-        let menuImageSize = 20
+        let menuImageSize = 16
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: menuImageSize, height: menuImageSize))
         imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: ImageIcon.pinIcon)
-        imageView.tintColor = .darkGray
-        imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .large)
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.preferredSymbolConfiguration = .init(pointSize: 16, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

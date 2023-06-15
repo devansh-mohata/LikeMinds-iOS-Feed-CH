@@ -17,6 +17,10 @@ class TaggedRouteParser {
     struct NameWithRoute {
         var name: String
         var route: String
+        
+        func getIdFromRoute() -> String {
+            self.route.components(separatedBy: "/").last ?? ""
+        }
     }
     
     private func replaceRouteToName(with answer: String, andPrefix prefix: String?, forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = nil, withHighlightedColor highlightedColour: UIColor, isShowLink showLink: Bool) -> NSMutableAttributedString {
@@ -50,6 +54,41 @@ class TaggedRouteParser {
         return attrString
     }
     
+    private func replaceRouteToNameWithTaggedUsers(with answer: String, andPrefix prefix: String?, forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = nil, withHighlightedColor highlightedColour: UIColor, isShowLink showLink: Bool) -> (NSMutableAttributedString, [TaggedUser]) {
+        var taggedUsers = [TaggedUser]()
+        let prefixString = prefix ?? ""
+        let nameWithRoutes = getUserNames(in: answer)
+        let textFont = font ?? LMBranding.shared.font(forTextView ? 16 : 13, .regular)
+        let attrString = NSMutableAttributedString(string: answer, attributes: [
+            NSAttributedString.Key.foregroundColor: textColor,
+            NSAttributedString.Key.font: textFont
+        ])
+        for nameWithRoute in nameWithRoutes {
+            let routeName = nameWithRoute.name.replacingOccurrences(of: "<<", with: "")
+            let routeString = "<<\(routeName)|\(nameWithRoute.route)>>"
+            let replaceString = "\(prefixString)\(routeName)"
+            let replaceAttributes = (showLink ? [
+                NSAttributedString.Key.foregroundColor: highlightedColour,
+                NSAttributedString.Key.font: textFont,
+                NSAttributedString.Key.link: nameWithRoute.route
+            ] : [
+                NSAttributedString.Key.foregroundColor: highlightedColour,
+                NSAttributedString.Key.font: textFont
+            ]) as [NSAttributedString.Key : Any]
+            let newAttributedString = NSMutableAttributedString(string: replaceString, attributes: replaceAttributes)
+            // Get range of text to replace
+            while let range = attrString.string.range(of: routeString) {
+                var nameRange = NSRange(range, in: attrString.string)
+                // Replace content in range with the new content
+                attrString.replaceCharacters(in: nameRange, with: newAttributedString)
+                nameRange.length = newAttributedString.length
+//                nameRange.location = nameRange.location - newAttributedString.length
+                taggedUsers.append(TaggedUser(TaggingUser(name: nameWithRoute.name, id: nameWithRoute.getIdFromRoute()), range: nameRange))
+            }
+        }
+        return (attrString, taggedUsers)
+    }
+    
     private func getUserNames(in answer: String?) -> [NameWithRoute] {
         let text = answer ?? ""
         let charSet = CharacterSet(charactersIn: "<<>>")
@@ -67,6 +106,11 @@ class TaggedRouteParser {
     
     @objc func getTaggedParsedAttributedString(with answer: String?, andPrefix prefix: String? = "@", forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = LMBranding.shared.font(16, .regular), withHighlightedColor highlightedColour: UIColor = LMBranding.shared.textLinkColor, isShowLink showLink: Bool = true) -> NSMutableAttributedString?  {
         return replaceRouteToName(with: answer ?? "", andPrefix: prefix, forTextView: forTextView, withTextColor: textColor, withFont: font, withHighlightedColor: highlightedColour, isShowLink: showLink)
+    }
+    
+    func getTaggedParsedAttributedStringForEditText(with answer: String?, andPrefix prefix: String? = "@", forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = LMBranding.shared.font(16, .regular), withHighlightedColor highlightedColour: UIColor = LMBranding.shared.textLinkColor, isShowLink showLink: Bool = true) -> (NSMutableAttributedString, [TaggedUser])  {
+        
+        return replaceRouteToNameWithTaggedUsers(with: answer ?? "", andPrefix: prefix, forTextView: forTextView, withTextColor: textColor, withFont: font, withHighlightedColor: highlightedColour, isShowLink: showLink)
     }
     
     func createTaggednames(with answer: String, member: User, attributedMessage: NSAttributedString?, textRange: NSRange? = nil)-> NSMutableAttributedString?  {
@@ -126,5 +170,20 @@ class TaggedRouteParser {
         } else {
             return replacementText
         }
+    }
+    
+    func editAnswerTextWithTaggedList(text: String?, taggedUsers: [TaggedUser]) -> String  {
+        let tagUsers = taggedUsers.sorted(by: { $0.range.location > $1.range.location})
+        if var answerText = text, tagUsers.count > 0 {
+            for member in tagUsers {
+                if let memberName = member.user.name {
+                    guard let range = answerText.range(from: member.range) else { continue }
+                    answerText = answerText.replacingCharacters(in: range, with: "<<\(memberName)|route://member/\(member.user.id )>>")
+                }
+            }
+            answerText = answerText.trimmedText()
+            return answerText
+        }
+        return text?.trimmedText() ?? ""
     }
 }

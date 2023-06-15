@@ -78,4 +78,13 @@ class TaggedUserListViewModel {
         })
     }
     
+    func getSuggestionsFor(_ inputString: String) {
+        taggingSearchDebounceTime?.invalidate()
+        taggingSearchDebounceTime = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { [weak self] (timer) in
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                guard let weakSelf = self else {return}
+                weakSelf.getTaggedUserList(inputString)
+            }
+        })
+    }
 }

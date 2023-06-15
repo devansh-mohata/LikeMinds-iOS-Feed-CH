@@ -14,7 +14,7 @@ protocol HomeFeedViewModelDelegate: AnyObject {
     func reloadSection(_ indexPath: IndexPath)
 }
 
-class HomeFeedViewModel {
+class HomeFeedViewModel: BaseViewModel {
     
     weak var delegate: HomeFeedViewModelDelegate?
     var feeds: [PostFeedDataView] = []
@@ -51,10 +51,6 @@ class HomeFeedViewModel {
         self.feeds[index] = postData
     }
     
-    func postErrorMessageNotification(error: String?) {
-        NotificationCenter.default.post(name: .homeFeedErrorInApi, object: error)
-    }
-    
     func getMemberState() {
         LMFeedClient.shared.getMemberState() { [weak self] result in
             print(result)
@@ -71,10 +67,7 @@ class HomeFeedViewModel {
     func likePost(postId: String) {
         let request = LikePostRequest(postId: postId)
         LMFeedClient.shared.likePost(request) { [weak self] response in
-            if response.success {
-                
-            } else {
-                print(response.errorMessage)
+            if !response.success {
                 guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
                     return
                 }
@@ -90,10 +83,7 @@ class HomeFeedViewModel {
     func savePost(postId: String) {
         let request = SavePostRequest(postId: postId)
         LMFeedClient.shared.savePost(request) { [weak self] response in
-            if response.success {
-                
-            } else {
-                print(response.errorMessage)
+            if !response.success {
                 guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
                     return
                 }
@@ -102,6 +92,28 @@ class HomeFeedViewModel {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }
         }
+    }
+    
+    func pinUnpinPost(postId: String) {
+        let request = PinPostRequest(postId: postId)
+        LMFeedClient.shared.pinPost(request) {[weak self] response in
+            if response.success {
+                guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
+                    return
+                }
+                feed.isPinned = !(feed.isPinned)
+                feed.updatePinUnpinMenu()
+                self?.delegate?.reloadSection(IndexPath(row: index, section: 0))
+            } else {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
+        }
+    }
+    
+    func updateEditedPost(postDetail: PostFeedDataView?) -> Int {
+        guard let postDetail = postDetail, let index = feeds.firstIndex(where: {$0.postId == postDetail.postId}) else { return 0 }
+        feeds[index] = postDetail
+        return index
     }
     
     func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {

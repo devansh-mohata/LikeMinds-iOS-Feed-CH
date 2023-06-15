@@ -17,12 +17,14 @@ protocol TaggedUserListDelegate: AnyObject {
     func didScrolledToEnd()
     func hideTaggingViewContainer()
     func unhideTaggingViewContainer(heightValue: CGFloat)
+    func didChangedTaggedList(taggedList: [TaggedUser])
 }
 
 extension TaggedUserListDelegate {
     func selectedMemberFromTagList(indexPath: IndexPath) {}
     func didSelectMemberFromTagList(_ user: User) {}
     func didScrolledToEnd() {}
+    func didChangedTaggedList(taggedList: [TaggedUser]) {}
 }
 
 @objcMembers class TaggedUserList: UIView {
@@ -38,6 +40,7 @@ extension TaggedUserListDelegate {
     var isReloadTaggingListView = true
     var cellHeight = 60
     
+    private var taggingView: TaggingView = TaggingView()
     
     class func nibView() -> TaggedUserList? {
         return UINib(nibName: "TaggedUserList", bundle: Bundle(for: TaggedUserList.self)).instantiate(withOwner: nil, options: nil)[0] as? TaggedUserList
@@ -47,7 +50,16 @@ extension TaggedUserListDelegate {
         layer.masksToBounds = true
     }
     
+    func setupTaggingView() {
+        taggingView.defaultAttributes = [NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor, NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
+        taggingView.symbolAttributes = [NSAttributedString.Key.foregroundColor: LMBranding.shared.textLinkColor]
+        taggingView.taggedAttributes = [NSAttributedString.Key.foregroundColor: LMBranding.shared.textLinkColor]
+        taggingView.dataSource = self
+        taggingView.symbol = "@"
+    }
+    
     func setUp() {
+        setupTaggingView()
         viewModel.delegate = self
         tableView.register(UINib(nibName: TaggedListTableViewCell.cellIdentifier, bundle: Bundle(for: TaggedListTableViewCell.self)), forCellReuseIdentifier: TaggedListTableViewCell.cellIdentifier)
         tableView.superview?.addShadow()
@@ -83,9 +95,32 @@ extension TaggedUserListDelegate {
         }
     }
     
+    func initialTaggedUsers(taggedUsers: [TaggedUser]) {
+        taggingView.initialTaggedList(list: taggedUsers)
+    }
+    
+}
+
+extension TaggedUserList {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        taggingView.textView = textView
+        taggingView.textViewDidChange(textView)
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        taggingView.textView = textView
+        taggingView.textViewDidChangeSelection(textView)
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) {
+        taggingView.textView = textView
+        taggingView.textView(textView, shouldChangeTextIn: range, replacementText: text)
+    }
 }
 
 extension TaggedUserList: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if viewModel.taggingUsers.count > 0 {
             return viewModel.taggingUsers.count
@@ -105,8 +140,9 @@ extension TaggedUserList: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row < viewModel.taggingUsers.count else {return}
         let selectedMember = viewModel.taggingUsers[indexPath.row]
-        self.delegate?.selectedMemberFromTagList(indexPath: indexPath)
-        self.delegate?.didSelectMemberFromTagList(selectedMember)
+        taggingView.updateTaggedList(allText: taggingView.textView.text, tagText: selectedMember)
+//        self.delegate?.selectedMemberFromTagList(indexPath: indexPath)
+//        self.delegate?.didSelectMemberFromTagList(selectedMember)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -136,5 +172,23 @@ extension TaggedUserList: TaggedUserListViewModelDelegate {
             self.isTaggingViewHidden = true
             self.delegate?.hideTaggingViewContainer()
         }
+    }
+}
+
+extension TaggedUserList: TaggingViewDataSource {
+    
+    func tagging(_ tagging: TaggingView, didChangedTagableList tagableList: [String]) {
+//        matchedList = tagableList
+    }
+    
+    func tagging(_ tagging: TaggingView, didChangedTaggedList taggedList: [TaggedUser]) {
+//        self.taggedList = taggedList
+        self.delegate?.didChangedTaggedList(taggedList: taggedList)
+    }
+    
+    func tagging(_ tagging: TaggingView, searchForTagableList fromText: String) {
+        print("search for tagging....\(fromText)")
+        let searchText = fromText == "@" ? "" : fromText
+        viewModel.getSuggestionsFor(searchText)
     }
 }

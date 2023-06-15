@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3361361F6FFC152305536307 /* Pods_LikeMindsFeedSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8B61B8A6EC27CFA719967B /* Pods_LikeMindsFeedSample.framework */; };
-		F4A86BB02A2E27B000C7D5C2 /* FeedSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; };
-		F4A86BB12A2E27B000C7D5C2 /* FeedSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A847CF2CED243A3D812CE7D7 /* Pods_LikeMindsFeedSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223976D83F92EB8155E4DCDF /* Pods_LikeMindsFeedSample.framework */; };
+		F44ECC522A2F2E5D0096DCC6 /* FeedSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; };
+		F44ECC532A2F2E5D0096DCC6 /* FeedSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F44ECC5A2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */; };
+		F44ECC5B2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F4BB415229ABC7970033F26E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415129ABC7970033F26E /* AppDelegate.swift */; };
 		F4BB415429ABC7970033F26E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415329ABC7970033F26E /* SceneDelegate.swift */; };
 		F4BB415629ABC7970033F26E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415529ABC7970033F26E /* ViewController.swift */; };
@@ -30,13 +32,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F4A86B972A2DCB4900C7D5C2 /* Embed Frameworks */ = {
+		F44ECC542A2F2E5D0096DCC6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F4A86BB12A2E27B000C7D5C2 /* FeedSX.framework in Embed Frameworks */,
+				F44ECC532A2F2E5D0096DCC6 /* FeedSX.framework in Embed Frameworks */,
+				F44ECC5B2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,8 +47,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5D8B61B8A6EC27CFA719967B /* Pods_LikeMindsFeedSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsFeedSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		99D7B177ED00EF566827B821 /* Pods-LikeMindsFeedSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.release.xcconfig"; sourceTree = "<group>"; };
+		1E098754657E6A31E793B029 /* Pods-LikeMindsFeedSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.release.xcconfig"; sourceTree = "<group>"; };
+		223976D83F92EB8155E4DCDF /* Pods_LikeMindsFeedSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsFeedSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA6E52663F6FA8F8D5E421F0 /* Pods-LikeMindsFeedSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.debug.xcconfig"; sourceTree = "<group>"; };
 		F46E14CE2A253ECE003C43BA /* AWSCognito.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LikeMindsFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F487732929AC9DAD00A7B0D0 /* LMFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LMFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,7 +69,6 @@
 		F4EA97AE2A15E6570020E672 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4EA97B22A1607ED0020E672 /* LikeMindsFeedSampleDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LikeMindsFeedSampleDebug.entitlements; sourceTree = "<group>"; };
 		F4EA97B52A1608120020E672 /* LikeMindsFeedSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LikeMindsFeedSample.entitlements; sourceTree = "<group>"; };
-		F5CB7F011FE2308399020836 /* Pods-LikeMindsFeedSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,8 +76,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3361361F6FFC152305536307 /* Pods_LikeMindsFeedSample.framework in Frameworks */,
-				F4A86BB02A2E27B000C7D5C2 /* FeedSX.framework in Frameworks */,
+				F44ECC5A2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Frameworks */,
+				A847CF2CED243A3D812CE7D7 /* Pods_LikeMindsFeedSample.framework in Frameworks */,
+				F44ECC522A2F2E5D0096DCC6 /* FeedSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,8 +88,8 @@
 		174D427616C1B0635E9F5F31 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F5CB7F011FE2308399020836 /* Pods-LikeMindsFeedSample.debug.xcconfig */,
-				99D7B177ED00EF566827B821 /* Pods-LikeMindsFeedSample.release.xcconfig */,
+				DA6E52663F6FA8F8D5E421F0 /* Pods-LikeMindsFeedSample.debug.xcconfig */,
+				1E098754657E6A31E793B029 /* Pods-LikeMindsFeedSample.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -144,7 +148,7 @@
 				F4BB417229ABCE2D0033F26E /* LMFeed.framework */,
 				F4BB416E29ABCB520033F26E /* AWSCognito.framework */,
 				F4BB416629ABC8F80033F26E /* LMFeed.framework */,
-				5D8B61B8A6EC27CFA719967B /* Pods_LikeMindsFeedSample.framework */,
+				223976D83F92EB8155E4DCDF /* Pods_LikeMindsFeedSample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -156,12 +160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4BB416229ABC79D0033F26E /* Build configuration list for PBXNativeTarget "LikeMindsFeedSample" */;
 			buildPhases = (
-				CB03B4400CAEC6833A7A84CE /* [CP] Check Pods Manifest.lock */,
+				5EB02935C22AA193B92444A3 /* [CP] Check Pods Manifest.lock */,
 				F4BB414A29ABC7970033F26E /* Sources */,
 				F4BB414B29ABC7970033F26E /* Frameworks */,
 				F4BB414C29ABC7970033F26E /* Resources */,
-				F4A86B972A2DCB4900C7D5C2 /* Embed Frameworks */,
-				5CB04E8AF61FC8C0B74D5921 /* [CP] Embed Pods Frameworks */,
+				F785EFD668F8700B53B8CB43 /* [CP] Embed Pods Frameworks */,
+				F44ECC542A2F2E5D0096DCC6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -236,24 +240,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5CB04E8AF61FC8C0B74D5921 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CB03B4400CAEC6833A7A84CE /* [CP] Check Pods Manifest.lock */ = {
+		5EB02935C22AA193B92444A3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -273,6 +260,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F785EFD668F8700B53B8CB43 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -426,14 +430,14 @@
 		};
 		F4BB416329ABC79D0033F26E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5CB7F011FE2308399020836 /* Pods-LikeMindsFeedSample.debug.xcconfig */;
+			baseConfigurationReference = DA6E52663F6FA8F8D5E421F0 /* Pods-LikeMindsFeedSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LikeMindsFeedSample/LikeMindsFeedSampleDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = HPC929F5X6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LikeMindsFeedSample/Info.plist;
@@ -448,7 +452,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.likeminds.iosfeedapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -460,7 +464,7 @@
 		};
 		F4BB416429ABC79D0033F26E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 99D7B177ED00EF566827B821 /* Pods-LikeMindsFeedSample.release.xcconfig */;
+			baseConfigurationReference = 1E098754657E6A31E793B029 /* Pods-LikeMindsFeedSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -468,7 +472,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = HPC929F5X6;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -484,7 +488,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.likeminds.iosfeedapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
