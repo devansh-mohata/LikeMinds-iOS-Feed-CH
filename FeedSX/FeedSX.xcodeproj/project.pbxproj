@@ -22,8 +22,6 @@
 		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
 		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
 		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
-		F44ECC572A2F2EB40096DCC6 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BBE2A2E676200C7D5C2 /* LikeMindsFeed.framework */; };
-		F44ECC582A2F2EB40096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BBE2A2E676200C7D5C2 /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */; };
 		F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D02A26197D003C43BA /* UITextView+Extension.swift */; };
 		F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D32A263448003C43BA /* RouteBuilderManager.swift */; };
@@ -132,13 +130,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F4A86BBD2A2E676200C7D5C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4A86BB92A2E676200C7D5C2 /* LikeMindsFeed.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F414169C299E41C000622058;
-			remoteInfo = LikeMindsFeed;
-		};
 		F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
@@ -155,7 +146,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F44ECC582A2F2EB40096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,7 +215,6 @@
 		F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
-		F4A86BB92A2E676200C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F4A86BC92A2E68B400C7D5C2 /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		F4A86BCA2A2E68B400C7D5C2 /* EditPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPostViewController.xib; sourceTree = "<group>"; };
 		F4A86BCB2A2E68B400C7D5C2 /* EditPostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
@@ -298,7 +287,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F44ECC572A2F2EB40096DCC6 /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,14 +532,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F4A86BBA2A2E676200C7D5C2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F4A86BBE2A2E676200C7D5C2 /* LikeMindsFeed.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F4A86BC82A2E68B400C7D5C2 /* EditPost */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,7 +644,6 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
-				F4A86BB92A2E676200C7D5C2 /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -867,10 +846,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = F4A86BBA2A2E676200C7D5C2 /* Products */;
-					ProjectRef = F4A86BB92A2E676200C7D5C2 /* LikeMindsFeed.xcodeproj */;
-				},
-				{
 					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
 					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
 				},
@@ -883,13 +858,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		F4A86BBE2A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LikeMindsFeed.framework;
-			remoteRef = F4A86BBD2A2E676200C7D5C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
