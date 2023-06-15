@@ -48,7 +48,8 @@ class NotificationFeedViewModel: BaseViewModel {
         }
     }
     
-    func markReadNotification(activityId: String) {
+    func markReadNotification(activityId: String?) {
+        guard let activityId = activityId else {return}
         let request = MarkReadNotificationRequest(activityId: activityId)
         LMFeedClient.shared.markReadNotification(request) {[weak self] response in
             if response.success {

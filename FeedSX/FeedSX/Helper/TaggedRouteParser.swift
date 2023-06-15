@@ -106,7 +106,7 @@ class TaggedRouteParser {
     }
     
     @objc func getTaggedParsedAttributedString(with answer: String?, andPrefix prefix: String? = "@", forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = LMBranding.shared.font(16, .regular), withHilightFont highlightFont:UIFont? = LMBranding.shared.font(16, .medium), withHighlightedColor highlightedColour: UIColor = LMBranding.shared.textLinkColor, isShowLink showLink: Bool = true) -> NSMutableAttributedString?  {
-        return replaceRouteToName(with: answer ?? "", andPrefix: prefix, forTextView: forTextView, withTextColor: textColor, withFont: font, withHighlightedColor: highlightedColour, isShowLink: showLink)
+        return replaceRouteToName(with: answer ?? "", andPrefix: prefix, forTextView: forTextView, withTextColor: textColor, withFont: font, withHighlightedFont: highlightFont, withHighlightedColor: highlightedColour, isShowLink: showLink)
     }
     
     func getTaggedParsedAttributedStringForEditText(with answer: String?, andPrefix prefix: String? = "@", forTextView: Bool, withTextColor textColor: UIColor = .black, withFont font:UIFont? = LMBranding.shared.font(16, .regular), withHighlightedColor highlightedColour: UIColor = LMBranding.shared.textLinkColor, isShowLink showLink: Bool = true) -> (NSMutableAttributedString, [TaggedUser])  {

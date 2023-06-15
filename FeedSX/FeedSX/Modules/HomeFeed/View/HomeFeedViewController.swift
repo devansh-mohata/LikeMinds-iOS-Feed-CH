@@ -103,6 +103,31 @@ public final class HomeFeedViewControler: BaseViewController {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
+    var notificationBarItem: UIBarButtonItem!
+    let notificationBellButton: LMButton = {
+        let button = LMButton(frame: CGRect(x: 0, y: 5, width: 44, height: 44))
+        button.setImage(UIImage(systemName: ImageIcon.bellFillIcon), for: .normal)
+        button.tintColor = ColorConstant.likeTextColor
+        button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 22), forImageIn: .normal)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let notificationBadgeLabel: LMPaddedLabel = {
+        let badgeSize = 20
+        let label = LMPaddedLabel(frame: CGRect(x: 0, y: 0, width: badgeSize, height: badgeSize))
+        label.paddingLeft = 2
+        label.paddingRight = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.cornerRadius = label.bounds.size.height / 2
+        label.textAlignment = .center
+        label.layer.masksToBounds = true
+        label.textColor = .white
+        label.font = LMBranding.shared.font(12, .regular)
+        label.backgroundColor = .systemRed
+        return label
+    }()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +154,7 @@ public final class HomeFeedViewControler: BaseViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         homeFeedViewModel.getMemberState()
+        homeFeedViewModel.getUnreadNotificationCount()
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -153,10 +179,28 @@ public final class HomeFeedViewControler: BaseViewController {
         
         containView.addSubview(profileImageview)
         let profileBarButton = UIBarButtonItem(customView: containView)
-        let notificationFeedBarButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.bellFillIcon), style: .plain, target: self, action: #selector(notificationIconClicked))
-        notificationFeedBarButton.tintColor = ColorConstant.textBlackColor
-        notificationFeedBarButton.addBadge(number: 2)
-        self.navigationItem.rightBarButtonItems = [profileBarButton, notificationFeedBarButton]
+        setNotificationBarItem()
+        self.navigationItem.rightBarButtonItems = [profileBarButton, notificationBarItem]
+    }
+    
+    func setNotificationBarItem() {
+        notificationBarItem = UIBarButtonItem(customView: notificationBellButton)
+        notificationBellButton.addTarget(self, action: #selector(notificationIconClicked), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            notificationBellButton.widthAnchor.constraint(equalToConstant: 44),
+            notificationBellButton.heightAnchor.constraint(equalToConstant: 44),
+        ])
+    }
+    
+    func showBadge(withCount count: Int) {
+        notificationBadgeLabel.text = count > 99 ? "+\(count)" : "\(count)"
+        notificationBellButton.addSubview(notificationBadgeLabel)
+        NSLayoutConstraint.activate([
+            notificationBadgeLabel.leftAnchor.constraint(equalTo: notificationBellButton.leftAnchor, constant: 16),
+            notificationBadgeLabel.topAnchor.constraint(equalTo: notificationBellButton.topAnchor, constant: 4),
+            notificationBadgeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            notificationBadgeLabel.heightAnchor.constraint(equalToConstant: 20)
+        ])
     }
     
     func setLeftItemOfNavigationBar() {
@@ -427,7 +471,11 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     }
     
     func updateNotificationFeedCount(_ count: Int){
-        
+        if count > 0 {
+            showBadge(withCount: count)
+        } else {
+            notificationBadgeLabel.removeFromSuperview()
+        }
     }
 }
 

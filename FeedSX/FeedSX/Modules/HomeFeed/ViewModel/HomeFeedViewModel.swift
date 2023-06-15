@@ -117,10 +117,11 @@ class HomeFeedViewModel: BaseViewModel {
         return index
     }
     
-    func getUnreadNotificationCount(postId: String) {
+    func getUnreadNotificationCount() {
         LMFeedClient.shared.getUnreadNotificationCount() {[weak self] response in
             if response.success, let count = response.data?.count {
                 print("notification cout: \(count)")
+                self?.delegate?.updateNotificationFeedCount(count)
             } else {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }

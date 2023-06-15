@@ -11,9 +11,11 @@ import LikeMindsFeed
 class NotificationFeedDataView {
     let activity: Activity
     let user: User?
+    var isRead: Bool
     
     init(activity: Activity, user: User?) {
         self.activity = activity
         self.user = user
+        self.isRead = activity.isRead ?? false
     }
 }

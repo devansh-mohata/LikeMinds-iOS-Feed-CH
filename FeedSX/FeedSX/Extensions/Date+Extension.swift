@@ -23,18 +23,16 @@ extension Date {
         let hour = 60 * minute
         let day = 24 * hour
         let week = 7 * day
-        let ago = "ago"
+        
         if secondsAgo == 0 {
             return "Just now"
-        }
-//        if secondsAgo < minute {
-//            if secondsAgo == 1 {
-//                return "\(secondsAgo) second"
-//            } else {
-//                return "\(secondsAgo) seconds"
-//            }
-//        } else
-        if secondsAgo < hour {
+        } else if secondsAgo < minute {
+            if secondsAgo == 1 {
+                return "\(secondsAgo) second"
+            } else {
+                return "\(secondsAgo) seconds"
+            }
+        } else if secondsAgo < hour {
             if secondsAgo / minute == 1 {
                 return "\(secondsAgo / minute) minute"
             } else {
@@ -48,17 +46,19 @@ extension Date {
             }
         } else if secondsAgo < week {
             if secondsAgo / day == 1 {
-                return "\(secondsAgo / day) day"
+                return "\(secondsAgo / day) day ago"
             } else {
-                return "\(secondsAgo / day) days"
+                return "\(secondsAgo / day) days ago"
             }
+        } else {
+            return self.dateString(withFormat: "MMM dd, YYYY")
         }
         
-        if secondsAgo / week == 1 {
-            return "\(secondsAgo / week) week ago"
-        } else {
-            return "\(secondsAgo / week) weeks ago"
-        }
+//        if secondsAgo / week == 1 {
+//            return "\(secondsAgo / week) week ago"
+//        } else {
+//            return "\(secondsAgo / week) weeks ago"
+//        }
     }
     
     func timeAgoDisplayShort() -> String {
@@ -84,5 +84,11 @@ extension Date {
         }
         
         return "\(secondsAgo / day)d" //"\(secondsAgo / week)wk"
+    }
+    
+    func dateString(withFormat format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
     }
 }

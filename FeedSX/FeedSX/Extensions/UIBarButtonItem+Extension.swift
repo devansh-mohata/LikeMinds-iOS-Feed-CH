@@ -20,6 +20,7 @@ extension CAShapeLayer {
 private var handle: UInt8 = 0
 
 extension UIBarButtonItem {
+    
     private var badgeLayer: CAShapeLayer? {
         if let b: AnyObject = objc_getAssociatedObject(self, &handle) as AnyObject? {
             return b as? CAShapeLayer
@@ -64,4 +65,5 @@ extension UIBarButtonItem {
     func removeBadge() {
         badgeLayer?.removeFromSuperlayer()
     }
+
 }

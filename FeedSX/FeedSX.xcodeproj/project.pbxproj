@@ -66,9 +66,6 @@
 		F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */; };
 		F4A85D2029E931F700FB8DAF /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */; };
 		F4A85D2229E9338900FB8DAF /* ReportTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */; };
-		F4A86BCE2A2E68B400C7D5C2 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A86BC92A2E68B400C7D5C2 /* EditPostViewController.swift */; };
-		F4A86BCF2A2E68B400C7D5C2 /* EditPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A86BCA2A2E68B400C7D5C2 /* EditPostViewController.xib */; };
-		F4A86BD02A2E68B400C7D5C2 /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A86BCB2A2E68B400C7D5C2 /* EditPostViewModel.swift */; };
 		F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */; };
 		F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */; };
 		F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9617E29DC03C100F395AD /* DocumentCollectionCell.swift */; };
@@ -227,9 +224,6 @@
 		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F4A86BB92A2E676200C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
-		F4A86BC92A2E68B400C7D5C2 /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
-		F4A86BCA2A2E68B400C7D5C2 /* EditPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPostViewController.xib; sourceTree = "<group>"; };
-		F4A86BCB2A2E68B400C7D5C2 /* EditPostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
 		F4A86BD42A2E6B0E00C7D5C2 /* AWSCognito.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePostViewController.xib; sourceTree = "<group>"; };
@@ -555,16 +549,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F4A86BC82A2E68B400C7D5C2 /* EditPost */ = {
-			isa = PBXGroup;
-			children = (
-				F4A86BC92A2E68B400C7D5C2 /* EditPostViewController.swift */,
-				F4A86BCA2A2E68B400C7D5C2 /* EditPostViewController.xib */,
-				F4A86BCB2A2E68B400C7D5C2 /* EditPostViewModel.swift */,
-			);
-			path = EditPost;
-			sourceTree = "<group>";
-		};
 		F4A9617629DBF9E500F395AD /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,7 +562,6 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				F4A86BC82A2E68B400C7D5C2 /* EditPost */,
 				F49F6BE92A1B3BAC005B2A81 /* NotificationFeed */,
 				F4EA97A72A14980B0020E672 /* Analytics */,
 				F4CE0F252A0CF9430089D743 /* TaggedUserList */,
@@ -921,7 +904,6 @@
 				F405D10029E7E0800074F531 /* ReportContentViewController.xib in Resources */,
 				F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */,
 				F49F6BFD2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib in Resources */,
-				F4A86BCF2A2E68B400C7D5C2 /* EditPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -981,7 +963,6 @@
 				F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */,
 				F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */,
 				F4D98B0C29D188BF00CF9743 /* LMBranding.swift in Sources */,
-				F4A86BCE2A2E68B400C7D5C2 /* EditPostViewController.swift in Sources */,
 				F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */,
 				F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */,
 				F4CE0F2C2A0CF9430089D743 /* TaggedUserList.swift in Sources */,
@@ -1061,7 +1042,6 @@
 				F4DE47112A06CB6400BF5C2C /* RoundButton.swift in Sources */,
 				F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */,
 				F4D98B1529D1A08400CF9743 /* HomeFeedViewController.swift in Sources */,
-				F4A86BD02A2E68B400C7D5C2 /* EditPostViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
