@@ -10,10 +10,12 @@ import Kingfisher
 
 protocol HomeFeedTableViewCellDelegate: AnyObject {
     func didTapOnFeedCollection(_ feedDataView: PostFeedDataView?)
+    func didTapOnCell(_ feedDataView: PostFeedDataView?)
 }
 
 extension HomeFeedTableViewCellDelegate {
     func didTapOnFeedCollection(_ feedDataView: PostFeedDataView?) {}
+    func didTapOnCell(_ feedDataView: PostFeedDataView?) {}
 }
 
 class HomeFeedImageVideoTableViewCell: UITableViewCell {
@@ -110,7 +112,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupContainerData()
-//        self.layoutIfNeeded()
+        self.layoutIfNeeded()
     }
     
     func setupImageCollectionView() {
@@ -251,7 +253,7 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        (cell as? VideoCollectionViewCell)?.playVideo()
+        (cell as? VideoCollectionViewCell)?.pauseVideo()
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -259,7 +261,11 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.frame.width)
+        let index = Int(scrollView.contentOffset.x  / self.frame.width)
+        pageControl?.currentPage = index
+        pauseAllInVisibleVideos()
+        guard let cell = imageVideoCollectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? VideoCollectionViewCell  else {return}
+        cell.playVideo()
     }
     
     func pauseAllInVisibleVideos() {
@@ -275,23 +281,13 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
         }
     }
     
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        imageVideoCollectionView.visibleCells.forEach { cell in
-//            // TODO: write logic to stop the video before it begins scrolling
-//            if let cell = cell as? VideoCollectionViewCell {
-//                cell.pauseVideo()
-//            }
-//        }
-//    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        pauseAllInVisibleVideos()
+    }
 //
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        imageVideoCollectionView.visibleCells.forEach { cell in
-//            // TODO: write logic to start the video after it ends scrolling
-//            if let cell = cell as? VideoCollectionViewCell {
-//                cell.playVideo()
-//            }
-//        }
-//    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        playVisibleVideo()
+    }
     
 }
 

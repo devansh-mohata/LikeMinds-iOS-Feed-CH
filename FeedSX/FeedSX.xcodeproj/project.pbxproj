@@ -64,6 +64,9 @@
 		F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */; };
 		F4A85D2029E931F700FB8DAF /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */; };
 		F4A85D2229E9338900FB8DAF /* ReportTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */; };
+		F4A86BCE2A2E68B400C7D5C2 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A86BC92A2E68B400C7D5C2 /* EditPostViewController.swift */; };
+		F4A86BCF2A2E68B400C7D5C2 /* EditPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A86BCA2A2E68B400C7D5C2 /* EditPostViewController.xib */; };
+		F4A86BD02A2E68B400C7D5C2 /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A86BCB2A2E68B400C7D5C2 /* EditPostViewModel.swift */; };
 		F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */; };
 		F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */; };
 		F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9617E29DC03C100F395AD /* DocumentCollectionCell.swift */; };
@@ -75,6 +78,17 @@
 		F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9619029DD409D00F395AD /* UIColor+Extension.swift */; };
 		F4A9619429DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */; };
 		F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */; };
+		F4A9C7EE2A31EADB00D35396 /* TaggingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7ED2A31EADB00D35396 /* TaggingView.swift */; };
+		F4A9C7F02A31EB2700D35396 /* TaggingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */; };
+		F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */; };
+		F4AB905C2A3654B300B85245 /* TotalCommentCountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AB905B2A3654B200B85245 /* TotalCommentCountCell.swift */; };
+		F4AD157E2A2BC65F00B752C3 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD157C2A2BC65F00B752C3 /* EditPostViewController.swift */; };
+		F4AD157F2A2BC65F00B752C3 /* EditPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4AD157D2A2BC65F00B752C3 /* EditPostViewController.xib */; };
+		F4AD15812A2BC7BE00B752C3 /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD15802A2BC7BE00B752C3 /* EditPostViewModel.swift */; };
+		F4AD15872A2BCDC600B752C3 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD15862A2BCDC600B752C3 /* BaseViewModel.swift */; };
+		F4AD158A2A2D160A00B752C3 /* HomeFeedLinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD15882A2D160900B752C3 /* HomeFeedLinkTableViewCell.swift */; };
+		F4AD158B2A2D160A00B752C3 /* HomeFeedLinkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4AD15892A2D160900B752C3 /* HomeFeedLinkTableViewCell.xib */; };
+		F4B0166C2A2FAF3800772909 /* EditPostOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B0166B2A2FAF3800772909 /* EditPostOperation.swift */; };
 		F4B6D91E29DD7828008BD8A7 /* IconAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4B6D91D29DD7828008BD8A7 /* IconAssets.xcassets */; };
 		F4C3330829CDC83300AD5F52 /* LMFeedUI.docc in Sources */ = {isa = PBXBuildFile; fileRef = F4C3330729CDC83300AD5F52 /* LMFeedUI.docc */; };
 		F4C3330929CDC83300AD5F52 /* LMFeedUI.h in Headers */ = {isa = PBXBuildFile; fileRef = F4C3330629CDC83200AD5F52 /* LMFeedUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -115,8 +129,18 @@
 		F4EA97BB2A19592F0020E672 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EA97BA2A19592F0020E672 /* ColorConstant.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F414169C299E41C000622058;
+			remoteInfo = LikeMindsFeed;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		F46E15B22A25D1B9003C43BA /* Embed Frameworks */ = {
+		F44ECC592A2F2EB40096DCC6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -129,6 +153,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		78CF06D4711533978898BA48 /* Pods-FeedSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.debug.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.debug.xcconfig"; sourceTree = "<group>"; };
+		841AF5F2C16456E212FAC2C3 /* Pods-FeedSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.release.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.release.xcconfig"; sourceTree = "<group>"; };
+		A047BB966FC282078791220D /* Pods_FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContentViewModel.swift; sourceTree = "<group>"; };
 		F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewController.swift; sourceTree = "<group>"; };
 		F405D0FE29E7E0800074F531 /* ReportContentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportContentViewController.xib; sourceTree = "<group>"; };
@@ -145,7 +172,6 @@
 		F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionViewCell.swift; sourceTree = "<group>"; };
 		F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
 		F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeMindsFeedSX.swift; sourceTree = "<group>"; };
-		F46E15CA2A26095C003C43BA /* FirebaseMessaging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseMessaging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46E15D02A26197D003C43BA /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		F46E15D32A263448003C43BA /* RouteBuilderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderManager.swift; sourceTree = "<group>"; };
 		F46E15D42A263448003C43BA /* DeepLinkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
@@ -188,6 +214,11 @@
 		F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionView.swift; sourceTree = "<group>"; };
 		F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
+		F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
+		F4A86BC92A2E68B400C7D5C2 /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
+		F4A86BCA2A2E68B400C7D5C2 /* EditPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditPostViewController.xib; sourceTree = "<group>"; };
+		F4A86BCB2A2E68B400C7D5C2 /* EditPostViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
+		F4A86BD42A2E6B0E00C7D5C2 /* AWSCognito.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePostViewController.xib; sourceTree = "<group>"; };
 		F4A9617E29DC03C100F395AD /* DocumentCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCollectionCell.swift; sourceTree = "<group>"; };
@@ -199,6 +230,17 @@
 		F4A9619029DD409D00F395AD /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedNoAttachmentTableViewCell.swift; sourceTree = "<group>"; };
 		F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedNoAttachmentTableViewCell.xib; sourceTree = "<group>"; };
+		F4A9C7ED2A31EADB00D35396 /* TaggingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingView.swift; sourceTree = "<group>"; };
+		F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingDataModel.swift; sourceTree = "<group>"; };
+		F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewDataSource.swift; sourceTree = "<group>"; };
+		F4AB905B2A3654B200B85245 /* TotalCommentCountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCommentCountCell.swift; sourceTree = "<group>"; };
+		F4AD157C2A2BC65F00B752C3 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
+		F4AD157D2A2BC65F00B752C3 /* EditPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditPostViewController.xib; sourceTree = "<group>"; };
+		F4AD15802A2BC7BE00B752C3 /* EditPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
+		F4AD15862A2BCDC600B752C3 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		F4AD15882A2D160900B752C3 /* HomeFeedLinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedLinkTableViewCell.swift; sourceTree = "<group>"; };
+		F4AD15892A2D160900B752C3 /* HomeFeedLinkTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedLinkTableViewCell.xib; sourceTree = "<group>"; };
+		F4B0166B2A2FAF3800772909 /* EditPostOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostOperation.swift; sourceTree = "<group>"; };
 		F4B6D91D29DD7828008BD8A7 /* IconAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = IconAssets.xcassets; sourceTree = "<group>"; };
 		F4C3330329CDC83200AD5F52 /* FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4C3330629CDC83200AD5F52 /* LMFeedUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMFeedUI.h; sourceTree = "<group>"; };
@@ -211,7 +253,6 @@
 		F4CE0F302A0CF99A0089D743 /* TaggedUserListDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedUserListDataView.swift; sourceTree = "<group>"; };
 		F4D3059A2A1D436300964114 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		F4D305A12A20B1AE00964114 /* CreatePostOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostOperation.swift; sourceTree = "<group>"; };
-		F4D58B5129DECAD8000C1648 /* BSImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BSImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D58B5629DED016000C1648 /* PHAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHAsset+Extension.swift"; sourceTree = "<group>"; };
 		F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		F4D98AFC29D1886100CF9743 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -252,6 +293,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3450CFBE03C651D272766F1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				78CF06D4711533978898BA48 /* Pods-FeedSX.debug.xcconfig */,
+				841AF5F2C16456E212FAC2C3 /* Pods-FeedSX.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F405D0FC29E7E0410074F531 /* ReportContent */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +406,7 @@
 				F49C76F129E323CF00325AD9 /* CommentHeaderViewCell.swift */,
 				F49C76F329E3387E00325AD9 /* ReplyCommentTableViewCell.swift */,
 				F4EA97B82A1935DB0020E672 /* ViewMoreRepliesCell.swift */,
+				F4AB905B2A3654B200B85245 /* TotalCommentCountCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -431,9 +482,9 @@
 		F4A4EFA329D6A5E500829E5E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F46E15CA2A26095C003C43BA /* FirebaseMessaging.framework */,
-				F4D58B5129DECAD8000C1648 /* BSImagePicker.framework */,
+				F4A86BD42A2E6B0E00C7D5C2 /* AWSCognito.framework */,
 				F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */,
+				A047BB966FC282078791220D /* Pods_FeedSX.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -448,6 +499,8 @@
 				F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */,
 				F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */,
 				F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */,
+				F4AD15882A2D160900B752C3 /* HomeFeedLinkTableViewCell.swift */,
+				F4AD15892A2D160900B752C3 /* HomeFeedLinkTableViewCell.xib */,
 			);
 			path = HomeFeedImageVideoCell;
 			sourceTree = "<group>";
@@ -471,6 +524,24 @@
 			path = TagCollectionCell;
 			sourceTree = "<group>";
 		};
+		F4A86B8B2A2DCB2900C7D5C2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F4A86BC82A2E68B400C7D5C2 /* EditPost */ = {
+			isa = PBXGroup;
+			children = (
+				F4A86BC92A2E68B400C7D5C2 /* EditPostViewController.swift */,
+				F4A86BCA2A2E68B400C7D5C2 /* EditPostViewController.xib */,
+				F4A86BCB2A2E68B400C7D5C2 /* EditPostViewModel.swift */,
+			);
+			path = EditPost;
+			sourceTree = "<group>";
+		};
 		F4A9617629DBF9E500F395AD /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,6 +555,7 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				F4A86BC82A2E68B400C7D5C2 /* EditPost */,
 				F49F6BE92A1B3BAC005B2A81 /* NotificationFeed */,
 				F4EA97A72A14980B0020E672 /* Analytics */,
 				F4CE0F252A0CF9430089D743 /* TaggedUserList */,
@@ -491,6 +563,7 @@
 				F4A3DD2B29E7D29400498363 /* DeleteContent */,
 				F4A20D1C29E575D4001D57CB /* LikesList */,
 				F49C76E829E3101000325AD9 /* PostDetail */,
+				F4AD157A2A2BC5EC00B752C3 /* EditPost */,
 				F4A9617629DBF9E500F395AD /* CreatePost */,
 				F4D98AFA29D1879700CF9743 /* HomeFeed */,
 			);
@@ -539,6 +612,27 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		F4A9C7E42A31EA6D00D35396 /* TaggingHelper */ = {
+			isa = PBXGroup;
+			children = (
+				F4A9C7ED2A31EADB00D35396 /* TaggingView.swift */,
+				F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */,
+				F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */,
+			);
+			path = TaggingHelper;
+			sourceTree = "<group>";
+		};
+		F4AD157A2A2BC5EC00B752C3 /* EditPost */ = {
+			isa = PBXGroup;
+			children = (
+				F4AD157C2A2BC65F00B752C3 /* EditPostViewController.swift */,
+				F4AD157D2A2BC65F00B752C3 /* EditPostViewController.xib */,
+				F4AD15802A2BC7BE00B752C3 /* EditPostViewModel.swift */,
+				F4B0166B2A2FAF3800772909 /* EditPostOperation.swift */,
+			);
+			path = EditPost;
+			sourceTree = "<group>";
+		};
 		F4B6D91C29DD77FB008BD8A7 /* IconAssets */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,6 +647,7 @@
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
+				E3450CFBE03C651D272766F1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -585,6 +680,7 @@
 		F4CE0F252A0CF9430089D743 /* TaggedUserList */ = {
 			isa = PBXGroup;
 			children = (
+				F4A9C7E42A31EA6D00D35396 /* TaggingHelper */,
 				F4CE0F262A0CF9430089D743 /* TaggedListTableViewCell.swift */,
 				F4CE0F272A0CF9430089D743 /* TaggedListTableViewCell.xib */,
 				F4CE0F282A0CF9430089D743 /* TaggedUserList.swift */,
@@ -610,6 +706,7 @@
 			children = (
 				F4D98AFC29D1886100CF9743 /* BaseViewController.swift */,
 				F4D98AFE29D1889B00CF9743 /* BaseNavigationController.swift */,
+				F4AD15862A2BCDC600B752C3 /* BaseViewModel.swift */,
 			);
 			path = BaseUI;
 			sourceTree = "<group>";
@@ -706,11 +803,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4C3330C29CDC83300AD5F52 /* Build configuration list for PBXNativeTarget "FeedSX" */;
 			buildPhases = (
+				AB1DCDA3DF0F6CD81FCCAAAE /* [CP] Check Pods Manifest.lock */,
 				F4C332FE29CDC83200AD5F52 /* Headers */,
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
 				F4C3330129CDC83200AD5F52 /* Resources */,
-				F46E15B22A25D1B9003C43BA /* Embed Frameworks */,
+				F44ECC592A2F2EB40096DCC6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -746,6 +844,12 @@
 			mainGroup = F4C332F929CDC83200AD5F52;
 			productRefGroup = F4C3330429CDC83200AD5F52 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
+					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F4C3330229CDC83200AD5F52 /* FeedSX */,
@@ -753,27 +857,65 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = LikeMindsFeed.framework;
+			remoteRef = F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		F4C3330129CDC83200AD5F52 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4AD158B2A2D160A00B752C3 /* HomeFeedLinkTableViewCell.xib in Resources */,
 				F4CE0F2D2A0CF9430089D743 /* TaggedUserList.xib in Resources */,
 				F4B6D91E29DD7828008BD8A7 /* IconAssets.xcassets in Resources */,
 				F4A9618529DC06D300F395AD /* LinkCollectionViewCell.xib in Resources */,
 				F49C76EF29E3106100325AD9 /* PostDetailViewController.xib in Resources */,
 				F4A3DD2F29E7D2F600498363 /* DeleteContentViewController.xib in Resources */,
 				F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */,
+				F4AD157F2A2BC65F00B752C3 /* EditPostViewController.xib in Resources */,
 				F4D98B1929D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib in Resources */,
 				F4CE0F2B2A0CF9430089D743 /* TaggedListTableViewCell.xib in Resources */,
 				F49F6BF52A1B3FAF005B2A81 /* NotificationFeedTableViewCell.xib in Resources */,
 				F405D10029E7E0800074F531 /* ReportContentViewController.xib in Resources */,
 				F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */,
 				F49F6BFD2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib in Resources */,
+				F4A86BCF2A2E68B400C7D5C2 /* EditPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AB1DCDA3DF0F6CD81FCCAAAE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FeedSX-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F4C332FF29CDC83200AD5F52 /* Sources */ = {
@@ -784,7 +926,10 @@
 				F4D98B1229D1916600CF9743 /* LMFonts.swift in Sources */,
 				F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */,
 				F4A9618829DC41E100F395AD /* ImageCollectionViewCell.swift in Sources */,
+				F4AD157E2A2BC65F00B752C3 /* EditPostViewController.swift in Sources */,
+				F4AD15812A2BC7BE00B752C3 /* EditPostViewModel.swift in Sources */,
 				F49C76F629E3CFE200325AD9 /* PostDetailDataModel.swift in Sources */,
+				F4B0166C2A2FAF3800772909 /* EditPostOperation.swift in Sources */,
 				F49F6BFC2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift in Sources */,
 				F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */,
 				F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */,
@@ -798,13 +943,16 @@
 				F41731C82A1A7CF7005FD279 /* NetworkOperationQueueManager.swift in Sources */,
 				F405D0FF29E7E0800074F531 /* ReportContentViewController.swift in Sources */,
 				F49C76FE29E4345300325AD9 /* PlayerView.swift in Sources */,
+				F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */,
 				F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */,
 				F4D98B0C29D188BF00CF9743 /* LMBranding.swift in Sources */,
+				F4A86BCE2A2E68B400C7D5C2 /* EditPostViewController.swift in Sources */,
 				F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */,
 				F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */,
 				F4CE0F2C2A0CF9430089D743 /* TaggedUserList.swift in Sources */,
 				F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */,
 				F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */,
+				F4A9C7F02A31EB2700D35396 /* TaggingDataModel.swift in Sources */,
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
 				F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
@@ -812,6 +960,7 @@
 				F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */,
 				F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */,
 				F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */,
+				F4AB905C2A3654B300B85245 /* TotalCommentCountCell.swift in Sources */,
 				F4CE0F2F2A0CF9890089D743 /* TaggedUserListViewModel.swift in Sources */,
 				F49D70D32A1392E0004ABD5B /* Array+Extension.swift in Sources */,
 				F4EA97AB2A1499930020E672 /* LMFeedAnalyticsEventName.swift in Sources */,
@@ -831,6 +980,7 @@
 				F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */,
 				F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */,
 				F49C76F429E3387E00325AD9 /* ReplyCommentTableViewCell.swift in Sources */,
+				F4AD15872A2BCDC600B752C3 /* BaseViewModel.swift in Sources */,
 				F49C76DF29DF45B100325AD9 /* AWSS3Manager.swift in Sources */,
 				F4D58B5929DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift in Sources */,
 				F4A20D2229E57654001D57CB /* LikedUserTableViewCell.swift in Sources */,
@@ -857,6 +1007,7 @@
 				F4D98B1E29D44DD500CF9743 /* HomeFeedViewData.swift in Sources */,
 				F4D98B2629D452B600CF9743 /* UIView+Extension.swift in Sources */,
 				F4A20D1E29E5760D001D57CB /* LikedUserListViewModel.swift in Sources */,
+				F4AD158A2A2D160A00B752C3 /* HomeFeedLinkTableViewCell.swift in Sources */,
 				F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */,
 				F4A9618F29DC614400F395AD /* CreatePostViewModel.swift in Sources */,
 				F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */,
@@ -868,11 +1019,13 @@
 				F4D98B0829D188BF00CF9743 /* LMLabel.swift in Sources */,
 				F4EA97B92A1935DB0020E672 /* ViewMoreRepliesCell.swift in Sources */,
 				F4D98AFF29D1889B00CF9743 /* BaseNavigationController.swift in Sources */,
+				F4A9C7EE2A31EADB00D35396 /* TaggingView.swift in Sources */,
 				F49F6BF42A1B3FAF005B2A81 /* NotificationFeedTableViewCell.swift in Sources */,
 				F4A20D2829E5FA4C001D57CB /* TaggedRouteParser.swift in Sources */,
 				F4DE47112A06CB6400BF5C2C /* RoundButton.swift in Sources */,
 				F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */,
 				F4D98B1529D1A08400CF9743 /* HomeFeedViewController.swift in Sources */,
+				F4A86BD02A2E68B400C7D5C2 /* EditPostViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,9 +1154,10 @@
 		};
 		F4C3330D29CDC83300AD5F52 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78CF06D4711533978898BA48 /* Pods-FeedSX.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1017,7 +1171,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1029,9 +1183,10 @@
 		};
 		F4C3330E29CDC83300AD5F52 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 841AF5F2C16456E212FAC2C3 /* Pods-FeedSX.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1045,7 +1200,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
