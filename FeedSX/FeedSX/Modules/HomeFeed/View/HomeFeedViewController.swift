@@ -153,10 +153,10 @@ public final class HomeFeedViewControler: BaseViewController {
         
         containView.addSubview(profileImageview)
         let profileBarButton = UIBarButtonItem(customView: containView)
-//        let notificationFeedBarButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.bellFillIcon), style: .plain, target: self, action: #selector(notificationIconClicked))
-//        notificationFeedBarButton.tintColor = ColorConstant.textBlackColor
-//        notificationFeedBarButton.addBadge(number: 2)
-        self.navigationItem.rightBarButtonItems = [profileBarButton]
+        let notificationFeedBarButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.bellFillIcon), style: .plain, target: self, action: #selector(notificationIconClicked))
+        notificationFeedBarButton.tintColor = ColorConstant.textBlackColor
+        notificationFeedBarButton.addBadge(number: 2)
+        self.navigationItem.rightBarButtonItems = [profileBarButton, notificationFeedBarButton]
     }
     
     func setLeftItemOfNavigationBar() {
@@ -424,6 +424,10 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     
     func reloadSection(_ indexPath: IndexPath) {
         self.feedTableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
+    func updateNotificationFeedCount(_ count: Int){
+        
     }
 }
 

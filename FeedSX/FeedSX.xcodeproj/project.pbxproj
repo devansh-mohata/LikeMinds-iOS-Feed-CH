@@ -84,6 +84,7 @@
 		F4A9C7F02A31EB2700D35396 /* TaggingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */; };
 		F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */; };
 		F4AB905C2A3654B300B85245 /* TotalCommentCountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AB905B2A3654B200B85245 /* TotalCommentCountCell.swift */; };
+		F4AC32332A3A403C0019E5B0 /* NotificationFeedDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AC32322A3A403C0019E5B0 /* NotificationFeedDataView.swift */; };
 		F4AD157E2A2BC65F00B752C3 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD157C2A2BC65F00B752C3 /* EditPostViewController.swift */; };
 		F4AD157F2A2BC65F00B752C3 /* EditPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4AD157D2A2BC65F00B752C3 /* EditPostViewController.xib */; };
 		F4AD15812A2BC7BE00B752C3 /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD15802A2BC7BE00B752C3 /* EditPostViewModel.swift */; };
@@ -245,6 +246,7 @@
 		F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingDataModel.swift; sourceTree = "<group>"; };
 		F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewDataSource.swift; sourceTree = "<group>"; };
 		F4AB905B2A3654B200B85245 /* TotalCommentCountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCommentCountCell.swift; sourceTree = "<group>"; };
+		F4AC32322A3A403C0019E5B0 /* NotificationFeedDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFeedDataView.swift; sourceTree = "<group>"; };
 		F4AD157C2A2BC65F00B752C3 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		F4AD157D2A2BC65F00B752C3 /* EditPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditPostViewController.xib; sourceTree = "<group>"; };
 		F4AD15802A2BC7BE00B752C3 /* EditPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 			children = (
 				F49F6BEC2A1B3BE8005B2A81 /* View */,
 				F49F6BF02A1B3DEA005B2A81 /* NotificationFeedViewModel.swift */,
+				F4AC32322A3A403C0019E5B0 /* NotificationFeedDataView.swift */,
 			);
 			path = NotificationFeed;
 			sourceTree = "<group>";
@@ -989,6 +992,7 @@
 				F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
 				F49C76F829E3CFFA00325AD9 /* PostDetailViewModel.swift in Sources */,
+				F4AC32332A3A403C0019E5B0 /* NotificationFeedDataView.swift in Sources */,
 				F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */,
 				F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */,
 				F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */,

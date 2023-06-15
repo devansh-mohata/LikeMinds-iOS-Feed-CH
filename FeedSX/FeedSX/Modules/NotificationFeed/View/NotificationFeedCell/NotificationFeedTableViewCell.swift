@@ -38,8 +38,8 @@ class NotificationFeedTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupNotificationFeedCell() {
-        
+    func setupNotificationFeedCell(dataView: NotificationFeedDataView) {
+        self.notificationDetailLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: dataView.activity.activityText, andPrefix: "", forTextView: false, withTextColor: ColorConstant.likeTextColor, withHighlightedColor: ColorConstant.textBlackColor, isShowLink: false)
     }
     
     @objc func didMenuButtonClicked() {
