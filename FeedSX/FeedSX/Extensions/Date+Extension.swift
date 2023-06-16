@@ -16,7 +16,7 @@ extension Date {
         self = Date(timeIntervalSince1970: TimeInterval(milliseconds)/1000.0)
     }
     
-    func timeAgoDisplay() -> String {
+    func timeAgoCustomDisplay() -> String {
         let secondsAgo = Int(Date().timeIntervalSince(self))
         
         let minute = 60
@@ -28,21 +28,21 @@ extension Date {
             return "Just now"
         } else if secondsAgo < minute {
             if secondsAgo == 1 {
-                return "\(secondsAgo) second"
+                return "\(secondsAgo)s"
             } else {
-                return "\(secondsAgo) seconds"
+                return "\(secondsAgo)s"
             }
         } else if secondsAgo < hour {
             if secondsAgo / minute == 1 {
-                return "\(secondsAgo / minute) minute"
+                return "\(secondsAgo / minute)min"
             } else {
-                return "\(secondsAgo / minute) minutes"
+                return "\(secondsAgo / minute)mins"
             }
         } else if secondsAgo < day {
             if secondsAgo / hour == 1 {
-                return "\(secondsAgo / hour) hour"
+                return "\(secondsAgo / hour)h"
             } else {
-                return "\(secondsAgo / hour) hours"
+                return "\(secondsAgo / hour)h"
             }
         } else if secondsAgo < week {
             if secondsAgo / day == 1 {
@@ -82,7 +82,6 @@ extension Date {
         } else if secondsAgo < week {
             return "\(secondsAgo / day)d"
         }
-        
         return "\(secondsAgo / day)d" //"\(secondsAgo / week)wk"
     }
     
@@ -90,5 +89,26 @@ extension Date {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: self)
+    }
+    
+    func relativeDataTimeDisplays() -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        formatter.dateTimeStyle = .named
+        return formatter.localizedString(for: self, relativeTo: Date())
+    }
+    
+    func timeAgoDisplay(withDateFormat format: String = "MMM dd, YYYY") -> String {
+         let secondsAgo = Int(Date().timeIntervalSince(self))
+         let minute = 60
+         let hour = 60 * minute
+         let day = 24 * hour
+         let week = 7 * day
+                             
+        if secondsAgo < week {
+            return self.relativeDataTimeDisplays()
+        } else {
+            return self.dateString(withFormat: format)
+        }
     }
 }

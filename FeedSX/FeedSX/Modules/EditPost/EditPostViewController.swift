@@ -432,7 +432,6 @@ extension EditPostViewController: UIDocumentPickerDelegate {
 extension EditPostViewController: EditPostViewModelDelegate {
     
     func didReceivedPostDetails() {
-//        attachmentCollectionView.reloadData()
         self.reloadAttachmentsView()
         let data  = TaggedRouteParser.shared.getTaggedParsedAttributedStringForEditText(with: self.viewModel.postDetail?.caption ?? "", forTextView: true)
         captionTextView.attributedText = data.0

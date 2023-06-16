@@ -91,9 +91,9 @@ class ProfileHeaderView: UIView {
     
     let timeLabel: LMLabel = {
         let label = LMLabel()
-        label.textColor = ColorConstant.likeTextColor
+        label.textColor = ColorConstant.editedTextColor
         label.font = LMBranding.shared.font(12, .regular)
-        label.text = "6h"
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

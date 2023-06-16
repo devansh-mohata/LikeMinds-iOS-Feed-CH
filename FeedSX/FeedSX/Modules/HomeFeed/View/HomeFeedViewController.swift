@@ -193,7 +193,7 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     func showBadge(withCount count: Int) {
-        notificationBadgeLabel.text = count > 99 ? "+\(count)" : "\(count)"
+        notificationBadgeLabel.text = count > 99 ? "99+" : "\(count)"
         notificationBellButton.addSubview(notificationBadgeLabel)
         NSLayoutConstraint.activate([
             notificationBadgeLabel.leftAnchor.constraint(equalTo: notificationBellButton.leftAnchor, constant: 16),

@@ -57,11 +57,15 @@ class NotificationFeedTableViewCell: UITableViewCell {
         if let attachment = dataView.activity.activityEntityData?.attachments?.first {
             docIconImageView.superview?.isHidden = false
             var attachmentTypePlaceHolder = ""
-            if (attachment.attachmentType == .image) { attachmentTypePlaceHolder = ImageIcon.photoIcon }
-            if (attachment.attachmentType == .video) { attachmentTypePlaceHolder = ImageIcon.video }
-            if (attachment.attachmentType == .doc) { attachmentTypePlaceHolder = ImageIcon.docIcon }
-            if (attachment.attachmentType == .link) { attachmentTypePlaceHolder = ImageIcon.linkIcon }
-            docIconImageView.image = UIImage(systemName: attachmentTypePlaceHolder)
+            if (attachment.attachmentType == .image || attachment.attachmentType == .video) { attachmentTypePlaceHolder = ImageIcon.photoIcon }
+            else if (attachment.attachmentType == .doc) { attachmentTypePlaceHolder = ImageIcon.docFillIcon }
+//           else if (attachment.attachmentType == .video) { attachmentTypePlaceHolder = ImageIcon.video }
+//           else if (attachment.attachmentType == .link) { attachmentTypePlaceHolder = ImageIcon.linkIcon }
+            if !attachmentTypePlaceHolder.isEmpty {
+                docIconImageView.image = UIImage(systemName: attachmentTypePlaceHolder)
+            } else {
+                docIconImageView.superview?.isHidden = true
+            }
         } else {
             docIconImageView.superview?.isHidden = true
         }
