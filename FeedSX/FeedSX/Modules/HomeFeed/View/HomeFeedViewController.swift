@@ -128,6 +128,7 @@ public final class HomeFeedViewControler: BaseViewController {
         label.backgroundColor = .systemRed
         return label
     }()
+    var isPostCreatingInProgress: Bool = false
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -210,6 +211,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc func postCreationStarted(notification: Notification) {
         print("postCreationStarted")
+        self.isPostCreatingInProgress = true
         self.postingImageSuperView.superview?.isHidden = false
         if let image = notification.object as? UIImage {
             postingImageView.superview?.isHidden = false
@@ -222,6 +224,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc func postCreationCompleted(notification: Notification) {
         print("postCreationCompleted")
+        self.isPostCreatingInProgress = false
         self.postingImageSuperView.superview?.isHidden = true
         if let error = notification.object as? String {
             self.presentAlert(message: error)
@@ -311,6 +314,10 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func createNewPost() {
+        if self.isPostCreatingInProgress {
+            self.presentAlert(message: MessageConstant.postingInProgress)
+            return
+        }
         guard self.homeFeedViewModel.hasRightForCreatePost() else  {
             self.presentAlert(message: MessageConstant.restrictToCreatePost)
             return
@@ -318,6 +325,16 @@ public final class HomeFeedViewControler: BaseViewController {
         let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle(for: CreatePostViewController.self))
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.creationStarted, eventProperties: nil)
         self.navigationController?.pushViewController(createView, animated: true)
+    }
+    
+    func enableCreateNewPostButton(isEnable: Bool) {
+        if isEnable {
+            self.createPostButton.backgroundColor = LMBranding.shared.buttonColor
+//            self.createPostButton.isEnabled = true
+        } else {
+            self.createPostButton.backgroundColor = .lightGray
+//            self.createPostButton.isEnabled = false
+        }
     }
     
     @objc func refreshFeed() {

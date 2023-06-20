@@ -82,37 +82,27 @@ extension NotificationFeedViewController: UITableViewDelegate, UITableViewDataSo
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let activity = viewModel.activities[indexPath.row]
+        activity.isRead = true
+        tableView.reloadRows(at: [indexPath], with: .none)
+        self.viewModel.markReadNotification(activityId: activity.activity.id)
         guard let cta = activity.activity.cta else {
             return
         }
         let route = Routes(route: cta)
         route.fetchRoute {[weak self] viewController in
             guard let viewController = viewController else { return }
-            activity.isRead = true
-            tableView.reloadRows(at: [indexPath], with: .none)
-            self?.viewModel.markReadNotification(activityId: activity.activity.id)
             self?.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let offsetY = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//
-//        if offsetY > contentHeight - (scrollView.frame.height + 60) && !bottomLoadSpinner.isAnimating && !viewModel.isNotificationFeedLoading
-//        {
-//            bottomLoadSpinner.startAnimating()
-//            viewModel.getNotificationFeed()
-//        }
-    }
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {}
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         
-        if offsetY > contentHeight - (scrollView.frame.height + 60) && !bottomLoadSpinner.isAnimating && !viewModel.isNotificationFeedLoading
+        if offsetY > contentHeight - (scrollView.frame.height + 60) && !viewModel.isNotificationFeedLoading
         {
-            bottomLoadSpinner.startAnimating()
             viewModel.getNotificationFeed()
         }
     }

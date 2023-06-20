@@ -118,7 +118,13 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         self.linkTitleLabel.text = title
         self.linkDescriptionLabel.text = description
         self.linkLabel.text = link?.lowercased()
-        self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl ?? ""))
+        if let linkThumbnailUrl = linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
+            let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
+            self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl), placeholder: placeholder)
+        } else {
+            self.linkThumbnailImageView.image = nil
+        }
+        self.containerView.layoutIfNeeded()
     }
     
     private func setupCaption() {

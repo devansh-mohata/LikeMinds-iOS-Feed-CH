@@ -34,9 +34,9 @@ class NotificationFeedViewModel: BaseViewModel {
                    let users = response.data?.users,
                    notificationActivities.count > 0  {
                     if self?.currentPage == 1 {
-                        self?.activities = notificationActivities.map({NotificationFeedDataView(activity: $0, user: users[$0.actionBy?.first ?? ""])})
+                        self?.activities = notificationActivities.map({NotificationFeedDataView(activity: $0, user: users[$0.actionBy?.last ?? ""])})
                     } else {
-                        self?.activities.append(contentsOf: notificationActivities.map({NotificationFeedDataView(activity: $0, user: users[$0.actionBy?.first ?? ""])}))
+                        self?.activities.append(contentsOf: notificationActivities.map({NotificationFeedDataView(activity: $0, user: users[$0.actionBy?.last ?? ""])}))
                     }
                     self?.currentPage += 1
                 }
