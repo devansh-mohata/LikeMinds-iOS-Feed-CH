@@ -103,6 +103,32 @@ public final class HomeFeedViewControler: BaseViewController {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
+    var notificationBarItem: UIBarButtonItem!
+    let notificationBellButton: LMButton = {
+        let button = LMButton(frame: CGRect(x: 0, y: 5, width: 44, height: 44))
+        button.setImage(UIImage(systemName: ImageIcon.bellFillIcon), for: .normal)
+        button.tintColor = ColorConstant.likeTextColor
+        button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 22), forImageIn: .normal)
+        button.clipsToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let notificationBadgeLabel: LMPaddedLabel = {
+        let badgeSize = 20
+        let label = LMPaddedLabel(frame: CGRect(x: 0, y: 0, width: badgeSize, height: badgeSize))
+        label.paddingLeft = 2
+        label.paddingRight = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.cornerRadius = label.bounds.size.height / 2
+        label.textAlignment = .center
+        label.layer.masksToBounds = true
+        label.textColor = .white
+        label.font = LMBranding.shared.font(12, .regular)
+        label.backgroundColor = .systemRed
+        return label
+    }()
+    var isPostCreatingInProgress: Bool = false
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +155,7 @@ public final class HomeFeedViewControler: BaseViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         homeFeedViewModel.getMemberState()
+        homeFeedViewModel.getUnreadNotificationCount()
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -153,10 +180,28 @@ public final class HomeFeedViewControler: BaseViewController {
         
         containView.addSubview(profileImageview)
         let profileBarButton = UIBarButtonItem(customView: containView)
-//        let notificationFeedBarButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.bellFillIcon), style: .plain, target: self, action: #selector(notificationIconClicked))
-//        notificationFeedBarButton.tintColor = ColorConstant.textBlackColor
-//        notificationFeedBarButton.addBadge(number: 2)
-        self.navigationItem.rightBarButtonItems = [profileBarButton]
+        setNotificationBarItem()
+        self.navigationItem.rightBarButtonItems = [profileBarButton, notificationBarItem]
+    }
+    
+    func setNotificationBarItem() {
+        notificationBarItem = UIBarButtonItem(customView: notificationBellButton)
+        notificationBellButton.addTarget(self, action: #selector(notificationIconClicked), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            notificationBellButton.widthAnchor.constraint(equalToConstant: 44),
+            notificationBellButton.heightAnchor.constraint(equalToConstant: 44),
+        ])
+    }
+    
+    func showBadge(withCount count: Int) {
+        notificationBadgeLabel.text = count > 99 ? "99+" : "\(count)"
+        notificationBellButton.addSubview(notificationBadgeLabel)
+        NSLayoutConstraint.activate([
+            notificationBadgeLabel.leftAnchor.constraint(equalTo: notificationBellButton.leftAnchor, constant: 16),
+            notificationBadgeLabel.topAnchor.constraint(equalTo: notificationBellButton.topAnchor, constant: 4),
+            notificationBadgeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            notificationBadgeLabel.heightAnchor.constraint(equalToConstant: 20)
+        ])
     }
     
     func setLeftItemOfNavigationBar() {
@@ -166,6 +211,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc func postCreationStarted(notification: Notification) {
         print("postCreationStarted")
+        self.isPostCreatingInProgress = true
         self.postingImageSuperView.superview?.isHidden = false
         if let image = notification.object as? UIImage {
             postingImageView.superview?.isHidden = false
@@ -178,6 +224,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc func postCreationCompleted(notification: Notification) {
         print("postCreationCompleted")
+        self.isPostCreatingInProgress = false
         self.postingImageSuperView.superview?.isHidden = true
         if let error = notification.object as? String {
             self.presentAlert(message: error)
@@ -267,6 +314,10 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func createNewPost() {
+        if self.isPostCreatingInProgress {
+            self.presentAlert(message: MessageConstant.postingInProgress)
+            return
+        }
         guard self.homeFeedViewModel.hasRightForCreatePost() else  {
             self.presentAlert(message: MessageConstant.restrictToCreatePost)
             return
@@ -274,6 +325,16 @@ public final class HomeFeedViewControler: BaseViewController {
         let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle(for: CreatePostViewController.self))
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.creationStarted, eventProperties: nil)
         self.navigationController?.pushViewController(createView, animated: true)
+    }
+    
+    func enableCreateNewPostButton(isEnable: Bool) {
+        if isEnable {
+            self.createPostButton.backgroundColor = LMBranding.shared.buttonColor
+//            self.createPostButton.isEnabled = true
+        } else {
+            self.createPostButton.backgroundColor = .lightGray
+//            self.createPostButton.isEnabled = false
+        }
     }
     
     @objc func refreshFeed() {
@@ -424,6 +485,14 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     
     func reloadSection(_ indexPath: IndexPath) {
         self.feedTableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
+    func updateNotificationFeedCount(_ count: Int){
+        if count > 0 {
+            showBadge(withCount: count)
+        } else {
+            notificationBadgeLabel.removeFromSuperview()
+        }
     }
 }
 

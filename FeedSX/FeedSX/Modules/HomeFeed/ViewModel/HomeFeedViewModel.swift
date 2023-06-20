@@ -12,6 +12,7 @@ protocol HomeFeedViewModelDelegate: AnyObject {
     func didReceivedFeedData(success: Bool)
     func didReceivedMemberState()
     func reloadSection(_ indexPath: IndexPath)
+    func updateNotificationFeedCount(_ count: Int)
 }
 
 class HomeFeedViewModel: BaseViewModel {
@@ -114,6 +115,17 @@ class HomeFeedViewModel: BaseViewModel {
         guard let postDetail = postDetail, let index = feeds.firstIndex(where: {$0.postId == postDetail.postId}) else { return 0 }
         feeds[index] = postDetail
         return index
+    }
+    
+    func getUnreadNotificationCount() {
+        LMFeedClient.shared.getUnreadNotificationCount() {[weak self] response in
+            if response.success, let count = response.data?.count {
+                print("notification cout: \(count)")
+                self?.delegate?.updateNotificationFeedCount(count)
+            } else {
+                self?.postErrorMessageNotification(error: response.errorMessage)
+            }
+        }
     }
     
     func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {

@@ -19,7 +19,10 @@ public class LikeMindsFeedSX {
         LocalPrefrerences.save(extras.getApiKey() , forKey: LocalPreferencesKey.feedApiKey)
         LocalPrefrerences.save(extras.getDomainUrl() ?? "" , forKey: LocalPreferencesKey.clientDomainUrl)
         LMBranding.shared.setBranding(extras.getBrandingData())
-        FeedTokenManager.shared.lmCallback = extras.likemindsCallback as? LMCallback
+        AWSS3Manager.shared.initializeS3()
+        let _ = LMFeedClient.builder()
+            .lmCallback(extras.likemindsCallback as? LMCallback)
+            .build()
     }
     
     public func initiateLikeMindsFeed(withViewController viewController: UIViewController, apiKey: String, username: String, userId: String) {
