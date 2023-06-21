@@ -22,6 +22,7 @@ struct ImageIcon {
     static let backIcon = "chevron.backward"
     static let bellFillIcon = "bell.fill"
     static let docIcon = "doc"
+    static let docFillIcon = "doc.fill"
     static let photoIcon = "photo"
     static let video = "video"
     static let crossIcon = "multiply.circle.fill"

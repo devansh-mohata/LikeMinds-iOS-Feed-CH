@@ -103,9 +103,7 @@ class VideoCollectionViewCell: UICollectionViewCell {
             print("Not opened")
             return
         }
-        
-//        pauseVideo()
-        
+                
         avQueuePlayer = AVQueuePlayer()
         avPlayerItem = AVPlayerItem(url: pathURL)
         avPlayerlayerLooper = AVPlayerLooper(player: avQueuePlayer!, templateItem: avPlayerItem!)

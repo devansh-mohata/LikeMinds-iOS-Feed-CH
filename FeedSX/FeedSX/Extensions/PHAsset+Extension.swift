@@ -22,6 +22,7 @@ extension PHAsset {
         } else if self.mediaType == .video {
             let options: PHVideoRequestOptions = PHVideoRequestOptions()
             options.version = .original
+            options.isNetworkAccessAllowed = true
             PHImageManager.default().requestAVAsset(forVideo: self, options: options, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
                 if let urlAsset = asset as? AVURLAsset {
                     let localVideoUrl: URL = urlAsset.url as URL

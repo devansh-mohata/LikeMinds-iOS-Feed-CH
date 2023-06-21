@@ -582,25 +582,6 @@ extension PostDetailViewController: TaggedUserListDelegate {
         viewModel.taggedUsers = taggedList
     }
     
-//    func didSelectMemberFromTagList(_ user: User) {
-//        hideTaggingViewContainer()
-//        var attributedMessage:NSAttributedString?
-//        if let attributedText = commentTextView.attributedText {
-//            attributedMessage = attributedText
-//        }
-//        commentTextView.textColor = .black
-//        if let selectedRange = commentTextView.selectedTextRange {
-//            commentTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: commentTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
-//            let increasedLength = commentTextView.attributedText.length - (attributedMessage?.length ?? 0)
-//            if let newPosition = commentTextView.position(from: selectedRange.start, offset: increasedLength) {
-//                commentTextView.selectedTextRange = commentTextView.textRange(from: newPosition, to: newPosition)
-//            }
-//        }
-//        if !viewModel.taggedUsers.contains(where: {$0.user.id == user.userUniqueId}) {
-//            viewModel.taggedUsers.append(TaggedUser(TaggingUser(name: user.name, id: user.userUniqueId), range: commentTextView.selectedRange))
-//        }
-//    }
-    
     func hideTaggingViewContainer() {
         isTaggingViewHidden = true
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .showHideTransitionViews, animations: {
