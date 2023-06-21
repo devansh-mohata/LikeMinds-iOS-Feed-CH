@@ -417,6 +417,10 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
 
 extension CreatePostViewController: CreatePostViewModelDelegate {
     
+    func showError(errorMessage: String?) {
+        self.showErrorAlert(message: errorMessage)
+    }
+    
     func reloadAttachmentsView() {
         var isCountGreaterThanZero = false
         switch viewModel.currentSelectedUploadeType {

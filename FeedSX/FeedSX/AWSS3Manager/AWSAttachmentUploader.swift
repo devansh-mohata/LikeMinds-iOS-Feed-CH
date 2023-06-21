@@ -37,7 +37,7 @@ class AWSUploadManager {
                     guard let completionBlock = completion else { return }
                     completionBlock(finalPath, thumbNailUrl, nil, nil)
                 } else {
-                    //print("\(String(describing: error?.localizedDescription))")
+                    completion?(nil, nil, error, nil)
                 }
                 
             }
@@ -53,7 +53,7 @@ class AWSUploadManager {
                     guard let completionBlock = completion else { return }
                     completionBlock(finalPath, nil, nil ,nil)
                 } else {
-                    //print("\(String(describing: error?.localizedDescription))")
+                    completion?(nil, nil, error, nil)
                 }
                 
             }
@@ -72,7 +72,7 @@ class AWSUploadManager {
                     guard let completionBlock = completion else { return }
                     completionBlock(finalPath, nil, nil,nil)
                 } else {
-                    //print("\(String(describing: error?.localizedDescription))")
+                    completion?(nil, nil, error, nil)
                 }
                 
             }
@@ -89,7 +89,7 @@ class AWSUploadManager {
                     guard let completionBlock = completion else { return }
                     completionBlock(finalPath, nil , nil, index)
                 } else {
-                    //print("\(String(describing: error?.localizedDescription))")
+                    completion?(nil, nil, error, nil)
                 }
                 
             }
@@ -123,7 +123,7 @@ class AWSUploadManager {
                 guard let completionBlock = completion else { return }
                 completionBlock(finalPath, nil, nil, index)
             } else {
-                //print("\(String(describing: error?.localizedDescription))")
+                completion?(nil, nil, error, nil)
             }
         }
     }
@@ -142,7 +142,7 @@ extension AWSUploadManager {
                 guard let completionBlock = completion else { return }
                 completionBlock(finalPath, nil, nil, index)
             } else {
-                //print("\(String(describing: error?.localizedDescription))")
+                completion?(nil, nil, error, nil)
             }
             
         }
@@ -161,7 +161,7 @@ extension AWSUploadManager {
                 guard let completionBlock = completion else { return }
                 completionBlock(finalPath, thumbNailUrl, nil,nil)
             } else {
-                //print("\(String(describing: error?.localizedDescription))")
+                completion?(nil, nil, error, nil)
             }
             
         }
@@ -180,7 +180,7 @@ extension AWSUploadManager {
                 guard let completionBlock = completion else { return }
                 completionBlock(finalPath, nil, nil,nil)
             } else {
-                //print("\(String(describing: error?.localizedDescription))")
+                completion?(nil, nil, error, nil)
             }
             
         }
@@ -200,7 +200,7 @@ extension AWSUploadManager {
                 guard let completionBlock = completion else { return }
                 completionBlock(finalPath, nil, nil, nil)
             } else {
-                //print("\(String(describing: error?.localizedDescription))")
+                completion?(nil, nil, error, nil)
             }
             
         }
@@ -219,9 +219,8 @@ extension AWSUploadManager {
                 guard let completionBlock = completion else { return }
                 completionBlock(finalPath, nil, nil, nil)
             } else {
-                print("\(String(describing: error?.localizedDescription))")
+                completion?(nil, nil, error, nil)
             }
-            
         }
     }
 }

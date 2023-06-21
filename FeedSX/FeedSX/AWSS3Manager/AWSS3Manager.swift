@@ -136,9 +136,7 @@ typealias completionBlock = (_ response: Any?, _ thumbNail: String?, _ error: Er
             DispatchQueue.main.async(execute: {
                 if let error = task.error {
                     print("Upload failed with error: (\(error.localizedDescription))")
-                    DispatchQueue.main.async {
-                        //print("An error occurred while Uploading your file, try again.")
-                    }
+                    completion?(nil, nil, error, nil)
                 }
                 if task.result != nil {
                     let url = AWSS3.default().configuration.endpoint.url

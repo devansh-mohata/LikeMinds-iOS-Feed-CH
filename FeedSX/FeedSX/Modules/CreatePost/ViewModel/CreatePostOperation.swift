@@ -18,12 +18,16 @@ class CreatePostOperation {
     private init(){}
     
     private func postMessageForCompleteCreatePost(with error: String?) {
-        NotificationCenter.default.post(name: .postCreationCompleted, object: error)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .postCreationCompleted, object: error)
+        }
     }
     
     private func postMessageForCreatingPost(with object: Any? = nil) {
-        let attachment = attachmentList?.first
-        NotificationCenter.default.post(name: .postCreationStarted, object: attachment?.thumbnailImage)
+        DispatchQueue.main.async {[weak self] in
+            let attachment = self?.attachmentList?.first
+            NotificationCenter.default.post(name: .postCreationStarted, object: attachment?.thumbnailImage)
+        }
     }
     
     func createPost(request: AddPostRequest) {
@@ -100,6 +104,10 @@ class CreatePostOperation {
                         break
                     }
                 }
+                guard attachments.count == attachmentList.count else {
+                    self?.postMessageForCompleteCreatePost(with: "Oops! Somthing went wrong!\nPlease try again later.")
+                    return
+                }
                 let addPostRequest = AddPostRequest()
                     .text(postCaption)
                     .attachments(attachments)
@@ -112,13 +120,14 @@ class CreatePostOperation {
         }
     }
     
-    func imageAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
+    func imageAttachmentData(attachment: AWSFileUploadRequest) -> Attachment? {
+        guard let awsUrl = attachment.awsUploadedUrl, !awsUrl.isEmpty else { return nil}
         var size: Int?
         if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
         let attachmentMeta = AttachmentMeta()
-            .attachmentUrl(attachment.awsUploadedUrl ?? "")
+            .attachmentUrl(awsUrl)
             .size(size ?? 0)
             .name(attachment.name)
         let attachmentRequest = Attachment()
@@ -127,10 +136,10 @@ class CreatePostOperation {
         return attachmentRequest
     }
     
-    func fileAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
+    func fileAttachmentData(attachment: AWSFileUploadRequest) -> Attachment? {
         var size: Int? = attachment.documentAttachmentSize
         var numberOfPages: Int? = attachment.documentNumberOfPages
-        guard let fileUrl = URL(string: attachment.fileUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return Attachment() }
+        guard let awsUrl = attachment.awsUploadedUrl, !awsUrl.isEmpty, let fileUrl = URL(string: attachment.fileUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return nil }
         if numberOfPages == nil, let pdf = CGPDFDocument(fileUrl as CFURL) {
             print("number of page: \(pdf.numberOfPages)")
             numberOfPages = pdf.numberOfPages
@@ -139,7 +148,7 @@ class CreatePostOperation {
             size = attr[.size] as? Int
         }
         let attachmentMeta = AttachmentMeta()
-            .attachmentUrl(attachment.awsUploadedUrl ?? "")
+            .attachmentUrl(awsUrl)
             .size(size ?? 0)
             .name(attachment.name)
             .pageCount(numberOfPages ?? 0)
@@ -150,17 +159,17 @@ class CreatePostOperation {
         return attachmentRequest
     }
     
-    func videoAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
+    func videoAttachmentData(attachment: AWSFileUploadRequest) -> Attachment? {
+        guard let awsUrl = attachment.awsUploadedUrl, !awsUrl.isEmpty, let url = URL(string: attachment.fileUrl) else { return nil}
         var size: Int?
         if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
-        guard let url = URL(string: attachment.fileUrl) else { return Attachment()}
         let asset = AVAsset(url: url)
         let duration = asset.duration
         let durationTime = CMTimeGetSeconds(duration)
         let attachmentMeta = AttachmentMeta()
-            .attachmentUrl(attachment.awsUploadedUrl ?? "")
+            .attachmentUrl(awsUrl)
             .size(size ?? 0)
             .name(attachment.name)
             .duration(Int(durationTime))

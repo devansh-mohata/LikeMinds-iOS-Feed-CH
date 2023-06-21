@@ -378,26 +378,6 @@ extension EditPostViewController: UITextViewDelegate {
         }
         taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
         enablePostButton()
-        
-//        if text != " " {
-//            taggingUserList.showTaggingList(textView, shouldChangeTextIn: range, replacementText: text)
-//        } else {
-//            hideTaggingViewContainer()
-//        }
-//        
-//        if textView.textColor == LMBranding.shared.textLinkColor, text != "" {
-//            let colorAttr = [ NSAttributedString.Key.foregroundColor: ColorConstant.textBlackColor,
-//                              NSAttributedString.Key.font: LMBranding.shared.font(16, .regular)]
-//            let attributedString = NSMutableAttributedString(string: text, attributes: colorAttr)
-//            let combination = NSMutableAttributedString()
-//            combination.append(textView.attributedText)
-//            combination.append(attributedString)
-//            textView.attributedText = combination
-//            return false
-//        }
-        
-//        let numLines = Int(textView.contentSize.height/textView.font!.lineHeight)
-//        textView.isScrollEnabled = (textView.bounds.height >= 145) && (numLines > 6)
         adjustHeightOfTextView()
         return true
     }
@@ -452,7 +432,6 @@ extension EditPostViewController: UIDocumentPickerDelegate {
 extension EditPostViewController: EditPostViewModelDelegate {
     
     func didReceivedPostDetails() {
-//        attachmentCollectionView.reloadData()
         self.reloadAttachmentsView()
         let data  = TaggedRouteParser.shared.getTaggedParsedAttributedStringForEditText(with: self.viewModel.postDetail?.caption ?? "", forTextView: true)
         captionTextView.attributedText = data.0
@@ -460,7 +439,9 @@ extension EditPostViewController: EditPostViewModelDelegate {
         taggingUserList.initialTaggedUsers(taggedUsers: viewModel.taggedUsers)
         placeholderLabel.isHidden = !captionTextView.text.isEmpty
         adjustHeightOfTextView()
-        captionTextView.becomeFirstResponder()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.captionTextView.becomeFirstResponder()
+        }
     }
     
     func reloadAttachmentsView() {
