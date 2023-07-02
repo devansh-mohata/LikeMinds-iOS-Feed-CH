@@ -193,7 +193,7 @@ class ProfileHeaderView: UIView {
     func setupProfileSectionData(_ feedDataView: PostFeedDataView, delegate: HomeFeedTableViewCellDelegate?) {
         self.delegate = delegate as? ProfileHeaderViewDelegate
         self.feedData = feedDataView
-        setupProfile(profileData: feedDataView.feedByUser)
+        setupProfile(profileData: feedDataView.postByUser)
         timeLabel.text = Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()
         pinImageView.isHidden = !(self.feedData?.isPinned ?? false)
         editTitleLabel.text = (feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : ""

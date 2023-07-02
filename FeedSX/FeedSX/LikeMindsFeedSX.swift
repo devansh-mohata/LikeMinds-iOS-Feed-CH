@@ -14,14 +14,11 @@ public class LikeMindsFeedSX {
     public static let shared = LikeMindsFeedSX()
     private init() {}
     
-    public func configureLikeMindsFeed(extras: LikeMindsFeedExtras) {
-        LocalPrefrerences.save(extras.getDeviceId() ?? "" , forKey: LocalPreferencesKey.deviceId)
-        LocalPrefrerences.save(extras.getApiKey() , forKey: LocalPreferencesKey.feedApiKey)
-        LocalPrefrerences.save(extras.getDomainUrl() ?? "" , forKey: LocalPreferencesKey.clientDomainUrl)
-        LMBranding.shared.setBranding(extras.getBrandingData())
+    public func configureLikeMindsFeed(lmCallback: LMCallback, branding: SetBrandingRequest = SetBrandingRequest()) {
+        LMBranding.shared.setBranding(branding)
         AWSS3Manager.shared.initializeS3()
         let _ = LMFeedClient.builder()
-            .lmCallback(extras.likemindsCallback as? LMCallback)
+            .lmCallback(lmCallback)
             .build()
     }
     
@@ -33,7 +30,12 @@ public class LikeMindsFeedSX {
             .isGuest(false)
         LMFeedClient.shared.initiateUser(request: request) { [weak self] response in
             print(response)
-            guard let user = response.data?.user, let weakSelf = self else {return }
+            guard let user = response.data?.user, let weakSelf = self else { return }
+            if response.data?.appAccess == false {
+                self?.logout(response.data?.refreshToken ?? "", deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "")
+                return
+            }
+            LocalPrefrerences.save(apiKey, forKey: LocalPreferencesKey.feedApiKey)
             if response.success == true {
                 weakSelf.registerDeviceToken()
             }
@@ -45,7 +47,7 @@ public class LikeMindsFeedSX {
     }
 
     func registerDeviceToken() {
-        guard let deviceid = LocalPrefrerences.userDefault.string(forKey: LocalPreferencesKey.deviceId), !deviceid.isEmpty else {
+        guard let deviceid = UIDevice.current.identifierForVendor?.uuidString, !deviceid.isEmpty else {
             print("Device id not available")
             return
         }
@@ -60,15 +62,6 @@ public class LikeMindsFeedSX {
                 }
             }
         }
-    }
-    
-    func didTapOnNotificationRoute(userInfo: [AnyHashable: Any]) {
-//        MixPanelEventTriggerHelper.registerForNotificationClicked(userInfo: userInfo)
-//        guard let route = userInfo["route"] as? String, UIApplication.shared.applicationState == .inactive else {return}
-//        let pref = PreferencesFactory.userPreferences()
-//        pref.put(route, forKey: kPrefNotificationRouteUrl)
-//        _ = pref.save()
-//        DeepLinkManager.sharedInstance.routeToScreen(routeUrl: route, fromNotification: true, fromDeeplink: false)
     }
     
     /**
@@ -88,51 +81,14 @@ public class LikeMindsFeedSX {
     public func parseDeepLink(routeUrl: String) {
         DeepLinkManager.sharedInstance.deeplinkRoute(routeUrl: routeUrl, fromNotification: false, fromDeeplink: true)
     }
+    
+    public func logout(_ refreshToken: String, deviceId: String) {
+        let request = LogoutRequest()
+            .refreshToken(refreshToken)
+            .deviceId(deviceId)
+        LMFeedClient.shared.logout(request: request) { response in
+            // do somthing on success or failure
+        }
+    }
 }
 
-/// Initiate LikeMinds extras data model for passing the initial value for sdk initialization
-public class LikeMindsFeedExtras {
-    
-    private var apiKey: String // Api key of sdk
-    private var domain: String? // Client domain url
-    private var deviceUUID: String? // UUID of device
-    weak var likemindsCallback: AnyObject? // LikeMinds callback
-    private var branding: SetBrandingRequest = SetBrandingRequest()
-    
-    /// Initiate method with api key param
-    public init(apiKey: String) {
-        self.apiKey = apiKey
-    }
-    
-    /// Set the domain url
-    public func domainUrl(_ domain: String) -> LikeMindsFeedExtras {
-        self.domain = domain
-        return self
-    }
-    
-    /// Set the UUID of device
-    public func deviceUUID(_ deviceUUID: String) -> LikeMindsFeedExtras {
-        self.deviceUUID = deviceUUID
-        return self
-    }
-    
-    /// Set the callback
-    public func callback(_ callback: AnyObject) -> LikeMindsFeedExtras {
-        self.likemindsCallback = callback
-        return self
-    }
-    
-    /// Set the callback
-    public func setBranding(_ branding: SetBrandingRequest) -> LikeMindsFeedExtras {
-        self.branding = branding
-        return self
-    }
-    
-    /// get the api key
-    func getApiKey() -> String { return self.apiKey }
-    /// get the domain url
-    func getDomainUrl() -> String? { return self.domain }
-    /// get the domain url
-    func getDeviceId() -> String? { return self.deviceUUID }
-    func getBrandingData() -> SetBrandingRequest { return self.branding }
-}

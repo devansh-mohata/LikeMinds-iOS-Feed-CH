@@ -35,7 +35,7 @@ class TaggingUser {
     }
 }
 
-final class CreatePostViewModel {
+final class CreatePostViewModel: BaseViewModel {
     
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
     var documentAttachments: [PostFeedDataView.Attachment] = []

@@ -11,7 +11,7 @@ import UIKit
 
 final class PostFeedDataView {
     var postId: String
-    var feedByUser: PostByUser?
+    var postByUser: PostByUser?
     var imageVideos : [ImageVideo]?
     var attachments: [Attachment]?
     var linkAttachment: LinkAttachment?
@@ -36,7 +36,7 @@ final class PostFeedDataView {
         self.isEdited = post.isEdited ?? false
         self.postTime = (post.createdAt ?? 0)/1000
         self.postMenuItems = self.menuItems(post: post)
-        self.feedByUser = postByUser(user: user)
+        self.postByUser = postByUser(user: user)
         self.imageVideos = imageVideoAttachments(post: post)
         self.attachments = docAttachments(post: post)
         self.linkAttachment = linkAttachment(post: post)
@@ -164,6 +164,6 @@ final class PostFeedDataView {
         case video
         case document
         case link
-        case unknown
+        case unknown = "text"
     }
 }

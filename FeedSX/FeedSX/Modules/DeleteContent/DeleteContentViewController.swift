@@ -40,6 +40,7 @@ class DeleteContentViewController: BaseViewController {
     var isAdminRemoving: Bool = false
     var postId: String?
     var commentId: String?
+    var commentRepliyId: String?
     private let popupTitle = "Delete %@?"
     private let popupMessage = "Are you sure you want to delete this %@? This action cannot be reversed."
     private let viewModel = DeleteContentViewModel()
@@ -135,6 +136,7 @@ class DeleteContentViewController: BaseViewController {
     func deleteContent(reason: String?) {
         guard let postId = self.postId else { return }
         guard let commentId = self.commentId else {
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.deleted, eventProperties: ["post_id": postId, "user_state": self.isAdminRemoving ? "CM" : "member"])
             self.viewModel.deletePost(postId: postId, reasonText: reason) {[weak self] in
                 self?.dismissViewController()
             }

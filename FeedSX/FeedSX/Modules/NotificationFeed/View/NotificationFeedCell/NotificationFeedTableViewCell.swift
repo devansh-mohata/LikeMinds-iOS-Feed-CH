@@ -40,8 +40,7 @@ class NotificationFeedTableViewCell: UITableViewCell {
     }
     
     func setupNotificationFeedCell(dataView: NotificationFeedDataView) {
-        self.notificationDetailLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: dataView.activity.activityText, andPrefix: "", forTextView: false, withTextColor: ColorConstant.likeTextColor, withHilightFont: LMBranding.shared.font(16, .medium), withHighlightedColor: ColorConstant.textBlackColor, isShowLink: false)
-        
+        self.notificationDetailLabel.attributedText = dataView.activityText()
         self.contentView.backgroundColor =  (dataView.isRead) ? .white : ColorConstant.notificationFeedColor
         timeLabel.text = Date(milliseconds: Double(dataView.activity.updatedAt ?? 0)).timeAgoDisplay()
         setTypeOfPostActivity(dataView: dataView)

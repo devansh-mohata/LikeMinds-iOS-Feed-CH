@@ -59,7 +59,7 @@ class EditPostViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
-        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .createPostErrorInApi, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
         self.userProfileImage.makeCircleView()
         captionTextView.delegate = self
         captionTextView.addSubview(placeholderLabel)

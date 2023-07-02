@@ -7,6 +7,7 @@
 
 import UIKit
 import FeedSX
+import LikeMindsFeed
 import FirebaseCore
 import FirebaseMessaging
 import IQKeyboardManagerSwift
@@ -24,14 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             options: authOptions) { _, _ in }
         application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
-        
         let apiKey = UserDefaults.standard.string(forKey: "apikey") ?? ""
         if !apiKey.isEmpty {
-            let extras1 = LikeMindsFeedExtras(apiKey: apiKey)
-                .deviceUUID(UIDevice.current.identifierForVendor?.uuidString ?? "")
-                .domainUrl("lmfeed://testdomain.com")
-                .callback(self)
-            LikeMindsFeedSX.shared.configureLikeMindsFeed(extras: extras1)
+            LikeMindsFeedSX.shared.configureLikeMindsFeed(lmCallback: self, branding: SetBrandingRequest())
         }
         return true
     }
@@ -78,6 +74,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print(userInfo)
+    }
+}
+
+extension AppDelegate: LMCallback {
+    
+    func login() {
+        print("Login required")
     }
 }
 

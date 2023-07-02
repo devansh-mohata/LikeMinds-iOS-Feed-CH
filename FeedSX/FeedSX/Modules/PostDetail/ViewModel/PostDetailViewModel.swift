@@ -64,10 +64,10 @@ final class PostDetailViewModel: BaseViewModel {
     
     func pullToRefreshData() {
         commentCurrentPage = 1
-        getComments()
+        getPostDetail()
     }
     
-    func getComments() {
+    func getPostDetail() {
         guard !self.isCommentLoading else { return }
         let request = GetPostRequest(postId: self.postId)
             .page(commentCurrentPage)
@@ -140,8 +140,8 @@ final class PostDetailViewModel: BaseViewModel {
     }
     
     private func postCommentsReply(commentId: String, comment: String) {
-        let request = ReplyOnCommentRequest(postId: self.postId, text: comment, commentId: commentId)
-        LMFeedClient.shared.replyOnComment(request) { [weak self] response in
+        let request = ReplyCommentRequest(postId: self.postId, text: comment, commentId: commentId)
+        LMFeedClient.shared.replyComment(request) { [weak self] response in
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }
@@ -278,7 +278,7 @@ final class PostDetailViewModel: BaseViewModel {
     
     func isOwnPost() -> Bool {
         guard let member = LocalPrefrerences.getMemberStateData()?.member, let post = self.postDetail else { return false }
-        return post.feedByUser?.userId == member.userUniqueId
+        return post.postByUser?.userId == member.userUniqueId
     }
     
     func isOwnComment(section: Int) -> Bool {

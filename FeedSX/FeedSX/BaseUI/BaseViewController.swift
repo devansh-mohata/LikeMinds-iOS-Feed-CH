@@ -60,6 +60,7 @@ public class BaseViewController: UIViewController {
             // Always adopt a light interface style.
             overrideUserInterfaceStyle = .light
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
         self.setBackButtonWithAction()
         self.navigationBarColor()
 //        self.initializeHideKeyboard()

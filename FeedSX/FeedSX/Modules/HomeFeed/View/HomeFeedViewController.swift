@@ -145,7 +145,7 @@ public final class HomeFeedViewControler: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationStarted), name: .postCreationStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshFeed), name: .refreshHomeFeedData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshDataObject), name: .refreshHomeFeedDataObject, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .homeFeedErrorInApi, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
 //        self.setTitleAndSubtile(title: "Home Feed", subTitle: nil)
         self.setRightItemsOfNavigationBar()
         self.setLeftItemOfNavigationBar()
@@ -507,7 +507,7 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                 actionSheet.addAction(withOptions: menu.name) { [weak self] in
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = selectedPost?.postId
-                    reportContent.entityCreatorId = selectedPost?.feedByUser?.userId
+                    reportContent.entityCreatorId = selectedPost?.postByUser?.userId
                     reportContent.reportEntityType = .post
                     self?.navigationController?.pushViewController(reportContent, animated: true)
                 }
@@ -517,12 +517,13 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                     deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.feedByUser?.userId ?? "") ? (self?.homeFeedViewModel.isAdmin() ?? false) :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.postByUser?.userId ?? "") ? (self?.homeFeedViewModel.isAdmin() ?? false) :  false
                     self?.navigationController?.present(deleteController, animated: false)
                 }
             case .edit:
                 actionSheet.addAction(withOptions: menu.name) { [weak self] in
                     guard let postId = selectedPost?.postId else {return}
+                    self?.homeFeedViewModel.trackPostActionEvent(postId: postId, creatorId: selectedPost?.postByUser?.userId ?? "", eventName: LMFeedAnalyticsEventName.Post.edited, postType: selectedPost?.postAttachmentType().rawValue ?? "")
                     let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle(for: EditPostViewController.self))
                     editPost.postId = postId
                     self?.navigationController?.pushViewController(editPost, animated: true)
@@ -530,11 +531,13 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
             case .pin:
                 actionSheet.addAction(withOptions: menu.name) { [weak self] in
                     guard let postId = selectedPost?.postId else {return}
+                    self?.homeFeedViewModel.trackPostActionEvent(postId: postId, creatorId: selectedPost?.postByUser?.userId ?? "", eventName: LMFeedAnalyticsEventName.Post.pinned, postType: selectedPost?.postAttachmentType().rawValue ?? "")
                     self?.homeFeedViewModel.pinUnpinPost(postId: postId)
                 }
             case .unpin:
                 actionSheet.addAction(withOptions: menu.name) { [weak self] in
                     guard let postId = selectedPost?.postId else {return}
+                    self?.homeFeedViewModel.trackPostActionEvent(postId: postId, creatorId: selectedPost?.postByUser?.userId ?? "", eventName: LMFeedAnalyticsEventName.Post.unpinned, postType: selectedPost?.postAttachmentType().rawValue ?? "")
                     self?.homeFeedViewModel.pinUnpinPost(postId: postId)
                 }
             default:
@@ -578,7 +581,7 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }
-            self.share(secondActivityItem: LocalPrefrerences.sharePostUrl(postId: postId))
+            ShareContentUtil.sharePost(viewController: self, domainUrl: "lmfeed://yourdomain.com", postId: postId)
         default:
             break
         }

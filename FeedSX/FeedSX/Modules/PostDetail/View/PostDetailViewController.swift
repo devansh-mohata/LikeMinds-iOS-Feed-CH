@@ -80,7 +80,6 @@ class PostDetailViewController: BaseViewController {
         sendButton.tintColor = LMBranding.shared.buttonColor
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         postDetailTableView.refreshControl = refreshControl
-        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .postDetailErrorInApi, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postEditCompleted), name: .postEditCompleted, object: nil)
         postDetailTableView.sectionHeaderHeight = UITableView.automaticDimension
         postDetailTableView.estimatedSectionHeaderHeight = 75
@@ -104,7 +103,7 @@ class PostDetailViewController: BaseViewController {
         replyToUserImageView.isHidden = true
         commentTextView.centerVertically()
         viewModel.getMemberState()
-        viewModel.getComments()
+        viewModel.getPostDetail()
         
         hideTaggingViewContainer()
         self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
@@ -362,7 +361,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
         commentView.setupDataView(comment: viewModel.comments[section - 1])
         if (section == viewModel.comments.count), viewModel.comments.count < (viewModel.postDetail?.commentCount ?? 0), !viewModel.isCommentLoading {
             postDetailTableView.tableFooterView?.isHidden = false
-            viewModel.getComments()
+            viewModel.getPostDetail()
         } 
         return commentView
     }
@@ -501,7 +500,7 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }
-            self.share(secondActivityItem: LocalPrefrerences.sharePostUrl(postId: postId))
+            ShareContentUtil.sharePost(viewController: self, domainUrl: "lmfeed://yourdomain.com", postId: postId)
         default:
             break
         }
@@ -623,7 +622,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                 actionSheet.addAction(withOptions: menu.name) {
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = selectedPost?.postId
-                    reportContent.entityCreatorId = selectedPost?.feedByUser?.userId
+                    reportContent.entityCreatorId = selectedPost?.postByUser?.userId
                     reportContent.reportEntityType = .post
                     self.navigationController?.pushViewController(reportContent, animated: true)
                 }
@@ -633,7 +632,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                     deleteController.modalPresentationStyle = .fullScreen
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.feedByUser?.userId ?? "") ? self.viewModel.isAdmin() :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.postByUser?.userId ?? "") ? self.viewModel.isAdmin() :  false
                     self.navigationController?.present(deleteController, animated: true)
                 }
             case .edit:

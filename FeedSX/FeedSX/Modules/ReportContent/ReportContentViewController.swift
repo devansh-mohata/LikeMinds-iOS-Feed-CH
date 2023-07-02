@@ -24,6 +24,9 @@ class ReportContentViewController: BaseViewController {
         return label
     }()
     var viewModel: ReportContentViewModel!
+    var postId: String?
+    var commentId: String?
+    var commentRepliyId: String?
     var entityId: String?
     var entityCreatorId: String?
     var reportEntityType: ReportEntityType = .post
