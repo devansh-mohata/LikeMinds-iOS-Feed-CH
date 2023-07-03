@@ -77,11 +77,11 @@ final class PostFeedDataView {
     
     private func postByUser(user: User?) -> PostByUser? {
         guard let user = user,
-              let userId = user.userUniqueId else { return  nil }
+              let userId = user.clientUUID else { return  nil }
         return PostByUser(name: user.name ?? "Test",
                           profileImageUrl: user.imageUrl ?? "",
                           customTitle: user.customTitle,
-                          userId: userId)
+                          uuid: userId)
     }
     
     func likeCounts() -> String {
@@ -140,7 +140,7 @@ final class PostFeedDataView {
         let name: String
         let profileImageUrl: String?
         let customTitle: String?
-        let userId: String
+        let uuid: String
     }
     
     struct MenuItem {

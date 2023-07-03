@@ -205,7 +205,7 @@ class PostDetailViewController: BaseViewController {
                 actionSheet.addAction(withOptions: menu.name) {
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = comment.commentId
-                    reportContent.entityCreatorId = comment.user.userId
+                    reportContent.uuid = comment.user.uuid
                     reportContent.reportEntityType = isReplied ? .reply : .comment
                     self.navigationController?.pushViewController(reportContent, animated: true)
                 }
@@ -216,7 +216,7 @@ class PostDetailViewController: BaseViewController {
                     deleteController.postId = comment.postId
                     deleteController.commentId = comment.commentId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (comment.user.userId) ? self.viewModel.isAdmin() :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.clientUUID() != (comment.user.uuid) ? self.viewModel.isAdmin() :  false
                     self.navigationController?.present(deleteController, animated: false)
                 }
             case .commentEdit:
@@ -622,7 +622,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                 actionSheet.addAction(withOptions: menu.name) {
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = selectedPost?.postId
-                    reportContent.entityCreatorId = selectedPost?.postByUser?.userId
+                    reportContent.uuid = selectedPost?.postByUser?.uuid
                     reportContent.reportEntityType = .post
                     self.navigationController?.pushViewController(reportContent, animated: true)
                 }
@@ -632,7 +632,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                     deleteController.modalPresentationStyle = .fullScreen
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.postByUser?.userId ?? "") ? self.viewModel.isAdmin() :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.clientUUID() != (selectedPost?.postByUser?.uuid ?? "") ? self.viewModel.isAdmin() :  false
                     self.navigationController?.present(deleteController, animated: true)
                 }
             case .edit:

@@ -34,8 +34,8 @@ public struct LocalPreferencesKey {
         }
     }
     
-    static func userUniqueId() -> String {
-        return Self.getUserData()?.userUniqueId ?? ""
+    static func clientUUID() -> String {
+        return Self.getUserData()?.clientUUID ?? ""
     }
     
     static func getUserData() -> User? {

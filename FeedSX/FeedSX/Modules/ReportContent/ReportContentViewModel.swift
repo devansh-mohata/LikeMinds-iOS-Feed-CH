@@ -19,7 +19,7 @@ class ReportContentViewModel {
     var reportTags: [ReportTag] = []
     var selected = [ReportTag]()
     var entityId: String?
-    var entityCreatorId: String?
+    var uuid: String?
     var reportEntityType: ReportEntityType = .post
     func fetchReportTags() {
         let request = GetReportTagRequest(3)
@@ -37,7 +37,7 @@ class ReportContentViewModel {
         let tagId = selected.first?.id ?? 0
         let request = ReportRequest(entityId ?? "")
             .entityType(reportEntityType)
-            .entityCreatorId(entityCreatorId ?? "")
+            .uuid(uuid ?? "")
             .tagId(tagId)
             .reason(reason)
         print(request)
@@ -45,7 +45,7 @@ class ReportContentViewModel {
             if response.success {
                 let entityType = self?.reportEntityType == .post ? "post" : "comment"
                 let eventName = self?.reportEntityType == .post ? LMFeedAnalyticsEventName.Post.reported : LMFeedAnalyticsEventName.Comment.reported
-                LMFeedAnalytics.shared.track(eventName: eventName, eventProperties: ["\(entityType)_id": (self?.entityId ?? "") , "user_id": (self?.entityCreatorId ?? ""), "reason": reason])
+                LMFeedAnalytics.shared.track(eventName: eventName, eventProperties: ["\(entityType)_id": (self?.entityId ?? "") , "uuid": (self?.uuid ?? ""), "reason": reason])
                 self?.delegate?.didReceivedReportRespone(nil)
             } else {
                 self?.delegate?.didReceivedReportRespone(response.errorMessage)

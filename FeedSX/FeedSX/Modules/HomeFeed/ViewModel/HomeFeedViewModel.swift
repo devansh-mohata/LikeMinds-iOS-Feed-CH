@@ -130,9 +130,9 @@ class HomeFeedViewModel: BaseViewModel {
     
     func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {
         if self.currentPage > 1 {
-            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])})
+            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])})
         } else {
-            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])}
+            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])}
         }
         delegate?.didReceivedFeedData(success:  true)
     }
@@ -154,7 +154,7 @@ class HomeFeedViewModel: BaseViewModel {
     func isOwnPost(index: Int) -> Bool {
         guard let member = LocalPrefrerences.getMemberStateData()?.member else { return false }
         let post = feeds[index]
-        return post.postByUser?.userId == member.userUniqueId
+        return post.postByUser?.uuid == member.clientUUID
     }
     
     func trackPostActionEvent(postId: String, creatorId: String, eventName: String, postType: String) {

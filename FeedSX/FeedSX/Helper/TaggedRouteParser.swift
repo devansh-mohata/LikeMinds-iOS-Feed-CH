@@ -179,7 +179,7 @@ class TaggedRouteParser {
             for member in tagUsers {
                 if let memberName = member.user.name {
                     guard let range = answerText.range(from: member.range) else { continue }
-                    answerText = answerText.replacingCharacters(in: range, with: "<<\(memberName)|route://member/\(member.user.id )>>")
+                    answerText = answerText.replacingCharacters(in: range, with: "<<\(memberName)|route://user_profile/\(member.user.id )>>")
                 }
             }
             answerText = answerText.trimmedText()

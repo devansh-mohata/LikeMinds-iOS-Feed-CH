@@ -81,12 +81,12 @@ final class PostDetailViewModel: BaseViewModel {
                 self?.isCommentLoading = false
                 return
             }
-            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""])
+            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""])
             if let replies = postDetails.replies, replies.count > 0 {
                 if (self?.commentCurrentPage ?? 1) > 1 {
-                    self?.comments.append(contentsOf: replies.compactMap({.init(comment: $0, user: users[$0.userId])}))
+                    self?.comments.append(contentsOf: replies.compactMap({.init(comment: $0, user: users[$0.uuid ?? ""])}))
                 } else {
-                    self?.comments =  replies.compactMap({.init(comment: $0, user: users[$0.userId])})
+                    self?.comments =  replies.compactMap({.init(comment: $0, user: users[$0.uuid ?? ""])})
                 }
                 self?.commentCurrentPage += 1
             }
@@ -112,9 +112,9 @@ final class PostDetailViewModel: BaseViewModel {
                 return
             }
             if repliesCurrentPage > 1 {
-                selectedComment.replies.append(contentsOf: comment.replies?.compactMap({.init(comment: $0, user: users[$0.userId])}) ?? [])
+                selectedComment.replies.append(contentsOf: comment.replies?.compactMap({.init(comment: $0, user: users[$0.uuid ?? ""])}) ?? [])
             } else {
-                selectedComment.replies = comment.replies?.compactMap({.init(comment: $0, user: users[$0.userId])}) ?? []
+                selectedComment.replies = comment.replies?.compactMap({.init(comment: $0, user: users[$0.uuid ?? ""])}) ?? []
             }
             self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
             self?.isCommentRepliesLoading = false
@@ -131,7 +131,7 @@ final class PostDetailViewModel: BaseViewModel {
                 return
             }
             LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.onPost, eventProperties: ["post_id": self?.postId ?? "", "comment_id": comment.id])
-            let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
+            let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.uuid ?? ""])
             self?.postDetail?.commentCount += 1
             self?.comments.insert(postComment, at: 0)
             self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: NSNotFound, section: 1))
@@ -149,7 +149,7 @@ final class PostDetailViewModel: BaseViewModel {
                 return
             }
             LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.reply, eventProperties: ["post_id": self?.postId ?? "", "comment_reply_id": comment.id, "comment_id": commentId])
-            let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
+            let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.uuid ?? ""])
             self?.replyOnComment?.replies.insert(postComment, at: 0)
             self?.replyOnComment?.commentCount += 1
             guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
@@ -232,7 +232,7 @@ final class PostDetailViewModel: BaseViewModel {
                 guard let comment = response.data?.comment, let users =  response.data?.users else {
                     return
                 }
-                let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.userId])
+                let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.uuid ?? ""])
                 guard let section = section else  {
                     return
                 }
@@ -278,19 +278,19 @@ final class PostDetailViewModel: BaseViewModel {
     
     func isOwnPost() -> Bool {
         guard let member = LocalPrefrerences.getMemberStateData()?.member, let post = self.postDetail else { return false }
-        return post.postByUser?.userId == member.userUniqueId
+        return post.postByUser?.uuid == member.clientUUID
     }
     
     func isOwnComment(section: Int) -> Bool {
         guard let member = LocalPrefrerences.getMemberStateData()?.member  else { return false }
         let comment = self.comments[section]
-        return comment.user.userId == member.userUniqueId
+        return comment.user.uuid == member.clientUUID
     }
     
     func isOwnReply(section: Int, row: Int) -> Bool {
         guard let member = LocalPrefrerences.getMemberStateData()?.member  else { return false }
         let comment = self.comments[section].replies[row]
-        return comment.user.userId == member.userUniqueId
+        return comment.user.uuid == member.clientUUID
     }
     
     func totalCommentsCount() -> String {
