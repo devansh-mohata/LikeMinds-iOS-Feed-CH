@@ -216,7 +216,7 @@ class PostDetailViewController: BaseViewController {
                     deleteController.postId = comment.postId
                     deleteController.commentId = comment.commentId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.clientUUID() != (comment.user.uuid) ? self.viewModel.isAdmin() :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.uuid() != (comment.user.uuid) ? self.viewModel.isAdmin() :  false
                     self.navigationController?.present(deleteController, animated: false)
                 }
             case .commentEdit:
@@ -490,9 +490,11 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
         case .savePost:
             viewModel.savePost(postId: postId)
         case .comment:
-            viewModel.postId = postId
-            closeReplyToUsersCommentView()
-            commentTextView.becomeFirstResponder()
+            if viewModel.hasRightForCommentOnPost() {
+                viewModel.postId = postId
+                closeReplyToUsersCommentView()
+                commentTextView.becomeFirstResponder()
+            }
         case .likeCount:
             guard (postData?.likedCount ?? 0) > 0 else {return}
             let likedUserListView = LikedUserListViewController()
@@ -523,12 +525,14 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
             self.moreMenuClicked(comment: selectedComment, isReplied: false)
         case .comment:
             print("reply Button Tapped - \(section)")
-            replyToUserContainer.isHidden = false
-            replyToUserImageView.isHidden = false
-            replyToUserLabel.text = "Replying to \(selectedComment.user.name)"
-            replyToUserImageView.setImage(withUrl: selectedComment.user.profileImageUrl ?? "", placeholder: UIImage.generateLetterImage(with: selectedComment.user.name))
-            viewModel.replyOnComment = selectedComment
-            commentTextView.becomeFirstResponder()
+            if viewModel.hasRightForCommentOnPost() {
+                replyToUserContainer.isHidden = false
+                replyToUserImageView.isHidden = false
+                replyToUserLabel.text = "Replying to \(selectedComment.user.name)"
+                replyToUserImageView.setImage(withUrl: selectedComment.user.profileImageUrl ?? "", placeholder: UIImage.generateLetterImage(with: selectedComment.user.name))
+                viewModel.replyOnComment = selectedComment
+                commentTextView.becomeFirstResponder()
+            }
         case .commentCount:
             print("reply count Button Tapped - \(section)")
             if selectedComment.replies.count > 0 {
@@ -632,7 +636,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                     deleteController.modalPresentationStyle = .fullScreen
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.clientUUID() != (selectedPost?.postByUser?.uuid ?? "") ? self.viewModel.isAdmin() :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.uuid() != (selectedPost?.postByUser?.uuid ?? "") ? self.viewModel.isAdmin() :  false
                     self.navigationController?.present(deleteController, animated: true)
                 }
             case .edit:

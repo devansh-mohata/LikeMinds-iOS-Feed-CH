@@ -26,7 +26,7 @@ public class LikeMindsFeedSX {
         
         let request = InitiateUserRequest(apiKey)
             .userName(username)
-            .userUniqueId(userId)
+            .uuid(userId)
             .isGuest(false)
         LMFeedClient.shared.initiateUser(request: request) { [weak self] response in
             print(response)

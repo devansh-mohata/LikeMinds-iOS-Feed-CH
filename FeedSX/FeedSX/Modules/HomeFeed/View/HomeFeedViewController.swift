@@ -517,7 +517,7 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                     deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.clientUUID() != (selectedPost?.postByUser?.uuid ?? "") ? (self?.homeFeedViewModel.isAdmin() ?? false) :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.uuid() != (selectedPost?.postByUser?.uuid ?? "") ? (self?.homeFeedViewModel.isAdmin() ?? false) :  false
                     self?.navigationController?.present(deleteController, animated: false)
                 }
             case .edit:
