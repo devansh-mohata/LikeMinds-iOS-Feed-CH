@@ -80,7 +80,6 @@ class PostDetailViewController: BaseViewController {
         sendButton.tintColor = LMBranding.shared.buttonColor
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         postDetailTableView.refreshControl = refreshControl
-        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .postDetailErrorInApi, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postEditCompleted), name: .postEditCompleted, object: nil)
         postDetailTableView.sectionHeaderHeight = UITableView.automaticDimension
         postDetailTableView.estimatedSectionHeaderHeight = 75
@@ -104,7 +103,7 @@ class PostDetailViewController: BaseViewController {
         replyToUserImageView.isHidden = true
         commentTextView.centerVertically()
         viewModel.getMemberState()
-        viewModel.getComments()
+        viewModel.getPostDetail()
         
         hideTaggingViewContainer()
         self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
@@ -206,7 +205,7 @@ class PostDetailViewController: BaseViewController {
                 actionSheet.addAction(withOptions: menu.name) {
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = comment.commentId
-                    reportContent.entityCreatorId = comment.user.userId
+                    reportContent.uuid = comment.user.uuid
                     reportContent.reportEntityType = isReplied ? .reply : .comment
                     self.navigationController?.pushViewController(reportContent, animated: true)
                 }
@@ -217,7 +216,7 @@ class PostDetailViewController: BaseViewController {
                     deleteController.postId = comment.postId
                     deleteController.commentId = comment.commentId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (comment.user.userId) ? self.viewModel.isAdmin() :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.uuid() != (comment.user.uuid) ? self.viewModel.isAdmin() :  false
                     self.navigationController?.present(deleteController, animated: false)
                 }
             case .commentEdit:
@@ -362,7 +361,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
         commentView.setupDataView(comment: viewModel.comments[section - 1])
         if (section == viewModel.comments.count), viewModel.comments.count < (viewModel.postDetail?.commentCount ?? 0), !viewModel.isCommentLoading {
             postDetailTableView.tableFooterView?.isHidden = false
-            viewModel.getComments()
+            viewModel.getPostDetail()
         } 
         return commentView
     }
@@ -491,9 +490,11 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
         case .savePost:
             viewModel.savePost(postId: postId)
         case .comment:
-            viewModel.postId = postId
-            closeReplyToUsersCommentView()
-            commentTextView.becomeFirstResponder()
+            if viewModel.hasRightForCommentOnPost() {
+                viewModel.postId = postId
+                closeReplyToUsersCommentView()
+                commentTextView.becomeFirstResponder()
+            }
         case .likeCount:
             guard (postData?.likedCount ?? 0) > 0 else {return}
             let likedUserListView = LikedUserListViewController()
@@ -501,7 +502,7 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }
-            self.share(secondActivityItem: LocalPrefrerences.sharePostUrl(postId: postId))
+            ShareContentUtil.sharePost(viewController: self, domainUrl: "lmfeed://yourdomain.com", postId: postId)
         default:
             break
         }
@@ -524,12 +525,14 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
             self.moreMenuClicked(comment: selectedComment, isReplied: false)
         case .comment:
             print("reply Button Tapped - \(section)")
-            replyToUserContainer.isHidden = false
-            replyToUserImageView.isHidden = false
-            replyToUserLabel.text = "Replying to \(selectedComment.user.name)"
-            replyToUserImageView.setImage(withUrl: selectedComment.user.profileImageUrl ?? "", placeholder: UIImage.generateLetterImage(with: selectedComment.user.name))
-            viewModel.replyOnComment = selectedComment
-            commentTextView.becomeFirstResponder()
+            if viewModel.hasRightForCommentOnPost() {
+                replyToUserContainer.isHidden = false
+                replyToUserImageView.isHidden = false
+                replyToUserLabel.text = "Replying to \(selectedComment.user.name)"
+                replyToUserImageView.setImage(withUrl: selectedComment.user.profileImageUrl ?? "", placeholder: UIImage.generateLetterImage(with: selectedComment.user.name))
+                viewModel.replyOnComment = selectedComment
+                commentTextView.becomeFirstResponder()
+            }
         case .commentCount:
             print("reply count Button Tapped - \(section)")
             if selectedComment.replies.count > 0 {
@@ -623,7 +626,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                 actionSheet.addAction(withOptions: menu.name) {
                     let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
                     reportContent.entityId = selectedPost?.postId
-                    reportContent.entityCreatorId = selectedPost?.feedByUser?.userId
+                    reportContent.uuid = selectedPost?.postByUser?.uuid
                     reportContent.reportEntityType = .post
                     self.navigationController?.pushViewController(reportContent, animated: true)
                 }
@@ -633,7 +636,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                     deleteController.modalPresentationStyle = .fullScreen
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
-                    deleteController.isAdminRemoving = LocalPrefrerences.userUniqueId() != (selectedPost?.feedByUser?.userId ?? "") ? self.viewModel.isAdmin() :  false
+                    deleteController.isAdminRemoving = LocalPrefrerences.uuid() != (selectedPost?.postByUser?.uuid ?? "") ? self.viewModel.isAdmin() :  false
                     self.navigationController?.present(deleteController, animated: true)
                 }
             case .edit:

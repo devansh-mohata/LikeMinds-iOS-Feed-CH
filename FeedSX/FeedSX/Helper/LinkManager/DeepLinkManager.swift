@@ -56,7 +56,7 @@ import UIKit
         let apiKey = LocalPrefrerences.userDefault.string(forKey: LocalPreferencesKey.feedApiKey) else { return }
         let request = InitiateUserRequest(apiKey)
             .userName(user.name ?? "")
-            .userUniqueId(user.userUniqueId ?? "")
+            .uuid(LocalPrefrerences.uuid())
             .isGuest(false)
         LMFeedClient.shared.initiateUser(request: request) { [weak self] response in
             print(response)

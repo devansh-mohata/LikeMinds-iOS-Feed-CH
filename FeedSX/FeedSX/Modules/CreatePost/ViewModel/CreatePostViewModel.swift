@@ -35,7 +35,7 @@ class TaggingUser {
     }
 }
 
-final class CreatePostViewModel {
+final class CreatePostViewModel: BaseViewModel {
     
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
     var documentAttachments: [PostFeedDataView.Attachment] = []
@@ -158,7 +158,7 @@ final class CreatePostViewModel {
     
     func createPost(_ text: String?) {
         let parsedTaggedUserPostText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: text, taggedUsers: self.taggedUsers)
-        let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
+        let filePath = "files/post/\(LocalPrefrerences.getUserData()?.clientUUID ?? "user")/"
         if self.imageAndVideoAttachments.count > 0 {
             var imageVideoAttachments: [AWSFileUploadRequest] = []
             var index = 0

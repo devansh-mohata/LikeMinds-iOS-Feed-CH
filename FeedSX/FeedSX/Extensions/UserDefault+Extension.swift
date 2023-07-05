@@ -34,8 +34,8 @@ public struct LocalPreferencesKey {
         }
     }
     
-    static func userUniqueId() -> String {
-        return Self.getUserData()?.userUniqueId ?? ""
+    static func uuid() -> String {
+        return Self.getUserData()?.clientUUID ?? ""
     }
     
     static func getUserData() -> User? {
@@ -64,10 +64,5 @@ public struct LocalPreferencesKey {
             }
         }
         return nil
-    }
-     
-   static func sharePostUrl(postId: String) -> String {
-        guard let domain = LocalPrefrerences.userDefault.string(forKey: LocalPreferencesKey.clientDomainUrl) else { return "" }
-         return "\(domain)/post?post_id=\(postId)"
     }
 }

@@ -38,7 +38,7 @@ class EditPostOperation {
                 return
             }
             
-            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""]))
+            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""]))
         }
     }
     
@@ -95,43 +95,6 @@ class EditPostOperation {
         }
         self.dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
             self?.editPostWithAttachments(postId: postId, postCaption: postCaption)
-           /*
-            guard let attachmentList = self?.attachmentList else {return}
-            if attachmentList.count > 0 {
-                var attachments: [Attachment] = []
-                for attachedItem in attachmentList {
-                    switch attachedItem.fileType {
-                    case .image:
-                        guard let imageAttachment = self?.imageAttachmentData(attachment: attachedItem) else { continue }
-                        attachments.append(imageAttachment)
-                    case .video:
-                        guard let videoAttachment = self?.videoAttachmentData(attachment: attachedItem) else { continue }
-                        attachments.append(videoAttachment)
-                    case .file:
-                        guard let docAttachment = self?.fileAttachmentData(attachment: attachedItem) else { continue }
-                        attachments.append(docAttachment)
-                    default:
-                        break
-                    }
-                }
-                let editPostRequest = EditPostRequest(postId)
-                    .text(postCaption)
-                    .attachments(attachments)
-                LMFeedClient.shared.editPost(editPostRequest) { [weak self] response in
-                    self?.attachmentList = nil
-                    if response.success == false {
-                        self?.postMessageForCompleteEditPost(with: response.errorMessage)
-                    }
-                    guard let postDetails = response.data?.post, let users =  response.data?.users else {
-                        self?.postMessageForCompleteEditPost(with: response.errorMessage)
-                        return
-                    }
-                    
-                    self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""]))
-                    
-                }
-            }
-            */
         }
     }
     
@@ -166,7 +129,7 @@ class EditPostOperation {
                     self?.postMessageForCompleteEditPost(with: response.errorMessage)
                     return
                 }
-                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""]))
+                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""]))
             }
         }
     }

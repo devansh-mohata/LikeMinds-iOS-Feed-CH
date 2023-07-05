@@ -24,8 +24,11 @@ class ReportContentViewController: BaseViewController {
         return label
     }()
     var viewModel: ReportContentViewModel!
+    var postId: String?
+    var commentId: String?
+    var commentRepliyId: String?
     var entityId: String?
-    var entityCreatorId: String?
+    var uuid: String?
     var reportEntityType: ReportEntityType = .post
     @IBOutlet weak var collectionViewHeightContraint: NSLayoutConstraint!
     
@@ -33,7 +36,7 @@ class ReportContentViewController: BaseViewController {
         super.viewDidLoad()
         viewModel = ReportContentViewModel()
         viewModel.entityId = self.entityId
-        viewModel.entityCreatorId = self.entityCreatorId
+        viewModel.uuid = self.uuid
         viewModel.reportEntityType = self.reportEntityType
         setupViews()
         viewModel.fetchReportTags()
