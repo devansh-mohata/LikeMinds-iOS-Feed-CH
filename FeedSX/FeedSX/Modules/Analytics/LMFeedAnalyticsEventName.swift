@@ -29,7 +29,7 @@ struct LMFeedAnalyticsEventName {
     struct Post {
         static let creationStarted = "Post creation started"
         static let clickedOnAttachment = "Clicked on Attachment"
-        static let tagged = "User tagged in a post"
+        static let userTagged = "User tagged in a post"
         static let linkAttached = "Link attached in the post"
         static let imageAttached = "Image attached to post"
         static let videoAttached = "Video attached to post"

@@ -103,7 +103,7 @@ open class TaggingView: UIView {
         let tagRange = NSMakeRange(range.location, tag.utf16.count)
         
         if taggedList.filter({$0.range.location == tagRange.location && $0.range.length == tagRange.length}).isEmpty {
-            taggedList.append(TaggedUser(TaggingUser(name: tagText.name, id: tagText.userUniqueId), range: tagRange))
+            taggedList.append(TaggedUser(TaggingUser(name: tagText.name, id: tagText.clientUUID), range: tagRange))
         }
         for i in 0..<taggedList.count-1 {
             var location = taggedList[i].range.location

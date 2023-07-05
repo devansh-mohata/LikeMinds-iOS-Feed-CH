@@ -26,7 +26,7 @@ class HomeFeedViewModel: BaseViewModel {
         self.isFeedLoading = true
         let requestFeed = GetFeedRequest(page: currentPage)
             .pageSize(20)
-        LMFeedClient.shared.getFeeds(requestFeed) { [weak self] result in
+        LMFeedClient.shared.getFeed(requestFeed) { [weak self] result in
             print(result)
             self?.isFeedLoading = false
             if result.success,
@@ -130,9 +130,9 @@ class HomeFeedViewModel: BaseViewModel {
     
     func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {
         if self.currentPage > 1 {
-            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])})
+            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])})
         } else {
-            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.userID ?? ""])}
+            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])}
         }
         delegate?.didReceivedFeedData(success:  true)
     }
@@ -150,9 +150,18 @@ class HomeFeedViewModel: BaseViewModel {
         guard let member = LocalPrefrerences.getMemberStateData()?.member else { return false }
         return member.state == 1
     }
+    
     func isOwnPost(index: Int) -> Bool {
         guard let member = LocalPrefrerences.getMemberStateData()?.member else { return false }
         let post = feeds[index]
-        return post.feedByUser?.userId == member.userUniqueId
+        return post.postByUser?.uuid == member.clientUUID
+    }
+    
+    func trackPostActionEvent(postId: String, creatorId: String, eventName: String, postType: String) {
+        LMFeedAnalytics.shared.track(eventName: eventName,
+                                     eventProperties:["created_by_id": creatorId,
+                                                      "post_id": postId,
+                                                      "post_type": postType
+        ])
     }
 }

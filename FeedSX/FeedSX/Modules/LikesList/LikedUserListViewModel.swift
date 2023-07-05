@@ -49,7 +49,7 @@ final class LikedUserListViewModel {
                     self?.likedUsers = []
                 }
                 for like in likes {
-                    let user = users[like.userId ?? ""]
+                    let user = users[like.uuid ?? ""]
                     let likedUser = LikedUserDataView.LikedUser(username: user?.name ?? "",
                                                                 profileImage: user?.imageUrl ?? "",
                                                                 userTitle: user?.customTitle ?? "")
@@ -78,7 +78,7 @@ final class LikedUserListViewModel {
                     self?.likedUsers = []
                 }
                 for like in likes {
-                    let user = users[like.userId ?? ""]
+                    let user = users[like.uuid ?? ""]
                     let likedUser = LikedUserDataView.LikedUser(username: user?.name ?? "",
                                                                 profileImage: user?.imageUrl ?? "",
                                                                 userTitle: user?.customTitle ?? "")

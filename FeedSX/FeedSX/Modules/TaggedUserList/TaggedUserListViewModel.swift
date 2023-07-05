@@ -12,7 +12,7 @@ protocol TaggedUserListViewModelDelegate: AnyObject {
     func didReceiveTaggedUserList()
 }
 
-class TaggedUserListViewModel {
+class TaggedUserListViewModel: BaseViewModel {
     
     private var currentPage: Int = 1
     var taggingUsers: [User] = []
@@ -26,8 +26,7 @@ class TaggedUserListViewModel {
             .pageSize(10)
         LMFeedClient.shared.getTaggingList(request) {[weak self] response in
             if response.success == false {
-                NotificationCenter.default.post(name: .createPostErrorInApi, object: response.errorMessage)
-                NotificationCenter.default.post(name: .postDetailErrorInApi, object: response.errorMessage)
+                NotificationCenter.default.post(name: .errorInApi, object: response.errorMessage)
             }
             guard let users = response.data?.members, users.count > 0 else {
                 if (self?.currentPage ?? 0) == 1 {
