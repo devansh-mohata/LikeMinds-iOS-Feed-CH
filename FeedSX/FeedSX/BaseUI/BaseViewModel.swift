@@ -10,7 +10,7 @@ import Foundation
 class BaseViewModel {
     
     func postErrorMessageNotification(error: String?) {
-        NotificationCenter.default.post(name: .postDetailErrorInApi, object: error)
+        NotificationCenter.default.post(name: .errorInApi, object: error)
     }
     
 }

@@ -20,7 +20,7 @@ class LikedUserListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .postDetailErrorInApi, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
         self.view.backgroundColor = .white
         self.view.addSubview(likedUserTableView)
         likedUserTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true

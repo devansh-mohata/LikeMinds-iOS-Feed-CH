@@ -26,6 +26,8 @@ class NotificationFeedViewController: BaseViewController {
         setupTableView()
         setTitleAndSubtile(title: "Notifications", subTitle: nil)
         viewModel.getNotificationFeed()
+        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Notification.pageOpened, eventProperties: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
     }
     
     func setupTableView() {

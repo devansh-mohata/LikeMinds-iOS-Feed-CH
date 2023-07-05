@@ -25,7 +25,7 @@ class PostDetailDataModel {
         var user: PostFeedDataView.PostByUser
         
         init(comment: LikeMindsFeed.Comment, user: User?) {
-            self.commentId = comment.id
+            self.commentId = comment.id ?? ""
             self.postId = comment.postId
             self.text = comment.text
             self.commentCount = comment.commentsCount ?? 0
@@ -35,7 +35,7 @@ class PostDetailDataModel {
             self.level = comment.level
             self.createdAt = (comment.createdAt ?? 0)/1000
             self.menuItems = comment.menuItems?.compactMap({PostFeedDataView.MenuItem(id: .init(rawValue: $0.id) ?? .unknown, name: $0.title ?? "")})
-            self.user = .init(name: user?.name ?? "", profileImageUrl: user?.imageUrl, customTitle: user?.customTitle, userId: user?.userUniqueId ?? "")
+            self.user = .init(name: user?.name ?? "", profileImageUrl: user?.imageUrl, customTitle: user?.customTitle, uuid: user?.clientUUID ?? "")
         }
         
         func likeCounts() -> String {

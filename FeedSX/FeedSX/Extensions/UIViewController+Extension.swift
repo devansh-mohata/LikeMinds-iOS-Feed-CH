@@ -56,29 +56,6 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
     
-    func share(firstActivityItem description: String = "", secondActivityItem url: String, image: UIImage? = nil) {
-        let uRl = URL(string: url)
-        let activityViewController : UIActivityViewController = UIActivityViewController(
-            activityItems: [url, image], applicationActivities: nil)
-        
-        // Pre-configuring activity items
-        activityViewController.activityItemsConfiguration = [
-            UIActivity.ActivityType.message
-        ] as? UIActivityItemsConfigurationReading
-        
-        // Anything you want to exclude
-        activityViewController.excludedActivityTypes = [
-            UIActivity.ActivityType.postToWeibo,
-            UIActivity.ActivityType.print,
-            UIActivity.ActivityType.assignToContact,
-            UIActivity.ActivityType.saveToCameraRoll,
-            UIActivity.ActivityType.addToReadingList
-        ]
-        
-        activityViewController.isModalInPresentation = true
-        self.present(activityViewController, animated: true, completion: nil)
-    }
-    
     class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)

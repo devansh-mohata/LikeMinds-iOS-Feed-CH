@@ -28,7 +28,7 @@ final class EditPostViewModel: BaseViewModel {
     var taggedUsers: [TaggedUser] = []
     var postId: String = ""
     var postDetail: PostFeedDataView?
-    private let filePath = "files/post/\(LocalPrefrerences.getUserData()?.userUniqueId ?? "user")/"
+    private let filePath = "files/post/\(LocalPrefrerences.getUserData()?.clientUUID ?? "user")/"
     
     enum AttachmentUploadType: String {
         case document = "Attach Files"
@@ -51,7 +51,7 @@ final class EditPostViewModel: BaseViewModel {
                 self?.postErrorMessageNotification(error: response.errorMessage)
                 return
             }
-            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.userID ?? ""])
+            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""])
             self?.postDetailsAttachments()
         }
     }
