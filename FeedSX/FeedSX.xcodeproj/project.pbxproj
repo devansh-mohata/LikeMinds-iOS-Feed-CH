@@ -78,8 +78,6 @@
 		F4A9C7EE2A31EADB00D35396 /* TaggingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7ED2A31EADB00D35396 /* TaggingView.swift */; };
 		F4A9C7F02A31EB2700D35396 /* TaggingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */; };
 		F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */; };
-		F4AA54272A4AB48000AA9D2B /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4AA54252A4AB33300AA9D2B /* LikeMindsFeed.framework */; };
-		F4AA54282A4AB48000AA9D2B /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4AA54252A4AB33300AA9D2B /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F4AB905C2A3654B300B85245 /* TotalCommentCountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AB905B2A3654B200B85245 /* TotalCommentCountCell.swift */; };
 		F4AC32332A3A403C0019E5B0 /* NotificationFeedDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AC32322A3A403C0019E5B0 /* NotificationFeedDataView.swift */; };
 		F4AC6E772A4C28890036E997 /* ShareContentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AC6E762A4C28890036E997 /* ShareContentUtil.swift */; };
@@ -139,13 +137,6 @@
 			remoteGlobalIDString = F414169C299E41C000622058;
 			remoteInfo = LikeMindsFeed;
 		};
-		F4AA54242A4AB33300AA9D2B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4AA54202A4AB33300AA9D2B /* LikeMindsFeed.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F414169C299E41C000622058;
-			remoteInfo = LikeMindsFeed;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -155,7 +146,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F4AA54282A4AB48000AA9D2B /* LikeMindsFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,7 +230,6 @@
 		F4A9C7ED2A31EADB00D35396 /* TaggingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingView.swift; sourceTree = "<group>"; };
 		F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingDataModel.swift; sourceTree = "<group>"; };
 		F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewDataSource.swift; sourceTree = "<group>"; };
-		F4AA54202A4AB33300AA9D2B /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F4AB905B2A3654B200B85245 /* TotalCommentCountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCommentCountCell.swift; sourceTree = "<group>"; };
 		F4AC32322A3A403C0019E5B0 /* NotificationFeedDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFeedDataView.swift; sourceTree = "<group>"; };
 		F4AC6E762A4C28890036E997 /* ShareContentUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareContentUtil.swift; sourceTree = "<group>"; };
@@ -298,7 +287,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4AA54272A4AB48000AA9D2B /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,14 +613,6 @@
 			path = TaggingHelper;
 			sourceTree = "<group>";
 		};
-		F4AA54212A4AB33300AA9D2B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F4AA54252A4AB33300AA9D2B /* LikeMindsFeed.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F4AC6E732A4C28670036E997 /* ShareContent */ = {
 			isa = PBXGroup;
 			children = (
@@ -663,7 +643,6 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
-				F4AA54202A4AB33300AA9D2B /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -867,10 +846,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = F4AA54212A4AB33300AA9D2B /* Products */;
-					ProjectRef = F4AA54202A4AB33300AA9D2B /* LikeMindsFeed.xcodeproj */;
-				},
-				{
 					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
 					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
 				},
@@ -888,13 +863,6 @@
 			fileType = wrapper.framework;
 			path = LikeMindsFeed.framework;
 			remoteRef = F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F4AA54252A4AB33300AA9D2B /* LikeMindsFeed.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LikeMindsFeed.framework;
-			remoteRef = F4AA54242A4AB33300AA9D2B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1189,7 +1157,7 @@
 			baseConfigurationReference = 78CF06D4711533978898BA48 /* Pods-FeedSX.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1203,7 +1171,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1218,7 +1186,7 @@
 			baseConfigurationReference = 841AF5F2C16456E212FAC2C3 /* Pods-FeedSX.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1232,7 +1200,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
