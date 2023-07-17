@@ -21,7 +21,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     let createPostButton: LMButton = {
         let createPost = LMButton()
-        createPost.setImage(UIImage(systemName: "calendar.badge.plus"), for: .normal)
+        createPost.setImage(UIImage(systemName: ImageIcon.calenderBadgePlus), for: .normal)
         createPost.setTitle("NEW POST", for: .normal)
         createPost.titleLabel?.font = LMBranding.shared.font(13, .medium)
         createPost.tintColor = .white
@@ -86,7 +86,6 @@ public final class HomeFeedViewControler: BaseViewController {
         label.textColor = LMBranding.shared.headerColor.isDarkColor ? .white : ColorConstant.navigationTitleColor
         label.text = "Scalix"
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -136,6 +135,7 @@ public final class HomeFeedViewControler: BaseViewController {
         setupTableView()
         setupCreateButton()
         setupPostingProgress()
+        self.createPostButton.isHidden = true
         homeFeedViewModel.delegate = self
         self.postingImageSuperView.superview?.isHidden = true
         homeFeedViewModel.getFeed()
@@ -293,7 +293,6 @@ public final class HomeFeedViewControler: BaseViewController {
     func setupCreateButton() {
         createPostButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         createPostButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
-//        createPostButton.setSizeConstraint(width: 150, height: 50)
         createButtonWidthConstraints = createPostButton.widthAnchor.constraint(equalToConstant: 150)
         createButtonWidthConstraints?.isActive = true
         createPostButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -333,10 +332,8 @@ public final class HomeFeedViewControler: BaseViewController {
     func enableCreateNewPostButton(isEnable: Bool) {
         if isEnable {
             self.createPostButton.backgroundColor = LMBranding.shared.buttonColor
-//            self.createPostButton.isEnabled = true
         } else {
             self.createPostButton.backgroundColor = .lightGray
-//            self.createPostButton.isEnabled = false
         }
     }
     
@@ -374,6 +371,13 @@ public final class HomeFeedViewControler: BaseViewController {
                 weakSelf.view.layoutIfNeeded()
             }
         }
+    }
+    
+    func setHomeFeedEmptyView() {
+        let emptyView = EmptyHomeFeedView(frame: CGRect(x: 0, y: 0, width: feedTableView.bounds.size.width, height: feedTableView.bounds.size.height))
+        emptyView.delegate = self
+        feedTableView.backgroundView = emptyView
+        feedTableView.separatorStyle = .none
     }
 }
 
@@ -474,9 +478,11 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     
     func didReceivedFeedData(success: Bool) {
         if homeFeedViewModel.feeds.count == 0 {
-            feedTableView.setEmptyMessage(MessageConstant.dataNotFound)
+            setHomeFeedEmptyView()
+            self.createPostButton.isHidden = true
         } else {
             feedTableView.restore()
+            self.createPostButton.isHidden = false
         }
         bottomLoadSpinner.stopAnimating()
         refreshControl.endRefreshing()
@@ -610,5 +616,12 @@ extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
         let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
         postDetail.postId = postId
         self.navigationController?.pushViewController(postDetail, animated: true)
+    }
+}
+
+
+extension HomeFeedViewControler: EmptyHomeFeedViewDelegate {
+    func clickedOnNewPostButton() {
+        self.createNewPost()
     }
 }

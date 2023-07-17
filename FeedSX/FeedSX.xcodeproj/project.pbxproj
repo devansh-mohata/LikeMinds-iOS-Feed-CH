@@ -65,6 +65,7 @@
 		F4A5BD7429DA0A07006FC78D /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */; };
 		F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7729DAACBF006FC78D /* UIAlertController+Extension.swift */; };
 		F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */; };
+		F4A70F712A65C8500038A101 /* EmptyHomeFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */; };
 		F4A85D2029E931F700FB8DAF /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */; };
 		F4A85D2229E9338900FB8DAF /* ReportTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */; };
 		F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */; };
@@ -225,6 +226,7 @@
 		F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		F4A5BD7729DAACBF006FC78D /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionView.swift; sourceTree = "<group>"; };
+		F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyHomeFeedView.swift; sourceTree = "<group>"; };
 		F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 				F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */,
 				F4AD15882A2D160900B752C3 /* HomeFeedLinkTableViewCell.swift */,
 				F4AD15892A2D160900B752C3 /* HomeFeedLinkTableViewCell.xib */,
+				F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */,
 			);
 			path = HomeFeedImageVideoCell;
 			sourceTree = "<group>";
@@ -998,6 +1001,7 @@
 				F4AB905C2A3654B300B85245 /* TotalCommentCountCell.swift in Sources */,
 				F4CE0F2F2A0CF9890089D743 /* TaggedUserListViewModel.swift in Sources */,
 				F49D70D32A1392E0004ABD5B /* Array+Extension.swift in Sources */,
+				F4A70F712A65C8500038A101 /* EmptyHomeFeedView.swift in Sources */,
 				F4EA97AB2A1499930020E672 /* LMFeedAnalyticsEventName.swift in Sources */,
 				F49C76E129DF45B100325AD9 /* AWSFileUtility.swift in Sources */,
 				F4A5BD7029D99180006FC78D /* ProfileHeaderView.swift in Sources */,

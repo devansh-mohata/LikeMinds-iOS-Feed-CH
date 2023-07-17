@@ -21,11 +21,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
     var avPlayerItem: AVPlayerItem?
     var avQueuePlayer: AVQueuePlayer?
     var avPlayerlayerLooper: AVPlayerLooper?
-    var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+    var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     
     let removeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
+        button.setImage(UIImage(systemName: ImageIcon.crossIcon), for: .normal)
         button.tintColor = .darkGray
         button.setPreferredSymbolConfiguration(.init(pointSize: 20, weight: .light, scale: .large), forImageIn: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -41,8 +41,8 @@ class VideoCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.startAnimating()
+        // TODO:- Need to handle activity indicator 
         addSubview(activityIndicator)
-        // add the imageview to the UICollectionView
         addSubview(playerView)
         playerView.translatesAutoresizingMaskIntoConstraints = false
         playerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -65,13 +65,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
     }
     
     func playVideo() {
-//        self.activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-//        self.activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         try? AVAudioSession.sharedInstance().setCategory(.playback)
         if playerView.player != nil {
             playerView.player?.playImmediately(atRate: 1)
             playerView.player?.play()
-//            playerView.player?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+            activityIndicator.stopAnimating()
         }
     }
     
@@ -83,18 +81,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
     }
     
     func setupVideoData(url: String) {
-        guard let urL = URL(string: url) else {
+        guard let _ = URL(string: url) else {
             print("Not opened")
             return
         }
         createFanPlayer(videoName: url)
-        return
-        // set the video player with the path
-//        videoPlayer = AVPlayer(url: urL)
-        // play the video now!
-//        videoPlayer?.playImmediately(atRate: 1)
-//        videoPlayer?.isMuted = false
-        // setup the AVPlayer as the player
         
     }
     
@@ -107,37 +98,17 @@ class VideoCollectionViewCell: UICollectionViewCell {
         avQueuePlayer = AVQueuePlayer()
         avPlayerItem = AVPlayerItem(url: pathURL)
         avPlayerlayerLooper = AVPlayerLooper(player: avQueuePlayer!, templateItem: avPlayerItem!)
-        
-//        playerView.frame = fanVideoShowView.bounds
-//        playerView.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-//        fanVideoShowView.layer.insertSublayer(fanPlayerLayer, at: 1)
-        
         playerView.player = avQueuePlayer
-//        sharedPlayView = playerView
-//        if playerView.player != nil {
-//            playerView.player?.play()
-//            playerView.player?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-//        }
     }
     
     // This is the function to setup the CollectionViewCell
-    func setupCell(image: String) {
-        // set the appropriate image, if we can form a UIImage
-        //        if let image : UIImage = UIImage(named: image) {
-        //            hotelImageView.image = image
-        //        }
-    }
+    func setupCell(image: String) {}
     
     @objc func removeClicked() {
         delegate?.removeAttachment(self)
     }
     
-    deinit {
-        print("videocell removed---")
-        if playerView.player != nil {
-//            playerView.player?.removeObserver(self, forKeyPath: "timeControlStatus")
-        }
-    }
+    deinit {}
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "timeControlStatus", let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {

@@ -63,7 +63,6 @@ class PostDetailViewController: BaseViewController {
         label.font = LMBranding.shared.font(17, .medium)
         label.textAlignment = .center
         label.textColor = .lightGray
-//        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -115,6 +114,7 @@ class PostDetailViewController: BaseViewController {
         super.viewDidAppear(animated)
         self.setBackButtonIfNotExist()
         self.setupTaggingView()
+        refreshControl.bounds =  CGRectOffset(refreshControl.bounds, 0, -20)
     }
     
     @objc func postEditCompleted(notification: Notification) {
@@ -371,7 +371,6 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Post clicked")
         if indexPath.section > 0 {
             let comment = viewModel.comments[indexPath.section - 1]
             if indexPath.row == comment.replies.count {
@@ -428,7 +427,6 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         self.subTitleLabel.text = viewModel.totalCommentsCount()
         postDetailTableView.tableFooterView?.isHidden = true
         if viewModel.comments.count == 0 {
-//            postDetailTableView.tableFooterView = nil
             postDetailTableView.tableFooterView?.isHidden = false
             self.setAttributedTextForNoComments()
         }
@@ -446,12 +444,7 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
     }
     
     func insertAndScrollToRecentComment(_ indexPath: IndexPath) {
-        if indexPath.row == NSNotFound {
-            postDetailTableView.insertSections([1], with: .automatic)
-            postDetailTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-        } else {
-            postDetailTableView.reloadSections(IndexSet(integer: indexPath.section), with: .none)
-        }
+        postDetailTableView.reloadData()
         postDetailTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         postDetailTableView.tableFooterView?.isHidden = true
         closeReplyToUsersCommentView()
@@ -517,15 +510,12 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
         let selectedComment = viewModel.comments[section-1]
         switch actionType {
         case .like:
-            print("like Button Tapped - \(section)")
             viewModel.likeComment(postId: selectedComment.postId ?? "", commentId: selectedComment.commentId, section:(section-1), row: nil)
         case .more:
-            print("More Button Tapped - \(section)")
             self.selectedReplyIndexPath = nil
             self.selectedCommentSection = section - 1
             self.moreMenuClicked(comment: selectedComment, isReplied: false)
         case .comment:
-            print("reply Button Tapped - \(section)")
             if viewModel.hasRightForCommentOnPost() {
                 replyToUserContainer.isHidden = false
                 replyToUserImageView.isHidden = false
@@ -535,7 +525,6 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
                 commentTextView.becomeFirstResponder()
             }
         case .commentCount:
-            print("reply count Button Tapped - \(section)")
             if selectedComment.replies.count > 0 {
                 selectedComment.replies = []
                 postDetailTableView.reloadSections(IndexSet(integer: section), with: .none)
@@ -543,7 +532,6 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
                 viewModel.getCommentReplies(commentId: selectedComment.commentId)
             }
         case .likeCount:
-            print("likecount Button Tapped - \(section)")
             let postId = selectedComment.postId ?? ""
             guard selectedComment.likedCount > 0 else {return}
             let likedUserListView = LikedUserListViewController()
@@ -594,7 +582,6 @@ extension PostDetailViewController: TaggedUserListDelegate {
             self.view.layoutIfNeeded()
             
         }) { finished in
-//            self.taggingUserListContainer.isHidden = true
         }
     }
     
@@ -612,7 +599,6 @@ extension PostDetailViewController: TaggedUserListDelegate {
             self.view.layoutIfNeeded()
             
         }) { finished in
-//            self.taggingUserListContainer.isHidden = false
         }
     }
 }
@@ -682,6 +668,10 @@ extension PostDetailViewController: DeleteContentViewProtocol {
             let comment = self.viewModel.comments[indexpath.section - 1]
             comment.replies.remove(at: indexpath.row)
             comment.commentCount -=  comment.commentCount > 0 ? 1 : 0
+        }
+        if viewModel.comments.count == 0 {
+            postDetailTableView.tableFooterView?.isHidden = false
+            self.setAttributedTextForNoComments()
         }
         self.postDetailTableView.reloadData()
     }
