@@ -15,9 +15,4 @@ extension Notification.Name {
     static let refreshHomeFeedData = Notification.Name("Refresh home feed data")
     static let refreshHomeFeedDataObject = Notification.Name("Refresh home feed data Object")
     static let errorInApi = Notification.Name("errorInApi")
-//    static let homeFeedErrorInApi = Notification.Name("homeFeedErrorInApi")
-//    static let postDetailErrorInApi = Notification.Name("postDetailErrorInApi")
-//    static let createPostErrorInApi = Notification.Name("createPostErrorInApi")
-//    static let deleteContentErrorInApi = Notification.Name("deleteContentErrorInApi")
-//    static let reportContentErrorInApi = Notification.Name("reportContentErrorInApi")
 }

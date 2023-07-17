@@ -371,6 +371,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Post clicked")
         if indexPath.section > 0 {
             let comment = viewModel.comments[indexPath.section - 1]
             if indexPath.row == comment.replies.count {

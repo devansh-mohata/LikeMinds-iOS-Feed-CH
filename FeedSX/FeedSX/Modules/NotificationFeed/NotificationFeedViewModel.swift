@@ -26,7 +26,9 @@ class NotificationFeedViewModel: BaseViewModel {
     }
     
     func getNotificationFeed() {
-        let request = GetNotificationFeedRequest(page: currentPage)
+        let request = GetNotificationFeedRequest.builder()
+            .page(currentPage)
+            .build()
         self.isNotificationFeedLoading = true
         LMFeedClient.shared.getNotificationFeed(request) {[weak self] response in
             if response.success {
@@ -50,7 +52,9 @@ class NotificationFeedViewModel: BaseViewModel {
     
     func markReadNotification(activityId: String?) {
         guard let activityId = activityId else {return}
-        let request = MarkReadNotificationRequest(activityId: activityId)
+        let request = MarkReadNotificationRequest.builder()
+            .activityId(activityId)
+            .build()
         LMFeedClient.shared.markReadNotification(request) {[weak self] response in
             if response.success {
                 self?.delegate?.didReceiveMarkReadNotificationResponse()

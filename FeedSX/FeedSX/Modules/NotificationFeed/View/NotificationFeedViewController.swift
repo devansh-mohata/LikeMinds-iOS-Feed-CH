@@ -122,6 +122,11 @@ extension NotificationFeedViewController: NotificationFeedTableViewCellDelegate 
 extension NotificationFeedViewController: NotificationFeedViewModelDelegate {
     
     func didReceiveNotificationFeedsResponse() {
+        if viewModel.activities.count == 0 {
+            notificationFeedTableView.setEmptyMessage(MessageConstant.dataNotFound)
+        } else {
+            notificationFeedTableView.restore()
+        }
         bottomLoadSpinner.stopAnimating()
         refreshControl.endRefreshing()
         notificationFeedTableView.reloadData()

@@ -40,9 +40,11 @@ final class EditPostViewModel: BaseViewModel {
     }
     
     func getPost() {
-        let request = GetPostRequest(postId: self.postId)
+        let request = GetPostRequest.builder()
+            .postId(self.postId)
             .page(1)
             .pageSize(1)
+            .build()
         LMFeedClient.shared.getPost(request) {[weak self] response in
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
@@ -143,7 +145,9 @@ final class EditPostViewModel: BaseViewModel {
             completion?()
             return
         }
-        let request = DecodeUrlRequest(link)
+        let request = DecodeUrlRequest.builder()
+            .link(link)
+            .build()
         LMFeedClient.shared.decodeUrl(request) {[weak self] response in
             print(response)
             if response.success, let ogTags = response.data?.oGTags {
@@ -158,7 +162,9 @@ final class EditPostViewModel: BaseViewModel {
     }
     
     func decodeUrl(stringUrl: String) {
-        let request = DecodeUrlRequest(stringUrl)
+        let request = DecodeUrlRequest.builder()
+            .link(stringUrl)
+            .build()
         LMFeedClient.shared.decodeUrl(request) {[weak self] response in
             print(response)
             if response.success, let ogTags = response.data?.oGTags {
@@ -196,9 +202,11 @@ final class EditPostViewModel: BaseViewModel {
         let attachmentRequest = Attachment()
             .attachmentType(.link)
             .attachmentMeta(attachmentMeta)
-        let editPostRequest = EditPostRequest(postId)
+        let editPostRequest = EditPostRequest.builder()
+            .postId(postId)
             .text(postCaption)
             .attachments([attachmentRequest])
+            .build()
         EditPostOperation.shared.editPost(request: editPostRequest, postId: self.postId)
     }
     
@@ -235,8 +243,10 @@ final class EditPostViewModel: BaseViewModel {
     }
     
     private func editPostWithOutAttachment(postCaption: String?) {
-        let editPostRequest = EditPostRequest(postId)
+        let editPostRequest = EditPostRequest.builder()
+            .postId(postId)
             .text(postCaption)
+            .build()
         EditPostOperation.shared.editPost(request: editPostRequest, postId: self.postId)
     }
 }

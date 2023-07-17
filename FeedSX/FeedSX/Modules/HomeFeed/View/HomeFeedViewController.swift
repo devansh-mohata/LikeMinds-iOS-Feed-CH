@@ -219,7 +219,9 @@ public final class HomeFeedViewControler: BaseViewController {
         } else {
             self.postingImageView.isHidden = true
         }
-        self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        if homeFeedViewModel.feeds.count > 0 {
+            self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        }
     }
     
     @objc func postCreationCompleted(notification: Notification) {
@@ -231,7 +233,9 @@ public final class HomeFeedViewControler: BaseViewController {
             return
         }
         refreshFeed()
-        self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        if homeFeedViewModel.feeds.count > 0 {
+            self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        }
     }
     
     @objc func postEditingStarted(notification: Notification) {
@@ -243,7 +247,6 @@ public final class HomeFeedViewControler: BaseViewController {
         } else {
             self.postingImageView.isHidden = true
         }
-        self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
     
     @objc func postEditCompleted(notification: Notification) {
@@ -419,19 +422,20 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
         self.lastKnowScrollViewContentOfsset = scrollView.contentOffset.y
+
+        checkWhichVideoToEnable()
+        if offsetY > contentHeight - (scrollView.frame.height + 60) && !homeFeedViewModel.isFeedLoading
+        {
+            homeFeedViewModel.getFeed()
+        }
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         newPostButtonExapndAndCollapes(offsetY)
-        let contentHeight = scrollView.contentSize.height
-        checkWhichVideoToEnable()
-        if offsetY > contentHeight - (scrollView.frame.height + 60) && !bottomLoadSpinner.isAnimating && !homeFeedViewModel.isFeedLoading
-        {
-//            bottomLoadSpinner.startAnimating()
-            homeFeedViewModel.getFeed()
-        }
     }
     
     func checkWhichVideoToEnable() {
@@ -469,6 +473,11 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
 extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     
     func didReceivedFeedData(success: Bool) {
+        if homeFeedViewModel.feeds.count == 0 {
+            feedTableView.setEmptyMessage(MessageConstant.dataNotFound)
+        } else {
+            feedTableView.restore()
+        }
         bottomLoadSpinner.stopAnimating()
         refreshControl.endRefreshing()
         guard success else {return}

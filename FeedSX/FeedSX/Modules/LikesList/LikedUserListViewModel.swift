@@ -36,9 +36,11 @@ final class LikedUserListViewModel {
     }
     
     func fetchPostLikedUsers() {
-        let request = GetPostLikesRequest(postId: postId)
+        let request = GetPostLikesRequest.builder()
+            .postId(postId)
             .page(currentPage)
             .pageSize(20)
+            .build()
         LMFeedClient.shared.getPostLikes(request) {[weak self] result in
             print(result)
             if result.success,
@@ -65,9 +67,12 @@ final class LikedUserListViewModel {
     
     func fetchCommentLikedUsers() {
         guard let commentId = self.commentId else {return}
-        let request = GetCommentLikesRequest(postId: postId, commentId: commentId)
+        let request = GetCommentLikesRequest.builder()
+            .postId(postId)
+            .commentId(commentId)
             .page(currentPage)
             .pageSize(20)
+            .build()
         LMFeedClient.shared.getCommentLikes(request) {[weak self] result in
             print(result)
             if result.success,

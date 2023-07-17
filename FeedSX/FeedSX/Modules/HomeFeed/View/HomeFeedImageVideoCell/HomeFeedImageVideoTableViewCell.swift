@@ -100,10 +100,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         profileSectionHeader.addConstraints(equalToView: self.profileSectionView)
     }
     
-    fileprivate func setupCaptionSectionView() {
-//        self.captionSectionView.addSubview(postCaptionView)
-//        postCaptionView.addConstraints(equalToView: self.captionSectionView)
-    }
+    fileprivate func setupCaptionSectionView() {}
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
@@ -131,28 +128,16 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     private func setupContainerData() {
         switch self.feedData?.postAttachmentType() ?? .unknown {
         case .link:
-//            let flowlayout = UICollectionViewFlowLayout()
-//            flowlayout.scrollDirection = .vertical
-//            flowlayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-//            imageVideoCollectionView.collectionViewLayout = flowlayout
             containerView.isHidden = false
             pageControlView?.isHidden = true
             imageVideoCollectionView.reloadData()
         case .image, .video:
-//            let flowlayout = UICollectionViewFlowLayout()
-//            flowlayout.scrollDirection = .horizontal
-//            flowlayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-//            self.imageVideoCollectionView.collectionViewLayout = flowlayout
             containerView.isHidden = false
             let imageCount = self.feedData?.imageVideos?.count ?? 0
             pageControlView?.isHidden = imageCount < 2
             pageControl?.numberOfPages = imageCount
             imageVideoCollectionView.reloadData()
         case .document:
-//            let flowlayout = UICollectionViewFlowLayout()
-//            flowlayout.scrollDirection = .vertical
-//            flowlayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 90)
-//            self.imageVideoCollectionView.collectionViewLayout = flowlayout
             containerView.isHidden = false
             pageControlView?.isHidden = true
             imageVideoCollectionView.reloadData()
@@ -167,8 +152,6 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         self.captionLabel.text = caption
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
-//        let numLines = captionLabel.contentSize.height/captionLabel.font!.lineHeight
-//        print("number ofline of post : \(numLines)")
     }
     
 }
@@ -248,6 +231,9 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
             guard let url = myURL else { return }
             UIApplication.shared.open(url)
         } else {
+            if let cell  = collectionView.cellForItem(at: indexPath) as? VideoCollectionViewCell {
+                cell.playVideo()
+            }
             delegate?.didTapOnFeedCollection(self.feedData)
         }
     }
@@ -284,9 +270,8 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         pauseAllInVisibleVideos()
     }
-//
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        playVisibleVideo()
     }
     
 }

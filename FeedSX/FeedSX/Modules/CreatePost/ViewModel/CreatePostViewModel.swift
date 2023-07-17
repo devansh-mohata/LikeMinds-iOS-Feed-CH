@@ -127,7 +127,9 @@ final class CreatePostViewModel: BaseViewModel {
             completion?()
             return
         }
-        let request = DecodeUrlRequest(link)
+        let request = DecodeUrlRequest.builder()
+            .link(link)
+            .build()
         LMFeedClient.shared.decodeUrl(request) {[weak self] response in
             print(response)
             if response.success, let ogTags = response.data?.oGTags {
@@ -142,14 +144,15 @@ final class CreatePostViewModel: BaseViewModel {
     }
     
     func decodeUrl(stringUrl: String) {
-        let request = DecodeUrlRequest(stringUrl)
+        let request = DecodeUrlRequest.builder()
+            .link(stringUrl)
+            .build()
         LMFeedClient.shared.decodeUrl(request) {[weak self] response in
             print(response)
             if response.success, let ogTags = response.data?.oGTags {
                 self?.currentSelectedUploadeType = .link
                 self?.linkAttatchment = .init(title: ogTags.title, linkThumbnailUrl: ogTags.image, description: ogTags.description, url: ogTags.url)
             } else {
-//                self?.currentSelectedUploadeType = .unknown
                 self?.linkAttatchment = nil
             }
             self?.delegate?.reloadCollectionView()
@@ -203,9 +206,10 @@ final class CreatePostViewModel: BaseViewModel {
         let attachmentRequest = Attachment()
             .attachmentType(.link)
             .attachmentMeta(attachmentMeta)
-        let addPostRequest = AddPostRequest()
+        let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
             .attachments([attachmentRequest])
+            .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }
     
@@ -218,8 +222,9 @@ final class CreatePostViewModel: BaseViewModel {
     }
     
     private func createPostWithOutAttachment(postCaption: String?) {
-        let addPostRequest = AddPostRequest()
+        let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
+            .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }
 }
