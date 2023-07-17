@@ -151,7 +151,7 @@ final class PostDetailViewModel: BaseViewModel {
         let request = ReplyCommentRequest.builder()
             .postId(postId)
             .commentId(commentId)
-            .text(commentId)
+            .text(comment)
             .build()
         LMFeedClient.shared.replyComment(request) { [weak self] response in
             if response.success == false {
