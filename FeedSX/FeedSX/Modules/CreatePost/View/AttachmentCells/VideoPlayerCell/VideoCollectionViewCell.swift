@@ -69,7 +69,10 @@ class VideoCollectionViewCell: UICollectionViewCell {
         if playerView.player != nil {
             playerView.player?.playImmediately(atRate: 1)
             playerView.player?.play()
-            activityIndicator.stopAnimating()
+            //TODO:- Need to handle loading indicator, as of now we added inital for 5 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
         }
     }
     

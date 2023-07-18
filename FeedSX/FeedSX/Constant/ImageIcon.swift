@@ -28,4 +28,5 @@ struct ImageIcon {
     static let video = "video"
     static let crossIcon = "multiply.circle.fill"
     static let calenderBadgePlus = "calendar.badge.plus"
+    static let emptyDataImage = "emptydata_icon"
 }
