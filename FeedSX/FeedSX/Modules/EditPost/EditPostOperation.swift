@@ -117,9 +117,11 @@ class EditPostOperation {
                     break
                 }
             }
-            let editPostRequest = EditPostRequest(postId)
+            let editPostRequest = EditPostRequest.builder()
+                .postId(postId)
                 .text(postCaption)
                 .attachments(attachments)
+                .build()
             LMFeedClient.shared.editPost(editPostRequest) { [weak self] response in
                 self?.attachmentList = nil
                 if response.success == false {

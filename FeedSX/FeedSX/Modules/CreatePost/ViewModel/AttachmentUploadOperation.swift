@@ -46,17 +46,19 @@ class AttachmentUploadOperation: NetworkOperation {
                 }
             }
             
-            let addPostRequest = AddPostRequest()
+            let addPostRequest = AddPostRequest.builder()
                 .text(self.postCaption)
                 .attachments(attachments)
+                .build()
             LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
                 print("Post Creation with attachment done....")
                 self?.postMessageToCompleteCreatePost()
             }
             
         } else {
-            let addPostRequest = AddPostRequest()
+            let addPostRequest = AddPostRequest.builder()
                 .text(self.postCaption)
+                .build()
             LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
                 print("Post Creation without attachment done....")
                 self?.postMessageToCompleteCreatePost()

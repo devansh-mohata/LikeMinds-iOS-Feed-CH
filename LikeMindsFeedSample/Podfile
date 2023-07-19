@@ -11,7 +11,7 @@ target 'LikeMindsFeedSample' do
 
   # Pods for LikeMindsFeedSample
   sdk_pods
-pod 'Alamofire'
+  pod 'Alamofire'
 end
 
 post_install do |installer|

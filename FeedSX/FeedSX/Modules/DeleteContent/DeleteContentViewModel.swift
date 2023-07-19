@@ -28,7 +28,9 @@ final class DeleteContentViewModel {
     weak var delegate: DeleteContentViewModelProtocol?
     
     func fetchReportTags(type: Int) {
-        let request = GetReportTagRequest(type)
+        let request = GetReportTagRequest.builder()
+            .type(type)
+            .build()
         LMFeedClient.shared.getReportTags(request) {[weak self] result in
             if result.success, let tags = result.data?.reportTags {
                 self?.reasons = tags
@@ -40,8 +42,10 @@ final class DeleteContentViewModel {
     }
     
     func deletePost(postId: String, reasonText: String?, completion: (() -> Void)?) {
-        let request = DeletePostRequest(postId: postId)
+        let request = DeletePostRequest.builder()
+            .postId(postId)
             .deleteReason(reasonText)
+            .build()
         LMFeedClient.shared.deletePost(request) {[weak self] response in
             if response.success{
                 self?.delegate?.didReceivedDeletePostResponse(postId: postId, commentId: nil)
@@ -54,8 +58,11 @@ final class DeleteContentViewModel {
     }
     
     func deleteComment(postId: String, commentId: String, reasonText: String?, completion: (() -> Void)?) {
-        let request = DeleteCommentRequest(postId: postId, commentId: commentId)
+        let request = DeleteCommentRequest.builder()
+            .postId(postId)
+            .commentId(commentId)
             .deleteReason(reasonText)
+            .build()
         LMFeedClient.shared.deleteComment(request) { [weak self] response in
             if response.success{
                 LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.deleted, eventProperties: ["post_id": postId, "comment_id": commentId])

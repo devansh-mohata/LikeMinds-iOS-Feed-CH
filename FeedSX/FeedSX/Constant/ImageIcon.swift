@@ -23,7 +23,10 @@ struct ImageIcon {
     static let bellFillIcon = "bell.fill"
     static let docIcon = "doc"
     static let docFillIcon = "doc.fill"
+    static let docTextImageIcon = "doc.text.image"
     static let photoIcon = "photo"
     static let video = "video"
     static let crossIcon = "multiply.circle.fill"
+    static let calenderBadgePlus = "calendar.badge.plus"
+    static let emptyDataImage = "emptydata_icon"
 }
