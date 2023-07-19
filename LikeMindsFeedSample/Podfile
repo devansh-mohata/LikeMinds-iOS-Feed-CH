@@ -3,7 +3,6 @@
 
 def sdk_pods
   podspec :path => '../FeedSX/FeedSX.podspec'
-  pod 'LikeMindsFeed', :path => '/Users/pushpendra/likeminds_workspace/LikeMinds-Feed-SDK/Feed-SDK'
 end
 
 target 'LikeMindsFeedSample' do
@@ -12,7 +11,7 @@ target 'LikeMindsFeedSample' do
 
   # Pods for LikeMindsFeedSample
   sdk_pods
-pod 'Alamofire'
+  pod 'Alamofire'
 end
 
 post_install do |installer|

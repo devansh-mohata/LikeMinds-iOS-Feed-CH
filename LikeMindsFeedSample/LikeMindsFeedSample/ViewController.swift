@@ -23,9 +23,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         username.isHidden = true
         userId.isHidden = true
-        self.apiKey.text =
-//        "d66cfee8-070a-47da-b705-d98cf812630f" // Prod feed api key
-        "a0891a93-d37d-41a0-88b4-73f02c2d3663" // Beta feed api key
+        self.apiKey.text = ""
         let un =  userDefault.string(forKey: "username") ?? ""
         let ui = userDefault.string(forKey: "userid") ?? ""
         if !un.isEmpty && !ui.isEmpty {

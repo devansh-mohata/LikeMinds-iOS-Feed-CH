@@ -84,7 +84,7 @@ public final class HomeFeedViewControler: BaseViewController {
         let label = LMLabel()
         label.font = LMBranding.shared.font(24, .medium)
         label.textColor = LMBranding.shared.headerColor.isDarkColor ? .white : ColorConstant.navigationTitleColor
-        label.text = "Scalix"
+        label.text = "Community"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

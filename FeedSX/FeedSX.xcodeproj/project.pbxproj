@@ -22,8 +22,6 @@
 		F41731CE2A1A8FBD005FD279 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731CD2A1A8FBD005FD279 /* NotificationName+Extension.swift */; };
 		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
 		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
-		F420C0C62A5FFBE9008C48DE /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F420C0C42A5FFBCB008C48DE /* LikeMindsFeed.framework */; };
-		F420C0C72A5FFBE9008C48DE /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F420C0C42A5FFBCB008C48DE /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
 		F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */; };
 		F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D02A26197D003C43BA /* UITextView+Extension.swift */; };
@@ -134,13 +132,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F420C0C32A5FFBCB008C48DE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F420C0BF2A5FFBCA008C48DE /* LikeMindsFeed.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F414169C299E41C000622058;
-			remoteInfo = LikeMindsFeed;
-		};
 		F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
@@ -157,7 +148,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F420C0C72A5FFBE9008C48DE /* LikeMindsFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,7 +173,6 @@
 		F41731CD2A1A8FBD005FD279 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewCell.swift; sourceTree = "<group>"; };
 		F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionViewCell.swift; sourceTree = "<group>"; };
-		F420C0BF2A5FFBCA008C48DE /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
 		F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeMindsFeedSX.swift; sourceTree = "<group>"; };
 		F46E15D02A26197D003C43BA /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
@@ -302,7 +291,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F420C0C62A5FFBE9008C48DE /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,14 +345,6 @@
 				F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */,
 			);
 			path = OtherCells;
-			sourceTree = "<group>";
-		};
-		F420C0C02A5FFBCA008C48DE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F420C0C42A5FFBCB008C48DE /* LikeMindsFeed.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		F46E15D22A263448003C43BA /* LinkManager */ = {
@@ -668,7 +648,6 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
-				F420C0BF2A5FFBCA008C48DE /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -873,10 +852,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = F420C0C02A5FFBCA008C48DE /* Products */;
-					ProjectRef = F420C0BF2A5FFBCA008C48DE /* LikeMindsFeed.xcodeproj */;
-				},
-				{
 					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
 					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
 				},
@@ -889,13 +864,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		F420C0C42A5FFBCB008C48DE /* LikeMindsFeed.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LikeMindsFeed.framework;
-			remoteRef = F420C0C32A5FFBCB008C48DE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

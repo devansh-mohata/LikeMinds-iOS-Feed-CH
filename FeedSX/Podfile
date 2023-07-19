@@ -5,8 +5,6 @@ target 'FeedSX' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for FeedSX
-podspec :path => '/Users/pushpendra/likeminds_workspace/LikeMinds-Feed-SDK/Feed-SDK/LikeMindsFeed.podspec'
  pod 'Kingfisher'
  pod 'BSImagePicker'
  pod 'AWSCore'
