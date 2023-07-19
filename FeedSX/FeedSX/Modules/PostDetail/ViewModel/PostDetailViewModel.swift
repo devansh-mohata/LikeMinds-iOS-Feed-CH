@@ -69,9 +69,11 @@ final class PostDetailViewModel: BaseViewModel {
     
     func getPostDetail() {
         guard !self.isCommentLoading else { return }
-        let request = GetPostRequest(postId: self.postId)
+        let request = GetPostRequest.builder()
+            .postId(postId)
             .page(commentCurrentPage)
             .pageSize(commentPageSize)
+            .build()
         self.isCommentLoading = true
         LMFeedClient.shared.getPost(request) {[weak self] response in
             if response.success == false {
@@ -100,9 +102,12 @@ final class PostDetailViewModel: BaseViewModel {
         guard let selectedComment = self.comments.filter({$0.commentId == commentId}).first else {return}
         self.isCommentRepliesLoading = true
         let repliesCurrentPage = (selectedComment.replies.count/5) + 1
-        let request = GetCommentRequest(postId: self.postId, commentId: commentId)
+        let request = GetCommentRequest.builder()
+            .postId(postId)
+            .commentId(commentId)
             .page(repliesCurrentPage)
             .pageSize(5)
+            .build()
         LMFeedClient.shared.getComment(request) {[weak self] response in
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
@@ -122,7 +127,10 @@ final class PostDetailViewModel: BaseViewModel {
     }
     
     private func postCommentOnPost(_ comment: String) {
-        let request = AddCommentRequest(postId: self.postId, text: comment)
+        let request = AddCommentRequest.builder()
+            .postId(self.postId)
+            .text(comment)
+            .build()
         LMFeedClient.shared.addComment(request) { [weak self] response in
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
@@ -140,7 +148,11 @@ final class PostDetailViewModel: BaseViewModel {
     }
     
     private func postCommentsReply(commentId: String, comment: String) {
-        let request = ReplyCommentRequest(postId: self.postId, text: comment, commentId: commentId)
+        let request = ReplyCommentRequest.builder()
+            .postId(postId)
+            .commentId(commentId)
+            .text(comment)
+            .build()
         LMFeedClient.shared.replyComment(request) { [weak self] response in
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
@@ -161,7 +173,9 @@ final class PostDetailViewModel: BaseViewModel {
     }
     
     func likePost(postId: String) {
-        let request = LikePostRequest(postId: postId)
+        let request = LikePostRequest.builder()
+            .postId(postId)
+            .build()
         LMFeedClient.shared.likePost(request) {[weak self] response in
             if response.success {
                 self?.notifyObjectChanges()
@@ -176,7 +190,10 @@ final class PostDetailViewModel: BaseViewModel {
     }
     
     func likeComment(postId: String, commentId: String, section: Int?, row: Int?) {
-        let request = LikeCommentRequest(postId: postId, commentId: commentId)
+        let request = LikeCommentRequest.builder()
+            .postId(postId)
+            .commentId(commentId)
+            .build()
         LMFeedClient.shared.likeComment(request) { [weak self] response in
             if response.success {
 //                self?.notifyObjectChanges()
@@ -198,7 +215,9 @@ final class PostDetailViewModel: BaseViewModel {
     }
 
     func savePost(postId: String) {
-        let request = SavePostRequest(postId: postId)
+        let request = SavePostRequest.builder()
+            .postId(postId)
+            .build()
         LMFeedClient.shared.savePost(request) { [weak self] response in
             if response.success {
                 self?.notifyObjectChanges()
@@ -211,7 +230,9 @@ final class PostDetailViewModel: BaseViewModel {
     }
     
     func pinUnpinPost(postId: String) {
-        let request = PinPostRequest(postId: postId)
+        let request = PinPostRequest.builder()
+            .postId(postId)
+            .build()
         LMFeedClient.shared.pinPost(request) {[weak self] response in
             if response.success {
                 self?.postDetail?.isPinned = !(self?.postDetail?.isPinned ?? false)
@@ -225,8 +246,11 @@ final class PostDetailViewModel: BaseViewModel {
     }
     
     func editComment(postId: String, commentId: String, comment: String, section: Int?, row: Int?) {
-        let request = EditCommentRequest(postId: postId, commentId: commentId)
+        let request = EditCommentRequest.builder()
+            .postId(postId)
+            .commentId(commentId)
             .text(comment)
+            .build()
         LMFeedClient.shared.editComment(request) {[weak self] response in
             if response.success {
                 guard let comment = response.data?.comment, let users =  response.data?.users else {

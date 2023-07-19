@@ -21,9 +21,11 @@ class TaggedUserListViewModel: BaseViewModel {
     var taggingSearchDebounceTime: Timer?
     
     private func fetchTaggingList(_ searchName: String) {
-        let request = GetTaggingListRequest(searchName: searchName)
+        let request = GetTaggingListRequest.builder()
+            .searchName(searchName)
             .page(currentPage)
             .pageSize(10)
+            .build()
         LMFeedClient.shared.getTaggingList(request) {[weak self] response in
             if response.success == false {
                 NotificationCenter.default.post(name: .errorInApi, object: response.errorMessage)

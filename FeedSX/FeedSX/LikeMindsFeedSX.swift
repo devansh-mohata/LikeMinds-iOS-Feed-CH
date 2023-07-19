@@ -24,13 +24,18 @@ public class LikeMindsFeedSX {
     
     public func initiateLikeMindsFeed(withViewController viewController: UIViewController, apiKey: String, username: String, userId: String) {
         
-        let request = InitiateUserRequest(apiKey)
+        let request = InitiateUserRequest.builder()
+            .apiKey(apiKey)
             .userName(username)
             .uuid(userId)
             .isGuest(false)
+            .build()
         LMFeedClient.shared.initiateUser(request: request) { [weak self] response in
             print(response)
-            guard let user = response.data?.user, let weakSelf = self else { return }
+            guard let user = response.data?.user, let weakSelf = self else {
+                viewController.presentAlert(message: response.errorMessage ?? "")
+                return
+            }
             if response.data?.appAccess == false {
                 self?.logout(response.data?.refreshToken ?? "", deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "")
                 return
@@ -56,7 +61,10 @@ public class LikeMindsFeedSX {
                 print("Error fetching FCM registration token: \(error)")
             } else if let token = token {
                 print("FCM registration token: \(token)")
-                let request = RegisterDeviceRequest(deviceid, token: token)
+                let request = RegisterDeviceRequest.builder()
+                    .token(token)
+                    .deviceId(deviceid)
+                    .build()
                 LMFeedClient.shared.registerDevice(request: request) { response in
                     print(response)
                 }
@@ -83,9 +91,10 @@ public class LikeMindsFeedSX {
     }
     
     public func logout(_ refreshToken: String, deviceId: String) {
-        let request = LogoutRequest()
+        let request = LogoutRequest.builder()
             .refreshToken(refreshToken)
             .deviceId(deviceId)
+            .build()
         LMFeedClient.shared.logout(request: request) { response in
             // do somthing on success or failure
         }

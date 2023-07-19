@@ -22,7 +22,9 @@ class ReportContentViewModel {
     var uuid: String?
     var reportEntityType: ReportEntityType = .post
     func fetchReportTags() {
-        let request = GetReportTagRequest(3)
+        let request = GetReportTagRequest.builder()
+            .type(3)
+            .build()
         LMFeedClient.shared.getReportTags(request) { [weak self] response in
             if response.success == false {
                 self?.delegate?.didReceivedReportRespone(response.errorMessage)
@@ -35,12 +37,13 @@ class ReportContentViewModel {
     
     func reportContent(reason: String) {
         let tagId = selected.first?.id ?? 0
-        let request = ReportRequest(entityId ?? "")
+        let request = ReportRequest.builder()
+            .entityId(entityId ?? "")
             .entityType(reportEntityType)
             .uuid(uuid ?? "")
             .tagId(tagId)
             .reason(reason)
-        print(request)
+            .build()
         LMFeedClient.shared.report(request) {[weak self] response in
             if response.success {
                 let entityType = self?.reportEntityType == .post ? "post" : "comment"

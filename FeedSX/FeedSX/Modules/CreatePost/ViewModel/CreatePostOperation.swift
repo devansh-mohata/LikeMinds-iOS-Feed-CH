@@ -108,9 +108,10 @@ class CreatePostOperation {
                     self?.postMessageForCompleteCreatePost(with: "Oops! Somthing went wrong!\nPlease try again later.")
                     return
                 }
-                let addPostRequest = AddPostRequest()
+                let addPostRequest = AddPostRequest.builder()
                     .text(postCaption)
                     .attachments(attachments)
+                    .build()
                 LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
                     print("Post Creation with attachment done....")
                     self?.attachmentList = nil

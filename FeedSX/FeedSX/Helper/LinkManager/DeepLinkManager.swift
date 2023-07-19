@@ -54,10 +54,12 @@ import UIKit
     private func initiateFeed(routeUrl: String, fromNotification: Bool, fromDeeplink: Bool) {
         guard let user = LocalPrefrerences.getUserData(),
         let apiKey = LocalPrefrerences.userDefault.string(forKey: LocalPreferencesKey.feedApiKey) else { return }
-        let request = InitiateUserRequest(apiKey)
+        let request = InitiateUserRequest.builder()
+            .apiKey(apiKey)
             .userName(user.name ?? "")
             .uuid(LocalPrefrerences.uuid())
             .isGuest(false)
+            .build()
         LMFeedClient.shared.initiateUser(request: request) { [weak self] response in
             print(response)
             guard let user = response.data?.user, let weakSelf = self else { return }

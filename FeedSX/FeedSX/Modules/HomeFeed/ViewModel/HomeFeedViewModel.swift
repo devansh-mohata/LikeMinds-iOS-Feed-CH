@@ -20,12 +20,15 @@ class HomeFeedViewModel: BaseViewModel {
     weak var delegate: HomeFeedViewModelDelegate?
     var feeds: [PostFeedDataView] = []
     var currentPage: Int = 1
+    var pageSize = 20
     var isFeedLoading: Bool = false
     
     func getFeed() {
         self.isFeedLoading = true
-        let requestFeed = GetFeedRequest(page: currentPage)
-            .pageSize(20)
+        let requestFeed = GetFeedRequest.builder()
+            .page(currentPage)
+            .pageSize(pageSize)
+            .build()
         LMFeedClient.shared.getFeed(requestFeed) { [weak self] result in
             print(result)
             self?.isFeedLoading = false
@@ -66,7 +69,9 @@ class HomeFeedViewModel: BaseViewModel {
     }
     
     func likePost(postId: String) {
-        let request = LikePostRequest(postId: postId)
+        let request = LikePostRequest.builder()
+            .postId(postId)
+            .build()
         LMFeedClient.shared.likePost(request) { [weak self] response in
             if !response.success {
                 guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
@@ -82,7 +87,9 @@ class HomeFeedViewModel: BaseViewModel {
     }
     
     func savePost(postId: String) {
-        let request = SavePostRequest(postId: postId)
+        let request = SavePostRequest.builder()
+            .postId(postId)
+            .build()
         LMFeedClient.shared.savePost(request) { [weak self] response in
             if !response.success {
                 guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
@@ -96,7 +103,9 @@ class HomeFeedViewModel: BaseViewModel {
     }
     
     func pinUnpinPost(postId: String) {
-        let request = PinPostRequest(postId: postId)
+        let request = PinPostRequest.builder()
+            .postId(postId)
+            .build()
         LMFeedClient.shared.pinPost(request) {[weak self] response in
             if response.success {
                 guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
