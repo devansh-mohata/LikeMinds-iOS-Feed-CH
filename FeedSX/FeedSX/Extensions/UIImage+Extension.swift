@@ -9,6 +9,14 @@ import Foundation
 import UIKit
 
 extension UIImage {
+    
+    func sizeInKB() -> Double {
+        guard let data = self.jpegData(compressionQuality: 1) else { return 0 }
+        let imgData = NSData(data: data)
+        var imageSize: Int = imgData.count
+        return (Double(imageSize) / 1000.0)
+    }
+    
     var noir: UIImage? {
         let context = CIContext(options: nil)
         guard let currentFilter = CIFilter(name: "CIPhotoEffectNoir") else { return nil }

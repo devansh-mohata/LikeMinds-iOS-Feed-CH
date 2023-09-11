@@ -79,6 +79,16 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
+    let designationAtLabel: LMLabel = {
+        let label = LMLabel()
+        label.textColor = ColorConstant.postCaptionColor
+        label.font = LMBranding.shared.font(12, .regular)
+        label.text = "Event Moderation @ Snapdeal"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return label
+    }()
+    
     let timeAndEditStackView: UIStackView = {
         let sv = UIStackView()
         sv.axis  = .horizontal
@@ -91,7 +101,7 @@ class ProfileHeaderView: UIView {
     
     let timeLabel: LMLabel = {
         let label = LMLabel()
-        label.textColor = ColorConstant.editedTextColor
+        label.textColor = ColorConstant.postCaptionColor
         label.font = LMBranding.shared.font(12, .regular)
         label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -161,7 +171,7 @@ class ProfileHeaderView: UIView {
         usernameAndTimeStackView.addArrangedSubview(usernameAndTitleStackView)
         usernameAndTitleStackView.addArrangedSubview(usernameLabel)
         usernameAndTitleStackView.addArrangedSubview(usernameTitleLabel)
-        
+        usernameAndTimeStackView.addArrangedSubview(designationAtLabel)
         usernameAndTimeStackView.addArrangedSubview(timeAndEditStackView)
         timeAndEditStackView.addArrangedSubview(timeLabel)
         timeAndEditStackView.addArrangedSubview(editTitleLabel)
@@ -177,7 +187,7 @@ class ProfileHeaderView: UIView {
         
         avatarAndUsernameStackView.rightAnchor.constraint(lessThanOrEqualTo: pinAndActionsStackView.leftAnchor, constant: -10).isActive = true
         
-        avatarAndUsernameStackView.topAnchor.constraint(lessThanOrEqualTo: self.topAnchor, constant: -8).isActive = true
+        avatarAndUsernameStackView.topAnchor.constraint(lessThanOrEqualTo: self.topAnchor, constant: 0).isActive = true
         avatarAndUsernameStackView.bottomAnchor.constraint(greaterThanOrEqualTo: self.bottomAnchor, constant: 8).isActive = true
         
         pinAndActionsStackView.topAnchor.constraint(lessThanOrEqualTo: self.topAnchor, constant: -8).isActive = true
@@ -188,6 +198,7 @@ class ProfileHeaderView: UIView {
         let moreActionTapGesture = LMTapGesture(target: self, action: #selector(self.moreTapped(sender:)))
         moreImageView.isUserInteractionEnabled = true
         moreImageView.addGestureRecognizer(moreActionTapGesture)
+        self.moreImageView.isHidden = true
     }
     
     func setupProfileSectionData(_ feedDataView: PostFeedDataView, delegate: HomeFeedTableViewCellDelegate?) {
@@ -197,6 +208,14 @@ class ProfileHeaderView: UIView {
         timeLabel.text = Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()
         pinImageView.isHidden = !(self.feedData?.isPinned ?? false)
         editTitleLabel.text = (feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : ""
+        var organisationDesignaiton = ""
+        if let designation = feedDataView.postByUser?.designation, !designation.isEmpty {
+            organisationDesignaiton = designation
+        }
+        if let organisation = feedDataView.postByUser?.organisation, !organisation.isEmpty {
+            organisationDesignaiton = organisationDesignaiton + " @ " + organisation
+        }
+        designationAtLabel.text = organisationDesignaiton
     }
     
     private func setupProfile(profileData: PostFeedDataView.PostByUser?){

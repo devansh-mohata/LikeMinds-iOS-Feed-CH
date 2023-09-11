@@ -34,7 +34,9 @@ class PlayerView: UIView {
 //            playerLayer.player = newValue
 //        }
 //    }
-    
+    var isPlaying: Bool {
+        return player?.rate != 0 && player?.error == nil
+    }
     var player: AVQueuePlayer? {
         get {
             return playerLayer.player as? AVQueuePlayer

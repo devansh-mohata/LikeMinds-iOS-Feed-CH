@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import Kingfisher
+import BSImagePicker
+import PDFKit
 import LikeMindsFeed
 
 public final class HomeFeedViewControler: BaseViewController {
@@ -18,17 +20,32 @@ public final class HomeFeedViewControler: BaseViewController {
     var bottomLoadSpinner: UIActivityIndicatorView!
     fileprivate var lastKnowScrollViewContentOfsset: CGFloat = 0
     private var createButtonWidthConstraints: NSLayoutConstraint?
-    
+    private static let createPostTitle = "NEW RESOURCE"
     let createPostButton: LMButton = {
         let createPost = LMButton()
         createPost.setImage(UIImage(systemName: ImageIcon.calenderBadgePlus), for: .normal)
-        createPost.setTitle("NEW POST", for: .normal)
+        createPost.setTitle(createPostTitle, for: .normal)
         createPost.titleLabel?.font = LMBranding.shared.font(13, .medium)
         createPost.tintColor = .white
         createPost.backgroundColor = LMBranding.shared.buttonColor
         createPost.clipsToBounds = true
         createPost.translatesAutoresizingMaskIntoConstraints = false
         return createPost
+    }()
+    
+    let postingProgressSuperView: UIView = {
+        let sv = UIView()
+        sv.backgroundColor = .white
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
+    let postingProgressShimmerView: HomeFeedShimmerView = {
+        let width = UIScreen.main.bounds.width
+        let sView = HomeFeedShimmerView(frame: .zero)
+//        sv.backgroundColor = .white
+//        sView.translatesAutoresizingMaskIntoConstraints = false
+        return sView
     }()
     
     let postingProgressSuperStackView: UIStackView = {
@@ -137,7 +154,7 @@ public final class HomeFeedViewControler: BaseViewController {
         setupPostingProgress()
         self.createPostButton.isHidden = true
         homeFeedViewModel.delegate = self
-        self.postingImageSuperView.superview?.isHidden = true
+//        self.postingImageSuperView.superview?.isHidden = true
         homeFeedViewModel.getFeed()
         createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(postEditCompleted), name: .postEditCompleted, object: nil)
@@ -150,6 +167,8 @@ public final class HomeFeedViewControler: BaseViewController {
         self.setRightItemsOfNavigationBar()
         self.setLeftItemOfNavigationBar()
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Feed.opened, eventProperties: ["feed_type": "universal_feed"])
+        self.feedTableView.backgroundColor = ColorConstant.backgroudColor
+        self.view.backgroundColor = ColorConstant.backgroudColor
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -182,6 +201,8 @@ public final class HomeFeedViewControler: BaseViewController {
         let profileBarButton = UIBarButtonItem(customView: containView)
         setNotificationBarItem()
         self.navigationItem.rightBarButtonItems = [profileBarButton, notificationBarItem]
+        guard let parent = self.parent else { return }
+        parent.navigationItem.rightBarButtonItem = notificationBarItem
     }
     
     func setNotificationBarItem() {
@@ -262,20 +283,25 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     func setupTableView() {
-        self.view.addSubview(postingProgressSuperStackView)
+        self.postingProgressSuperView.addSubview(postingProgressSuperStackView)
+        self.view.addSubview(postingProgressSuperView)
         self.view.addSubview(feedTableView)
         self.view.addSubview(createPostButton)
-        
         feedTableView.translatesAutoresizingMaskIntoConstraints = false
-        feedTableView.topAnchor.constraint(equalTo: postingProgressSuperStackView.bottomAnchor).isActive = true
+        feedTableView.topAnchor.constraint(equalTo: postingProgressSuperView.bottomAnchor).isActive = true
         feedTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         feedTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         feedTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         feedTableView.showsVerticalScrollIndicator = false
-        feedTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
-        feedTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
-        feedTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)
-//        feedTableView.register(ImageVideoCollectionTableViewCell.self, forCellReuseIdentifier: ImageVideoCollectionTableViewCell.cellIdentifier)
+        
+        feedTableView.register(UINib(nibName: HomeFeedVideoCell.nibName, bundle: HomeFeedVideoCell.bundle), forCellReuseIdentifier: HomeFeedVideoCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedImageCell.nibName, bundle: HomeFeedImageCell.bundle), forCellReuseIdentifier: HomeFeedImageCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedLinkCell.nibName, bundle: HomeFeedLinkCell.bundle), forCellReuseIdentifier: HomeFeedLinkCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedPDFCell.nibName, bundle: HomeFeedPDFCell.bundle), forCellReuseIdentifier: HomeFeedPDFCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedArticleCell.nibName, bundle: HomeFeedArticleCell.bundle), forCellReuseIdentifier: HomeFeedArticleCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedWithoutResourceCell.nibName, bundle: HomeFeedWithoutResourceCell.bundle), forCellReuseIdentifier: HomeFeedWithoutResourceCell.nibName)
+        
+        
         feedTableView.delegate = self
         feedTableView.dataSource = self
         feedTableView.separatorStyle = .none
@@ -293,7 +319,7 @@ public final class HomeFeedViewControler: BaseViewController {
     func setupCreateButton() {
         createPostButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
         createPostButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
-        createButtonWidthConstraints = createPostButton.widthAnchor.constraint(equalToConstant: 150)
+        createButtonWidthConstraints = createPostButton.widthAnchor.constraint(equalToConstant: 170)
         createButtonWidthConstraints?.isActive = true
         createPostButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         createPostButton.setInsets(forContentPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), imageTitlePadding: 10)
@@ -301,6 +327,7 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     func setupPostingProgress() {
+        postingProgressSuperStackView.addArrangedSubview(postingProgressShimmerView)
         postingProgressSuperStackView.addArrangedSubview(postingProgressStackView)
         postingProgressStackView.addArrangedSubview(postingImageSuperView)
         postingProgressStackView.addArrangedSubview(postingLabel)
@@ -310,9 +337,15 @@ public final class HomeFeedViewControler: BaseViewController {
         postingImageView.centerYAnchor.constraint(equalTo: self.postingImageSuperView.centerYAnchor).isActive = true
         postingImageView.centerXAnchor.constraint(equalTo: self.postingImageSuperView.centerXAnchor).isActive = true
         spaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
-        postingProgressSuperStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        postingProgressSuperStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
-        postingProgressSuperStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+        
+        postingProgressSuperView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        postingProgressSuperView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        postingProgressSuperView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        
+        postingProgressSuperStackView.topAnchor.constraint(equalTo: postingProgressSuperView.safeAreaLayoutGuide.topAnchor).isActive = true
+        postingProgressSuperStackView.bottomAnchor.constraint(equalTo: postingProgressSuperView.bottomAnchor).isActive = true
+        postingProgressSuperStackView.rightAnchor.constraint(equalTo: postingProgressSuperView.rightAnchor, constant: -16).isActive = true
+        postingProgressSuperStackView.leftAnchor.constraint(equalTo: postingProgressSuperView.leftAnchor, constant: 16).isActive = true
     }
     
     @objc func createNewPost() {
@@ -324,9 +357,39 @@ public final class HomeFeedViewControler: BaseViewController {
             self.presentAlert(message: MessageConstant.restrictToCreatePost)
             return
         }
+        
+        showNewPostMenu()
+    }
+    
+    func moveToAddResources(resourceType: CreatePostViewModel.AttachmentUploadType, url: URL?) {
         let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle(for: CreatePostViewController.self))
+        createView.resourceType = resourceType
+        createView.resourceURL = url
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.creationStarted, eventProperties: nil)
         self.navigationController?.pushViewController(createView, animated: true)
+    }
+    
+    func showNewPostMenu() {
+        let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let articalAction = UIAlertAction(title: "Add Article", style: .default) {[weak self] action in
+            self?.moveToAddResources(resourceType: .article, url: nil)
+        }
+        let videoAction = UIAlertAction(title: "Add Video", style: .default) {[weak self] action in
+            self?.addImageOrVideoResource()
+        }
+        let pdfAction = UIAlertAction(title: "Add PDF", style: .default) {[weak self] action in
+            self?.addPDFResource()
+        }
+        let linkAction = UIAlertAction(title: "Add Link", style: .default) { [weak self] action in
+            self?.addLinkResource()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alertSheet.addAction(articalAction)
+        alertSheet.addAction(videoAction)
+        alertSheet.addAction(pdfAction)
+        alertSheet.addAction(linkAction)
+        alertSheet.addAction(cancel)
+        self.present(alertSheet, animated: true)
     }
     
     func enableCreateNewPostButton(isEnable: Bool) {
@@ -363,10 +426,10 @@ public final class HomeFeedViewControler: BaseViewController {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.2) {[weak self] in
                 guard let weakSelf = self else {return}
-                weakSelf.createPostButton.setTitle("NEW POST", for: .normal)
+                weakSelf.createPostButton.setTitle(Self.createPostTitle, for: .normal)
                 weakSelf.createPostButton.setInsets(forContentPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), imageTitlePadding: 10)
                 self?.createButtonWidthConstraints?.isActive = false
-                self?.createButtonWidthConstraints = self?.createPostButton.widthAnchor.constraint(equalToConstant: 150.0)
+                self?.createButtonWidthConstraints = self?.createPostButton.widthAnchor.constraint(equalToConstant: 170.0)
                 self?.createButtonWidthConstraints?.isActive = true
                 weakSelf.view.layoutIfNeeded()
             }
@@ -378,6 +441,59 @@ public final class HomeFeedViewControler: BaseViewController {
         emptyView.delegate = self
         feedTableView.backgroundView = emptyView
         feedTableView.separatorStyle = .none
+    }
+    
+    func addImageOrVideoResource() {
+        let imagePicker = ImagePickerController()
+        imagePicker.settings.selection.max = 1
+        imagePicker.settings.theme.selectionStyle = .checked
+        imagePicker.settings.fetch.assets.supportedMediaTypes = [.video]
+        imagePicker.settings.selection.unselectOnReachingMax = true
+        imagePicker.doneButton.isEnabled = false
+        self.presentImagePicker(imagePicker, select: {[weak self] (asset) in
+            print("Selected: \(asset)")
+            asset.getURL { [weak self] responseURL in
+                guard let url = responseURL else { return }
+                DispatchQueue.main.async {
+                    let mediaType: CreatePostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
+                    self?.moveToAddResources(resourceType: mediaType, url: url)
+                    imagePicker.dismiss(animated: true)
+                }
+            }
+        }, deselect: {_ in }, cancel: {_ in }, finish: {_ in }, completion: {})
+    }
+    
+    func addLinkResource() {
+        let alertView = UIAlertController(title: "Enter Link URL", message: "Enter the link/URL you want to post.", preferredStyle: .alert)
+        alertView.addTextField { (txtField) in
+            txtField.placeholder = "http://www.example.com"
+        }
+        let actionSubmit = UIAlertAction(title: "Continue", style: .default) { [weak self] (action) in
+            guard let txtfield = alertView.textFields?.first,
+                  let inputText = txtfield.text?.trimmedText(),
+                  let url = inputText.detectedFirstURL else {
+                return
+            }
+            self?.moveToAddResources(resourceType: .link, url: url)
+            alertView.dismiss(animated: true, completion: nil)
+        }
+        
+        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            alertView.dismiss(animated: true)
+        }
+        alertView.addAction(actionSubmit)
+        alertView.addAction(actionCancel)
+        self.present(alertView, animated: true, completion: nil)
+    }
+    
+    func addPDFResource() {
+        let types: [String] = [
+            "com.adobe.pdf"
+        ]
+        let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .formSheet
+        self.present(documentPicker, animated: true, completion: nil)
     }
 }
 
@@ -391,15 +507,27 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         let feed = homeFeedViewModel.feeds[indexPath.row]
         switch feed.postAttachmentType() {
         case .document:
-            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedDocumentTableViewCell.nibName, for: indexPath) as! HomeFeedDocumentTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedPDFCell.nibName, for: indexPath) as! HomeFeedPDFCell
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         case .link:
-            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkTableViewCell.nibName, for: indexPath) as! HomeFeedLinkTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkCell.nibName, for: indexPath) as! HomeFeedLinkCell
+            cell.setupFeedCell(feed, withDelegate: self)
+            return cell
+        case .image:
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageCell.nibName, for: indexPath) as! HomeFeedImageCell
+            cell.setupFeedCell(feed, withDelegate: self)
+            return cell
+        case .article:
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedArticleCell.nibName, for: indexPath) as! HomeFeedArticleCell
+            cell.setupFeedCell(feed, withDelegate: self)
+            return cell
+        case .video:
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedVideoCell.nibName, for: indexPath) as! HomeFeedVideoCell
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as! HomeFeedImageVideoTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedWithoutResourceCell.nibName, for: indexPath) as! HomeFeedWithoutResourceCell
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         }
@@ -446,7 +574,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         
         for cell in feedTableView.visibleCells as [UITableViewCell] {
             
-            if let cell = cell as? HomeFeedImageVideoTableViewCell {
+            if let cell = cell as? HomeFeedVideoCell {
                 
                 let indexPath = feedTableView.indexPath(for: cell)
                 let cellRect = feedTableView.rectForRow(at: indexPath!)
@@ -455,20 +583,21 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
                 let convertedRect = feedTableView.convert(cellRect, to: superView)
                 let intersect = CGRectIntersection(feedTableView.frame, convertedRect)
                 let visibleHeight = CGRectGetHeight(intersect)
-                cell.pauseAllInVisibleVideos()
                 if visibleHeight > self.view.bounds.size.height * 0.6 {  // only if 60% of the cell is visible.
                     //cell is visible more than 60%
-                    cell.playVisibleVideo()
+                    cell.pauseVideo()
+                } else {
+                    cell.pauseVideo()
                 }
             } else {
-                pauseAllVideo()
+//                pauseAllVideo()
             }
         }
     }
     
     func pauseAllVideo() {
         for cell in feedTableView.visibleCells as [UITableViewCell] {
-            (cell as? HomeFeedImageVideoTableViewCell)?.pauseAllInVisibleVideos()
+            (cell as? HomeFeedVideoCell)?.pauseVideo()
         }
     }
     
@@ -596,7 +725,7 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }
-            ShareContentUtil.sharePost(viewController: self, domainUrl: "lmfeed://yourdomain.com", postId: postId)
+            ShareContentUtil.sharePost(viewController: self, postId: postId)
         default:
             break
         }
@@ -622,6 +751,25 @@ extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
 
 extension HomeFeedViewControler: EmptyHomeFeedViewDelegate {
     func clickedOnNewPostButton() {
-        self.createNewPost()
+        if homeFeedViewModel.hasRightForCreatePost() {
+            self.createNewPost()
+        } else {
+            self.showErrorAlert(message: "You don't have permission to create the resource!")
+        }
     }
+}
+
+//MARK: - Ext. Delegate DocumentPicker
+extension HomeFeedViewControler: UIDocumentPickerDelegate {
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else { return }
+        print(url)
+        self.moveToAddResources(resourceType: .document, url: url)
+        controller.dismiss(animated: true)
+    }
+    
+    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        controller.dismiss(animated: true)
+    }
+    
 }

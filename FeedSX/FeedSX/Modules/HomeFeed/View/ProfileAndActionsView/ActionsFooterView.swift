@@ -212,19 +212,16 @@ class ActionsFooterView: UIView {
     }
     
     @objc private func shareTapped(sender: LMTapGesture) {
-        print("Share Button Tapped")
         delegate?.didTappedAction(withActionType: .sharePost, postData: self.feedData)
     }
     
     @objc private func saveTapped(sender: LMTapGesture) {
-        print("Bookmark Button Tapped")
         self.feedData?.isSaved = !(self.feedData?.isSaved ?? false)
         delegate?.didTappedAction(withActionType: .savePost, postData: self.feedData)
         savedDataView()
     }
     
     @objc private func likeTapped(sender: LMTapGesture) {
-        print("like Button Tapped")
         let isLike = !(self.feedData?.isLiked ?? false)
         self.feedData?.isLiked = isLike
         self.feedData?.likedCount += isLike ? 1 : -1
@@ -233,12 +230,10 @@ class ActionsFooterView: UIView {
     }
     
     @objc private func commentTapped(sender: LMTapGesture) {
-        print("comment Button Tapped")
         delegate?.didTappedAction(withActionType: .comment, postData: self.feedData)
     }
     
     @objc private func likeCountsTapped(sender: LMTapGesture) {
-        print("likecount Button Tapped")
         delegate?.didTappedAction(withActionType: .likeCount, postData: self.feedData)
     }
     

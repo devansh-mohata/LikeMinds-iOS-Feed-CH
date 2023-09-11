@@ -13,7 +13,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     let postImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .black.withAlphaComponent(0.8)
         imageView.clipsToBounds = true
         imageView.tintColor = ColorConstant.likeTextColor
         imageView.translatesAutoresizingMaskIntoConstraints = false

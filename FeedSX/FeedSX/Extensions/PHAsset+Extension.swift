@@ -13,6 +13,7 @@ extension PHAsset {
     func getURL(completionHandler : @escaping ((_ responseURL : URL?) -> Void)){
         if self.mediaType == .image {
             let options: PHContentEditingInputRequestOptions = PHContentEditingInputRequestOptions()
+            options.isNetworkAccessAllowed = true
             options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
                 return true
             }

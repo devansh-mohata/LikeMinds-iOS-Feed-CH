@@ -16,10 +16,9 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var actionsSectionView: UIView!
+    @IBOutlet weak var headerLabel: LMTextView!
     @IBOutlet weak var captionLabel: LMTextView! {
         didSet{
-            //            captionLabel.textContainer.maximumNumberOfLines = 3
-            //            captionLabel.textContainer.lineBreakMode = .byTruncatingTail
         }
     }
     @IBOutlet weak var captionSectionView: UIView!
@@ -53,6 +52,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         self.captionLabel.tintColor = LMBranding.shared.textLinkColor
+        linkTitleLabel.textColor = ColorConstant.textBlackColor
         setupProfileSectionHeader()
         setupActionSectionFooter()
         let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
@@ -63,6 +63,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
         linkThumbnailImageView.tintColor = ColorConstant.likeTextColor
         linkDetailContainerView.clipsToBounds = true
+        linkThumbnailImageView.contentMode = .scaleAspectFill
     }
     
     required init?(coder: NSCoder) {
@@ -81,7 +82,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
             UIApplication.shared.open(url)
         } else {
-//            delegate?.didTapOnCell(self.feedData)
+            delegate?.didTapOnCell(self.feedData)
         }
     }
     
@@ -104,9 +105,9 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
+        self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
-        let count = self.feedData?.attachments?.count ?? 0
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)
         self.layoutIfNeeded()
@@ -115,61 +116,36 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
         self.linkTitleLabel.text = title
         self.linkDescriptionLabel.text = description
-        self.linkLabel.text = link
-        let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
-        self.linkThumbnailImageView.setImage(withUrl: linkThumbnailUrl ?? "")
+        self.linkLabel.text = link?.lowercased()
+        if let linkThumbnailUrl = linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
+            let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
+            self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl), placeholder: placeholder)
+        } else {
+            self.linkThumbnailImageView.image = nil
+        }
+        self.containerView.layoutIfNeeded()
     }
     
     private func setupCaption() {
         let caption = self.feedData?.caption ?? ""
         self.captionLabel.text = caption
+        self.headerLabel.text = self.feedData?.header
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
     }
-}
-
-extension HomeFeedLinkTableViewCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var defaultCell = UICollectionViewCell()
-        if let attachmentItem = self.feedData?.linkAttachment,
-           let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: LinkCollectionViewCell.cellIdentifier, for: indexPath) as? LinkCollectionViewCell {
-            cell.setupLinkCell(attachmentItem.title, description: attachmentItem.description, link: attachmentItem.url, linkThumbnailUrl: attachmentItem.linkThumbnailUrl)
-            cell.removeButton.alpha = 0
-            defaultCell = cell
-        }
-        return defaultCell
-    }
-    /*
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch self.feedData?.postAttachmentType() ?? .unknown {
-        case .document:
-            return CGSize(width: UIScreen.main.bounds.width, height: 90)
-        default:
-            break
-        }
-        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-    }
-    */
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let attachmentItem = self.feedData?.attachments?[indexPath.row],
-           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: docUrl) {
+    @IBAction func clickedLinkView(_ sender: UIButton) {
+        if let linkAttachment = self.feedData?.linkAttachment,
+           let urlString = linkAttachment.url {
+            let myURL:URL?
+            if urlString.hasPrefix("https://") || urlString.hasPrefix("http://"){
+                myURL = URL(string: urlString)
+            }else {
+                let correctedURL = "http://\(urlString)"
+                myURL = URL(string: correctedURL)
+            }
+            guard let url = myURL else { return }
             UIApplication.shared.open(url)
         }
     }
-    
 }

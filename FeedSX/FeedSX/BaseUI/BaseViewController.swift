@@ -11,6 +11,8 @@ import Photos
 
 public class BaseViewController: UIViewController {
     
+    @IBOutlet weak var viewBottomConstraint: NSLayoutConstraint?
+    
     let titleAndSubtitleStackView: UIStackView = {
         let sv = UIStackView()
         sv.axis  = .vertical
@@ -23,7 +25,7 @@ public class BaseViewController: UIViewController {
     
     let titleLabel: LMLabel = {
         let label = LMLabel()
-        label.font = LMBranding.shared.font(18, .medium)
+        label.font = LMBranding.shared.font(17, .medium)
         label.text = ""
         label.textColor = LMBranding.shared.headerColor.isDarkColor ? .white : ColorConstant.navigationTitleColor
         label.textAlignment = .center
@@ -38,6 +40,21 @@ public class BaseViewController: UIViewController {
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicatore = UIActivityIndicatorView(style: .large)
+        indicatore.tintColor = .gray
+        indicatore.hidesWhenStopped = true
+        indicatore.startAnimating()
+        return indicatore
+    }()
+    
+    let activityIndicatorContinerView: UIView = {
+        let containerView
+        = UIView(frame: UIScreen.main.bounds)
+        containerView.backgroundColor = .clear
+        return containerView
     }()
     
     let backImageView: UIImageView = {
@@ -103,24 +120,22 @@ public class BaseViewController: UIViewController {
     @objc func dismissMyKeyboard(){
         view.endEditing(true)
     }
-    
+   
     @objc
     func keyboardWillShow(_ sender: Notification) {
         guard let userInfo = sender.userInfo,
-              let durationValue = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey],
-              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-              let curveValue = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] else {
+              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-//        self.bottomConstraint.constant = frame.size.height
-        UIView.animate(withDuration: 0.3) {
+        self.viewBottomConstraint?.constant = (frame.size.height - self.view.safeAreaInsets.bottom)
+        UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
     }
     
     @objc
     func keyboardWillHide(_ sender: Notification) {
-//        self.bottomConstraint.constant = 0
+        self.viewBottomConstraint?.constant = 0
         self.view.layoutIfNeeded()
     }
     
@@ -160,6 +175,19 @@ public class BaseViewController: UIViewController {
     @objc func errorMessage(notification: Notification) {
         if let errorMessage = notification.object as? String {
             self.showErrorAlert(message: errorMessage)
+        }
+    }
+    
+    func showLoader(isShow: Bool) {
+        if activityIndicator.superview == nil {
+            activityIndicator.center = activityIndicatorContinerView.center
+            activityIndicatorContinerView.addSubview(activityIndicator)
+        }
+        if isShow {
+            self.view.addSubview(activityIndicatorContinerView)
+            activityIndicatorContinerView.bringSubviewToFront(self.view)
+        } else {
+            activityIndicatorContinerView.removeFromSuperview()
         }
     }
     

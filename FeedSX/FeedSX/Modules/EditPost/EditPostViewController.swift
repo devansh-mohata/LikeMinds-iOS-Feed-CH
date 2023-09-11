@@ -13,13 +13,24 @@ import LikeMindsFeed
 
 class EditPostViewController: BaseViewController {
     
+    @IBOutlet weak var articalBannerImage: UIImageView!
+    @IBOutlet weak var deleteArticleBannerButton: LMButton!
+    @IBOutlet weak var articalBannerViewContainer: UIView!
+    @IBOutlet weak var uploadArticleBannerButton: LMButton!
+    
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var usernameLabel: LMLabel!
     @IBOutlet weak var addMoreButton: LMButton!
+    @IBOutlet weak var changeAuthorButton: LMButton!
     @IBOutlet weak var postinLabel: LMLabel!
+    @IBOutlet weak var titleTextView: LMTextView! {
+        didSet{
+            titleTextView.textColor = ColorConstant.textBlackColor
+        }
+    }
     @IBOutlet weak var captionTextView: LMTextView! {
         didSet{
-            captionTextView.textColor = ColorConstant.textBlackColor
+            captionTextView.textColor = ColorConstant.textBlackColor.withAlphaComponent(0.7)
         }
     }
     @IBOutlet weak var pageControl: UIPageControl?
@@ -33,48 +44,52 @@ class EditPostViewController: BaseViewController {
     @IBOutlet weak var uploadActionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var taggingListViewContainer: UIView!
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var attachmentActionBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var taggingViewBottomConstraint: NSLayoutConstraint!
+    
     var debounceForDecodeLink:Timer?
-    var uploadActionsHeight:CGFloat = 0//43 * 3
-    var placeholderLabel: LMLabel = {
+    private var uploadActionsHeight:CGFloat = 0
+    private var addTitlePlaceholderLabel: LMLabel = {
+        let label = LMLabel()
+        label.numberOfLines = 1
+        label.font = LMBranding.shared.font(16, .bold)
+        label.textColor = ColorConstant.textBlackColor
+        label.text = " Add title *"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    private var placeholderLabel: LMLabel = {
         let label = LMLabel()
         label.numberOfLines = 1
         label.font = LMBranding.shared.font(16, .regular)
         label.textColor = .lightGray
-        label.text = " Write Description"
+        label.text = " Write something (optional)"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let viewModel: EditPostViewModel = EditPostViewModel()
-    let taggingUserList: TaggedUserList =  {
+    private let viewModel: EditPostViewModel = EditPostViewModel()
+    private let taggingUserList: TaggedUserList =  {
         guard let userList = TaggedUserList.nibView() else { return TaggedUserList() }
         return userList
     }()
     var postId: String = ""
-    var isTaggingViewHidden = true
-    var isReloadTaggingListView = true
-    var typeTextRangeInTextView: NSRange?
-    var postButtonItem: UIBarButtonItem?
+    private var isTaggingViewHidden = true
+    private var isReloadTaggingListView = true
+    private var typeTextRangeInTextView: NSRange?
+    private var postButtonItem: UIBarButtonItem?
+    var resourceType: EditPostViewModel.AttachmentUploadType?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
         NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
         self.userProfileImage.makeCircleView()
-        captionTextView.delegate = self
-        captionTextView.addSubview(placeholderLabel)
-        placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
-        placeholderLabel.textColor = .tertiaryLabel
-        placeholderLabel.isHidden = !captionTextView.text.isEmpty
-        //        attachmentView.isHidden = true
+        setupTitleAndDescriptionTextView()
         viewModel.delegate = self
         viewModel.postId = postId
         attachmentCollectionView.dataSource = self
         attachmentCollectionView.delegate = self
-//        uploadActionsTableView.dataSource = self
-//        uploadActionsTableView.delegate = self
-//        uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
-//        uploadActionsTableView.separatorInset = UIEdgeInsets.zero
         addMoreButton.layer.borderWidth = 1
         addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
         addMoreButton.tintColor = LMBranding.shared.buttonColor
@@ -90,15 +105,62 @@ class EditPostViewController: BaseViewController {
         self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
         self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.setupProfileData()
-        self.setTitleAndSubtile(title: "Edit post", subTitle: nil)
+        self.setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
         self.hideTaggingViewContainer()
         self.pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
+        changeAuthorButton.addTarget(self, action: #selector(changeAuthor), for: .touchUpInside)
         self.viewModel.getPost()
+        self.setupResourceType()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setupTaggingView()
+    }
+    
+    func setupResourceType() {
+        self.setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
+        switch self.resourceType {
+        case .article:
+            self.articalBannerViewContainer.isHidden = false
+            self.attachmentView.isHidden = true
+            self.articalBannerImage.contentMode = .scaleToFill
+            self.deleteArticleBannerButton.isHidden = false
+            self.placeholderLabel.text = "Write something here (min. 200 char)"
+            self.uploadArticleBannerButton.addTarget(self, action: #selector(uploadArticleBanner), for: .touchUpInside)
+            self.deleteArticleBannerButton.addTarget(self, action: #selector(deleteArticleBanner), for: .touchUpInside)
+        default:
+            self.articalBannerViewContainer.isHidden = true
+            self.attachmentView.isHidden = false
+        }
+    }
+    
+    @objc func uploadArticleBanner() {
+       /* if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            let myPickerController = UIImagePickerController()
+            myPickerController.delegate = self
+            myPickerController.sourceType = .photoLibrary
+            myPickerController.allowsEditing = true
+            self.present(myPickerController, animated: true, completion: nil)
+        }
+        */
+        openImagePicker(.image)
+    }
+    
+    @objc func deleteArticleBanner() {
+        let alert = UIAlertController(title: "Remove article banner?", message: "Are you sure you want to remove the article banner?", preferredStyle: .alert)
+        let removeAction = UIAlertAction(title: "Remove", style: .default) { [weak self] alert in
+            self?.viewModel.imageAndVideoAttachments.removeAll()
+            self?.articalBannerImage.image = nil
+            self?.uploadArticleBannerButton.isHidden = false
+            self?.deleteArticleBannerButton.isHidden = true
+            self?.enablePostButton()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(removeAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
     }
     
     func setupTaggingView() {
@@ -113,9 +175,33 @@ class EditPostViewController: BaseViewController {
         
     }
     
+    func setupTitleAndDescriptionTextView() {
+        captionTextView.delegate = self
+        captionTextView.addSubview(placeholderLabel)
+        placeholderLabel.topAnchor.constraint(equalTo: captionTextView.topAnchor, constant: 10).isActive = true
+        placeholderLabel.textColor = .tertiaryLabel
+        placeholderLabel.isHidden = !captionTextView.text.isEmpty
+        
+        titleTextView.delegate = self
+        titleTextView.addSubview(addTitlePlaceholderLabel)
+        addTitlePlaceholderLabel.centerYAnchor.constraint(equalTo: titleTextView.centerYAnchor).isActive = true
+        addTitlePlaceholderLabel.attributedText = Self.checkRequiredField(textColor: ColorConstant.textBlackColor, title: " Add title")
+        addTitlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
+    }
+    
+    static func checkRequiredField(textColor: UIColor, title: String) -> NSAttributedString {
+        let titleColor:UIColor = textColor
+        let myAttribute1 = [ NSAttributedString.Key.foregroundColor: titleColor ]
+        let mutableString = NSMutableAttributedString(string: title, attributes: myAttribute1)
+        let myAttribute = [ NSAttributedString.Key.foregroundColor: UIColor.red ]
+        let strick = NSMutableAttributedString(string: " *", attributes: myAttribute )
+        mutableString.append(strick)
+        return mutableString
+    }
+    
     func setupNavigationItems() {
         postButtonItem = UIBarButtonItem(title: "Save",
-                                         style: .plain,
+                                         style: .done,
                                          target: self,
                                          action: #selector(editPost))
         postButtonItem?.tintColor = LMBranding.shared.buttonColor
@@ -132,46 +218,78 @@ class EditPostViewController: BaseViewController {
         self.usernameLabel.text = user.name
     }
     
+    @objc func changeAuthor() {
+        let memberListVC = MemberListViewController(nibName: "MemberListViewController", bundle: Bundle(for: MemberListViewController.self))
+        self.navigationController?.pushViewController(memberListVC, animated: true)
+    }
+    
+    @objc
+    override func keyboardWillShow(_ sender: Notification) {
+        guard let userInfo = sender.userInfo,
+              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        self.uploadAttachmentSuperViewBottomConstraint.constant = 5 + (frame.size.height - self.view.safeAreaInsets.bottom)
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc
+    override func keyboardWillHide(_ sender: Notification) {
+        self.uploadAttachmentSuperViewBottomConstraint.constant = 0
+        self.view.layoutIfNeeded()
+    }
+    
+    
     @objc func editPost() {
         self.view.endEditing(true)
         let text = self.captionTextView.trimmedText()
-        if (self.viewModel.currentSelectedUploadeType == .link), let _ = text.detectedFirstLink {
-            self.viewModel.verifyOgTagsAndEditPost(message: text) {[weak self] in
-                self?.viewModel.editPost(text)
-                self?.navigationController?.popViewController(animated: true)
+        let heading = self.titleTextView.trimmedText()
+        switch self.resourceType {
+        case .article:
+            if text.count < 200 {
+                self.showErrorAlert(message: MessageConstant.articalMinimumBodyCharError)
+                return
             }
-        } else {
-            self.viewModel.editPost(text)
-            self.navigationController?.popViewController(animated: true)
+        default:
+            break
         }
+        self.viewModel.editPost(text, heading: heading, postType: self.resourceType ?? .image)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func openImagePicker(_ mediaType: Settings.Fetch.Assets.MediaTypes, forAddMore: Bool = false) {
         let imagePicker = ImagePickerController()
-        imagePicker.settings.selection.max = (10 - self.viewModel.imageAndVideoAttachments.count)
-        imagePicker.settings.theme.selectionStyle = .numbered
+        imagePicker.settings.selection.max = 1//(10 - self.viewModel.imageAndVideoAttachments.count)
+        imagePicker.settings.theme.selectionStyle = .checked
         imagePicker.settings.fetch.assets.supportedMediaTypes = forAddMore ? [.image, .video] : [mediaType]
+        imagePicker.doneButton.isEnabled = false
         imagePicker.settings.selection.unselectOnReachingMax = true
-        self.viewModel.currentSelectedUploadeType = mediaType == .image ? .image : .video
         let start = Date()
         self.presentImagePicker(imagePicker, select: {[weak self] (asset) in
             print("Selected: \(asset)")
             asset.getURL { responseURL in
                 guard let url = responseURL else {return }
-                let mediaType: EditPostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
-                self?.viewModel.addImageVideoAttachment(fileUrl: url, type: mediaType)
+                
+                if self?.resourceType == .article, let selectedImage = UIImage(contentsOfFile: url.path) {
+                    let shittyVC = CropImageViewController(frame: (self?.view.frame) ?? .zero, image: selectedImage, aspectWidth: 16, aspectHeight: 9)
+                    shittyVC.delegate = self
+                    imagePicker.dismiss(animated: true)
+                    self?.present(shittyVC, animated: true, completion: nil)
+                } else  {
+                    let mediaType: EditPostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
+                    self?.viewModel.addImageVideoAttachment(fileUrl: url, type: mediaType)
+                    self?.reloadCollectionView()
+                    imagePicker.dismiss(animated: true)
+                }
             }
         }, deselect: {[weak self] (asset) in
             print("Deselected: \(asset)")
-            asset.getURL { responseURL in
-                self?.viewModel.imageAndVideoAttachments.removeAll(where: {$0.url == responseURL?.absoluteString})
-            }
         }, cancel: { (assets) in
             print("Canceled with selections: \(assets)")
         }, finish: {[weak self] (assets) in
             print("Finished with selections: \(assets)")
-            self?.viewModel.currentSelectedUploadeType =  (self?.viewModel.imageAndVideoAttachments.count ?? 0) > 0 ? .image : .unknown
-            self?.reloadCollectionView()
             
         }, completion: {
             let finish = Date()
@@ -191,7 +309,7 @@ class EditPostViewController: BaseViewController {
     }
     
     @objc func addMoreAction() {
-        switch self.viewModel.currentSelectedUploadeType {
+        switch self.resourceType {
         case .image:
             openImagePicker(.image, forAddMore: true)
         case .video:
@@ -206,18 +324,11 @@ class EditPostViewController: BaseViewController {
     func enablePostButton() {
         let imageVideoCount = self.viewModel.imageAndVideoAttachments.count != 0
         let documentCount = self.viewModel.documentAttachments.count != 0
-        let captionText = !captionTextView.trimmedText().isEmpty
-        postButtonItem?.isEnabled = imageVideoCount || documentCount || captionText
+        let headingText = !titleTextView.trimmedText().isEmpty
+        let linkAttachment = self.viewModel.linkAttatchment != nil
+        postButtonItem?.isEnabled = (imageVideoCount || documentCount || linkAttachment) && headingText
     }
-    
-    func adjustHeightOfTextView() {
-        captionTextView.isScrollEnabled = true
-        let maxHeight: CGFloat = 160
-        let fixedWidth = captionTextView.frame.size.width
-        let newSize = captionTextView.sizeThatFits(CGSize(width: fixedWidth, height: maxHeight))
-        self.captionTextViewHeightConstraint.constant = min(maxHeight, newSize.height)
-        self.view.layoutIfNeeded()
-    }
+ 
 }
 
 extension EditPostViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
@@ -243,20 +354,13 @@ extension EditPostViewController: UICollectionViewDelegate, UICollectionViewData
                 let linkAttachment = self.viewModel.linkAttatchment
                 cell.setupLinkCell(linkAttachment?.title, description: linkAttachment?.description, link: linkAttachment?.url, linkThumbnailUrl: linkAttachment?.linkThumbnailUrl)
                 cell.delegate = self
+                cell.removeButton.alpha = 0
                 defaultCell = cell
             }
         case .video, .image:
             let item = self.viewModel.imageAndVideoAttachments[indexPath.row]
-            if  item.fileType == .image,
-                let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.cellIdentifier, for: indexPath) as? ImageCollectionViewCell {
-                cell.setupImageVideoView(self.viewModel.imageAndVideoAttachments[indexPath.row].url)
-                cell.delegate = self
-                cell.removeButton.alpha = 0
-                defaultCell = cell
-            } else if item.fileType == .video,
-                      let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.cellIdentifier, for: indexPath) as? VideoCollectionViewCell,
-                      let url = item.url {
-                cell.setupVideoData(url: url)
+            if  let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: DocumentCollectionCell.cellIdentifier, for: indexPath) as? DocumentCollectionCell {
+                cell.setupDocumentCell(item.attachmentName(), documentDetails: item.attachmentDetails(), imageUrl: item.url)
                 cell.delegate = self
                 cell.removeButton.alpha = 0
                 defaultCell = cell
@@ -278,9 +382,9 @@ extension EditPostViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch self.viewModel.currentSelectedUploadeType  {
-        case .link, .image, .video:
-            return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-        case .document:
+        case .document, .image, .video:
+            return CGSize(width: UIScreen.main.bounds.width, height: 70)
+        case .link:
             return CGSize(width: UIScreen.main.bounds.width, height: 90)
         default:
             break
@@ -342,43 +446,68 @@ extension EditPostViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension EditPostViewController: UITextViewDelegate {
     
+    func currentActiveTextViewPlaceholder(_ textView: UITextView, isHiddenPlacehodler: Bool) {
+        switch textView {
+        case titleTextView:
+            addTitlePlaceholderLabel.isHidden = isHiddenPlacehodler
+        case captionTextView:
+            placeholderLabel.isHidden = isHiddenPlacehodler
+        default:
+            return
+        }
+    }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
-        placeholderLabel.isHidden = true
+        self.currentActiveTextViewPlaceholder(textView, isHiddenPlacehodler: true)
         enablePostButton()
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        placeholderLabel.isHidden = !textView.text.isEmpty
-        adjustHeightOfTextView()
+        self.currentActiveTextViewPlaceholder(textView, isHiddenPlacehodler: !textView.text.isEmpty)
         enablePostButton()
-        taggingUserList.textViewDidChange(textView)
+        switch textView {
+        case titleTextView:
+            break
+        case captionTextView:
+            taggingUserList.textViewDidChange(textView)
+        default:
+            break
+        }
     }
     
     func textViewDidChangeSelection(_ textView: UITextView) {
-        taggingUserList.textViewDidChangeSelection(textView)
+        switch textView {
+        case titleTextView:
+            break
+        case captionTextView:
+            taggingUserList.textViewDidChangeSelection(textView)
+        default:
+            break
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        placeholderLabel.isHidden = !textView.text.isEmpty
+        currentActiveTextViewPlaceholder(textView, isHiddenPlacehodler: !textView.text.isEmpty)
         enablePostButton()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        placeholderLabel.isHidden = true
-        if (self.viewModel.currentSelectedUploadeType == .unknown || self.viewModel.currentSelectedUploadeType == .link) && (self.viewModel.currentSelectedUploadeType != .dontAttachOgTag) {
-            debounceForDecodeLink?.invalidate()
-            debounceForDecodeLink = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) {[weak self] _ in
-                let enteredString = textView.text + text
-                self?.viewModel.parseMessageForLink(message: enteredString)
+        currentActiveTextViewPlaceholder(textView, isHiddenPlacehodler: true)
+        switch textView {
+        case titleTextView:
+            enablePostButton()
+        case captionTextView:
+            self.typeTextRangeInTextView = range
+            if text != "" {
+                typeTextRangeInTextView?.location += 1
             }
+            let numLines = textView.text.sizeForWidth(width: textView.contentSize.width, font: textView.font ?? UIFont.systemFont(ofSize: 14)).height / (textView.font?.lineHeight ?? 0)
+            self.taggingViewBottomConstraint.constant = CGFloat(-(20 * Int(numLines - 1)))
+            taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
+            enablePostButton()
+        default:
+            break
         }
-        self.typeTextRangeInTextView = range
-        if text != "" {
-            typeTextRangeInTextView?.location += 1
-        }
-        taggingUserList.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        enablePostButton()
-        adjustHeightOfTextView()
         return true
     }
     
@@ -398,14 +527,12 @@ extension EditPostViewController: AttachmentCollectionViewCellDelegate {
             reloadAttachmentsView()
         case .link:
             self.viewModel.linkAttatchment = nil
-            self.viewModel.currentSelectedUploadeType = .dontAttachOgTag
 //            reloadAttachmentsView()
             reloadCollectionView()
         default:
             break
         }
         if self.viewModel.documentAttachments.count == 0 && self.viewModel.imageAndVideoAttachments.count == 0 && (self.viewModel.currentSelectedUploadeType != .dontAttachOgTag) {
-            self.viewModel.currentSelectedUploadeType = .unknown
             self.uploadActionViewHeightConstraint.constant = uploadActionsHeight
         }
     }
@@ -432,13 +559,17 @@ extension EditPostViewController: UIDocumentPickerDelegate {
 extension EditPostViewController: EditPostViewModelDelegate {
     
     func didReceivedPostDetails() {
+        self.resourceType = viewModel.editResourceType()
+        self.viewModel.currentSelectedUploadeType = self.resourceType ?? .unknown
+        self.setupResourceType()
         self.reloadAttachmentsView()
         let data  = TaggedRouteParser.shared.getTaggedParsedAttributedStringForEditText(with: self.viewModel.postDetail?.caption ?? "", forTextView: true)
         captionTextView.attributedText = data.0
         viewModel.taggedUsers = data.1
         taggingUserList.initialTaggedUsers(taggedUsers: viewModel.taggedUsers)
+        titleTextView.text = self.viewModel.postDetail?.header
+        addTitlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
         placeholderLabel.isHidden = !captionTextView.text.isEmpty
-        adjustHeightOfTextView()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.captionTextView.becomeFirstResponder()
         }
@@ -447,34 +578,42 @@ extension EditPostViewController: EditPostViewModelDelegate {
     func reloadAttachmentsView() {
         var isCountGreaterThanZero = false
         switch viewModel.currentSelectedUploadeType {
+        case .article:
+            guard viewModel.imageAndVideoAttachments.count > 0 else { return }
+            uploadArticleBannerButton.isHidden = true
+            deleteArticleBannerButton.isHidden = false
+            guard let url = viewModel.imageAndVideoAttachments.first?.url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
+            DispatchQueue.global().async { [weak self] in
+                DispatchQueue.main.async {
+                    if let image = self?.viewModel.imageAndVideoAttachments.first?.thumbnailImage {
+                        self?.articalBannerImage.image = image
+                    } else {
+                        self?.articalBannerImage.kf.setImage(with: uRL)
+                    }
+                }
+            }
+            enablePostButton()
         case .image, .video:
             isCountGreaterThanZero = viewModel.imageAndVideoAttachments.count > 0
-            //            attachmentView.isHidden = !isCountGreaterThanZero
             self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
-            self.collectionSuperViewHeightConstraint.constant = 393
+            let docHeight = CGFloat(viewModel.imageAndVideoAttachments.count * 90)
+            self.collectionSuperViewHeightConstraint.constant = docHeight
             let imageCount = viewModel.imageAndVideoAttachments.count
-            pageControl?.superview?.isHidden = imageCount < 2
+            pageControl?.superview?.isHidden = true//imageCount < 2
             pageControl?.numberOfPages = imageCount
         case .document:
             isCountGreaterThanZero = viewModel.documentAttachments.count > 0
-            //            attachmentView.isHidden = !isCountGreaterThanZero
             self.uploadActionViewHeightConstraint.constant = isCountGreaterThanZero ? 0 : uploadActionsHeight
             let docHeight = CGFloat(viewModel.documentAttachments.count * 90)
-            self.collectionSuperViewHeightConstraint.constant = docHeight < 393 ? 393 : docHeight
+            self.collectionSuperViewHeightConstraint.constant = docHeight //< 393 ? 393 : docHeight
             pageControl?.superview?.isHidden = true
         default:
             self.uploadActionViewHeightConstraint.constant = uploadActionsHeight
-            self.collectionSuperViewHeightConstraint.constant = 393
+            self.collectionSuperViewHeightConstraint.constant = 110
             pageControl?.superview?.isHidden = true
             break
         }
-//        enablePostButton()
         attachmentCollectionView.reloadData()
-//        addMoreButton.superview?.isHidden = !isCountGreaterThanZero
-//        if hasReachedMaximumAttachment() {
-//            addMoreButton.superview?.isHidden = true
-//            self.uploadActionViewHeightConstraint.constant = 0
-//        }
     }
     
     func reloadCollectionView() {
@@ -497,24 +636,6 @@ extension EditPostViewController: TaggedUserListDelegate {
         viewModel.taggedUsers = taggedList
     }
     
-//    func didSelectMemberFromTagList(_ user: User) {
-//        hideTaggingViewContainer()
-//        var attributedMessage:NSAttributedString?
-//        if let attributedText = captionTextView.attributedText {
-//            attributedMessage = attributedText
-//        }
-//        if let selectedRange = captionTextView.selectedTextRange {
-//            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
-//            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
-//            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
-//                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
-//            }
-//        }
-//        if !viewModel.taggedUsers.contains(where: {$0.user.id == user.userUniqueId}) {
-//            viewModel.taggedUsers.append(TaggedUser(TaggingUser(name: user.name, id: user.userUniqueId), range: captionTextView.selectedRange))
-//        }
-//    }
-    
     func hideTaggingViewContainer() {
         isTaggingViewHidden = true
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .showHideTransitionViews, animations: {
@@ -536,5 +657,33 @@ extension EditPostViewController: TaggedUserListDelegate {
             
         }) { finished in
         }
+    }
+}
+
+extension EditPostViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let selectedImage = info[.editedImage] as? UIImage, let url = info[.imageURL] as? URL else {
+            dismiss(animated: true, completion: nil)
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        let size = Int(selectedImage.sizeInKB()/1000)
+        if size > 8 {
+            picker.dismiss(animated: true, completion: nil)
+            self.showErrorAlert(message: "Max. file size allowed is 8 MB")
+            return
+        }
+        self.viewModel.addImageVideoAttachment(fileUrl: url, type: self.resourceType ?? .image)
+        self.reloadCollectionView()
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension EditPostViewController: CropImageViewControllerDelegate {
+    func didReceivedCropedImage(image: UIImage, imageUrl: URL) {
+        self.viewModel.addImageVideoAttachment(fileUrl: imageUrl, type: .image)
+        self.reloadCollectionView()
     }
 }

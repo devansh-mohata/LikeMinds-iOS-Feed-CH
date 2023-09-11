@@ -63,7 +63,7 @@ class EmptyHomeFeedView: UIView {
     let createPostButton: LMButton = {
         let createPost = LMButton()
         createPost.setImage(UIImage(systemName: ImageIcon.calenderBadgePlus), for: .normal)
-        createPost.setTitle("NEW POST", for: .normal)
+        createPost.setTitle("NEW RESOURCE", for: .normal)
         createPost.titleLabel?.font = LMBranding.shared.font(14, .medium)
         createPost.tintColor = .white
         createPost.backgroundColor = LMBranding.shared.buttonColor
@@ -90,7 +90,7 @@ class EmptyHomeFeedView: UIView {
         superStackView.addArrangedSubview(createPostButton)
         superStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -100).isActive = true
         superStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        createPostButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        createPostButton.widthAnchor.constraint(equalToConstant: 170).isActive = true
         createPostButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         createPostButton.setInsets(forContentPadding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), imageTitlePadding: 10)
         createPostButton.layer.cornerRadius = 25

@@ -26,7 +26,12 @@ struct ImageIcon {
     static let docTextImageIcon = "doc.text.image"
     static let photoIcon = "photo"
     static let video = "video"
+    static let videoFill = "video.fill"
     static let crossIcon = "multiply.circle.fill"
     static let calenderBadgePlus = "calendar.badge.plus"
     static let emptyDataImage = "emptydata_icon"
+    static let trashFill = "trash.fill"
+    static let ellipsisCircle = "ellipsis.circle"
+    static let paperclip = "paperclip"
+    static let playVideo = "play.circle"
 }

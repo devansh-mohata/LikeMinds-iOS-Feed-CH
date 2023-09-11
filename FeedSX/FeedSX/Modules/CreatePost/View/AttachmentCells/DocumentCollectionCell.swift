@@ -15,10 +15,6 @@ class DocumentCollectionCell: UICollectionViewCell {
     var documentContainerView: UIView = {
         let uiView = UIView()
         uiView.backgroundColor = .white
-        uiView.clipsToBounds = true
-        uiView.layer.cornerRadius = 8
-        uiView.layer.borderWidth = 1.0
-        uiView.layer.borderColor = UIColor.lightGray.cgColor
         uiView.translatesAutoresizingMaskIntoConstraints = false
         return uiView
     }()
@@ -28,7 +24,7 @@ class DocumentCollectionCell: UICollectionViewCell {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 15
+        sv.spacing = 8
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -36,7 +32,8 @@ class DocumentCollectionCell: UICollectionViewCell {
     let documentImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "pdf_icon", in: Bundle(for: DocumentCollectionCell.self), with: nil)
+        imageView.image = UIImage(systemName: ImageIcon.docFillIcon)
+        imageView.tintColor = .orange
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setSizeConstraint(width: 40, height: 45)
         return imageView
@@ -47,36 +44,34 @@ class DocumentCollectionCell: UICollectionViewCell {
         sv.axis  = .vertical
         sv.alignment = .fill
         sv.distribution = .fill
-        sv.spacing = 2
+        sv.spacing = 4
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
     
     let documentNameLabel: LMLabel = {
         let label = LMLabel()
-        label.font = LMBranding.shared.font(16, .medium)
-        label.textColor = ColorConstant.postCaptionColor
+        label.font = LMBranding.shared.font(14, .medium)
+        label.textColor = ColorConstant.textBlackColor
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
     let documentDetailLabel: LMLabel = {
         let label = LMLabel()
-        label.font = LMBranding.shared.font(14, .regular)
+        label.font = LMBranding.shared.font(11, .regular)
         label.textColor = ColorConstant.editedTextColor
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
     let removeButton: LMButton = {
         let button = LMButton()
-        button.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
+        button.setImage(UIImage(systemName: ImageIcon.trashFill), for: .normal)
         button.tintColor = .darkGray
-        button.setPreferredSymbolConfiguration(.init(pointSize: 20, weight: .light, scale: .large), forImageIn: .normal)
+        button.setPreferredSymbolConfiguration(.init(pointSize: 20, weight: .light, scale: .medium), forImageIn: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setSizeConstraint(width: 30, height: 30)
+        button.setSizeConstraint(width: 40, height: 40)
         return button
     }()
     
@@ -98,14 +93,27 @@ class DocumentCollectionCell: UICollectionViewCell {
         documentStackView.addArrangedSubview(documentNameAndDetailStackView)
         documentStackView.addArrangedSubview(removeButton)
         documentContainerView.addSubview(documentStackView)
-        documentStackView.addConstraints(equalToView: documentContainerView, top: 10, bottom: -10, left: 20, right: -10)
+        documentStackView.addConstraints(equalToView: documentContainerView, top: 10, bottom: -10, left: 0, right: 0)
         removeButton.addTarget(self, action: #selector(removeClicked), for: .touchUpInside)
         bringSubviewToFront(self.removeButton)
     }
 
-    func setupDocumentCell(_ documentName: String, documentDetails: String) {
+    func setupDocumentCell(_ documentName: String, documentDetails: String, imageUrl: String? = nil) {
         self.documentNameLabel.text = documentName
         self.documentDetailLabel.text = documentDetails
+//        self.setupImageVideoView(imageUrl)
+    }
+    
+    func setupImageVideoView(_ url: String?) {
+        guard let url else { return }
+        let imagePlaceholder = UIImage(named: "imageplaceholder", in: Bundle(for: DocumentCollectionCell.self), with: nil)
+        self.documentImageView.image = imagePlaceholder
+        guard let url = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
+        DispatchQueue.global().async { [weak self] in
+            DispatchQueue.main.async {
+                self?.documentImageView.kf.setImage(with: uRL, placeholder: imagePlaceholder)
+            }
+        }
     }
     
     @objc func removeClicked() {

@@ -3,7 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,14 +31,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3FY-Qf-xuc">
-                    <rect key="frame" x="39.333333333333343" y="209.66666666666663" width="314.33333333333326" height="433"/>
+                    <rect key="frame" x="39.333333333333343" y="215.99999999999997" width="314.33333333333326" height="420.33333333333326"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eQD-6b-Yh6">
-                            <rect key="frame" x="20" y="20" width="274.33333333333331" height="23"/>
+                            <rect key="frame" x="20" y="20" width="274.33333333333331" height="20.333333333333329"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb7-8a-N2X" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="274.33333333333331" height="23"/>
-                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zb7-8a-N2X" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="274.33333333333331" height="20.333333333333332"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -52,11 +52,11 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V2d-wW-LYf">
-                            <rect key="frame" x="20" y="63.000000000000028" width="274.33333333333331" height="0.0"/>
+                            <rect key="frame" x="20" y="50.333333333333314" width="274.33333333333331" height="0.0"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Q3-78-vfU" customClass="LMLabel" customModule="LMFeedUI" customModuleProvider="target">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Q3-78-vfU" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="274.33333333333331" height="0.0"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -70,7 +70,7 @@
                             </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hro-Y6-zji">
-                            <rect key="frame" x="20" y="83.000000000000028" width="274.33333333333331" height="280"/>
+                            <rect key="frame" x="20" y="70.333333333333314" width="274.33333333333331" height="280"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vkj-FD-VTs">
                                     <rect key="frame" x="0.0" y="0.0" width="274.33333333333331" height="210"/>
@@ -78,12 +78,12 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SHo-hh-8Ox">
                                             <rect key="frame" x="0.0" y="0.0" width="274.33333333333331" height="45"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select reason for removal*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uTn-lt-miB" customClass="LMTextField" customModule="LMFeedUI" customModuleProvider="target">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select reason for removal*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uTn-lt-miB" customClass="LMTextField" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="19.999999999999986" y="5" width="234.33333333333331" height="35"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6qn-s3-8Ll" customClass="LMButton" customModule="LMFeedUI" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6qn-s3-8Ll" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="274.33333333333331" height="45"/>
                                                     <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
@@ -142,9 +142,9 @@
                                     </userDefinedRuntimeAttributes>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LBw-Bf-hec">
-                                    <rect key="frame" x="0.0" y="229.99999999999994" width="274.33333333333331" height="50"/>
+                                    <rect key="frame" x="0.0" y="230.00000000000006" width="274.33333333333331" height="50"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PeB-Xm-l0m" customClass="LMTextView" customModule="LMFeedUI" customModuleProvider="target">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PeB-Xm-l0m" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
                                             <rect key="frame" x="5" y="5" width="264.33333333333331" height="40"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <color key="textColor" systemColor="labelColor"/>
@@ -168,7 +168,7 @@
                             </constraints>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ofb-vw-4VH">
-                            <rect key="frame" x="0.0" y="383" width="314.33333333333331" height="50"/>
+                            <rect key="frame" x="0.0" y="370.33333333333337" width="314.33333333333331" height="50"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNi-wG-PF6">
                                     <rect key="frame" x="0.0" y="0.0" width="314.33333333333331" height="1"/>
@@ -184,12 +184,12 @@
                                         <constraint firstAttribute="width" constant="1" id="ot2-bl-eD8"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-qy-gEN" customClass="LMButton" customModule="LMFeedUI" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-qy-gEN" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="152.33333333333334" height="50"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <state key="normal" title="Cancel"/>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RhX-RT-RdJ" customClass="LMButton" customModule="LMFeedUI" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RhX-RT-RdJ" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                     <rect key="frame" x="162.33333333333331" y="0.0" width="152" height="50"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                     <state key="normal" title="Confirm"/>
@@ -220,7 +220,7 @@
                         <constraint firstItem="Hro-Y6-zji" firstAttribute="top" secondItem="V2d-wW-LYf" secondAttribute="bottom" constant="20" id="1WL-E6-Jrb"/>
                         <constraint firstAttribute="trailing" secondItem="Ofb-vw-4VH" secondAttribute="trailing" id="5b6-9g-DUp"/>
                         <constraint firstItem="V2d-wW-LYf" firstAttribute="leading" secondItem="eQD-6b-Yh6" secondAttribute="leading" id="LX3-PK-nHh"/>
-                        <constraint firstItem="V2d-wW-LYf" firstAttribute="top" secondItem="eQD-6b-Yh6" secondAttribute="bottom" constant="20" id="Qyv-bP-DWQ"/>
+                        <constraint firstItem="V2d-wW-LYf" firstAttribute="top" secondItem="eQD-6b-Yh6" secondAttribute="bottom" constant="10" id="Qyv-bP-DWQ"/>
                         <constraint firstItem="eQD-6b-Yh6" firstAttribute="top" secondItem="3FY-Qf-xuc" secondAttribute="top" constant="20" id="SBZ-Ny-La7"/>
                         <constraint firstItem="Hro-Y6-zji" firstAttribute="trailing" secondItem="V2d-wW-LYf" secondAttribute="trailing" id="Tv9-4A-YJt"/>
                         <constraint firstAttribute="trailing" secondItem="eQD-6b-Yh6" secondAttribute="trailing" constant="20" id="d2q-Rv-jLw"/>
@@ -240,7 +240,7 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemFillColor"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40789554419106999" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="3FY-Qf-xuc" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="0L7-w7-MQC"/>
                 <constraint firstItem="3FY-Qf-xuc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="67I-Dj-wZr"/>
@@ -256,9 +256,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemFillColor">
-            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

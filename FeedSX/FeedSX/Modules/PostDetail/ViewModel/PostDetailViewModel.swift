@@ -83,7 +83,7 @@ final class PostDetailViewModel: BaseViewModel {
                 self?.isCommentLoading = false
                 return
             }
-            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""])
+            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], widgets: response.data?.widgets)
             if let replies = postDetails.replies, replies.count > 0 {
                 if (self?.commentCurrentPage ?? 1) > 1 {
                     self?.comments.append(contentsOf: replies.compactMap({.init(comment: $0, user: users[$0.uuid ?? ""])}))

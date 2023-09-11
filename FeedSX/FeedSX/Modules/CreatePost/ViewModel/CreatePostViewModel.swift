@@ -16,25 +16,6 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func showError(errorMessage: String?)
 }
 
-class TaggedUser {
-    var user: TaggingUser
-    var range: NSRange
-    init(_ user: TaggingUser, range: NSRange) {
-        self.user = user
-        self.range = range
-    }
-}
-
-class TaggingUser {
-    var name: String?
-    var id: String
-    
-    init(name: String?, id: String?) {
-        self.name = name
-        self.id = id ?? ""
-    }
-}
-
 final class CreatePostViewModel: BaseViewModel {
     
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
@@ -45,13 +26,15 @@ final class CreatePostViewModel: BaseViewModel {
     weak var delegate: CreatePostViewModelDelegate?
     var postCaption: String?
     var taggedUsers: [TaggedUser] = []
+    var onBehalfOfUUID: String?
     
     enum AttachmentUploadType: String {
-        case document = "Attach Files"
-        case image = "Add Photo"
-        case video = "Add Video"
-        case link
+        case document = "Add PDF Resource"
+        case image = "Add Photo Resource"
+        case video = "Add Video Resource"
+        case link = "Add Link Resource"
         case dontAttachOgTag
+        case article = "Add Article"
         case unknown
     }
     
@@ -66,7 +49,7 @@ final class CreatePostViewModel: BaseViewModel {
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             attachment.attachmentSize = attr[.size] as? Int
         }
-        if let image = generatePdfThumbnail(of: CGSize(width: 100, height: 100), for: fileUrl, atPage: 0){
+        if let image = generatePdfThumbnail(of: CGSize(width: 343 * 2, height: 323 * 2), for: fileUrl, atPage: 0){
             attachment.thumbnailImage = image
         }
         self.documentAttachments.append(attachment)
@@ -159,7 +142,7 @@ final class CreatePostViewModel: BaseViewModel {
         }
     }
     
-    func createPost(_ text: String?) {
+    func createPost(_ text: String?, heading: String, postType: AttachmentUploadType) {
         let parsedTaggedUserPostText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: text, taggedUsers: self.taggedUsers)
         let filePath = "files/post/\(LocalPrefrerences.getUserData()?.clientUUID ?? "user")/"
         if self.imageAndVideoAttachments.count > 0 {
@@ -167,13 +150,14 @@ final class CreatePostViewModel: BaseViewModel {
             var index = 0
             for attachedItem in self.imageAndVideoAttachments {
                 guard let fileUrl = attachedItem.url else { continue }
-                let fileType: UploaderType = attachedItem.fileType == .image ? .image : .video
+                let fileType: UploaderType = (attachedItem.fileType == .image || attachedItem.fileType == .article) ? .image : .video
                 let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.url?.components(separatedBy: "/").last ?? "attache_\(Date().millisecondsSince1970)")
                 item.thumbnailImage = attachedItem.thumbnailImage
+                item.documentAttachmentSize = attachedItem.size
                 imageVideoAttachments.append(item)
                 index += 1
             }
-            CreatePostOperation.shared.createPostWithAttachment(attachments: imageVideoAttachments, postCaption: parsedTaggedUserPostText)
+            CreatePostOperation.shared.createPostWithAttachment(attachments: imageVideoAttachments, postCaption: parsedTaggedUserPostText, heading: heading, onBehalfOfUUID: self.onBehalfOfUUID, postType: postType)
         } else if self.documentAttachments.count > 0 {
             var documentAttachments: [AWSFileUploadRequest] = []
             var index = 0
@@ -187,15 +171,15 @@ final class CreatePostViewModel: BaseViewModel {
                 documentAttachments.append(item)
                 index += 1
             }
-            CreatePostOperation.shared.createPostWithAttachment(attachments: documentAttachments, postCaption: parsedTaggedUserPostText)
+            CreatePostOperation.shared.createPostWithAttachment(attachments: documentAttachments, postCaption: parsedTaggedUserPostText, heading: heading, onBehalfOfUUID: self.onBehalfOfUUID, postType: postType)
         } else if self.linkAttatchment != nil {
-            self.createPostWithLinkAttachment(postCaption: parsedTaggedUserPostText)
+            self.createPostWithLinkAttachment(postCaption: parsedTaggedUserPostText, heading: heading)
         } else if !parsedTaggedUserPostText.isEmpty {
-            self.createPostWithOutAttachment(postCaption: parsedTaggedUserPostText)
+            self.createPostWithOutAttachment(postCaption: parsedTaggedUserPostText, heading: heading)
         }
     }
     
-    private func createPostWithLinkAttachment(postCaption: String?) {
+    private func createPostWithLinkAttachment(postCaption: String?, heading: String) {
         guard let linkAttatchment = self.linkAttatchment else { return }
         let attachmentMeta = AttachmentMeta()
             .ogTags(.init()
@@ -208,6 +192,8 @@ final class CreatePostViewModel: BaseViewModel {
             .attachmentMeta(attachmentMeta)
         let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
+            .heading(heading)
+            .onBehalfOfUUID(self.onBehalfOfUUID)
             .attachments([attachmentRequest])
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
@@ -221,9 +207,11 @@ final class CreatePostViewModel: BaseViewModel {
         
     }
     
-    private func createPostWithOutAttachment(postCaption: String?) {
+    private func createPostWithOutAttachment(postCaption: String?, heading: String) {
         let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
+            .heading(heading)
+            .onBehalfOfUUID(self.onBehalfOfUUID)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }

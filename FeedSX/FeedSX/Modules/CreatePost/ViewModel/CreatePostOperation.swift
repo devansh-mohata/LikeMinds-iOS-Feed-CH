@@ -38,7 +38,7 @@ class CreatePostOperation {
         }
     }
     
-    func createPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?) {
+    func createPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, heading: String, onBehalfOfUUID:String?, postType: CreatePostViewModel.AttachmentUploadType) {
         self.attachmentList = attachments
         guard attachments.count > 0 else { return }
         postMessageForCreatingPost()
@@ -56,7 +56,6 @@ class CreatePostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .image, filePath: attachment.awsFilePath, image: image, thumbNailUrl: nil,index: attachment.index) { (progress) in
                     print("Image - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (imageResponse,thumbnailUrl, error, nil)  in
-                    print(imageResponse)
                     attachment.awsUploadedUrl = (imageResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
@@ -69,17 +68,29 @@ class CreatePostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .video, filePath: attachment.awsFilePath, path: url.path , thumbNailUrl: nil, index: attachment.index ) { (progress) in
                     print("video - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (videoResponse, thumbnailUrl, error, nil)  in
-                    print(videoResponse)
                     attachment.awsUploadedUrl = (videoResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
             case .file:
-                AWSUploadManager.sharedInstance.awsUploader(uploaderType: .file, filePath: attachment.awsFilePath, path: attachment.fileUrl, thumbNailUrl: nil, index: attachment.index ) { (progress) in
-                    print("file - \(attachment.index) upload progress...\(progress)")
-                } completion: {[weak self] (fileResponse, thumbnailUrl, error, nil)  in
-                    print(fileResponse)
-                    attachment.awsUploadedUrl = (fileResponse as? String) ?? ""
-                    self?.dispatchGroup.leave()
+                if let thumnail = attachment.thumbnailImage {
+                    AWSUploadManager.sharedInstance.awsUploader(uploaderType: .image, filePath: attachment.awsFilePath, image: thumnail, thumbNailUrl: nil,index: attachment.index) { (progress) in
+                        print("Image - \(attachment.index) upload progress...\(progress)")
+                    } completion: {[weak self] (imageResponse,thumbnailUrl, error, nil)  in
+                        attachment.thumbnailUrl = (imageResponse as? String) ?? ""
+                        AWSUploadManager.sharedInstance.awsUploader(uploaderType: .file, filePath: attachment.awsFilePath, path: attachment.fileUrl, thumbNailUrl: nil, index: attachment.index ) { (progress) in
+                            print("file - \(attachment.index) upload progress...\(progress)")
+                        } completion: {[weak self] (fileResponse, thumbnailUrl, error, nil)  in
+                            attachment.awsUploadedUrl = (fileResponse as? String) ?? ""
+                            self?.dispatchGroup.leave()
+                        }
+                    }
+                } else {
+                    AWSUploadManager.sharedInstance.awsUploader(uploaderType: .file, filePath: attachment.awsFilePath, path: attachment.fileUrl, thumbNailUrl: nil, index: attachment.index ) { (progress) in
+                        print("file - \(attachment.index) upload progress...\(progress)")
+                    } completion: {[weak self] (fileResponse, thumbnailUrl, error, nil)  in
+                        attachment.awsUploadedUrl = (fileResponse as? String) ?? ""
+                        self?.dispatchGroup.leave()
+                    }
                 }
             default:
                 break
@@ -92,8 +103,17 @@ class CreatePostOperation {
                 for attachedItem in attachmentList {
                     switch attachedItem.fileType {
                     case .image:
-                        guard let imageAttachment = self?.imageAttachmentData(attachment: attachedItem) else { continue }
-                        attachments.append(imageAttachment)
+                        let attachmentType: AttachmentType = postType == .article ? .article : .image
+                        if postType == .article {
+                            attachedItem.coverImageUrl = attachedItem.awsUploadedUrl
+                            attachedItem.title = heading
+                            attachedItem.body = postCaption
+                            guard let imageAttachment = self?.imageAttachmentData(attachment: attachedItem, attachmentType: attachmentType) else { continue }
+                            attachments.append(imageAttachment)
+                        } else {
+                            guard let imageAttachment = self?.imageAttachmentData(attachment: attachedItem, attachmentType: attachmentType) else { continue }
+                            attachments.append(imageAttachment)
+                        }
                     case .video:
                         guard let videoAttachment = self?.videoAttachmentData(attachment: attachedItem) else { continue }
                         attachments.append(videoAttachment)
@@ -109,9 +129,13 @@ class CreatePostOperation {
                     return
                 }
                 let addPostRequest = AddPostRequest.builder()
-                    .text(postCaption)
+                    .onBehalfOfUUID(onBehalfOfUUID)
                     .attachments(attachments)
                     .build()
+                if postType != .article {
+                    _ = addPostRequest.text(postCaption)
+                    _ = addPostRequest.heading(heading)
+                }
                 LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
                     print("Post Creation with attachment done....")
                     self?.attachmentList = nil
@@ -121,18 +145,24 @@ class CreatePostOperation {
         }
     }
     
-    func imageAttachmentData(attachment: AWSFileUploadRequest) -> Attachment? {
+    func imageAttachmentData(attachment: AWSFileUploadRequest, attachmentType: AttachmentType) -> Attachment? {
         guard let awsUrl = attachment.awsUploadedUrl, !awsUrl.isEmpty else { return nil}
-        var size: Int?
-        if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
+        var size: Int? = attachment.documentAttachmentSize
+        if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
         let attachmentMeta = AttachmentMeta()
-            .attachmentUrl(awsUrl)
             .size(size ?? 0)
             .name(attachment.name)
+        if attachmentType == .article {
+            _ = attachmentMeta.coverImageUrl(awsUrl)
+            _ = attachmentMeta.title(attachment.title ?? "")
+            _ = attachmentMeta.body(attachment.body ?? "")
+        } else {
+            _ = attachmentMeta.attachmentUrl(awsUrl)
+        }
         let attachmentRequest = Attachment()
-            .attachmentType(.image)
+            .attachmentType(attachmentType)
             .attachmentMeta(attachmentMeta)
         return attachmentRequest
     }
@@ -152,6 +182,7 @@ class CreatePostOperation {
             .attachmentUrl(awsUrl)
             .size(size ?? 0)
             .name(attachment.name)
+            .thumbnailUrl(attachment.thumbnailUrl)
             .pageCount(numberOfPages ?? 0)
             .format("pdf")
         let attachmentRequest = Attachment()
@@ -162,8 +193,8 @@ class CreatePostOperation {
     
     func videoAttachmentData(attachment: AWSFileUploadRequest) -> Attachment? {
         guard let awsUrl = attachment.awsUploadedUrl, !awsUrl.isEmpty, let url = URL(string: attachment.fileUrl) else { return nil}
-        var size: Int?
-        if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
+        var size: Int? = attachment.documentAttachmentSize
+        if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
         let asset = AVAsset(url: url)

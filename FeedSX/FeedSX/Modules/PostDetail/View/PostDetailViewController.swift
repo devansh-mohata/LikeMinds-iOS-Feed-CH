@@ -66,6 +66,8 @@ class PostDetailViewController: BaseViewController {
         return label
     }()
     
+    var postActionsButton: UIBarButtonItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSpinner()
@@ -89,6 +91,8 @@ class PostDetailViewController: BaseViewController {
         postDetailTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
         postDetailTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
         postDetailTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)
+        postDetailTableView.register(UINib(nibName: PostDetailArticleTableViewCell.nibName, bundle: PostDetailArticleTableViewCell.bundle), forCellReuseIdentifier: PostDetailArticleTableViewCell.nibName)
+        
         postDetailTableView.register(TotalCommentCountCell.self, forCellReuseIdentifier: TotalCommentCountCell.reuseIdentifier)
         postDetailTableView.rowHeight = UITableView.automaticDimension
         postDetailTableView.estimatedRowHeight = 44
@@ -103,10 +107,9 @@ class PostDetailViewController: BaseViewController {
         commentTextView.centerVertically()
         viewModel.getMemberState()
         viewModel.getPostDetail()
-        
+        setupPostActionsBarItem()
         hideTaggingViewContainer()
         self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
-        
         validateCommentRight()
     }
     
@@ -115,6 +118,23 @@ class PostDetailViewController: BaseViewController {
         self.setBackButtonIfNotExist()
         self.setupTaggingView()
         refreshControl.bounds =  CGRectOffset(refreshControl.bounds, 0, -20)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    func setupPostActionsBarItem() {
+        postActionsButton = UIBarButtonItem(image: UIImage(systemName: ImageIcon.ellipsisCircle), style: .plain, target: self, action: #selector(postActionMenus))
+        postActionsButton?.tintColor = LMBranding.shared.buttonColor
+        navigationItem.rightBarButtonItem = postActionsButton
+    }
+    
+    @objc func postActionMenus() {
+        didTapOnMoreButton(selectedPost: viewModel.postDetail)
     }
     
     @objc func postEditCompleted(notification: Notification) {
@@ -335,6 +355,10 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkTableViewCell.nibName, for: indexPath) as! HomeFeedLinkTableViewCell
                 cell.setupFeedCell(post, withDelegate: self)
                 return cell
+            case .article:
+                let cell = tableView.dequeueReusableCell(withIdentifier: PostDetailArticleTableViewCell.nibName, for: indexPath) as! PostDetailArticleTableViewCell
+                cell.setupFeedCell(post, withDelegate: self)
+                return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as! HomeFeedImageVideoTableViewCell
                 cell.setupFeedCell(post, withDelegate: self)
@@ -496,7 +520,7 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
             self.navigationController?.pushViewController(likedUserListView, animated: true)
         case .sharePost:
             guard let postId = postData?.postId else { return }
-            ShareContentUtil.sharePost(viewController: self, domainUrl: "lmfeed://yourdomain.com", postId: postId)
+            ShareContentUtil.sharePost(viewController: self, postId: postId)
         default:
             break
         }
@@ -604,6 +628,7 @@ extension PostDetailViewController: TaggedUserListDelegate {
 }
 
 extension PostDetailViewController: ProfileHeaderViewDelegate {
+    
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -620,11 +645,11 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
             case .delete:
                 actionSheet.addAction(withOptions: menu.name) {
                     let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
-                    deleteController.modalPresentationStyle = .fullScreen
+                    deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
                     deleteController.isAdminRemoving = LocalPrefrerences.uuid() != (selectedPost?.postByUser?.uuid ?? "") ? self.viewModel.isAdmin() :  false
-                    self.navigationController?.present(deleteController, animated: true)
+                    self.navigationController?.present(deleteController, animated: false)
                 }
             case .edit:
                 actionSheet.addAction(withOptions: menu.name) {

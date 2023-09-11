@@ -38,15 +38,15 @@ class EditPostOperation {
                 return
             }
             
-            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""]))
+            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], widgets: response.data?.widgets))
         }
     }
     
-    func editPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, postId: String) {
+    func editPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, heading: String, postId: String, postType: EditPostViewModel.AttachmentUploadType) {
         self.attachmentList = attachments
         guard let newAttachments = self.attachmentList?.filter({($0.awsUploadedUrl ?? "").isEmpty}), newAttachments.count > 0 else {
             postMessageForEditingPost()
-            self.editPostWithAttachments(postId: postId, postCaption: postCaption)
+            self.editPostWithAttachments(postId: postId, postCaption: postCaption, heading: heading, postType: postType)
             return
         }
         postMessageForEditingPost()
@@ -94,19 +94,25 @@ class EditPostOperation {
             }
         }
         self.dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
-            self?.editPostWithAttachments(postId: postId, postCaption: postCaption)
+            self?.editPostWithAttachments(postId: postId, postCaption: postCaption, heading: heading, postType: postType)
         }
     }
     
-    private func editPostWithAttachments(postId: String, postCaption: String?) {
+    private func editPostWithAttachments(postId: String, postCaption: String?, heading: String, postType: EditPostViewModel.AttachmentUploadType) {
         guard let attachmentList = self.attachmentList else {return}
         if attachmentList.count > 0 {
             var attachments: [Attachment] = []
             for attachedItem in attachmentList {
                 switch attachedItem.fileType {
                 case .image:
-                    let imageAttachment = self.imageAttachmentData(attachment: attachedItem)
-                    attachments.append(imageAttachment)
+                    switch postType {
+                    case .article:
+                        let imageAttachment = self.articleImageAttachmentData(attachment: attachedItem)
+                        attachments.append(imageAttachment)
+                    default:
+                        let imageAttachment = self.imageAttachmentData(attachment: attachedItem)
+                        attachments.append(imageAttachment)
+                    }
                 case .video:
                      let videoAttachment = self.videoAttachmentData(attachment: attachedItem)
                     attachments.append(videoAttachment)
@@ -119,9 +125,12 @@ class EditPostOperation {
             }
             let editPostRequest = EditPostRequest.builder()
                 .postId(postId)
-                .text(postCaption)
                 .attachments(attachments)
                 .build()
+            if postType != .article {
+                _ = editPostRequest.text(postCaption)
+                _ = editPostRequest.heading(heading)
+            }
             LMFeedClient.shared.editPost(editPostRequest) { [weak self] response in
                 self?.attachmentList = nil
                 if response.success == false {
@@ -131,14 +140,14 @@ class EditPostOperation {
                     self?.postMessageForCompleteEditPost(with: response.errorMessage)
                     return
                 }
-                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""]))
+                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], widgets: response.data?.widgets))
             }
         }
     }
     
     private func imageAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
-        var size: Int?
-        if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
+        var size: Int? = attachment.documentAttachmentSize
+        if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
         let attachmentMeta = AttachmentMeta()
@@ -190,6 +199,24 @@ class EditPostOperation {
             .duration(Int(durationTime))
         let attachmentRequest = Attachment()
             .attachmentType(.video)
+            .attachmentMeta(attachmentMeta)
+        return attachmentRequest
+    }
+    
+    private func articleImageAttachmentData(attachment: AWSFileUploadRequest) -> Attachment {
+        var size: Int? = attachment.documentAttachmentSize
+        if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
+            size = attr[.size] as? Int
+        }
+        let attachmentMeta = AttachmentMeta()
+            .coverImageUrl(attachment.awsUploadedUrl ?? "")
+            .size(size ?? 0)
+            .name(attachment.name)
+            .title(attachment.title ?? "")
+            .body(attachment.body ?? "")
+            .entityID(attachment.entityID ?? "")
+        let attachmentRequest = Attachment()
+            .attachmentType(.article)
             .attachmentMeta(attachmentMeta)
         return attachmentRequest
     }

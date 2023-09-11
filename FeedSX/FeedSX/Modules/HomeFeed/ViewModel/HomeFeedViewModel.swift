@@ -35,7 +35,7 @@ class HomeFeedViewModel: BaseViewModel {
             if result.success,
                let postsData = result.data?.posts,
                let users = result.data?.users, postsData.count > 0 {
-                self?.prepareHomeFeedDataView(postsData, users: users)
+                self?.prepareHomeFeedDataView(postsData, users: users, widgets: result.data?.widgets)
                 self?.currentPage += 1
             } else {
                 print(result.errorMessage ?? "")
@@ -137,11 +137,11 @@ class HomeFeedViewModel: BaseViewModel {
         }
     }
     
-    func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {
+    func prepareHomeFeedDataView(_ posts: [Post], users: [String: User], widgets: [String: Widget]?) {
         if self.currentPage > 1 {
-            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])})
+            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""], widgets: widgets)})
         } else {
-            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])}
+            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""], widgets: widgets)}
         }
         delegate?.didReceivedFeedData(success:  true)
     }

@@ -13,4 +13,6 @@ public struct MessageConstant {
     static let restrictToCommentOnPost = "You do not have permission to comment."
     static let postingInProgress = "A post is already uploading!"
     static let nofiticationFeedDataNotFound = "Oops! You don't have any notification yet."
+    static let articalMinimumBodyCharError = "Please provide minimum 200 characters in article body!"
+    static let articalMinimumBodyChars = " Write something here (min. 200 char)"
 }

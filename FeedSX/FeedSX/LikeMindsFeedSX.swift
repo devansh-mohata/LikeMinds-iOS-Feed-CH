@@ -45,9 +45,11 @@ public class LikeMindsFeedSX {
                 weakSelf.registerDeviceToken()
             }
             LocalPrefrerences.saveObject(user, forKey: LocalPreferencesKey.userDetails)
-            let homeFeedVC = UINavigationController(rootViewController: HomeFeedViewControler())
-            homeFeedVC.modalPresentationStyle = .fullScreen
-            viewController.navigationController?.present(homeFeedVC, animated: true)
+//            let homeFeedVC = UINavigationController(rootViewController: HomeFeedViewControler())
+            let homeFeedVC = HomeFeedViewControler()
+            viewController.addChild(homeFeedVC)
+            viewController.view.addSubview(homeFeedVC.view)
+            homeFeedVC.didMove(toParent: viewController)
         }
     }
 
@@ -98,6 +100,12 @@ public class LikeMindsFeedSX {
         LMFeedClient.shared.logout(request: request) { response in
             // do somthing on success or failure
         }
+    }
+    
+    public func disbleIQKeyboardForViewController() -> [UIViewController.Type] {
+        return [EditPostViewController.self,
+                CreatePostViewController.self,
+                PostDetailViewController.self]
     }
 }
 

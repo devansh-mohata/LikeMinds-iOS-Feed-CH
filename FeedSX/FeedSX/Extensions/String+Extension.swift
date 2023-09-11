@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension String {
     // MARK: Link Detector
@@ -41,5 +42,19 @@ extension String {
             let to = to16.samePosition(in: self)
         else { return nil }
         return from ..< to
+    }
+    
+    func linkWithSchema() -> String {
+        if self.hasPrefix("https://") || self.hasPrefix("http://"){
+            return self
+        }else {
+            return "http://\(self)"
+        }
+    }
+    
+    func sizeForWidth(width: CGFloat, font: UIFont) -> CGSize {
+        let attr = [NSAttributedString.Key.font: font]
+        let height = NSString(string: self).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:.usesLineFragmentOrigin, attributes: attr, context: nil).height
+        return CGSize(width: width, height: ceil(height))
     }
 }

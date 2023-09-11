@@ -17,6 +17,7 @@ final class PostFeedDataView {
     var linkAttachment: LinkAttachment?
     var likedCount: Int
     var caption: String?
+    var header: String?
     var commentCount: Int
     var isLiked : Bool
     var isPinned: Bool
@@ -25,9 +26,10 @@ final class PostFeedDataView {
     var postTime: Int
     var postMenuItems: [MenuItem]?
     
-    init(post: Post, user: User?) {
+    init(post: Post, user: User?, widgets: [String: Widget]?) {
         self.postId = post.id
         self.caption = post.text
+        self.header = post.heading
         self.commentCount = post.commentsCount ?? 0
         self.likedCount = post.likesCount ?? 0
         self.isLiked = post.isLiked ?? false
@@ -37,7 +39,7 @@ final class PostFeedDataView {
         self.postTime = (post.createdAt ?? 0)/1000
         self.postMenuItems = self.menuItems(post: post)
         self.postByUser = postByUser(user: user)
-        self.imageVideos = imageVideoAttachments(post: post)
+        self.imageVideos = imageVideoAttachments(post: post, widegts: widgets)
         self.attachments = docAttachments(post: post)
         self.linkAttachment = linkAttachment(post: post)
         self.postMenuItems = menuItems(post: post)
@@ -46,12 +48,31 @@ final class PostFeedDataView {
     private func docAttachments(post: Post) -> [Attachment]? {
         guard let attachments = post.attachments, attachments.contains(where: {$0.attachmentType?.rawValue == 3}) else { return nil }
         
-        return attachments.map { Attachment(attachmentUrl: $0.attachmentMeta?.attachmentUrl, attachmentType: $0.attachmentMeta?.format, attachmentSize: $0.attachmentMeta?.size, numberOfPages: $0.attachmentMeta?.pageCount, name: $0.attachmentMeta?.name)}
+        return attachments.map { Attachment(attachmentUrl: $0.attachmentMeta?.attachmentUrl, attachmentType: $0.attachmentMeta?.format, attachmentSize: $0.attachmentMeta?.size, numberOfPages: $0.attachmentMeta?.pageCount, thumbnailUrl: $0.attachmentMeta?.thumbnailUrl, name: $0.attachmentMeta?.name)}
     }
     
-    private func imageVideoAttachments(post: Post) -> [ImageVideo]? {
-        guard let attachments = post.attachments, attachments.contains(where: {$0.attachmentType?.rawValue == 1 || $0.attachmentType?.rawValue == 2}) else { return nil }
-        return attachments.map { ImageVideo(url: $0.attachmentMeta?.attachmentUrl, type: $0.attachmentMeta?.format, duration: $0.attachmentMeta?.duration, size: $0.attachmentMeta?.size, fileType: $0.attachmentType == .image ? .image : .video, name: $0.attachmentMeta?.name)}
+    private func imageVideoAttachments(post: Post, widegts: [String: Widget]?) -> [ImageVideo]? {
+        guard let attachments = post.attachments, attachments.contains(where: {$0.attachmentType == .image || $0.attachmentType == .video || $0.attachmentType == .article}) else {
+            return nil }
+        // mapping article title and body into header and caption 
+        if let attchment = attachments.first,
+            attchment.attachmentType == .article,
+           let widget = widegts?[attchment.attachmentMeta?.entityID ?? ""] {
+            self.header = widget.metadata?.title
+            self.caption = widget.metadata?.body
+        }
+        return attachments.map { attachment in
+            switch attachment.attachmentType {
+            case .article:
+                let widget = widegts?[attachment.attachmentMeta?.entityID ?? ""]
+                let url = widget?.metadata?.coverImageURL ?? attachment.attachmentMeta?.attachmentUrl
+                return ImageVideo(url: url, type: attachment.attachmentMeta?.format, duration: nil, size: widget?.metadata?.size, fileType: .article, name: widget?.metadata?.name, title: widget?.metadata?.title, body: widget?.metadata?.body, entityID: attachment.attachmentMeta?.entityID)
+            default:
+                let type: PostAttachmentType =  (attachment.attachmentType == .image ? .image : .video)
+                let url =  attachment.attachmentMeta?.attachmentUrl
+                return ImageVideo(url: url, type: attachment.attachmentMeta?.format, duration: attachment.attachmentMeta?.duration, size: attachment.attachmentMeta?.size, fileType: type, name: attachment.attachmentMeta?.name)
+            }
+        }
     }
     
     private func linkAttachment(post: Post) -> LinkAttachment? {
@@ -78,10 +99,16 @@ final class PostFeedDataView {
     private func postByUser(user: User?) -> PostByUser? {
         guard let user = user,
               let userId = user.clientUUID else { return  nil }
-        return PostByUser(name: user.name ?? "Test",
+        let answers = user.questionAnswers?.filter({$0.question?.tag?.lowercased() == "basic" })
+        let designation = answers?.filter({$0.question?.state == 1 }).first?.answer?.answer
+        let organisation = answers?.filter({$0.question?.state == 0 }).first?.answer?.answer
+        
+        return PostByUser(name: user.name ?? "",
                           profileImageUrl: user.imageUrl ?? "",
                           customTitle: user.customTitle,
-                          uuid: userId)
+                          uuid: userId,
+                          designation: designation,
+                          organisation: organisation)
     }
     
     func likeCounts() -> String {
@@ -97,7 +124,7 @@ final class PostFeedDataView {
     }
     
     func postAttachmentType() -> PostAttachmentType {
-        if (self.imageVideos?.count ?? 0) > 0 {return .image}
+        if let attachment = self.imageVideos?.first{return attachment.fileType}
         if (self.attachments?.count ?? 0) > 0 {return .document}
         if self.linkAttachment != nil {return .link}
         return .unknown
@@ -111,6 +138,19 @@ final class PostFeedDataView {
         var fileType: PostAttachmentType
         var thumbnailImage: UIImage?
         var name: String?
+        var title: String?
+        var body: String?
+        var entityID: String?
+        
+        func attachmentName() -> String {
+            return self.name ?? ((self.url as? NSString)?.lastPathComponent ?? "No name")
+        }
+        
+        func attachmentDetails() -> String {
+            let size: Float = Float((self.size ?? 0)/1000)
+            let sizeInMb = String(format: "%.2f", (size/1000))
+            return "\(sizeInMb)MB"
+        }
     }
     struct Attachment {
         var attachmentUrl: String?
@@ -118,6 +158,7 @@ final class PostFeedDataView {
         var attachmentSize: Int?
         var numberOfPages: Int?
         var thumbnailImage: UIImage?
+        var thumbnailUrl: String?
         var name: String?
         
         func attachmentName() -> String {
@@ -125,10 +166,10 @@ final class PostFeedDataView {
         }
         
         func attachmentDetails() -> String {
-            let size = (self.attachmentSize ?? 0)/1000
-//            let sizeString: String = (size > 1023) ? "\(size/1024) Mb" : "\(size) Kb"
+            let size: Float = Float((self.attachmentSize ?? 0)/1000)
+            let sizeInMb = String(format: "%.2f", (size/1000))
             let numberOfPagesString = (self.numberOfPages ?? 0) > 0 ? "\(self.numberOfPages ?? 0) Pages • " : ""
-            return "\(numberOfPagesString)\(size) Kb • \(self.attachmentType ?? "")"
+            return "\(numberOfPagesString)\(sizeInMb)MB • \(self.attachmentType ?? "")"
         }
     }
     
@@ -141,6 +182,8 @@ final class PostFeedDataView {
         let profileImageUrl: String?
         let customTitle: String?
         let uuid: String
+        let designation: String?
+        let organisation: String?
     }
     
     struct MenuItem {
@@ -163,6 +206,7 @@ final class PostFeedDataView {
         case image
         case video
         case document
+        case article
         case link
         case unknown = "text"
     }

@@ -16,11 +16,18 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var captionLabel: LMTextView!
-    @IBOutlet weak var imageVideoCollectionView: UICollectionView!
+    @IBOutlet weak var imageVideoCollectionView: UICollectionView?
     @IBOutlet weak var captionSectionView: UIView!
     @IBOutlet weak var moreAttachmentButton: LMButton!
-    @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var titleLabel: LMTextView!
+    @IBOutlet weak var captionLabel: LMTextView!
+    @IBOutlet weak var pdfFileNameLabel: LMLabel!
+    @IBOutlet weak var pdfDetailsLabel: LMLabel!
+    @IBOutlet weak var pdfThumbnailImage: UIImageView!
+    @IBOutlet weak var pdfImageContainerView: UIView!
+    
+    @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint?
     
     let profileSectionHeader: ProfileHeaderView = {
         let profileSection = ProfileHeaderView()
@@ -46,12 +53,21 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         self.captionLabel.tintColor = LMBranding.shared.textLinkColor
-        setupImageCollectionView()
+//        setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
         let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
         captionLabel.isUserInteractionEnabled = true
         captionLabel.addGestureRecognizer(textViewTapGesture)
+        
+        let pdfImageTapGesture = LMTapGesture(target: self, action: #selector(tappedPdfImageContainer(tapGesture:)))
+        pdfImageContainerView.isUserInteractionEnabled = true
+        pdfImageContainerView.addGestureRecognizer(pdfImageTapGesture)
+        
+        self.pdfImageContainerView.layer.cornerRadius = 10
+        self.pdfImageContainerView.layer.masksToBounds = true
+        self.pdfImageContainerView.layer.borderWidth = 1
+        self.pdfImageContainerView.layer.borderColor = ColorConstant.backgroudColor.withAlphaComponent(0.4).cgColor
     }
     
     required init?(coder: NSCoder) {
@@ -74,6 +90,14 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         }
     }
     
+    @objc func tappedPdfImageContainer(tapGesture: LMTapGesture) {
+        if let attachmentItem = self.feedData?.attachments?.first,
+           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+           let url = URL(string: docUrl) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
     fileprivate func setupActionSectionFooter() {
         self.actionsSectionView.addSubview(actionFooterSectionView)
         actionFooterSectionView.addConstraints(equalToView: self.actionsSectionView)
@@ -85,14 +109,12 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupCaptionSectionView() {
-        //        self.captionSectionView.addSubview(postCaptionView)
-        //        postCaptionView.addConstraints(equalToView: self.captionSectionView)
     }
     
     @objc func moreButtonClick() {
         let count = self.feedData?.attachments?.count ?? 0
         self.tableView()?.beginUpdates()
-        self.collectionSuperViewHeightConstraint.constant = CGFloat(90 * count)
+        self.collectionSuperViewHeightConstraint?.constant = CGFloat(90 * count)
         self.moreAttachmentButton.superview?.isHidden = true
         self.tableView()?.endUpdates()
         
@@ -103,25 +125,32 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
-        let count = self.feedData?.attachments?.count ?? 0
-        self.collectionSuperViewHeightConstraint.constant = CGFloat(90 * (count > 2 ? 2 : count))
-        if count > 2 {
-            self.moreAttachmentButton.superview?.isHidden = false
-            self.moreAttachmentButton.setTitle("+\(count - 2) More", for: .normal)
-        } else {
-            self.moreAttachmentButton.superview?.isHidden = true
-        }
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupContainerData()
+        guard let attachmentItem = feedDataView.attachments?.first else { return }
+        self.pdfFileNameLabel.text =  attachmentItem.attachmentName()
+        self.pdfDetailsLabel.text = attachmentItem.attachmentDetails()
+        self.setupImageView(attachmentItem.thumbnailUrl)
+    }
+    
+    private func setupImageView(_ url: String?) {
+        let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle(for: HomeFeedDocumentTableViewCell.self), with: nil)
+        self.pdfThumbnailImage.image = imagePlaceholder
+        guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
+        DispatchQueue.global().async { [weak self] in
+            DispatchQueue.main.async {
+                self?.pdfThumbnailImage.kf.setImage(with: uRL, placeholder: imagePlaceholder)
+            }
+        }
     }
     
     func setupImageCollectionView() {
         
-        self.imageVideoCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+//        self.imageVideoCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
         self.moreAttachmentButton.superview?.isHidden = true
-        imageVideoCollectionView.dataSource = self
-        imageVideoCollectionView.delegate = self
+//        imageVideoCollectionView.dataSource = self
+//        imageVideoCollectionView.delegate = self
         self.moreAttachmentButton.addTarget(self, action: #selector(moreButtonClick), for: .touchUpInside)
         self.moreAttachmentButton.setTitleColor(LMBranding.shared.buttonColor, for: .normal)
     }
@@ -134,14 +163,17 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
 //            flowlayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 90)
 //            self.imageVideoCollectionView.collectionViewLayout = flowlayout
             containerView.isHidden = false
-            imageVideoCollectionView.reloadData()
+//            imageVideoCollectionView.reloadData()
         default:
             containerView.isHidden = true
         }
     }
     
     private func setupCaption() {
+        
         let caption = self.feedData?.caption ?? ""
+        let header = self.feedData?.header ?? ""
+        self.titleLabel.text = header
         self.captionLabel.text = caption
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BottomSheetViewController" customModule="FeedSX" customModuleProvider="target">
+            <connections>
+                <outlet property="bottomSheetBottomConstraint" destination="sS1-il-Zse" id="ch3-WN-ioR"/>
+                <outlet property="bottomSheetView" destination="fa2-1Z-Yup" id="Vd1-bc-qRb"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Of8-6v-J1i">
+                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <connections>
+                        <action selector="continueClicked:" destination="-1" eventType="touchUpInside" id="jfg-V0-Kuw"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fa2-1Z-Yup">
+                    <rect key="frame" x="0.0" y="577" width="393" height="241"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Ut0-VG-Z9x">
+                            <rect key="frame" x="22" y="30" width="349" height="181"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DKQ-va-M6e">
+                                    <rect key="frame" x="0.0" y="0.0" width="349" height="51.666666666666664"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finish later?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cF-jj-YhK" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="349" height="10"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Want to finish creating this resource later? Save it as a draft or continue editing it." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckI-I2-nu1" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="17.999999999999996" width="349" height="33.666666666666657"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="4RG-BH-OBK">
+                                    <rect key="frame" x="0.0" y="91.666666666666629" width="349" height="89.333333333333314"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PNf-gg-RO0" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="29.666666666666668"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="200" id="08o-qC-ldI"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <inset key="titleEdgeInsets" minX="14" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="Discard this resource" image="trash.fill" catalog="system">
+                                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="deleteClicked:" destination="-1" eventType="touchUpInside" id="5SD-QM-HHT"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h39-Ll-Udv" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="59.666666666666735" width="250" height="29.666666666666664"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="250" id="DXr-mj-ipV"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <inset key="titleEdgeInsets" minX="14" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="Continue creating resource" image="checkmark.circle" catalog="system">
+                                                <color key="titleColor" systemColor="linkColor"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="continueClicked:" destination="-1" eventType="touchUpInside" id="8pb-hS-IOL"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                        </stackView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Psi-Dy-7UL">
+                            <rect key="frame" x="144.66666666666666" y="4" width="104" height="8"/>
+                            <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="8" id="2v2-Ay-zhv"/>
+                                <constraint firstAttribute="width" constant="104" id="66u-ld-Qm6"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Ut0-VG-Z9x" secondAttribute="bottom" constant="30" id="925-Rv-cTn"/>
+                        <constraint firstItem="Psi-Dy-7UL" firstAttribute="top" secondItem="fa2-1Z-Yup" secondAttribute="top" constant="4" id="Bse-FX-G4J"/>
+                        <constraint firstItem="Ut0-VG-Z9x" firstAttribute="leading" secondItem="fa2-1Z-Yup" secondAttribute="leading" constant="22" id="Q5e-qe-ZpD"/>
+                        <constraint firstItem="Ut0-VG-Z9x" firstAttribute="top" secondItem="fa2-1Z-Yup" secondAttribute="top" constant="30" id="Zn9-Qb-f05"/>
+                        <constraint firstItem="Psi-Dy-7UL" firstAttribute="centerX" secondItem="fa2-1Z-Yup" secondAttribute="centerX" id="bll-Qp-FZK"/>
+                        <constraint firstAttribute="trailing" secondItem="Ut0-VG-Z9x" secondAttribute="trailing" constant="22" id="roL-AT-iXJ"/>
+                        <constraint firstAttribute="height" constant="241" id="z5i-dW-M56"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.39903471489999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Of8-6v-J1i" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="5d6-qv-07f"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Of8-6v-J1i" secondAttribute="trailing" id="Og4-Uh-ATA"/>
+                <constraint firstItem="Of8-6v-J1i" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="boV-AB-XQr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fa2-1Z-Yup" secondAttribute="trailing" id="jZh-6l-EyV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="fa2-1Z-Yup" secondAttribute="bottom" id="sS1-il-Zse"/>
+                <constraint firstItem="fa2-1Z-Yup" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="uyX-R4-OUV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Of8-6v-J1i" secondAttribute="bottom" id="xhv-ez-1Cf"/>
+            </constraints>
+            <point key="canvasLocation" x="-79" y="20"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="checkmark.circle" catalog="system" width="128" height="123"/>
+        <image name="trash.fill" catalog="system" width="119" height="128"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

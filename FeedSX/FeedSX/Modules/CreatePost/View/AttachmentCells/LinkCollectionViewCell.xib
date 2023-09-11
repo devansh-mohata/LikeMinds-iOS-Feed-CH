@@ -19,63 +19,63 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jT4-ZO-ARP">
-                        <rect key="frame" x="16" y="5" width="264" height="241.33333333333334"/>
+                        <rect key="frame" x="16" y="5" width="264" height="78"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b9i-3p-9jq">
-                                <rect key="frame" x="0.0" y="0.0" width="264" height="148.66666666666666"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" priority="250" constant="230" id="ozC-EW-doj"/>
-                                    <constraint firstAttribute="width" secondItem="b9i-3p-9jq" secondAttribute="height" multiplier="16:9" priority="250" id="sfX-cY-QcG"/>
-                                </constraints>
-                            </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="J6i-Bq-e6g">
-                                <rect key="frame" x="16" y="164.66666666666666" width="238" height="60.666666666666657"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GQe-iv-XzF">
+                                <rect key="frame" x="0.0" y="0.0" width="264" height="78"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCD-Ry-WeS" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="32.666666666666664" height="19.333333333333332"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzp-iZ-pdV" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.333333333333343" width="74" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZd-IC-C67" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="46.333333333333343" width="19.666666666666668" height="14.333333333333336"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b9i-3p-9jq">
+                                        <rect key="frame" x="0.0" y="0.0" width="78" height="78"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="78" id="JUh-av-rRU"/>
+                                            <constraint firstAttribute="width" secondItem="b9i-3p-9jq" secondAttribute="height" multiplier="1:1" id="wen-sz-LOM"/>
+                                        </constraints>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="J6i-Bq-e6g">
+                                        <rect key="frame" x="104.66666666666669" y="10.000000000000004" width="74" height="58.333333333333343"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCD-Ry-WeS" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="29.333333333333332" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzp-iZ-pdV" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="22" width="74" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZd-IC-C67" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="44" width="19.666666666666668" height="14.333333333333336"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m4K-21-AdD" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
+                                        <rect key="frame" x="224" y="19" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="0.32746735629656459" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="FQ3-AK-rn7"/>
+                                            <constraint firstAttribute="width" constant="40" id="vjl-fN-N5v"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="trash.fill" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="light"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m4K-21-AdD" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
-                                <rect key="frame" x="234" y="0.0" width="30" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="0.32746735629656459" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="8YD-iU-Ew2"/>
-                                    <constraint firstAttribute="height" constant="30" id="ZMk-KR-GIK"/>
-                                </constraints>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="multiply.circle.fill" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="light"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="m4K-21-AdD" secondAttribute="trailing" id="396-39-DnI"/>
-                            <constraint firstAttribute="trailing" secondItem="b9i-3p-9jq" secondAttribute="trailing" id="BPD-fZ-117"/>
-                            <constraint firstItem="J6i-Bq-e6g" firstAttribute="leading" secondItem="jT4-ZO-ARP" secondAttribute="leading" constant="16" id="T1i-nW-FfO"/>
-                            <constraint firstItem="m4K-21-AdD" firstAttribute="top" secondItem="jT4-ZO-ARP" secondAttribute="top" id="Xur-js-Mjq"/>
-                            <constraint firstItem="J6i-Bq-e6g" firstAttribute="top" secondItem="b9i-3p-9jq" secondAttribute="bottom" constant="16" id="aol-Iz-0dI"/>
-                            <constraint firstItem="b9i-3p-9jq" firstAttribute="top" secondItem="jT4-ZO-ARP" secondAttribute="top" id="bTF-5H-XDn"/>
-                            <constraint firstAttribute="trailing" secondItem="J6i-Bq-e6g" secondAttribute="trailing" constant="10" id="fDL-R4-DDh"/>
-                            <constraint firstItem="b9i-3p-9jq" firstAttribute="leading" secondItem="jT4-ZO-ARP" secondAttribute="leading" id="fjd-1O-0pT"/>
-                            <constraint firstAttribute="bottom" secondItem="J6i-Bq-e6g" secondAttribute="bottom" constant="16" id="gNz-jR-gxQ"/>
+                            <constraint firstItem="GQe-iv-XzF" firstAttribute="leading" secondItem="jT4-ZO-ARP" secondAttribute="leading" id="3oi-v1-WFL"/>
+                            <constraint firstAttribute="bottom" secondItem="GQe-iv-XzF" secondAttribute="bottom" id="8yn-JG-AA6"/>
+                            <constraint firstItem="GQe-iv-XzF" firstAttribute="top" secondItem="jT4-ZO-ARP" secondAttribute="top" id="gb1-4I-OdP"/>
+                            <constraint firstAttribute="trailing" secondItem="GQe-iv-XzF" secondAttribute="trailing" id="uyh-9S-Bpp"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -101,7 +101,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="multiply.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="trash.fill" catalog="system" width="119" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

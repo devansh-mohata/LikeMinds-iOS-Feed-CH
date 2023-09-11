@@ -24,9 +24,9 @@ class LinkCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         removeButton.addTarget(self, action: #selector(removeClicked), for: .touchUpInside)
         self.contentView.bringSubviewToFront(self.removeButton)
-        linkDetailContainerView.layer.borderWidth = 1
-        linkDetailContainerView.layer.cornerRadius = 8
-        linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
+//        linkDetailContainerView.layer.borderWidth = 1
+//        linkDetailContainerView.layer.cornerRadius = 8
+//        linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
         linkThumbnailImageView.tintColor = .white
         linkDetailContainerView.clipsToBounds = true
         linkThumbnailImageView.contentMode = .scaleAspectFill
@@ -37,7 +37,11 @@ class LinkCollectionViewCell: UICollectionViewCell {
         self.linkDescriptionLabel.text = description
         self.linkLabel.text = link?.lowercased()
         let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
-        self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl ?? ""), placeholder: placeHolder)
+        if let linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
+            self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl), placeholder: placeHolder)
+        } else {
+            linkThumbnailImageView.image = placeHolder
+        }
     }
     
     @objc func removeClicked() {

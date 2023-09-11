@@ -137,12 +137,16 @@ class DeleteContentViewController: BaseViewController {
         guard let postId = self.postId else { return }
         guard let commentId = self.commentId else {
             LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.deleted, eventProperties: ["post_id": postId, "user_state": self.isAdminRemoving ? "CM" : "member"])
+            self.showLoader(isShow: true)
             self.viewModel.deletePost(postId: postId, reasonText: reason) {[weak self] in
+                self?.showLoader(isShow: false)
                 self?.dismissViewController()
             }
             return
         }
+        self.showLoader(isShow: true)
         self.viewModel.deleteComment(postId: postId, commentId: commentId, reasonText: reason) {[weak self] in
+            self?.showLoader(isShow: false)
             self?.dismissViewController()
         }
     }
@@ -229,10 +233,12 @@ extension DeleteContentViewController: DeleteContentViewModelProtocol {
     }
     
     func didReceivedDeletePostResponse(postId: String, commentId: String?) {
+        self.showLoader(isShow: false)
         self.delegate?.didReceivedDeletePostResponse(postId: postId, commentId: commentId)
     }
     
     func didReceivedDeletePostResponse(with error: String?) {
+        self.showLoader(isShow: false)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             self.presentAlert(message: error ?? "")
         }

@@ -6,8 +6,8 @@ public class LMBranding {
     
     public static let shared = LMBranding()
 
-    var buttonColor : UIColor = UIColor(hexString: "#5046E5")
-    var headerColor : UIColor = UIColor(hexString: "#5046E5")
+    var buttonColor : UIColor = UIColor(hexString: "#007AFF")
+    var headerColor : UIColor = UIColor(white: 249.0 / 255.0, alpha: 1)
     var textLinkColor : UIColor = UIColor(hexString: "#007AFF")
     
     let key = "BrandingModel"
@@ -65,8 +65,8 @@ public class LMBranding {
 
 
 public class SetBrandingRequest {
-    var buttonColor : UIColor = UIColor(hexString: "#5046E5")
-    var headerColor : UIColor = UIColor(hexString: "#FFFFFF")
+    var buttonColor : UIColor = UIColor(hexString: "#007AFF")
+    var headerColor : UIColor = UIColor(white: 249.0 / 255.0, alpha: 1)
     var textLinkColor : UIColor = UIColor(hexString: "#007AFF")
     var fonts: LMFonts = LMFonts(regular: "Roboto",
                                  medium: "Roboto-Medium",
@@ -93,36 +93,3 @@ public class SetBrandingRequest {
         return self
     }
 }
-
-
-/*
-struct Branding: Decodable, Encodable {
-    var basic: Basic?
-    var advance: Advance?
-    
-    enum CodingKeys: String, CodingKey {
-        case basic = "basic"
-        case advance = "advanced"
-    }
-}
-
-struct Basic: Decodable, Encodable {
-    var basicColor: String?
-    enum CodingKeys: String, CodingKey {
-        case basicColor = "primary_colour"
-    }
-}
-
-struct Advance: Decodable, Encodable {
-    var headerColor: String?
-    var buttonIconsColour: String?
-    var textLinksColour: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case headerColor = "header_colour"
-        case buttonIconsColour = "buttons_icons_colour"
-        case textLinksColour = "text_links_colour"
-    }
-}
-
-*/

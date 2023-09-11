@@ -33,6 +33,16 @@ class VideoCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    let playButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: ImageIcon.playVideo), for: .normal)
+        button.tintColor = .white
+        button.setPreferredSymbolConfiguration(.init(pointSize: 40, weight: .light, scale: .large), forImageIn: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .black.withAlphaComponent(0.1)
+        return button
+    }()
+    
     weak var delegate: AttachmentCollectionViewCellDelegate?
     // The AVPlayer
     var videoPlayer: AVPlayer? = nil
@@ -40,10 +50,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.startAnimating()
         // TODO:- Need to handle activity indicator 
         addSubview(activityIndicator)
         addSubview(playerView)
+        addSubview(playButton)
+        playButton.addConstraints(equalToView: self)
         playerView.translatesAutoresizingMaskIntoConstraints = false
         playerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         playerView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -58,19 +69,28 @@ class VideoCollectionViewCell: UICollectionViewCell {
         activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         self.activityIndicator.hidesWhenStopped = true
         bringSubviewToFront(self.activityIndicator)
+        
+        playButton.addTarget(self, action: #selector(playVideo), for: .touchUpInside)
     }
     
     func pauseVideo() {
+        self.playButton.isHidden = false
         playerView.player?.pause()
     }
     
-    func playVideo() {
+    @objc func playVideo() {
+        guard !playerView.isPlaying else {
+            self.pauseVideo()
+            return
+        }
         try? AVAudioSession.sharedInstance().setCategory(.playback)
         if playerView.player != nil {
+            activityIndicator.startAnimating()
             playerView.player?.playImmediately(atRate: 1)
             playerView.player?.play()
+            self.playButton.isHidden = true
             //TODO:- Need to handle loading indicator, as of now we added inital for 5 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
         }

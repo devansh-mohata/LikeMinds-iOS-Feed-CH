@@ -27,6 +27,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var actionsSectionView: UIView!
+    @IBOutlet weak var headerLabel: LMTextView!
     @IBOutlet weak var captionLabel: LMTextView! {
         didSet{
 //            captionLabel.textContainer.maximumNumberOfLines = 3
@@ -150,6 +151,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     private func setupCaption() {
         let caption = self.feedData?.caption ?? ""
         self.captionLabel.text = caption
+        self.headerLabel.text = self.feedData?.header
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
     }

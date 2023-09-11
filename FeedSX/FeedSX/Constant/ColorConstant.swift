@@ -20,5 +20,6 @@ struct ColorConstant {
     static let navigationTitleColor = UIColor(hexString: "#333149")
     static let backgroudColor = UIColor(hexString: "#D0D8E2")
     static let notificationFeedColor = UIColor(hexString: "#ECEFF3")
+    static let purpleColor = UIColor(hexString: "#7B61FF")
     
 }
