@@ -43,9 +43,11 @@ import UIKit
                     guard let vc = viewController else {
                         return
                     }
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.modalPresentationStyle = .fullScreen
-                    UIViewController.topViewController()?.present(nav, animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        let nav = UINavigationController(rootViewController: vc)
+                        nav.modalPresentationStyle = .fullScreen
+                        UIViewController.topViewController()?.present(nav, animated: true)
+                    }
                 }
             }
         }

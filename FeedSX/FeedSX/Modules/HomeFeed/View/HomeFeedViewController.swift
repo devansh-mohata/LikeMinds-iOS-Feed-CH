@@ -622,7 +622,9 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
             self.createPostButton.isHidden = true
         } else {
             feedTableView.restore()
-            self.createPostButton.isHidden = false
+            if self.homeFeedViewModel.hasRightForCreatePost() {
+                self.createPostButton.isHidden = false
+            }
         }
         bottomLoadSpinner.stopAnimating()
         refreshControl.endRefreshing()
@@ -632,8 +634,10 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     
     func didReceivedMemberState() {
         if self.homeFeedViewModel.hasRightForCreatePost() {
+            self.createPostButton.isHidden = false
             self.createPostButton.backgroundColor = LMBranding.shared.buttonColor
         } else {
+            self.createPostButton.isHidden = true
             self.createPostButton.backgroundColor = .lightGray
         }
     }
