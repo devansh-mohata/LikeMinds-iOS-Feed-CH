@@ -24,7 +24,7 @@ class ShimmerView: UIView {
         
         animation.fromValue = [-1.0, -0.5, 0.0]
         animation.toValue = [1.0, 1.5, 2.0]
-        animation.duration = 1
+        animation.duration = 2
         
         animation.repeatCount = .infinity
         return animation
@@ -39,9 +39,9 @@ class ShimmerView: UIView {
         gradientLayer.locations = [0.0, 0.5, 1.0]
         
         gradientLayer.colors = [
-            UIColor.init(red: 209 / 255.0, green: 209 / 255.0, blue: 214 / 255.0, alpha: 1).cgColor,
-            UIColor.init(red: 209 / 255.0, green: 209 / 255.0, blue: 214 / 255.0, alpha: 1).cgColor,
-            UIColor.init(red: 242 / 255.0, green: 242 / 255.0, blue: 247 / 255.0, alpha: 1).cgColor
+            UIColor(hexString:"#E6EBF5").cgColor,
+            UIColor(hexString: "#FFFFFF").cgColor,
+            UIColor(hexString:"#E6EBF5").cgColor
         ]
         
         return gradientLayer

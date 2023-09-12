@@ -11,6 +11,7 @@ import Kingfisher
 import BSImagePicker
 import PDFKit
 import LikeMindsFeed
+import AVFoundation
 
 public final class HomeFeedViewControler: BaseViewController {
     
@@ -52,7 +53,7 @@ public final class HomeFeedViewControler: BaseViewController {
         let sv = UIStackView()
         sv.axis  = .vertical
         sv.alignment = .fill
-        sv.distribution = .fill
+        sv.distribution = .fillProportionally
         sv.backgroundColor = .white
         sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -121,7 +122,7 @@ public final class HomeFeedViewControler: BaseViewController {
     }()
     var notificationBarItem: UIBarButtonItem!
     let notificationBellButton: LMButton = {
-        let button = LMButton(frame: CGRect(x: 0, y: 5, width: 44, height: 44))
+        let button = LMButton(frame: CGRect(x: 0, y: 6, width: 44, height: 44))
         button.setImage(UIImage(systemName: ImageIcon.bellFillIcon), for: .normal)
         button.tintColor = ColorConstant.likeTextColor
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 22), forImageIn: .normal)
@@ -154,7 +155,7 @@ public final class HomeFeedViewControler: BaseViewController {
         setupPostingProgress()
         self.createPostButton.isHidden = true
         homeFeedViewModel.delegate = self
-//        self.postingImageSuperView.superview?.isHidden = true
+        self.postingImageSuperView.superview?.isHidden = true
         homeFeedViewModel.getFeed()
         createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(postEditCompleted), name: .postEditCompleted, object: nil)
@@ -327,7 +328,8 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     func setupPostingProgress() {
-        postingProgressSuperStackView.addArrangedSubview(postingProgressShimmerView)
+//        feedTableView.tableHeaderView = postingProgressShimmerView
+//        postingProgressSuperStackView.addArrangedSubview(postingProgressShimmerView)
         postingProgressSuperStackView.addArrangedSubview(postingProgressStackView)
         postingProgressStackView.addArrangedSubview(postingImageSuperView)
         postingProgressStackView.addArrangedSubview(postingLabel)
@@ -456,6 +458,15 @@ public final class HomeFeedViewControler: BaseViewController {
                 guard let url = responseURL else { return }
                 DispatchQueue.main.async {
                     let mediaType: CreatePostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
+                    if mediaType == .video {
+                        let asset = AVAsset(url: url)
+                        let duration = asset.duration
+                        let durationTime = CMTimeGetSeconds(duration)
+                        if durationTime > (10*60) {
+                            self?.showErrorAlert(message: "Max video duration is 10 mins!")
+                            return
+                        }
+                    }
                     self?.moveToAddResources(resourceType: mediaType, url: url)
                     imagePicker.dismiss(animated: true)
                 }
@@ -763,6 +774,12 @@ extension HomeFeedViewControler: EmptyHomeFeedViewDelegate {
 extension HomeFeedViewControler: UIDocumentPickerDelegate {
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
+        if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > 8 {
+            print(size)
+            print((size/1000000))
+            self.showErrorAlert(message: "Max size limit is 8 MB!")
+            return
+        }
         print(url)
         self.moveToAddResources(resourceType: .document, url: url)
         controller.dismiss(animated: true)

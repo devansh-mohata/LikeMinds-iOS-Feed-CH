@@ -9,6 +9,7 @@ import UIKit
 import BSImagePicker
 import PDFKit
 import LikeMindsFeed
+import AVFoundation
 
 class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     
@@ -232,6 +233,10 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     @objc func backButtonClicked() {
+        if viewModel.imageAndVideoAttachments.count == 0 && viewModel.linkAttatchment == nil && viewModel.documentAttachments.count == 0 && titleTextView.text.isEmpty && captionTextView.text.isEmpty {
+            self.navigationController?.popViewController(animated: true)
+            return 
+        }
         let bottomSheetViewController = BottomSheetViewController(nibName: "BottomSheetViewController", bundle: Bundle(for: BottomSheetViewController.self))
         bottomSheetViewController.delegate  = self
         bottomSheetViewController.modalPresentationStyle = .overCurrentContext
@@ -247,6 +252,9 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     func setupProfileData() {
         guard let user = LocalPrefrerences.getUserData() else {
             return
+        }
+        if LocalPrefrerences.getMemberStateData()?.state != MemberState.admin.rawValue {
+            changeAuthorButton.isHidden = true
         }
         let placeholder = UIImage.generateLetterImage(with: user.name)
         self.userProfileImage.setImage(withUrl: user.imageUrl ?? "", placeholder: placeholder)
@@ -327,6 +335,15 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
                         imagePicker.dismiss(animated: true)
                         self?.present(shittyVC, animated: true, completion: nil)
                     } else  {
+                        if mediaType == .video {
+                            let asset = AVAsset(url: url)
+                            let duration = asset.duration
+                            let durationTime = CMTimeGetSeconds(duration)
+                            if durationTime > (10*60) {
+                                self?.showErrorAlert(message: "Max video duration is 10 mins!")
+                                return
+                            }
+                        }
                         self?.viewModel.addImageVideoAttachment(fileUrl: url, type: mediaType)
                         self?.reloadCollectionView()
                         imagePicker.dismiss(animated: true)
@@ -638,9 +655,14 @@ extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
 extension CreatePostViewController: UIDocumentPickerDelegate {
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
+        if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > 8 {
+            print(size)
+            print((size/1000000))
+            self.showErrorAlert(message: "Max size limit is 8 MB!")
+            return
+        }
         print(url)
         self.viewModel.addDocumentAttachment(fileUrl: url)
-//        self.delegate?.didSelect(image: image)
         controller.dismiss(animated: true)
     }
     
