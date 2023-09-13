@@ -128,6 +128,7 @@ public final class HomeFeedViewControler: BaseViewController {
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 22), forImageIn: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.bounds = button.bounds.offsetBy(dx: -8, dy: -2)
         return button
     }()
     
