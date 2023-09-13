@@ -399,15 +399,19 @@ public final class HomeFeedViewControler: BaseViewController {
     func showNewPostMenu() {
         let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let articalAction = UIAlertAction(title: "Add Article", style: .default) {[weak self] action in
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "article"])
             self?.moveToAddResources(resourceType: .article, url: nil)
         }
         let videoAction = UIAlertAction(title: "Add Video", style: .default) {[weak self] action in
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "video"])
             self?.addImageOrVideoResource()
         }
         let pdfAction = UIAlertAction(title: "Add PDF", style: .default) {[weak self] action in
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "file"])
             self?.addPDFResource()
         }
         let linkAction = UIAlertAction(title: "Add Link", style: .default) { [weak self] action in
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "Link"])
             self?.addLinkResource()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
@@ -505,7 +509,7 @@ public final class HomeFeedViewControler: BaseViewController {
             txtField.textColor = LMBranding.shared.textLinkColor
             txtField.placeholder = "http://www.example.com"
         }
-        let actionSubmit = UIAlertAction(title: "Continue", style: .cancel) { [weak self] (action) in
+        let actionSubmit = UIAlertAction(title: "Continue", style: .default) { [weak self] (action) in
             guard let txtfield = alertView.textFields?.first,
                   let inputText = txtfield.text?.trimmedText(),
                   let url = inputText.detectedFirstURL else {
@@ -518,8 +522,9 @@ public final class HomeFeedViewControler: BaseViewController {
         let actionCancel = UIAlertAction(title: "Cancel", style: .default) { (action) in
             alertView.dismiss(animated: true)
         }
-        alertView.addAction(actionSubmit)
         alertView.addAction(actionCancel)
+        alertView.addAction(actionSubmit)
+        alertView.preferredAction = actionSubmit
         self.present(alertView, animated: true, completion: nil)
     }
     

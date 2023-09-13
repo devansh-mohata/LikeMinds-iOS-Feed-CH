@@ -136,15 +136,18 @@ class EditPostViewController: BaseViewController {
     }
     
     @objc func uploadArticleBanner() {
-       /* if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let myPickerController = UIImagePickerController()
-            myPickerController.delegate = self
-            myPickerController.sourceType = .photoLibrary
-            myPickerController.allowsEditing = true
-            self.present(myPickerController, animated: true, completion: nil)
-        }
-        */
         openImagePicker(.image)
+    }
+    
+    @objc func backButtonClicked() {
+        if viewModel.imageAndVideoAttachments.count == 0 && viewModel.linkAttatchment == nil && viewModel.documentAttachments.count == 0 && titleTextView.text.isEmpty && captionTextView.text.isEmpty {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        let bottomSheetViewController = BottomSheetViewController(nibName: "BottomSheetViewController", bundle: Bundle(for: BottomSheetViewController.self))
+        bottomSheetViewController.delegate  = self
+        bottomSheetViewController.modalPresentationStyle = .overCurrentContext
+        self.present(bottomSheetViewController, animated: false)
     }
     
     @objc func deleteArticleBanner() {
@@ -156,10 +159,10 @@ class EditPostViewController: BaseViewController {
             self?.deleteArticleBannerButton.isHidden = true
             self?.enablePostButton()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alert.addAction(removeAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         alert.addAction(cancelAction)
+        alert.addAction(removeAction)
+        alert.preferredAction = removeAction
         self.present(alert, animated: true)
     }
     
@@ -207,6 +210,13 @@ class EditPostViewController: BaseViewController {
         postButtonItem?.tintColor = LMBranding.shared.buttonColor
         self.navigationItem.rightBarButtonItem = postButtonItem
         postButtonItem?.isEnabled = false
+        
+        let backButton = UIBarButtonItem(image: UIImage(systemName:  ImageIcon.backIcon),
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(backButtonClicked))
+        backButton.tintColor = LMBranding.shared.buttonColor
+        self.navigationItem.leftBarButtonItem = backButton
     }
     
     func setupProfileData() {
@@ -215,7 +225,7 @@ class EditPostViewController: BaseViewController {
         }
         let placeholder = UIImage.generateLetterImage(with: user.name)
         self.userProfileImage.setImage(withUrl: user.imageUrl ?? "", placeholder: placeholder)
-        self.usernameLabel.text = user.name
+        self.usernameLabel.text = user.name?.capitalized
     }
     
     @objc func changeAuthor() {
@@ -686,4 +696,13 @@ extension EditPostViewController: CropImageViewControllerDelegate {
         self.viewModel.addImageVideoAttachment(fileUrl: imageUrl, type: .image)
         self.reloadCollectionView()
     }
+}
+
+extension EditPostViewController: BottomSheetViewDelegate {
+    
+    func didClickedOnDeleteButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func didClickedOnContinueButton() {}
 }

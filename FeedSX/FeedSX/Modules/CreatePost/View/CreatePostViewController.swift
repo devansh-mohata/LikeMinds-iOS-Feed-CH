@@ -235,6 +235,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     
     @objc func backButtonClicked() {
         if viewModel.imageAndVideoAttachments.count == 0 && viewModel.linkAttatchment == nil && viewModel.documentAttachments.count == 0 && titleTextView.text.isEmpty && captionTextView.text.isEmpty {
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.creationIncompleted, eventProperties: nil)
             self.navigationController?.popViewController(animated: true)
             return 
         }
@@ -245,6 +246,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     func didClickedOnDeleteButton() {
+        LMFeedAnalyticsEventName.Post.creationIncompleted
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -259,7 +261,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         }
         let placeholder = UIImage.generateLetterImage(with: user.name)
         self.userProfileImage.setImage(withUrl: user.imageUrl ?? "", placeholder: placeholder)
-        self.usernameLabel.text = user.name
+        self.usernameLabel.text = user.name?.capitalized
         self.viewModel.onBehalfOfUUID = user.clientUUID
     }
     
@@ -287,14 +289,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     @objc func uploadArticleBanner() {
-        /*
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let myPickerController = UIImagePickerController()
-            myPickerController.delegate = self
-            myPickerController.sourceType = .photoLibrary
-            myPickerController.allowsEditing = true
-            self.present(myPickerController, animated: true, completion: nil)
-        }*/
         openImagePicker(.image)
     }
     
@@ -308,10 +302,10 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
             self?.deleteArticleBannerButton.isHidden = true
             self?.enablePostButton()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alert.addAction(removeAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         alert.addAction(cancelAction)
+        alert.addAction(removeAction)
+        alert.preferredAction = removeAction
         self.present(alert, animated: true)
     }
     
@@ -625,11 +619,12 @@ extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
             alertView.dismiss(animated: true, completion: nil)
         }
         
-        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        let actionCancel = UIAlertAction(title: "Cancel", style: .default) { (action) in
             alertView.dismiss(animated: true)
         }
-        alertView.addAction(actionSubmit)
         alertView.addAction(actionCancel)
+        alertView.addAction(actionSubmit)
+        alertView.preferredAction = actionSubmit
         self.present(alertView, animated: true, completion: nil)
     }
     
@@ -759,6 +754,9 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
             pageControl?.superview?.isHidden = true
             self.addLinkTextView.superview?.isHidden = self.viewModel.linkAttatchment != nil
             self.attachmentView.isHidden = self.viewModel.linkAttatchment == nil
+            if self.viewModel.linkAttatchment != nil {
+                self.addLinkTextView.resignFirstResponder()
+            }
         default:
             self.uploadActionViewHeightConstraint.constant = 0
             self.collectionSuperViewHeightConstraint.constant = 110
@@ -824,6 +822,6 @@ extension CreatePostViewController: MemberListViewControllerDelegate {
         self.viewModel.onBehalfOfUUID = member.uuid
         let placeholder = UIImage.generateLetterImage(with: member.name)
         self.userProfileImage.setImage(withUrl: member.profileImageURL, placeholder: placeholder)
-        self.usernameLabel.text = member.name
+        self.usernameLabel.text = member.name.capitalized
     }
 }

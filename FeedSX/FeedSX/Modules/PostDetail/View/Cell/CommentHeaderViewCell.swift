@@ -154,7 +154,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     let likeCountLabel: LMLabel = {
         let label = LMPaddedLabel()
         label.paddingLeft = 0
-        label.paddingRight = 5
+        label.paddingRight = 6
         label.paddingTop = 10
         label.paddingBottom = 10
         label.textColor = ColorConstant.likeTextColor
@@ -165,7 +165,8 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     }()
     
     let deviderLabel: LMLabel = {
-        let label = LMLabel()
+        let label = LMPaddedLabel()
+        label.paddingRight = 8
         label.font = LMBranding.shared.font(16, .regular)
         label.text = "|"
         label.textColor = ColorConstant.likeTextColor

@@ -38,7 +38,7 @@ extension TaggedUserListDelegate {
     var typeTextRangeInTextView: NSRange?
     var isTaggingViewHidden = true
     var isReloadTaggingListView = true
-    var cellHeight = 60
+    var cellHeight = 50
     
     private var taggingView: TaggingView = TaggingView()
     
@@ -61,6 +61,7 @@ extension TaggedUserListDelegate {
     func setUp() {
         setupTaggingView()
         viewModel.delegate = self
+        tableView.separatorStyle = .none
         tableView.register(UINib(nibName: TaggedListTableViewCell.cellIdentifier, bundle: Bundle(for: TaggedListTableViewCell.self)), forCellReuseIdentifier: TaggedListTableViewCell.cellIdentifier)
         tableView.superview?.addShadow()
     }

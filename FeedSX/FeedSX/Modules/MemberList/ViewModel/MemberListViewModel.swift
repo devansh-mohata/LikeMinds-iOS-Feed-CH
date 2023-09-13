@@ -65,7 +65,7 @@ final class MemberListViewModel: BaseViewModel {
     
     func prepareMemberListData(_ members: [User]) {
         let membersData = members.map { member in
-            return MemberListDataView.MemberDataView(name: member.name ?? "",
+            return MemberListDataView.MemberDataView(name: member.name?.capitalized ?? "",
                                                      profileImageURL: member.imageUrl ?? "",
                                                      company: member.organisationName ?? "",
                                                      designation: "",

@@ -103,7 +103,7 @@ final class PostFeedDataView {
         let designation = answers?.filter({$0.question?.state == 1 }).first?.answer?.answer
         let organisation = answers?.filter({$0.question?.state == 0 }).first?.answer?.answer
         
-        return PostByUser(name: user.name ?? "",
+        return PostByUser(name: user.name?.capitalized ?? "",
                           profileImageUrl: user.imageUrl ?? "",
                           customTitle: user.customTitle,
                           uuid: userId,
