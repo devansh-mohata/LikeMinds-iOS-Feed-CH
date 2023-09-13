@@ -147,6 +147,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
             self.articalBannerViewContainer.isHidden = true
             self.attachmentView.isHidden = false
             guard let url = resourceURL?.absoluteString else { return }
+            self.addLinkTextView.textColor = LMBranding.shared.textLinkColor
             self.viewModel.parseMessageForLink(message: url)
         case .document:
             self.articalBannerViewContainer.isHidden = true
@@ -618,6 +619,8 @@ extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
         
         let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let actionSubmit = UIAlertAction(title: "Remove", style: .default) { [weak self] (action) in
+            self?.addLinkTextView.text = ""
+            self?.addLinkPlaceholderLabel.isHidden = false
             self?.removeAttachmentConfirmationPopup(indexPath: indexPath)
             alertView.dismiss(animated: true, completion: nil)
         }

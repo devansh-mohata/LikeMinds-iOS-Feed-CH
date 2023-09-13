@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -75,8 +76,9 @@
                                                         <constraint firstAttribute="height" constant="40" id="zK3-ZD-Jp7"/>
                                                     </constraints>
                                                     <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="pencil" catalog="system">
+                                                    <inset key="imageEdgeInsets" minX="-20" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal">
+                                                        <imageReference key="image" image="pencil" catalog="system" symbolScale="medium"/>
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="black"/>
                                                     </state>
                                                 </button>
@@ -417,6 +419,20 @@
             <point key="canvasLocation" x="38.931297709923662" y="19.718309859154932"/>
         </view>
     </objects>
+    <designables>
+        <designable name="Fcp-l5-O1X">
+            <size key="intrinsicContentSize" width="148.66666666666666" height="23.666666666666668"/>
+        </designable>
+        <designable name="KLC-nX-njp">
+            <size key="intrinsicContentSize" width="148.66666666666666" height="23.666666666666668"/>
+        </designable>
+        <designable name="UEn-TW-WEX">
+            <size key="intrinsicContentSize" width="19" height="22"/>
+        </designable>
+        <designable name="f20-QJ-ZX8">
+            <size key="intrinsicContentSize" width="20.333333333333332" height="22"/>
+        </designable>
+    </designables>
     <resources>
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>

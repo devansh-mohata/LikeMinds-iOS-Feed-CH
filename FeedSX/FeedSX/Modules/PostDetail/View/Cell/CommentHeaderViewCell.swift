@@ -242,6 +242,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     func commonInit() -> Void {
         contentView.backgroundColor = .white
         contentView.addSubview(commentHeaderStackView)
+        contentView.addSubview(likeAndReplyStackView)
         usernameAndCaptionStackView.addArrangedSubview(usernameAndBadgeStackView)
         usernameAndBadgeStackView.addArrangedSubview(usernameLabel)
         usernameAndBadgeStackView.addArrangedSubview(badgeImageView)
@@ -263,14 +264,18 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         likeAndReplyStackView.addArrangedSubview(replyAndTimeSpaceView)
         replyAndTimeSpaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
         likeAndReplyStackView.addArrangedSubview(timeLabel)
-        commentHeaderStackView.addArrangedSubview(likeAndReplyStackView)
+//        commentHeaderStackView.addArrangedSubview(likeAndReplyStackView)
         let g = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([
             commentHeaderStackView.topAnchor.constraint(equalTo: g.topAnchor),
             commentHeaderStackView.leadingAnchor.constraint(equalTo: g.leadingAnchor),
             commentHeaderStackView.trailingAnchor.constraint(equalTo: g.trailingAnchor),
-            commentHeaderStackView.bottomAnchor.constraint(equalTo: g.bottomAnchor)
+            commentHeaderStackView.bottomAnchor.constraint(equalTo: likeAndReplyStackView.topAnchor)
         ])
+        
+        likeAndReplyStackView.leftAnchor.constraint(equalTo: g.leftAnchor, constant: -8).isActive = true
+        likeAndReplyStackView.rightAnchor.constraint(equalTo: g.rightAnchor, constant: 0).isActive = true
+        likeAndReplyStackView.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: 4).isActive = true
         
         likeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         likeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true

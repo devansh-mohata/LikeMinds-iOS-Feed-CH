@@ -175,6 +175,7 @@ class EditPostOperation {
             .attachmentUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
             .name(attachment.name)
+            .thumbnailUrl(attachment.thumbnailUrl)
             .pageCount(numberOfPages ?? 0)
             .format("pdf")
         let attachmentRequest = Attachment()

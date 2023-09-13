@@ -45,7 +45,6 @@ public class LikeMindsFeedSX {
                 weakSelf.registerDeviceToken()
             }
             LocalPrefrerences.saveObject(user, forKey: LocalPreferencesKey.userDetails)
-//            let homeFeedVC = UINavigationController(rootViewController: HomeFeedViewControler())
             let homeFeedVC = HomeFeedViewControler()
             viewController.addChild(homeFeedVC)
             viewController.view.addSubview(homeFeedVC.view)

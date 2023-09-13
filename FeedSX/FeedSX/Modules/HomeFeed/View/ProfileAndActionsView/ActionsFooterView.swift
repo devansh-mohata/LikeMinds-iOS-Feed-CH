@@ -126,6 +126,7 @@ class ActionsFooterView: UIView {
         imageView.tintColor = ColorConstant.likeTextColor
         imageView.contentMode = .center
         imageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .light, scale: .medium)
+        imageView.isHidden = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -168,8 +169,8 @@ class ActionsFooterView: UIView {
         savedAndShareStackView.addArrangedSubview(savedImageView)
         savedAndShareStackView.addArrangedSubview(shareImageView)
                 
-        likeAndCommentStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
-        savedAndShareStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
+        likeAndCommentStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 6).isActive = true
+        savedAndShareStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -6).isActive = true
         let topAndBottomMargin = 10.0
         likeAndCommentStackView.rightAnchor.constraint(lessThanOrEqualTo: savedAndShareStackView.leftAnchor, constant: -topAndBottomMargin).isActive = true
         likeAndCommentStackView.topAnchor.constraint(lessThanOrEqualTo: self.topAnchor, constant: -topAndBottomMargin).isActive = true

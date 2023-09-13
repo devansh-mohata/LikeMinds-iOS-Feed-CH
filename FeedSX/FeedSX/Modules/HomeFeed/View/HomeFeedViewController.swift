@@ -45,7 +45,7 @@ public final class HomeFeedViewControler: BaseViewController {
         let width = UIScreen.main.bounds.width
         let sView = HomeFeedShimmerView(frame: .zero)
 //        sv.backgroundColor = .white
-//        sView.translatesAutoresizingMaskIntoConstraints = false
+        sView.translatesAutoresizingMaskIntoConstraints = false
         return sView
     }()
     
@@ -146,7 +146,7 @@ public final class HomeFeedViewControler: BaseViewController {
         return label
     }()
     var isPostCreatingInProgress: Bool = false
-    
+    var isAlreadyViewLoaded: Bool = false
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -181,6 +181,14 @@ public final class HomeFeedViewControler: BaseViewController {
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         pauseAllVideo()
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !isAlreadyViewLoaded {
+            self.isAlreadyViewLoaded = true
+            self.addShimmerTableHeaderView()
+        }
     }
     
     @objc func refreshDataObject(notification: Notification) {
@@ -234,22 +242,24 @@ public final class HomeFeedViewControler: BaseViewController {
     @objc func postCreationStarted(notification: Notification) {
         print("postCreationStarted")
         self.isPostCreatingInProgress = true
-        self.postingImageSuperView.superview?.isHidden = false
-        if let image = notification.object as? UIImage {
-            postingImageView.superview?.isHidden = false
-            postingImageView.image = image
-        } else {
-            self.postingImageView.isHidden = true
-        }
+//        self.postingImageSuperView.superview?.isHidden = false
+        self.addShimmerTableHeaderView()
+//        if let image = notification.object as? UIImage {
+//            postingImageView.superview?.isHidden = false
+//            postingImageView.image = image
+//        } else {
+//            self.postingImageView.isHidden = true
+//        }
         if homeFeedViewModel.feeds.count > 0 {
-            self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            self.feedTableView.setContentOffset( CGPoint(x: 0, y: 0) , animated: false)
         }
     }
     
     @objc func postCreationCompleted(notification: Notification) {
         print("postCreationCompleted")
         self.isPostCreatingInProgress = false
-        self.postingImageSuperView.superview?.isHidden = true
+//        self.postingImageSuperView.superview?.isHidden = true
+        self.removeShimmerFromTableView()
         if let error = notification.object as? String {
             self.presentAlert(message: error)
             return
@@ -262,7 +272,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc func postEditingStarted(notification: Notification) {
         print("postEditingStarted")
-        self.postingImageSuperView.superview?.isHidden = false
+//        self.postingImageSuperView.superview?.isHidden = false
         if let image = notification.object as? UIImage {
             postingImageView.superview?.isHidden = false
             postingImageView.image = image
@@ -273,7 +283,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc func postEditCompleted(notification: Notification) {
         print("postEditCompleted")
-        self.postingImageSuperView.superview?.isHidden = true
+//        self.postingImageSuperView.superview?.isHidden = true
         let notificationObject = notification.object
         if let error = notificationObject as? String {
             self.presentAlert(message: error)
@@ -281,6 +291,23 @@ public final class HomeFeedViewControler: BaseViewController {
         }
         let updatedAtIndex = self.homeFeedViewModel.updateEditedPost(postDetail: notificationObject as? PostFeedDataView)
         self.feedTableView.reloadRows(at: [IndexPath(row: updatedAtIndex, section: 0)], with: .none)
+    }
+    
+    private func addShimmerTableHeaderView() {
+        postingProgressShimmerView.layoutIfNeeded()
+        postingProgressShimmerView.translatesAutoresizingMaskIntoConstraints = false
+        feedTableView.tableHeaderView = postingProgressShimmerView
+        postingProgressShimmerView.centerXAnchor.constraint(equalTo: self.feedTableView.centerXAnchor).isActive = true
+        postingProgressShimmerView.widthAnchor.constraint(equalTo: self.feedTableView.widthAnchor).isActive = true
+        postingProgressShimmerView.topAnchor.constraint(equalTo: self.feedTableView.topAnchor).isActive = true
+        self.feedTableView.tableHeaderView?.layoutIfNeeded()
+        self.feedTableView.tableHeaderView = self.feedTableView.tableHeaderView
+        postingProgressShimmerView.startAnimation()
+    }
+    
+    private func removeShimmerFromTableView() {
+        feedTableView.tableHeaderView = nil
+        self.feedTableView.tableHeaderView?.layoutIfNeeded()
     }
     
     func setupTableView() {
@@ -328,8 +355,6 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     func setupPostingProgress() {
-//        feedTableView.tableHeaderView = postingProgressShimmerView
-//        postingProgressSuperStackView.addArrangedSubview(postingProgressShimmerView)
         postingProgressSuperStackView.addArrangedSubview(postingProgressStackView)
         postingProgressStackView.addArrangedSubview(postingImageSuperView)
         postingProgressStackView.addArrangedSubview(postingLabel)
@@ -477,9 +502,10 @@ public final class HomeFeedViewControler: BaseViewController {
     func addLinkResource() {
         let alertView = UIAlertController(title: "Enter Link URL", message: "Enter the link/URL you want to post.", preferredStyle: .alert)
         alertView.addTextField { (txtField) in
+            txtField.textColor = LMBranding.shared.textLinkColor
             txtField.placeholder = "http://www.example.com"
         }
-        let actionSubmit = UIAlertAction(title: "Continue", style: .default) { [weak self] (action) in
+        let actionSubmit = UIAlertAction(title: "Continue", style: .cancel) { [weak self] (action) in
             guard let txtfield = alertView.textFields?.first,
                   let inputText = txtfield.text?.trimmedText(),
                   let url = inputText.detectedFirstURL else {
@@ -489,7 +515,7 @@ public final class HomeFeedViewControler: BaseViewController {
             alertView.dismiss(animated: true, completion: nil)
         }
         
-        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        let actionCancel = UIAlertAction(title: "Cancel", style: .default) { (action) in
             alertView.dismiss(animated: true)
         }
         alertView.addAction(actionSubmit)
@@ -617,6 +643,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
 extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     
     func didReceivedFeedData(success: Bool) {
+        self.removeShimmerFromTableView()
         if homeFeedViewModel.feeds.count == 0 {
             setHomeFeedEmptyView()
             self.createPostButton.isHidden = true
