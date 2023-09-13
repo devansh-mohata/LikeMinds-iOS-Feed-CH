@@ -128,6 +128,7 @@ public final class HomeFeedViewControler: BaseViewController {
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 22), forImageIn: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.bounds = button.bounds.offsetBy(dx: -8, dy: -2)
         return button
     }()
     
@@ -227,8 +228,8 @@ public final class HomeFeedViewControler: BaseViewController {
         notificationBadgeLabel.text = count > 99 ? "99+" : "\(count)"
         notificationBellButton.addSubview(notificationBadgeLabel)
         NSLayoutConstraint.activate([
-            notificationBadgeLabel.leftAnchor.constraint(equalTo: notificationBellButton.leftAnchor, constant: 16),
-            notificationBadgeLabel.topAnchor.constraint(equalTo: notificationBellButton.topAnchor, constant: 4),
+            notificationBadgeLabel.leftAnchor.constraint(equalTo: notificationBellButton.leftAnchor, constant: 10),
+            notificationBadgeLabel.topAnchor.constraint(equalTo: notificationBellButton.topAnchor, constant: 2),
             notificationBadgeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
             notificationBadgeLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
