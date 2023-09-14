@@ -140,7 +140,7 @@ class EditPostViewController: BaseViewController {
     }
     
     @objc func backButtonClicked() {
-        if viewModel.imageAndVideoAttachments.count == 0 && viewModel.linkAttatchment == nil && viewModel.documentAttachments.count == 0 && titleTextView.text.isEmpty && captionTextView.text.isEmpty {
+        if viewModel.imageAndVideoAttachments.first?.url == viewModel.postDetail?.imageVideos?.first?.url && viewModel.linkAttatchment?.url == viewModel.postDetail?.linkAttachment?.url && viewModel.documentAttachments.first?.attachmentUrl == viewModel.postDetail?.attachments?.first?.attachmentUrl && titleTextView.text == viewModel.postDetail?.header && captionTextView.text == viewModel.postDetail?.caption {
             self.navigationController?.popViewController(animated: true)
             return
         }
