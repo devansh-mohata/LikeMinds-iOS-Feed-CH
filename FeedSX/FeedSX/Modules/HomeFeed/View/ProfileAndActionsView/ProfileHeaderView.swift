@@ -83,7 +83,7 @@ class ProfileHeaderView: UIView {
         let label = LMLabel()
         label.textColor = ColorConstant.postCaptionColor
         label.font = LMBranding.shared.font(12, .regular)
-        label.text = "Event Moderation @ Snapdeal"
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
@@ -127,14 +127,13 @@ class ProfileHeaderView: UIView {
     }()
     
     let pinImageView: UIImageView = {
-        let menuImageSize = 16
+        let menuImageSize = 24
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: menuImageSize, height: menuImageSize))
         imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(systemName: ImageIcon.pinIcon)
+        imageView.image = UIImage(named: ImageIcon.pinIcon, in: Bundle(for: ProfileHeaderView.self), with: nil)
         imageView.tintColor = ColorConstant.likeTextColor
-        imageView.preferredSymbolConfiguration = .init(pointSize: 16, weight: .light, scale: .large)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

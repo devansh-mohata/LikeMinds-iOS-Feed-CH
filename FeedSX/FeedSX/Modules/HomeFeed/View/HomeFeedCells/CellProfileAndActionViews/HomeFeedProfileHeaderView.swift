@@ -25,6 +25,24 @@ class HomeFeedProfileHeaderView: UIView {
         return sv
     }()
     
+    let pinImageView: UIImageView = {
+        let menuImageSize = 24
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: menuImageSize, height: menuImageSize))
+        imageView.backgroundColor = .white
+        imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        imageView.image = UIImage(named: ImageIcon.pinIcon, in: Bundle(for: ProfileHeaderView.self), with: nil)
+        imageView.tintColor = ColorConstant.likeTextColor
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    var pinContainerView: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        return uiView
+    }()
+    
     let avatarImageView: UIImageView = {
         let imageSize = 48.0
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
@@ -97,17 +115,26 @@ class HomeFeedProfileHeaderView: UIView {
     
     func setupSubviews() {
         addSubview(avatarAndUsernameStackView)
+        pinContainerView.addSubview(pinImageView)
         avatarAndUsernameStackView.addArrangedSubview(avatarImageView)
         avatarAndUsernameStackView.addArrangedSubview(postTitleAndTimeStackView)
+        avatarAndUsernameStackView.addArrangedSubview(pinContainerView)
         postTitleAndTimeStackView.addArrangedSubview(postTitleLabel)
         postTitleAndTimeStackView.addArrangedSubview(timeAndEditStackView)
         timeAndEditStackView.addArrangedSubview(usernameLabel)
         timeAndEditStackView.addArrangedSubview(postTimeLabel)
         
         avatarAndUsernameStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
-        avatarAndUsernameStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        avatarAndUsernameStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
         avatarAndUsernameStackView.topAnchor.constraint(lessThanOrEqualTo: self.topAnchor, constant: 0).isActive = true
         avatarAndUsernameStackView.bottomAnchor.constraint(greaterThanOrEqualTo: self.bottomAnchor, constant: 8).isActive = true
+        
+        pinImageView.leftAnchor.constraint(equalTo: pinContainerView.leftAnchor, constant: 0).isActive = true
+        pinImageView.rightAnchor.constraint(equalTo: pinContainerView.rightAnchor, constant: 0).isActive = true
+        pinImageView.topAnchor.constraint(lessThanOrEqualTo: pinContainerView.topAnchor, constant: 0).isActive = true
+        
+        pinContainerView.topAnchor.constraint(lessThanOrEqualTo: avatarImageView.topAnchor, constant: 0).isActive = true
+        pinContainerView.bottomAnchor.constraint(lessThanOrEqualTo: avatarAndUsernameStackView.bottomAnchor, constant: 0).isActive = true
     }
     
     private func setupActions() {
@@ -119,6 +146,7 @@ class HomeFeedProfileHeaderView: UIView {
         setupProfile(profileData: feedDataView.postByUser)
         postTitleLabel.text = feedDataView.header
         postTimeLabel.text = " \(SpecialCharString.centerDot) " + Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort() + ((feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : "")
+        pinImageView.isHidden = !feedDataView.isPinned
     }
     
     private func setupProfile(profileData: PostFeedDataView.PostByUser?){

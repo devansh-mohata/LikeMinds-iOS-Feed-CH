@@ -15,7 +15,7 @@ struct ImageIcon {
     static let bookmarkFillIcon = "bookmark.fill"
     static let shareIcon = "arrowshape.turn.up.forward"
     static let commentIcon = "message"
-    static let pinIcon = "pin.circle"
+    static let pinIcon = "pin_circle"
     static let moreIcon = "ellipsis"
     static let linkIcon = "link"
     static let personInCircle = "person.circle"

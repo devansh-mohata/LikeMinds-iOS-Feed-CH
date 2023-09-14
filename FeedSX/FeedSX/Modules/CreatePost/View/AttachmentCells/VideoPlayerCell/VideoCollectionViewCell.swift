@@ -90,7 +90,7 @@ class VideoCollectionViewCell: UICollectionViewCell {
             playerView.player?.play()
             self.playButton.isHidden = true
             //TODO:- Need to handle loading indicator, as of now we added inital for 5 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
         }
