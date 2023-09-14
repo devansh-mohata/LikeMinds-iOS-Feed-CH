@@ -278,7 +278,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
         likeAndReplyStackView.rightAnchor.constraint(equalTo: g.rightAnchor, constant: 0).isActive = true
         likeAndReplyStackView.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: 4).isActive = true
         
-        likeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        likeImageView.widthAnchor.constraint(equalToConstant: 26).isActive = true
         likeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         moreImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         moreImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true

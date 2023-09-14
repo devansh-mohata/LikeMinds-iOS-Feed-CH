@@ -147,12 +147,12 @@ class HomeFeedViewModel: BaseViewModel {
     }
     
     func hasRightForCreatePost() -> Bool {
-        if self.isAdmin() { return true } else { return false }
+        if self.isAdmin() { return true }
         guard let rights = LocalPrefrerences.getMemberStateData()?.memberRights,
               let right = rights.filter({$0.state == .createPost}).first else {
             return false
         }
-        return right.isSelected ?? true
+        return right.isSelected ?? false
     }
     
     func isAdmin() -> Bool {
