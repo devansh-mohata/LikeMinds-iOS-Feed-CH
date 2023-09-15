@@ -699,5 +699,6 @@ extension PostDetailViewController: DeleteContentViewProtocol {
             self.setAttributedTextForNoComments()
         }
         self.postDetailTableView.reloadData()
+        self.viewModel.notifyObjectChanges()
     }
 }
