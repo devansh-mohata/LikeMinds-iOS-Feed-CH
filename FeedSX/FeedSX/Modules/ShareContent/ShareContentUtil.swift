@@ -10,8 +10,11 @@ import UIKit
 
 class ShareContentUtil {
     
+#if DEBUG
     static let domainUrl = "https://betaweb.likeminds.community"
-//    static let domainUrl = "https://web.likeminds.community"
+#else
+    static let domainUrl = "https://web.likeminds.community"
+#endif
     
     static func sharePost(viewController: UIViewController, domainUrl: String = domainUrl, postId: String, description: String = "") {
         let shareUrl = "\(domainUrl)/post?post_id=\(postId)"

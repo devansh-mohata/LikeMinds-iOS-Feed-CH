@@ -152,7 +152,7 @@ class HomeFeedProfileHeaderView: UIView {
     private func setupProfile(profileData: PostFeedDataView.PostByUser?){
         usernameLabel.text = profileData?.name
         let profilePlaceHolder = UIImage.generateLetterImage(with: profileData?.name) ?? UIImage()
-        guard let url = profileData?.profileImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else {
+        guard let url = profileData?.profileImageUrl else {
             avatarImageView.image = profilePlaceHolder
             return
         }

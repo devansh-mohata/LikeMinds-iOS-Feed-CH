@@ -221,7 +221,7 @@ class ProfileHeaderView: UIView {
         usernameLabel.text = profileData?.name
         usernameTitleSetup(title: profileData?.customTitle)
         let profilePlaceHolder = UIImage.generateLetterImage(with: profileData?.name) ?? UIImage()
-        guard let url = profileData?.profileImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else {
+        guard let url = profileData?.profileImageUrl else {
             avatarImageView.image = profilePlaceHolder
             return
         }
