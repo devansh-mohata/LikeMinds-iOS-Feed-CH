@@ -14,6 +14,7 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func reloadCollectionView()
     func reloadActionTableView()
     func showError(errorMessage: String?)
+    func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel])
 }
 
 class TaggedUser {
@@ -35,8 +36,12 @@ class TaggingUser {
     }
 }
 
+struct TopicFeedDataModel {
+    let title: String
+    let topicID: String
+}
+
 final class CreatePostViewModel: BaseViewModel {
-    
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
     var documentAttachments: [PostFeedDataView.Attachment] = []
     var linkAttatchment: PostFeedDataView.LinkAttachment?
@@ -46,6 +51,9 @@ final class CreatePostViewModel: BaseViewModel {
     var postCaption: String?
     var taggedUsers: [TaggedUser] = []
     
+    private var isShowTopicFeed = false
+    private var selectedTopics: [TopicFeedDataModel] = []
+    
     enum AttachmentUploadType: String {
         case document = "Attach Files"
         case image = "Add Photo"
@@ -53,6 +61,17 @@ final class CreatePostViewModel: BaseViewModel {
         case link
         case dontAttachOgTag
         case unknown
+    }
+    
+    func getTopics() {
+        let request = TopicFeedRequest.builder()
+            .setEnableState(true)
+            .build()
+        
+        LMFeedClient.shared.getTopicFeed(request) { [weak self] response in
+            self?.isShowTopicFeed = !(response.data?.topics?.isEmpty ?? true)
+            self?.setupTopicFeed()
+        }
     }
     
     func addDocumentAttachment(fileUrl: URL) {
@@ -80,7 +99,6 @@ final class CreatePostViewModel: BaseViewModel {
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             attachment.size = attr[.size] as? Int
             if let size = attachment.size, (size/1000) > 100000 {
-//                delegate?.showError(errorMessage: "File can not be more than 100 Mb.")
                 return
             }
         }
@@ -226,5 +244,24 @@ final class CreatePostViewModel: BaseViewModel {
             .text(postCaption)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
+    }
+    
+    private func setupTopicFeed() {
+        if !isShowTopicFeed {
+            delegate?.showHideTopicView(topics: [])
+            return
+        }
+        
+        var transformedCells: [TopicViewCollectionCell.ViewModel] = selectedTopics.map {
+            .init(image: nil, title: $0.title)
+        }
+        
+        if transformedCells.isEmpty {
+            transformedCells.append(.init(image: ImageIcon.plusIcon, title: "Select Topics", isEditCell: true))
+        } else {
+            transformedCells.append(.init(image: ImageIcon.editIcon, title: nil, isEditCell: true))
+        }
+        
+        delegate?.showHideTopicView(topics: transformedCells)
     }
 }
