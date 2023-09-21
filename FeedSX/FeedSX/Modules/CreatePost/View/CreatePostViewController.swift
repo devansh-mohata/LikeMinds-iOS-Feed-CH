@@ -247,7 +247,8 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopicViewCollectionCell.identifier, for: indexPath) as? TopicViewCollectionCell {
+        if collectionView == topicCollectionView,
+           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopicViewCollectionCell.identifier, for: indexPath) as? TopicViewCollectionCell {
             cell.configure(with: topics[indexPath.row])
             return cell
         }
@@ -307,7 +308,7 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
             // Cell Padding
             size += 8
             
-            return .init(width: size, height: 24)
+            return .init(width: size, height: 30)
         }
         
         switch self.viewModel.currentSelectedUploadeType {
@@ -335,7 +336,7 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == topicCollectionView,
            topics[indexPath.row].isEditCell {
-            let vc = SelectTopicViewController(selectedTopics: [], isShowAllTopics: true, delegate: self)
+            let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -587,6 +588,6 @@ class DynamicCollectionView: UICollectionView {
 
 extension CreatePostViewController: SelectTopicViewDelegate {
     func updateSelection(with data: [TopicFeedDataModel]) {
-        dump(data)
+        viewModel.updateSelectedTopics(with: data)
     }
 }

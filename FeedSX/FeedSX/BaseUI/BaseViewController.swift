@@ -129,10 +129,11 @@ public class BaseViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
-    func setTitleAndSubtile(title: String, subTitle: String?) {
+    func setTitleAndSubtile(title: String, subTitle: String?, alignment: UIStackView.Alignment = .center) {
         self.titleLabel.text = title
         self.subTitleLabel.text = subTitle
         guard self.navigationItem.titleView == nil else { return }
+        self.titleAndSubtitleStackView.alignment = alignment
         self.titleAndSubtitleStackView.addArrangedSubview(titleLabel)
         self.titleAndSubtitleStackView.addArrangedSubview(subTitleLabel)
         self.navigationItem.titleView = self.titleAndSubtitleStackView

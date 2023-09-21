@@ -26,25 +26,52 @@ class SelectTopicViewController: BaseViewController {
         didSet {
             topicsTableView.dataSource = self
             topicsTableView.delegate = self
+            topicsTableView.bounces = false
             topicsTableView.register(UINib(nibName: "SelectTopicTableViewCell", bundle: Bundle(for: SelectTopicTableViewCell.self)), forCellReuseIdentifier: "SelectTopicTableViewCell")
             topicsTableView.showsVerticalScrollIndicator = false
             topicsTableView.showsHorizontalScrollIndicator = false
         }
     }
+    @IBOutlet private weak var doneBtn: UIButton! {
+        didSet {
+            doneBtn.setTitle(nil, for: .normal)
+            doneBtn.setTitle(nil, for: .selected)
+            doneBtn.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+            doneBtn.setImage(UIImage(systemName: "arrow.right"), for: .selected)
+            doneBtn.backgroundColor = LMBranding.shared.buttonColor
+            doneBtn.tintColor = .white
+            doneBtn.layer.cornerRadius = doneBtn.frame.size.height / 2
+        }
+    }
+    
+    
     private var topicCells: [SelectTopicTableViewCell.ViewModel] {
         didSet {
             topicsTableView.reloadData()
         }
     }
     private var viewModel: SelectTopicViewModel
-    private var isShowAllTopics: Bool
     private var searchQuery: String?
     private weak var delegate: SelectTopicViewDelegate?
     
+    private lazy var searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.sizeToFit()
+        bar.placeholder = "Search Topic"
+        bar.showsCancelButton = true
+        bar.delegate = self
+        return bar
+    }()
+    
+    private lazy var rightBarButton: UIBarButtonItem = {
+        let btn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(didTapSearchBar))
+        btn.tintColor = LMBranding.shared.buttonColor
+        return btn
+    }()
+    
     init(selectedTopics: [TopicFeedDataModel], selectionStyle: SelectTopicViewModel.SelectionStyle = .multiple, isShowAllTopics: Bool, delegate: SelectTopicViewDelegate?) {
         self.topicCells = []
-        self.isShowAllTopics = isShowAllTopics
-        self.viewModel = .init(selectedTopics: selectedTopics, selectionStyle: selectionStyle)
+        self.viewModel = .init(selectedTopics: selectedTopics, selectionStyle: selectionStyle, isShowAllTopics: isShowAllTopics)
         super.init(nibName: "SelectTopicViewController", bundle: Bundle(for: SelectTopicViewController.self))
         viewModel.delegate = self
         self.delegate = delegate
@@ -52,22 +79,58 @@ class SelectTopicViewController: BaseViewController {
     
     required init?(coder: NSCoder) {
         self.topicCells = []
-        self.viewModel = .init(selectedTopics: [], selectionStyle: .multiple)
-        self.isShowAllTopics = false
+        self.viewModel = .init(selectedTopics: [], selectionStyle: .multiple, isShowAllTopics: false)
         super.init(coder: coder)
         viewModel.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        allTopicsView.isHidden = !isShowAllTopics
+        allTopicsView.isHidden = !viewModel.isShowAllTopics
         viewModel.fetchTopics(searchQuery: searchQuery, isFreshSearch: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Doing this to make navigation title left aligned
+        let offset = UIOffset(horizontal: -CGFloat.greatestFiniteMagnitude, vertical: .zero)
+        navigationController?.navigationBar.standardAppearance.titlePositionAdjustment = offset
+        navigationController?.navigationBar.scrollEdgeAppearance?.titlePositionAdjustment = offset
+        navigationController?.navigationBar.compactAppearance?.titlePositionAdjustment = offset
+        
+        navigationItem.setRightBarButton(rightBarButton, animated: false)
+        
+        setTitleAndSubtile(title: "Select Topic", subTitle: nil, alignment: .leading)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Doing this to make navigation title left aligned
+        let offset = UIOffset(horizontal: .zero, vertical: .zero)
+        navigationController?.navigationBar.standardAppearance.titlePositionAdjustment = offset
+        navigationController?.navigationBar.scrollEdgeAppearance?.titlePositionAdjustment = offset
+        navigationController?.navigationBar.compactAppearance?.titlePositionAdjustment = offset
+        
+        navigationItem.setRightBarButton(nil, animated: false)
     }
     
     @objc
     private func didTapAllTopicsView() {
         self.allTopicsCheckmark.isHidden.toggle()
         viewModel.didSelectAllTopics()
+    }
+    
+    @objc
+    private func didTapSearchBar() {
+        allTopicsView.isHidden = true
+        navigationItem.titleView = searchBar
+        navigationItem.rightBarButtonItem = nil
+    }
+    
+    @IBAction private func doneBtnTapped(_ sender: UIButton) {
+        viewModel.updateSelection()
     }
 }
 
@@ -95,11 +158,45 @@ extension SelectTopicViewController: UITableViewDataSource, UITableViewDelegate 
         allTopicsCheckmark.isHidden = true
         viewModel.didSelectRowAt(indexPath: indexPath)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
 }
 
 extension SelectTopicViewController: SelectTopicViewModelToView {
     func updateTableView(with data: [SelectTopicTableViewCell.ViewModel], isSelectAllTopics: Bool) {
         allTopicsCheckmark.isHidden = !isSelectAllTopics
         topicCells = data
+    }
+    
+    func updateTitleView(with subtitle: String?) {
+        setTitleAndSubtile(title: "Select Topic", subTitle: subtitle, alignment: .leading)
+    }
+    
+    func updateSelection(with data: [TopicFeedDataModel]) {
+        delegate?.updateSelection(with: data)
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+extension SelectTopicViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        navigationItem.titleView = nil
+        navigationItem.setRightBarButton(rightBarButton, animated: false)
+        
+        viewModel.updateTitleView()
+        viewModel.fetchTopics(searchQuery: nil, isFreshSearch: true)
+        
+        allTopicsView.isHidden = !viewModel.isShowAllTopics
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchQuery = searchText
+        viewModel.fetchTopics(searchQuery: searchQuery, isFreshSearch: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
