@@ -54,7 +54,8 @@ final class LikedUserListViewModel {
                     let user = users[like.uuid ?? ""]
                     let likedUser = LikedUserDataView.LikedUser(username: user?.name ?? "",
                                                                 profileImage: user?.imageUrl ?? "",
-                                                                userTitle: user?.customTitle ?? "")
+                                                                userTitle: user?.customTitle ?? "",
+                                                                isDeleted: user?.isDeleted ?? false)
                     self?.likedUsers.append(likedUser)
                 }
                 self?.currentPage += 1
@@ -86,7 +87,7 @@ final class LikedUserListViewModel {
                     let user = users[like.uuid ?? ""]
                     let likedUser = LikedUserDataView.LikedUser(username: user?.name ?? "",
                                                                 profileImage: user?.imageUrl ?? "",
-                                                                userTitle: user?.customTitle ?? "")
+                                                                userTitle: user?.customTitle ?? "", isDeleted: user?.isDeleted ?? false)
                     self?.likedUsers.append(likedUser)
                 }
                 self?.currentPage += 1

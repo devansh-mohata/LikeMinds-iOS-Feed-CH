@@ -316,7 +316,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         imagePicker.settings.fetch.assets.supportedMediaTypes = forAddMore ? [.image, .video] : [mediaType]
         imagePicker.settings.selection.unselectOnReachingMax = true
         imagePicker.doneButton.isEnabled = false
-//        self.viewModel.currentSelectedUploadeType = mediaType == .image ? .image : .video
         let start = Date()
         self.presentImagePicker(imagePicker, select: {[weak self] (asset) in
             print("Selected: \(asset)")
@@ -325,17 +324,22 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
                 let mediaType: CreatePostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
                 DispatchQueue.main.async {
                     if self?.resourceType == .article, let selectedImage = UIImage(contentsOfFile: url.path) {
-                        let shittyVC = CropImageViewController(frame: (self?.view.frame) ?? .zero, image: selectedImage, aspectWidth: 16, aspectHeight: 9)
-                        shittyVC.delegate = self
-                        imagePicker.dismiss(animated: true)
-                        self?.present(shittyVC, animated: true, completion: nil)
+                        let cropper = CropperViewController(originalImage: selectedImage)
+                        cropper.currentAspectRatioValue = 16/9
+                        cropper.delegate = self
+                        imagePicker.dismiss(animated: true) {
+                            self?.present(cropper, animated: true, completion: nil)
+                        }
+//                        let shittyVC = CropImageViewController(frame: (self?.view.frame) ?? .zero, image: selectedImage, aspectWidth: 16, aspectHeight: 9)
+//                        shittyVC.delegate = self
+//                        imagePicker.dismiss(animated: true)
+//                        self?.present(shittyVC, animated: true, completion: nil)
                     } else  {
                         if mediaType == .video {
                             let asset = AVAsset(url: url)
-                            let duration = asset.duration
-                            let durationTime = CMTimeGetSeconds(duration)
-                            if durationTime > (10*60) {
-                                self?.showErrorAlert(message: "Max video duration is 10 mins!")
+                            if asset.videoDuration() > (ConstantValue.maxVideoUploadDurationInMins*60) || (AVAsset.videoSizeInKB(url: url)/1000) > ConstantValue.maxVideoUploadSizeInMB {
+                                imagePicker.doneButton.isEnabled = false
+                                imagePicker.presentAlert(message: MessageConstant.maxVideoError)
                                 return
                             }
                         }
@@ -354,8 +358,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
             print("Canceled with selections: \(assets)")
         }, finish: { (assets) in
             print("Finished with selections: \(assets)")
-//            self?.viewModel.currentSelectedUploadeType =  (self?.viewModel.imageAndVideoAttachments.count ?? 0) > 0 ? .image : .unknown
-            
         }, completion: {
             let finish = Date()
             print(finish.timeIntervalSince(start))
@@ -369,7 +371,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
         documentPicker.delegate = self
         documentPicker.modalPresentationStyle = .formSheet
-//        self.viewModel.currentSelectedUploadeType = .document
         self.present(documentPicker, animated: true, completion: nil)
     }
     
@@ -653,10 +654,10 @@ extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
 extension CreatePostViewController: UIDocumentPickerDelegate {
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
-        if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > 8 {
+        if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > ConstantValue.maxPDFUploadSizeInMB {
             print(size)
             print((size/1000000))
-            self.showErrorAlert(message: "Max size limit is 8 MB!")
+            self.showErrorAlert(message: MessageConstant.maxPDFError)
             return
         }
         print(url)
@@ -697,6 +698,36 @@ extension CreatePostViewController: CropImageViewControllerDelegate {
     func didReceivedCropedImage(image: UIImage, imageUrl: URL) {
         self.viewModel.addImageVideoAttachment(fileUrl: imageUrl, type: .image)
         self.reloadCollectionView()
+    }
+}
+
+extension CreatePostViewController: CropperViewControllerDelegate {
+    func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
+        if cropper.aspectRatioPicker.selectedAspectRatio == .ratio(width: 16, height: 9),
+           let state = state,
+           let image = cropper.originalImage.cropped(withCropperState: state) {
+            cropper.dismiss(animated: true, completion: nil)
+            guard let imageData = image.jpegData(compressionQuality: 1) else {
+                print("error saving cropped image")
+                return
+            }
+            do {
+                let docDir = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                let imageURL = docDir.appendingPathComponent("tmp.jpeg")
+                if FileManager.default.fileExists(atPath: imageURL.path) {
+                    try FileManager.default.removeItem(atPath: imageURL.path)
+                }
+                try imageData.write(to: imageURL)
+                let newImage = UIImage(contentsOfFile: imageURL.path)
+                guard let img = newImage else { return }
+                self.viewModel.addImageVideoAttachment(fileUrl: imageURL, type: .image)
+                self.reloadCollectionView()
+            } catch let error  {
+                print("error:  \(error.localizedDescription)")
+            }
+        } else {
+            cropper.presentAlert(message: MessageConstant.aritcleCoverPhotoRatioError)
+        }
     }
 }
 

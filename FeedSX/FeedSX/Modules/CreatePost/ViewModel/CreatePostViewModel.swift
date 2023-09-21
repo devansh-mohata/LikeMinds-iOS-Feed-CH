@@ -62,10 +62,6 @@ final class CreatePostViewModel: BaseViewModel {
         attachment.type = fileUrl.pathExtension
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             attachment.size = attr[.size] as? Int
-            if let size = attachment.size, (size/1000) > 100000 {
-                delegate?.showError(errorMessage: "File can not be more than 100 Mb.")
-                return
-            }
         }
         if type == .image {
             attachment.thumbnailImage = UIImage(contentsOfFile: fileUrl.path)

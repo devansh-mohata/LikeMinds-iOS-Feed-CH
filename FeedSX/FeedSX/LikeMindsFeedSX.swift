@@ -22,7 +22,7 @@ public class LikeMindsFeedSX {
             .build()
     }
     
-    public func initiateLikeMindsFeed(withViewController viewController: UIViewController, apiKey: String, username: String, userId: String) {
+    public func initiateLikeMindsFeed(withViewController viewController: UIViewController, apiKey: String, username: String, userId: String, deviceId: String?) {
         
         let request = InitiateUserRequest.builder()
             .apiKey(apiKey)
@@ -37,12 +37,12 @@ public class LikeMindsFeedSX {
                 return
             }
             if response.data?.appAccess == false {
-                self?.logout(response.data?.refreshToken ?? "", deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "")
+                self?.logout(response.data?.refreshToken ?? "", deviceId: deviceId ?? "")
                 return
             }
             LocalPrefrerences.save(apiKey, forKey: LocalPreferencesKey.feedApiKey)
             if response.success == true {
-                weakSelf.registerDeviceToken()
+                weakSelf.registerDeviceToken(deviceid: deviceId)
             }
             LocalPrefrerences.saveObject(user, forKey: LocalPreferencesKey.userDetails)
             let homeFeedVC = HomeFeedViewControler()
@@ -52,8 +52,8 @@ public class LikeMindsFeedSX {
         }
     }
 
-    func registerDeviceToken() {
-        guard let deviceid = UIDevice.current.identifierForVendor?.uuidString, !deviceid.isEmpty else {
+    func registerDeviceToken(deviceid: String?) {
+        guard let deviceid = deviceid, !deviceid.isEmpty else {
             print("Device id not available")
             return
         }

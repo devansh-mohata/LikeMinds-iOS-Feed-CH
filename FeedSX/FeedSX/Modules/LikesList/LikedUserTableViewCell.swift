@@ -24,7 +24,8 @@ class LikedUserTableViewCell: UITableViewCell {
     let avatarImageView: UIImageView = {
         let imageSize = 54.0
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
-        imageView.image = UIImage(systemName: "person.circle")
+//        imageView.image = UIImage(systemName: "person.circle")
+        imageView.backgroundColor = ColorConstant.editedTextColor
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setSizeConstraint(width: imageSize, height: imageSize)
@@ -90,15 +91,22 @@ class LikedUserTableViewCell: UITableViewCell {
     }
     
     func setupUserData(_ likedUserData: LikedUserDataView.LikedUser) {
+        if likedUserData.isDeleted {
+            self.usernameLabel.text = "Deleted user"
+            avatarImageView.backgroundColor = ColorConstant.editedTextColor
+            self.contentView.alpha = 0.5
+            return
+        }
+        self.contentView.alpha = 1
         self.usernameLabel.text = likedUserData.username
         let userTitle = likedUserData.userTitle.isEmpty ? "" : " • \(likedUserData.userTitle)"
         self.usernameTitleLabel.text = userTitle
         let profilePlaceHolder = UIImage.generateLetterImage(with: likedUserData.username) ?? UIImage()
-        guard let url = likedUserData.profileImage.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else {
+        guard let url = URL(string: likedUserData.profileImage)  else {
             avatarImageView.image = profilePlaceHolder
             return
         }
-        avatarImageView.kf.setImage(with: URL(string: url), placeholder: profilePlaceHolder)
+        avatarImageView.kf.setImage(with: url, placeholder: profilePlaceHolder)
     }
 
 }

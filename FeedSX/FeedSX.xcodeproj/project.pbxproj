@@ -24,7 +24,6 @@
 		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
 		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
 		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
-		F4428DF12AB3A269001D6F3D /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43BA8BA2AB23C2A0059A894 /* LikeMindsFeed.framework */; };
 		F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */; };
 		F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D02A26197D003C43BA /* UITextView+Extension.swift */; };
 		F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D32A263448003C43BA /* RouteBuilderManager.swift */; };
@@ -77,6 +76,31 @@
 		F4A5BD7429DA0A07006FC78D /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */; };
 		F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7729DAACBF006FC78D /* UIAlertController+Extension.swift */; };
 		F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */; };
+		F4A5BE8D2ABC2A2E00CD01E6 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE712ABC2A2D00CD01E6 /* Toolbar.swift */; };
+		F4A5BE8E2ABC2A2E00CD01E6 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE722ABC2A2D00CD01E6 /* TopBar.swift */; };
+		F4A5BE8F2ABC2A2E00CD01E6 /* AngleRuler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE732ABC2A2D00CD01E6 /* AngleRuler.swift */; };
+		F4A5BE902ABC2A2E00CD01E6 /* AspectRatioPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE742ABC2A2D00CD01E6 /* AspectRatioPicker.swift */; };
+		F4A5BE912ABC2A2E00CD01E6 /* CropBoxEdgeDraggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE772ABC2A2D00CD01E6 /* CropBoxEdgeDraggable.swift */; };
+		F4A5BE922ABC2A2E00CD01E6 /* StateRestorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE782ABC2A2D00CD01E6 /* StateRestorable.swift */; };
+		F4A5BE932ABC2A2E00CD01E6 /* Stasisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE792ABC2A2D00CD01E6 /* Stasisable.swift */; };
+		F4A5BE942ABC2A2E00CD01E6 /* Flipable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE7A2ABC2A2D00CD01E6 /* Flipable.swift */; };
+		F4A5BE952ABC2A2E00CD01E6 /* Rotatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE7B2ABC2A2D00CD01E6 /* Rotatable.swift */; };
+		F4A5BE962ABC2A2E00CD01E6 /* AngleAssist.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE7C2ABC2A2D00CD01E6 /* AngleAssist.swift */; };
+		F4A5BE972ABC2A2E00CD01E6 /* AspectRatioSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE7D2ABC2A2D00CD01E6 /* AspectRatioSettable.swift */; };
+		F4A5BE982ABC2A2E00CD01E6 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE7E2ABC2A2D00CD01E6 /* Config.swift */; };
+		F4A5BE992ABC2A2E00CD01E6 /* ScrollViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE7F2ABC2A2D00CD01E6 /* ScrollViewContainer.swift */; };
+		F4A5BE9A2ABC2A2E00CD01E6 /* CropperState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE802ABC2A2D00CD01E6 /* CropperState.swift */; };
+		F4A5BE9B2ABC2A2E00CD01E6 /* CropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE812ABC2A2D00CD01E6 /* CropperViewController.swift */; };
+		F4A5BE9C2ABC2A2E00CD01E6 /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE822ABC2A2D00CD01E6 /* AspectRatio.swift */; };
+		F4A5BE9D2ABC2A2E00CD01E6 /* UIImage+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE842ABC2A2D00CD01E6 /* UIImage+Helper.swift */; };
+		F4A5BE9E2ABC2A2E00CD01E6 /* UIView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE852ABC2A2D00CD01E6 /* UIView+Helper.swift */; };
+		F4A5BE9F2ABC2A2E00CD01E6 /* UIImage+Cropping.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE862ABC2A2D00CD01E6 /* UIImage+Cropping.swift */; };
+		F4A5BEA02ABC2A2E00CD01E6 /* HelperExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE872ABC2A2D00CD01E6 /* HelperExtensions.swift */; };
+		F4A5BEA12ABC2A2E00CD01E6 /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE892ABC2A2D00CD01E6 /* CropBox.swift */; };
+		F4A5BEA22ABC2A2E00CD01E6 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE8A2ABC2A2D00CD01E6 /* Overlay.swift */; };
+		F4A5BEA32ABC2A2E00CD01E6 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BE8B2ABC2A2D00CD01E6 /* Grid.swift */; };
+		F4A5BEA52ABC39B600CD01E6 /* QCropperAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4A5BEA42ABC39B600CD01E6 /* QCropperAssets.xcassets */; };
+		F4A5BEA72ABC4C7F00CD01E6 /* ConstantValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5BEA62ABC4C7F00CD01E6 /* ConstantValue.swift */; };
 		F4A70F712A65C8500038A101 /* EmptyHomeFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */; };
 		F4A85D2029E931F700FB8DAF /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */; };
 		F4A85D2229E9338900FB8DAF /* ReportTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */; };
@@ -108,6 +132,8 @@
 		F4B6D91E29DD7828008BD8A7 /* IconAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4B6D91D29DD7828008BD8A7 /* IconAssets.xcassets */; };
 		F4C3330829CDC83300AD5F52 /* LMFeedUI.docc in Sources */ = {isa = PBXBuildFile; fileRef = F4C3330729CDC83300AD5F52 /* LMFeedUI.docc */; };
 		F4C3330929CDC83300AD5F52 /* LMFeedUI.h in Headers */ = {isa = PBXBuildFile; fileRef = F4C3330629CDC83200AD5F52 /* LMFeedUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4C766292ABB5C430089062E /* AVAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C766282ABB5C430089062E /* AVAsset+Extension.swift */; };
+		F4C8092E2ABB876C006C5A21 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43BA8BA2AB23C2A0059A894 /* LikeMindsFeed.framework */; };
 		F4CE0F2A2A0CF9430089D743 /* TaggedListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE0F262A0CF9430089D743 /* TaggedListTableViewCell.swift */; };
 		F4CE0F2B2A0CF9430089D743 /* TaggedListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4CE0F272A0CF9430089D743 /* TaggedListTableViewCell.xib */; };
 		F4CE0F2C2A0CF9430089D743 /* TaggedUserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE0F282A0CF9430089D743 /* TaggedUserList.swift */; };
@@ -252,6 +278,31 @@
 		F4A5BD7329DA0A07006FC78D /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		F4A5BD7729DAACBF006FC78D /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionView.swift; sourceTree = "<group>"; };
+		F4A5BE712ABC2A2D00CD01E6 /* Toolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
+		F4A5BE722ABC2A2D00CD01E6 /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
+		F4A5BE732ABC2A2D00CD01E6 /* AngleRuler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AngleRuler.swift; sourceTree = "<group>"; };
+		F4A5BE742ABC2A2D00CD01E6 /* AspectRatioPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatioPicker.swift; sourceTree = "<group>"; };
+		F4A5BE772ABC2A2D00CD01E6 /* CropBoxEdgeDraggable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropBoxEdgeDraggable.swift; sourceTree = "<group>"; };
+		F4A5BE782ABC2A2D00CD01E6 /* StateRestorable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateRestorable.swift; sourceTree = "<group>"; };
+		F4A5BE792ABC2A2D00CD01E6 /* Stasisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stasisable.swift; sourceTree = "<group>"; };
+		F4A5BE7A2ABC2A2D00CD01E6 /* Flipable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flipable.swift; sourceTree = "<group>"; };
+		F4A5BE7B2ABC2A2D00CD01E6 /* Rotatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotatable.swift; sourceTree = "<group>"; };
+		F4A5BE7C2ABC2A2D00CD01E6 /* AngleAssist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AngleAssist.swift; sourceTree = "<group>"; };
+		F4A5BE7D2ABC2A2D00CD01E6 /* AspectRatioSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatioSettable.swift; sourceTree = "<group>"; };
+		F4A5BE7E2ABC2A2D00CD01E6 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		F4A5BE7F2ABC2A2D00CD01E6 /* ScrollViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewContainer.swift; sourceTree = "<group>"; };
+		F4A5BE802ABC2A2D00CD01E6 /* CropperState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropperState.swift; sourceTree = "<group>"; };
+		F4A5BE812ABC2A2D00CD01E6 /* CropperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropperViewController.swift; sourceTree = "<group>"; };
+		F4A5BE822ABC2A2D00CD01E6 /* AspectRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
+		F4A5BE842ABC2A2D00CD01E6 /* UIImage+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Helper.swift"; sourceTree = "<group>"; };
+		F4A5BE852ABC2A2D00CD01E6 /* UIView+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Helper.swift"; sourceTree = "<group>"; };
+		F4A5BE862ABC2A2D00CD01E6 /* UIImage+Cropping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Cropping.swift"; sourceTree = "<group>"; };
+		F4A5BE872ABC2A2D00CD01E6 /* HelperExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperExtensions.swift; sourceTree = "<group>"; };
+		F4A5BE892ABC2A2D00CD01E6 /* CropBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
+		F4A5BE8A2ABC2A2D00CD01E6 /* Overlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
+		F4A5BE8B2ABC2A2D00CD01E6 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		F4A5BEA42ABC39B600CD01E6 /* QCropperAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = QCropperAssets.xcassets; sourceTree = "<group>"; };
+		F4A5BEA62ABC4C7F00CD01E6 /* ConstantValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantValue.swift; sourceTree = "<group>"; };
 		F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyHomeFeedView.swift; sourceTree = "<group>"; };
 		F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -286,6 +337,8 @@
 		F4C3330329CDC83200AD5F52 /* FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4C3330629CDC83200AD5F52 /* LMFeedUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LMFeedUI.h; sourceTree = "<group>"; };
 		F4C3330729CDC83300AD5F52 /* LMFeedUI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = LMFeedUI.docc; sourceTree = "<group>"; };
+		F4C766282ABB5C430089062E /* AVAsset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAsset+Extension.swift"; sourceTree = "<group>"; };
+		F4C809292ABB827A006C5A21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F4CE0F262A0CF9430089D743 /* TaggedListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaggedListTableViewCell.swift; sourceTree = "<group>"; };
 		F4CE0F272A0CF9430089D743 /* TaggedListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaggedListTableViewCell.xib; sourceTree = "<group>"; };
 		F4CE0F282A0CF9430089D743 /* TaggedUserList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaggedUserList.swift; sourceTree = "<group>"; };
@@ -345,7 +398,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4428DF12AB3A269001D6F3D /* LikeMindsFeed.framework in Frameworks */,
+				F4C8092E2ABB876C006C5A21 /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +432,7 @@
 				F405D10429E811600074F531 /* SpecialCharString.swift */,
 				F4EA97BA2A19592F0020E672 /* ColorConstant.swift */,
 				F49F6BF82A1C8AF1005B2A81 /* Message.swift */,
+				F4A5BEA62ABC4C7F00CD01E6 /* ConstantValue.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -482,6 +536,7 @@
 		F49C76F929E3EB6D00325AD9 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				F4A5BE6F2ABC2A2D00CD01E6 /* QCropper */,
 				F46E15D22A263448003C43BA /* LinkManager */,
 				F49C76FA29E3EB8C00325AD9 /* DataDetector.swift */,
 				F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */,
@@ -616,6 +671,77 @@
 				F4A5BD7C29DAE3FD006FC78D /* PostCaptionView.swift */,
 			);
 			path = ProfileAndActionsView;
+			sourceTree = "<group>";
+		};
+		F4A5BE6F2ABC2A2D00CD01E6 /* QCropper */ = {
+			isa = PBXGroup;
+			children = (
+				F4A5BE702ABC2A2D00CD01E6 /* CustomUI */,
+				F4A5BE752ABC2A2D00CD01E6 /* Core */,
+				F4A5BE832ABC2A2D00CD01E6 /* HelperExtensions */,
+				F4A5BE882ABC2A2D00CD01E6 /* Overlay */,
+				F4A5BEA42ABC39B600CD01E6 /* QCropperAssets.xcassets */,
+			);
+			path = QCropper;
+			sourceTree = "<group>";
+		};
+		F4A5BE702ABC2A2D00CD01E6 /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				F4A5BE712ABC2A2D00CD01E6 /* Toolbar.swift */,
+				F4A5BE722ABC2A2D00CD01E6 /* TopBar.swift */,
+				F4A5BE732ABC2A2D00CD01E6 /* AngleRuler.swift */,
+				F4A5BE742ABC2A2D00CD01E6 /* AspectRatioPicker.swift */,
+			);
+			path = CustomUI;
+			sourceTree = "<group>";
+		};
+		F4A5BE752ABC2A2D00CD01E6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F4A5BE762ABC2A2D00CD01E6 /* CropperProtocols */,
+				F4A5BE7E2ABC2A2D00CD01E6 /* Config.swift */,
+				F4A5BE7F2ABC2A2D00CD01E6 /* ScrollViewContainer.swift */,
+				F4A5BE802ABC2A2D00CD01E6 /* CropperState.swift */,
+				F4A5BE812ABC2A2D00CD01E6 /* CropperViewController.swift */,
+				F4A5BE822ABC2A2D00CD01E6 /* AspectRatio.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F4A5BE762ABC2A2D00CD01E6 /* CropperProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				F4A5BE772ABC2A2D00CD01E6 /* CropBoxEdgeDraggable.swift */,
+				F4A5BE782ABC2A2D00CD01E6 /* StateRestorable.swift */,
+				F4A5BE792ABC2A2D00CD01E6 /* Stasisable.swift */,
+				F4A5BE7A2ABC2A2D00CD01E6 /* Flipable.swift */,
+				F4A5BE7B2ABC2A2D00CD01E6 /* Rotatable.swift */,
+				F4A5BE7C2ABC2A2D00CD01E6 /* AngleAssist.swift */,
+				F4A5BE7D2ABC2A2D00CD01E6 /* AspectRatioSettable.swift */,
+			);
+			path = CropperProtocols;
+			sourceTree = "<group>";
+		};
+		F4A5BE832ABC2A2D00CD01E6 /* HelperExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				F4A5BE842ABC2A2D00CD01E6 /* UIImage+Helper.swift */,
+				F4A5BE852ABC2A2D00CD01E6 /* UIView+Helper.swift */,
+				F4A5BE862ABC2A2D00CD01E6 /* UIImage+Cropping.swift */,
+				F4A5BE872ABC2A2D00CD01E6 /* HelperExtensions.swift */,
+			);
+			path = HelperExtensions;
+			sourceTree = "<group>";
+		};
+		F4A5BE882ABC2A2D00CD01E6 /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				F4A5BE892ABC2A2D00CD01E6 /* CropBox.swift */,
+				F4A5BE8A2ABC2A2D00CD01E6 /* Overlay.swift */,
+				F4A5BE8B2ABC2A2D00CD01E6 /* Grid.swift */,
+			);
+			path = Overlay;
 			sourceTree = "<group>";
 		};
 		F4A85D1C29E931AE00FB8DAF /* TagCollectionCell */ = {
@@ -768,6 +894,7 @@
 		F4C3330529CDC83200AD5F52 /* FeedSX */ = {
 			isa = PBXGroup;
 			children = (
+				F4C809292ABB827A006C5A21 /* Info.plist */,
 				F405D10129E80F550074F531 /* Constant */,
 				F49C76F929E3EB6D00325AD9 /* Helper */,
 				F49C76DB29DF45B100325AD9 /* AWSS3Manager */,
@@ -856,6 +983,7 @@
 				F46E15D02A26197D003C43BA /* UITextView+Extension.swift */,
 				F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */,
 				F4A0E6712A9F738800767941 /* CustomUIImageView.swift */,
+				F4C766282ABB5C430089062E /* AVAsset+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1051,6 +1179,7 @@
 				F4A0E6692A9F358A00767941 /* HomeFeedLinkCell.xib in Resources */,
 				F4E88AFD2AA9B38100909E10 /* PostDetailArticleTableViewCell.xib in Resources */,
 				F4E15EA82AA3849400BAEB99 /* MemberCell.xib in Resources */,
+				F4A5BEA52ABC39B600CD01E6 /* QCropperAssets.xcassets in Resources */,
 				F4E88B062AAB525C00909E10 /* BottomSheetViewController.xib in Resources */,
 				F4E15E9A2AA364FD00BAEB99 /* MemberListViewController.xib in Resources */,
 				F4CE0F2B2A0CF9430089D743 /* TaggedListTableViewCell.xib in Resources */,
@@ -1100,10 +1229,13 @@
 				F4E15E9C2AA366A500BAEB99 /* MemberListViewModel.swift in Sources */,
 				F4A9618D29DC612F00F395AD /* CreatePostViewDataModel.swift in Sources */,
 				F40E04042AADDAD600AB3827 /* CropImageViewController.swift in Sources */,
+				F4A5BE992ABC2A2E00CD01E6 /* ScrollViewContainer.swift in Sources */,
+				F4A5BE9B2ABC2A2E00CD01E6 /* CropperViewController.swift in Sources */,
 				F4D98B1229D1916600CF9743 /* LMFonts.swift in Sources */,
 				F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */,
 				F4A9618829DC41E100F395AD /* ImageCollectionViewCell.swift in Sources */,
 				F4AD157E2A2BC65F00B752C3 /* EditPostViewController.swift in Sources */,
+				F4A5BEA12ABC2A2E00CD01E6 /* CropBox.swift in Sources */,
 				F4A0E6722A9F738800767941 /* CustomUIImageView.swift in Sources */,
 				F4AD15812A2BC7BE00B752C3 /* EditPostViewModel.swift in Sources */,
 				F49C76F629E3CFE200325AD9 /* PostDetailDataModel.swift in Sources */,
@@ -1124,26 +1256,35 @@
 				F405D0FF29E7E0800074F531 /* ReportContentViewController.swift in Sources */,
 				F49C76FE29E4345300325AD9 /* PlayerView.swift in Sources */,
 				F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */,
+				F4A5BE932ABC2A2E00CD01E6 /* Stasisable.swift in Sources */,
 				F4E15EA72AA3849400BAEB99 /* MemberCell.swift in Sources */,
 				F4F21ED42AAF219D00C22302 /* ShimmerView.swift in Sources */,
 				F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */,
+				F4A5BEA22ABC2A2E00CD01E6 /* Overlay.swift in Sources */,
+				F4A5BE952ABC2A2E00CD01E6 /* Rotatable.swift in Sources */,
 				F4D98B0C29D188BF00CF9743 /* LMBranding.swift in Sources */,
 				F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */,
+				F4A5BE962ABC2A2E00CD01E6 /* AngleAssist.swift in Sources */,
 				F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */,
 				F4CE0F2C2A0CF9430089D743 /* TaggedUserList.swift in Sources */,
 				F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */,
 				F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */,
 				F4A9C7F02A31EB2700D35396 /* TaggingDataModel.swift in Sources */,
+				F4A5BE912ABC2A2E00CD01E6 /* CropBoxEdgeDraggable.swift in Sources */,
+				F4A5BE982ABC2A2E00CD01E6 /* Config.swift in Sources */,
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
 				F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
 				F49C76F829E3CFFA00325AD9 /* PostDetailViewModel.swift in Sources */,
+				F4A5BEA32ABC2A2E00CD01E6 /* Grid.swift in Sources */,
+				F4A5BE902ABC2A2E00CD01E6 /* AspectRatioPicker.swift in Sources */,
 				F4AC32332A3A403C0019E5B0 /* NotificationFeedDataView.swift in Sources */,
 				F4E88B052AAB525C00909E10 /* BottomSheetViewController.swift in Sources */,
 				F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */,
 				F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */,
 				F4AC6E772A4C28890036E997 /* ShareContentUtil.swift in Sources */,
 				F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */,
+				F4A5BE8E2ABC2A2E00CD01E6 /* TopBar.swift in Sources */,
 				F4E15EA12AA3670300BAEB99 /* MemberListDataViewModel.swift in Sources */,
 				F4AB905C2A3654B300B85245 /* TotalCommentCountCell.swift in Sources */,
 				F4CE0F2F2A0CF9890089D743 /* TaggedUserListViewModel.swift in Sources */,
@@ -1174,15 +1315,20 @@
 				F4A20D2229E57654001D57CB /* LikedUserTableViewCell.swift in Sources */,
 				F4A0E6642A9F357000767941 /* HomeFeedPDFCell.swift in Sources */,
 				F4AC6E792A4C681C0036E997 /* LikeMindsFeedExtras.swift in Sources */,
+				F4C766292ABB5C430089062E /* AVAsset+Extension.swift in Sources */,
 				F4CE0F2A2A0CF9430089D743 /* TaggedListTableViewCell.swift in Sources */,
 				F49C76EE29E3106100325AD9 /* PostDetailViewController.swift in Sources */,
 				F4A85D2229E9338900FB8DAF /* ReportTagCollectionViewCell.swift in Sources */,
+				F4A5BE9A2ABC2A2E00CD01E6 /* CropperState.swift in Sources */,
 				F405D10729E8843F0074F531 /* ReportContentViewModel.swift in Sources */,
 				F4A3DD2E29E7D2F600498363 /* DeleteContentViewController.swift in Sources */,
+				F4A5BEA02ABC2A2E00CD01E6 /* HelperExtensions.swift in Sources */,
 				F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */,
+				F4A5BE8D2ABC2A2E00CD01E6 /* Toolbar.swift in Sources */,
 				F49F6BF72A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift in Sources */,
 				F4D98B2429D4528900CF9743 /* String+Extension.swift in Sources */,
 				F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */,
+				F4A5BE942ABC2A2E00CD01E6 /* Flipable.swift in Sources */,
 				F4A0E6682A9F358A00767941 /* HomeFeedLinkCell.swift in Sources */,
 				F49C76FB29E3EB8C00325AD9 /* DataDetector.swift in Sources */,
 				F4A0E6602A9F355900767941 /* HomeFeedImageCell.swift in Sources */,
@@ -1199,26 +1345,34 @@
 				F4D98B0F29D1890300CF9743 /* Font+Extension.swift in Sources */,
 				F4F21ED82AAF228000C22302 /* HomeFeedShimmerView.swift in Sources */,
 				F405D10329E80F820074F531 /* ImageIcon.swift in Sources */,
+				F4A5BE9F2ABC2A2E00CD01E6 /* UIImage+Cropping.swift in Sources */,
 				F49F6BEB2A1B3BE1005B2A81 /* NotificationFeedViewController.swift in Sources */,
 				F4D98B1E29D44DD500CF9743 /* HomeFeedViewData.swift in Sources */,
 				F4D98B2629D452B600CF9743 /* UIView+Extension.swift in Sources */,
+				F4A5BEA72ABC4C7F00CD01E6 /* ConstantValue.swift in Sources */,
 				F4A20D1E29E5760D001D57CB /* LikedUserListViewModel.swift in Sources */,
+				F4A5BE9C2ABC2A2E00CD01E6 /* AspectRatio.swift in Sources */,
 				F4AD158A2A2D160A00B752C3 /* HomeFeedLinkTableViewCell.swift in Sources */,
+				F4A5BE8F2ABC2A2E00CD01E6 /* AngleRuler.swift in Sources */,
 				F4A9617B29DBFAE600F395AD /* CreatePostViewController.swift in Sources */,
+				F4A5BE9D2ABC2A2E00CD01E6 /* UIImage+Helper.swift in Sources */,
 				F4A9618F29DC614400F395AD /* CreatePostViewModel.swift in Sources */,
 				F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */,
 				F4D98B2029D450C100CF9743 /* Extensions.swift in Sources */,
 				F41731CE2A1A8FBD005FD279 /* NotificationName+Extension.swift in Sources */,
 				F4D3059B2A1D436300964114 /* UITableViewCell+Extension.swift in Sources */,
 				F4D98B0929D188BF00CF9743 /* LMSegmentedControl.swift in Sources */,
+				F4A5BE9E2ABC2A2E00CD01E6 /* UIView+Helper.swift in Sources */,
 				F4A0E66C2A9F35BB00767941 /* HomeFeedArticleCell.swift in Sources */,
 				F4EA97A92A1498740020E672 /* LMFeedAnalytics.swift in Sources */,
+				F4A5BE972ABC2A2E00CD01E6 /* AspectRatioSettable.swift in Sources */,
 				F4D98B0829D188BF00CF9743 /* LMLabel.swift in Sources */,
 				F4EA97B92A1935DB0020E672 /* ViewMoreRepliesCell.swift in Sources */,
 				F4D98AFF29D1889B00CF9743 /* BaseNavigationController.swift in Sources */,
 				F4A9C7EE2A31EADB00D35396 /* TaggingView.swift in Sources */,
 				F49F6BF42A1B3FAF005B2A81 /* NotificationFeedTableViewCell.swift in Sources */,
 				F4A20D2829E5FA4C001D57CB /* TaggedRouteParser.swift in Sources */,
+				F4A5BE922ABC2A2E00CD01E6 /* StateRestorable.swift in Sources */,
 				F4DE47112A06CB6400BF5C2C /* RoundButton.swift in Sources */,
 				F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */,
 				F4D98B1529D1A08400CF9743 /* HomeFeedViewController.swift in Sources */,
@@ -1359,6 +1513,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FeedSX/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1388,6 +1543,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FeedSX/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

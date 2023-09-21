@@ -13,6 +13,7 @@ struct LikedUserDataView {
         let username: String
         let profileImage: String
         let userTitle: String
+        let isDeleted: Bool
         
         func usernameWithTitle() -> NSAttributedString {
             let nameAttribute = [ NSAttributedString.Key.font: LMBranding.shared.font(16, .medium) ]

@@ -146,5 +146,5 @@ spec.pod_target_xcconfig = {
   spec.dependency "FirebaseMessaging"
   spec.dependency "IQKeyboardManagerSwift"
   spec.dependency "LikeMindsFeed"
-
+  spec.dependency "QCropper"
 end

@@ -12,4 +12,5 @@ target 'FeedSX' do
  pod 'AWSS3'
  pod "FirebaseCore"
  pod "FirebaseMessaging"
+ pod "QCropper"
 end

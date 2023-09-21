@@ -51,13 +51,13 @@ class CropImageViewController: UIViewController, UIScrollViewDelegate {
             UIGraphicsEndImageContext()
         }
         
-        closeButton = UIButton(frame: CGRect(x: 40, y: view.frame.height - 40 - 90, width: 90, height: 90))
+        closeButton = UIButton(frame: CGRect(x: 40, y: view.frame.height - 40 - 120, width: 90, height: 90))
         closeButton.setImage(UIImage(systemName: ImageIcon.crossIcon), for: .normal)
         closeButton.addTarget(self, action: #selector(tappedClose), for: .touchUpInside)
         closeButton.setPreferredSymbolConfiguration(.init(pointSize: 40, weight: .light, scale: .large), forImageIn: .normal)
         closeButton.tintColor = .white
         
-        cropButton = UIButton(frame: CGRect(x: view.frame.width - 40 - 90, y: view.frame.height - 40 - 90, width: 90, height: 90))
+        cropButton = UIButton(frame: CGRect(x: view.frame.width - 40 - 90, y: view.frame.height - 40 - 120, width: 90, height: 90))
         cropButton.setImage(UIImage(systemName: "crop"), for: .normal)
         cropButton.setPreferredSymbolConfiguration(.init(pointSize: 40, weight: .light, scale: .large), forImageIn: .normal)
         cropButton.tintColor = .white

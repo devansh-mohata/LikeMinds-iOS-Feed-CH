@@ -489,10 +489,9 @@ public final class HomeFeedViewControler: BaseViewController {
                     let mediaType: CreatePostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
                     if mediaType == .video {
                         let asset = AVAsset(url: url)
-                        let duration = asset.duration
-                        let durationTime = CMTimeGetSeconds(duration)
-                        if durationTime > (10*60) {
-                            self?.showErrorAlert(message: "Max video duration is 10 mins!")
+                        if asset.videoDuration() > (ConstantValue.maxVideoUploadDurationInMins*60) || (AVAsset.videoSizeInKB(url: url)/1000) > ConstantValue.maxVideoUploadSizeInMB {
+                            imagePicker.doneButton.isEnabled = false
+                            imagePicker.presentAlert(message: MessageConstant.maxVideoError)
                             return
                         }
                     }
@@ -810,10 +809,10 @@ extension HomeFeedViewControler: EmptyHomeFeedViewDelegate {
 extension HomeFeedViewControler: UIDocumentPickerDelegate {
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
-        if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > 8 {
+        if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > ConstantValue.maxPDFUploadSizeInMB {
             print(size)
             print((size/1000000))
-            self.showErrorAlert(message: "Max size limit is 8 MB!")
+            self.showErrorAlert(message: MessageConstant.maxPDFError)
             return
         }
         print(url)

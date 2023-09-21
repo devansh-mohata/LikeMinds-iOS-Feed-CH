@@ -53,6 +53,7 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.3.1)
+  - QCropper (0.1.7)
 
 DEPENDENCIES:
   - AWSCognito
@@ -62,6 +63,7 @@ DEPENDENCIES:
   - FirebaseCore
   - FirebaseMessaging
   - Kingfisher
+  - QCropper
 
 SPEC REPOS:
   trunk:
@@ -78,6 +80,7 @@ SPEC REPOS:
     - Kingfisher
     - nanopb
     - PromisesObjC
+    - QCropper
 
 SPEC CHECKSUMS:
   AWSCognito: f50de600804941d083af37a7568905f31a774727
@@ -93,7 +96,8 @@ SPEC CHECKSUMS:
   Kingfisher: 59f908b6d2f403b0a3e539debb0eec05cb27002c
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  QCropper: aef6bad1e683e62b501fb8258359ccd10c68b4f2
 
-PODFILE CHECKSUM: 988741fdcc82a9fa8cf0de726e3986c8961420c5
+PODFILE CHECKSUM: d43d1b310864b71bf4dcb2b73f989574987b9431
 
 COCOAPODS: 1.12.1

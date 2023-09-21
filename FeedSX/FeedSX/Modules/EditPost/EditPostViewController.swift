@@ -10,6 +10,7 @@ import UIKit
 import BSImagePicker
 import PDFKit
 import LikeMindsFeed
+import Photos
 
 class EditPostViewController: BaseViewController {
     
@@ -270,6 +271,7 @@ class EditPostViewController: BaseViewController {
     }
     
     func openImagePicker(_ mediaType: Settings.Fetch.Assets.MediaTypes, forAddMore: Bool = false) {
+        
         let imagePicker = ImagePickerController()
         imagePicker.settings.selection.max = 1//(10 - self.viewModel.imageAndVideoAttachments.count)
         imagePicker.settings.theme.selectionStyle = .checked
@@ -283,10 +285,16 @@ class EditPostViewController: BaseViewController {
                 guard let url = responseURL else {return }
                 
                 if self?.resourceType == .article, let selectedImage = UIImage(contentsOfFile: url.path) {
-                    let shittyVC = CropImageViewController(frame: (self?.view.frame) ?? .zero, image: selectedImage, aspectWidth: 16, aspectHeight: 9)
-                    shittyVC.delegate = self
-                    imagePicker.dismiss(animated: true)
-                    self?.present(shittyVC, animated: true, completion: nil)
+                    let cropper = CropperViewController(originalImage: selectedImage)
+                    cropper.currentAspectRatioValue = 16/9
+                    cropper.delegate = self
+                    imagePicker.dismiss(animated: true) {
+                        self?.present(cropper, animated: true, completion: nil)
+                    }
+//                    let shittyVC = CropImageViewController(frame: (self?.view.frame) ?? .zero, image: selectedImage, aspectWidth: 16, aspectHeight: 9)
+//                    shittyVC.delegate = self
+//                    imagePicker.dismiss(animated: true)
+//                    self?.present(shittyVC, animated: true, completion: nil)
                 } else  {
                     let mediaType: EditPostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
                     self?.viewModel.addImageVideoAttachment(fileUrl: url, type: mediaType)
@@ -305,6 +313,14 @@ class EditPostViewController: BaseViewController {
             let finish = Date()
             print(finish.timeIntervalSince(start))
         })
+        
+//        if #available(iOS 14, *) {
+//            if PHPhotoLibrary.authorizationStatus() == .authorized {
+//                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+//            }
+//        } else {
+//            // Fallback on earlier versions
+//        }
     }
     
     func openDocumentPicker() {
@@ -680,9 +696,9 @@ extension EditPostViewController: UIImagePickerControllerDelegate & UINavigation
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
         let size = Int(selectedImage.sizeInKB()/1000)
-        if size > 8 {
+        if size > ConstantValue.maxPDFUploadSizeInMB {
             picker.dismiss(animated: true, completion: nil)
-            self.showErrorAlert(message: "Max. file size allowed is 8 MB")
+            self.showErrorAlert(message: MessageConstant.maxPDFError)
             return
         }
         self.viewModel.addImageVideoAttachment(fileUrl: url, type: self.resourceType ?? .image)
@@ -695,6 +711,36 @@ extension EditPostViewController: CropImageViewControllerDelegate {
     func didReceivedCropedImage(image: UIImage, imageUrl: URL) {
         self.viewModel.addImageVideoAttachment(fileUrl: imageUrl, type: .image)
         self.reloadCollectionView()
+    }
+}
+
+extension EditPostViewController: CropperViewControllerDelegate {
+    func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
+        if cropper.aspectRatioPicker.selectedAspectRatio == .ratio(width: 16, height: 9),
+           let state = state,
+           let image = cropper.originalImage.cropped(withCropperState: state) {
+            cropper.dismiss(animated: true, completion: nil)
+            guard let imageData = image.jpegData(compressionQuality: 1) else {
+                print("error saving cropped image")
+                return
+            }
+            do {
+                let docDir = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                let imageURL = docDir.appendingPathComponent("tmp.jpeg")
+                if FileManager.default.fileExists(atPath: imageURL.path) {
+                    try FileManager.default.removeItem(atPath: imageURL.path)
+                }
+                try imageData.write(to: imageURL)
+                let newImage = UIImage(contentsOfFile: imageURL.path)
+                guard let img = newImage else { return }
+                self.viewModel.addImageVideoAttachment(fileUrl: imageURL, type: .image)
+                self.reloadCollectionView()
+            } catch let error  {
+                print("error:  \(error.localizedDescription)")
+            }
+        } else {
+            cropper.presentAlert(message: MessageConstant.aritcleCoverPhotoRatioError)
+        }
     }
 }
 
