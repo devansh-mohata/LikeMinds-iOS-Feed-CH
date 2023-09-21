@@ -262,7 +262,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         let placeholder = UIImage.generateLetterImage(with: user.name)
         self.userProfileImage.setImage(withUrl: user.imageUrl ?? "", placeholder: placeholder)
         self.usernameLabel.text = user.name?.capitalized
-        self.viewModel.onBehalfOfUUID = user.clientUUID
     }
     
     @objc func changeAuthor() {
