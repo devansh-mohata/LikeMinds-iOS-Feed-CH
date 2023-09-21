@@ -39,6 +39,7 @@ class TaggingUser {
 struct TopicFeedDataModel {
     let title: String
     let topicID: String
+    var isEnabled: Bool
 }
 
 final class CreatePostViewModel: BaseViewModel {
@@ -257,11 +258,7 @@ private extension CreatePostViewModel {
             .init(image: nil, title: $0.title)
         }
         
-        if transformedCells.isEmpty {
-            transformedCells.append(.init(image: ImageIcon.plusIcon, title: "Select Topics", isEditCell: true))
-        } else {
-            transformedCells.append(.init(image: ImageIcon.editIcon, title: nil, isEditCell: true))
-        }
+        transformedCells.append(.init(image: transformedCells.isEmpty ? ImageIcon.plusIcon : ImageIcon.editIcon, title: transformedCells.isEmpty ? "Select Topics" : nil, isEditCell: true))
         
         delegate?.showHideTopicView(topics: transformedCells)
     }

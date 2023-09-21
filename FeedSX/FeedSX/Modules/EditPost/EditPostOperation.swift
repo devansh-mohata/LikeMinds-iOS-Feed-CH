@@ -42,11 +42,11 @@ class EditPostOperation {
         }
     }
     
-    func editPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, postId: String) {
+    func editPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, postId: String, topics: [String]) {
         self.attachmentList = attachments
         guard let newAttachments = self.attachmentList?.filter({($0.awsUploadedUrl ?? "").isEmpty}), newAttachments.count > 0 else {
             postMessageForEditingPost()
-            self.editPostWithAttachments(postId: postId, postCaption: postCaption)
+            self.editPostWithAttachments(postId: postId, postCaption: postCaption, topics: topics)
             return
         }
         postMessageForEditingPost()
@@ -64,7 +64,6 @@ class EditPostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .image, filePath: attachment.awsFilePath, image: image, thumbNailUrl: nil,index: attachment.index) { (progress) in
                     print("Image - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (imageResponse,thumbnailUrl, error, nil)  in
-                    print(imageResponse)
                     attachment.awsUploadedUrl = (imageResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
@@ -77,7 +76,6 @@ class EditPostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .video, filePath: attachment.awsFilePath, path: url.path , thumbNailUrl: nil, index: attachment.index ) { (progress) in
                     print("video - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (videoResponse, thumbnailUrl, error, nil)  in
-                    print(videoResponse)
                     attachment.awsUploadedUrl = (videoResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
@@ -85,7 +83,6 @@ class EditPostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .file, filePath: attachment.awsFilePath, path: attachment.fileUrl, thumbNailUrl: nil, index: attachment.index ) { (progress) in
                     print("file - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (fileResponse, thumbnailUrl, error, nil)  in
-                    print(fileResponse)
                     attachment.awsUploadedUrl = (fileResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
@@ -94,11 +91,11 @@ class EditPostOperation {
             }
         }
         self.dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
-            self?.editPostWithAttachments(postId: postId, postCaption: postCaption)
+            self?.editPostWithAttachments(postId: postId, postCaption: postCaption, topics: topics)
         }
     }
     
-    private func editPostWithAttachments(postId: String, postCaption: String?) {
+    private func editPostWithAttachments(postId: String, postCaption: String?, topics: [String]) {
         guard let attachmentList = self.attachmentList else {return}
         if attachmentList.count > 0 {
             var attachments: [Attachment] = []
@@ -121,6 +118,7 @@ class EditPostOperation {
                 .postId(postId)
                 .text(postCaption)
                 .attachments(attachments)
+                .addTopics(topics)
                 .build()
             LMFeedClient.shared.editPost(editPostRequest) { [weak self] response in
                 self?.attachmentList = nil

@@ -65,7 +65,7 @@ final class SelectTopicViewModel {
                 let transformedTopics: [TopicFeedDataModel] = response.data?.topics?.compactMap {
                     guard let name = $0.name,
                           let id = $0.id else { return nil }
-                    return .init(title: name, topicID: id)
+                    return .init(title: name, topicID: id, isEnabled: $0.isEnabled ?? false)
                 } ?? []
                 
                 allTopics.append(contentsOf: transformedTopics)
@@ -79,6 +79,12 @@ final class SelectTopicViewModel {
         if isShowAllTopics && selectedTopics.count == allTopics.count {
             selectedTopics.removeAll()
         }
+        
+        allTopics = allTopics.filter { topic in
+            !selectedTopics.contains(where: { $0.topicID == topic.topicID })
+        }
+        
+        allTopics.insert(contentsOf: selectedTopics, at: .zero)
         
         let transformedData: [SelectTopicTableViewCell.ViewModel] = allTopics.map { topic in
             let isSelected = selectedTopics.contains { topic.topicID == $0.topicID }

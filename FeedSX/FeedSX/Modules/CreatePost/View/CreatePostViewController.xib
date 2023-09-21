@@ -41,10 +41,10 @@
                     <rect key="frame" x="0.0" y="10" width="375" height="674"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L0g-2K-JXQ">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="706"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="707"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gup-ER-zkn" userLabel="ProfileHeaderView">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="89"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="76P-9s-2Dp">
                                             <rect key="frame" x="16" y="5" width="343" height="40"/>
@@ -99,11 +99,11 @@
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                         </collectionView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7yi-kb-C2n">
-                                            <rect key="frame" x="16" y="79" width="343" height="1"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7yi-kb-C2n" userLabel="Seprator View">
+                                            <rect key="frame" x="16" y="79" width="343" height="2"/>
                                             <color key="backgroundColor" red="0.81568627450980391" green="0.84705882352941175" blue="0.88627450980392153" alpha="0.39883350190662203" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="1" id="RmR-dX-gTL"/>
+                                                <constraint firstAttribute="height" constant="2" id="RmR-dX-gTL"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -121,7 +121,7 @@
                                     </constraints>
                                 </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="iwM-HR-YoK">
-                                    <rect key="frame" x="0.0" y="98" width="375" height="608"/>
+                                    <rect key="frame" x="0.0" y="99" width="375" height="608"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yhw-nb-Mgg" userLabel="CaptionView">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="145"/>
@@ -248,7 +248,7 @@
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XZE-Np-r9Z" userLabel="TaggingListContainer">
-                    <rect key="frame" x="10" y="248" width="355" height="60"/>
+                    <rect key="frame" x="10" y="249" width="355" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="Ajr-C5-Jnx"/>
                     </constraints>

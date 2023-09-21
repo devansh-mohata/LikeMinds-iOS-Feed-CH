@@ -23,7 +23,18 @@ class CreatePostViewController: BaseViewController {
     }
     @IBOutlet weak var pageControl: UIPageControl?
     @IBOutlet weak var attachmentView: UIView!
-    @IBOutlet weak var attachmentCollectionView: UICollectionView!
+    @IBOutlet weak var attachmentCollectionView: UICollectionView! {
+        didSet {
+            attachmentCollectionView.dataSource = self
+            attachmentCollectionView.delegate = self
+            attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+            attachmentCollectionView.register(UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self)), forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
+        }
+    }
     @IBOutlet weak var uploadAttachmentActionsView: UIView!
     @IBOutlet weak var uploadActionsTableView: UITableView!
     @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
@@ -33,7 +44,15 @@ class CreatePostViewController: BaseViewController {
     @IBOutlet weak var taggingListViewContainer: UIView!
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var topicCollectionView: DynamicCollectionView!
+    @IBOutlet private weak var topicCollectionView: DynamicCollectionView! {
+        didSet {
+            topicCollectionView.dataSource = self
+            topicCollectionView.delegate = self
+            topicCollectionView.isScrollEnabled = false
+            topicCollectionView.collectionViewLayout = TagsLayout()
+            topicCollectionView.register(UINib(nibName: TopicViewCollectionCell.identifier, bundle: Bundle(for: TopicViewCollectionCell.self)), forCellWithReuseIdentifier: TopicViewCollectionCell.identifier)
+        }
+    }
     @IBOutlet private weak var topicCollectionHeightConstraint: NSLayoutConstraint!
     
     var debounceForDecodeLink:Timer?
@@ -76,15 +95,6 @@ class CreatePostViewController: BaseViewController {
         
         viewModel.delegate = self
         
-        attachmentCollectionView.dataSource = self
-        attachmentCollectionView.delegate = self
-        
-        topicCollectionView.dataSource = self
-        topicCollectionView.delegate = self
-        topicCollectionView.isScrollEnabled = false
-        topicCollectionView.collectionViewLayout = TagsLayout()
-        topicCollectionView.register(UINib(nibName: TopicViewCollectionCell.identifier, bundle: Bundle(for: TopicViewCollectionCell.self)), forCellWithReuseIdentifier: TopicViewCollectionCell.identifier)
-        
         uploadActionsTableView.dataSource = self
         uploadActionsTableView.delegate = self
         uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
@@ -97,14 +107,6 @@ class CreatePostViewController: BaseViewController {
         addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
         addMoreButton.superview?.isHidden = true
         
-        self.attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
-
-        let linkNib = UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self))
-        self.attachmentCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
-        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.setupProfileData()
         self.setTitleAndSubtile(title: "Create a post", subTitle: nil)
         self.hideTaggingViewContainer()
