@@ -106,13 +106,10 @@ public class BaseViewController: UIViewController {
     
     @objc
     func keyboardWillShow(_ sender: Notification) {
-        guard let userInfo = sender.userInfo,
-              let durationValue = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey],
-              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-              let curveValue = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] else {
+        guard let userInfo = sender.userInfo else {
             return
         }
-//        self.bottomConstraint.constant = frame.size.height
+        
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
@@ -120,7 +117,6 @@ public class BaseViewController: UIViewController {
     
     @objc
     func keyboardWillHide(_ sender: Notification) {
-//        self.bottomConstraint.constant = 0
         self.view.layoutIfNeeded()
     }
     
@@ -152,7 +148,6 @@ public class BaseViewController: UIViewController {
     }
     
     func showErrorAlert(_ title: String? = "Error", message: String?) {
-        print("error message: \(message)")
         guard let message = message else { return }
         self.presentAlert(title: title, message: message)
     }

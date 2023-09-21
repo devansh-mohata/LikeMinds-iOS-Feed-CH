@@ -335,7 +335,8 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == topicCollectionView,
            topics[indexPath.row].isEditCell {
-            print("Edit it is")
+            let vc = SelectTopicViewController(selectedTopics: [], isShowAllTopics: true, delegate: self)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
@@ -581,5 +582,11 @@ class DynamicCollectionView: UICollectionView {
     
     override var intrinsicContentSize: CGSize {
         return contentSize
+    }
+}
+
+extension CreatePostViewController: SelectTopicViewDelegate {
+    func updateSelection(with data: [TopicFeedDataModel]) {
+        dump(data)
     }
 }

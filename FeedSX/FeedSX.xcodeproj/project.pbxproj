@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		E54E895D2ABAFC3100F0E7DF /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E895C2ABAFC3100F0E7DF /* TagsLayout.swift */; };
 		E54E895F2ABB103000F0E7DF /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E895E2ABB103000F0E7DF /* UIStackView+Extension.swift */; };
+		E54E89692ABB448E00F0E7DF /* SelectTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89672ABB448E00F0E7DF /* SelectTopicViewController.swift */; };
+		E54E896A2ABB448E00F0E7DF /* SelectTopicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54E89682ABB448E00F0E7DF /* SelectTopicViewController.xib */; };
+		E54E89712ABB491A00F0E7DF /* SelectTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E896F2ABB491A00F0E7DF /* SelectTopicTableViewCell.swift */; };
+		E54E89722ABB491A00F0E7DF /* SelectTopicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54E89702ABB491A00F0E7DF /* SelectTopicTableViewCell.xib */; };
+		E54E89762ABB50A400F0E7DF /* SelectTopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */; };
 		E5A938AC2ABACC36001B5D2B /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */; };
 		E5A938AD2ABACC36001B5D2B /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5A938BB2ABADC4A001B5D2B /* TopicViewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */; };
@@ -167,6 +172,11 @@
 		A047BB966FC282078791220D /* Pods_FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E54E895C2ABAFC3100F0E7DF /* TagsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
 		E54E895E2ABB103000F0E7DF /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		E54E89672ABB448E00F0E7DF /* SelectTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicViewController.swift; sourceTree = "<group>"; };
+		E54E89682ABB448E00F0E7DF /* SelectTopicViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectTopicViewController.xib; sourceTree = "<group>"; };
+		E54E896F2ABB491A00F0E7DF /* SelectTopicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicTableViewCell.swift; sourceTree = "<group>"; };
+		E54E89702ABB491A00F0E7DF /* SelectTopicTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectTopicTableViewCell.xib; sourceTree = "<group>"; };
+		E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicViewModel.swift; sourceTree = "<group>"; };
 		E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LikeMindsFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewCollectionCell.swift; sourceTree = "<group>"; };
 		E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicViewCollectionCell.xib; sourceTree = "<group>"; };
@@ -317,6 +327,42 @@
 				841AF5F2C16456E212FAC2C3 /* Pods-FeedSX.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		E54E89642ABB3D6100F0E7DF /* SelectTopicView */ = {
+			isa = PBXGroup;
+			children = (
+				E54E89742ABB509100F0E7DF /* ViewModel */,
+				E54E89732ABB508600F0E7DF /* View */,
+			);
+			path = SelectTopicView;
+			sourceTree = "<group>";
+		};
+		E54E896E2ABB48FB00F0E7DF /* SelectTopicCell */ = {
+			isa = PBXGroup;
+			children = (
+				E54E896F2ABB491A00F0E7DF /* SelectTopicTableViewCell.swift */,
+				E54E89702ABB491A00F0E7DF /* SelectTopicTableViewCell.xib */,
+			);
+			path = SelectTopicCell;
+			sourceTree = "<group>";
+		};
+		E54E89732ABB508600F0E7DF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E54E896E2ABB48FB00F0E7DF /* SelectTopicCell */,
+				E54E89672ABB448E00F0E7DF /* SelectTopicViewController.swift */,
+				E54E89682ABB448E00F0E7DF /* SelectTopicViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E54E89742ABB509100F0E7DF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		E5A938B82ABADC2D001B5D2B /* TopicCell */ = {
@@ -574,17 +620,18 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				F4AC6E732A4C28670036E997 /* ShareContent */,
-				F49F6BE92A1B3BAC005B2A81 /* NotificationFeed */,
 				F4EA97A72A14980B0020E672 /* Analytics */,
-				F4CE0F252A0CF9430089D743 /* TaggedUserList */,
-				F405D0FC29E7E0410074F531 /* ReportContent */,
-				F4A3DD2B29E7D29400498363 /* DeleteContent */,
-				F4A20D1C29E575D4001D57CB /* LikesList */,
-				F49C76E829E3101000325AD9 /* PostDetail */,
-				F4AD157A2A2BC5EC00B752C3 /* EditPost */,
 				F4A9617629DBF9E500F395AD /* CreatePost */,
+				F4A3DD2B29E7D29400498363 /* DeleteContent */,
+				F4AD157A2A2BC5EC00B752C3 /* EditPost */,
 				F4D98AFA29D1879700CF9743 /* HomeFeed */,
+				F4A20D1C29E575D4001D57CB /* LikesList */,
+				F49F6BE92A1B3BAC005B2A81 /* NotificationFeed */,
+				F49C76E829E3101000325AD9 /* PostDetail */,
+				F405D0FC29E7E0410074F531 /* ReportContent */,
+				E54E89642ABB3D6100F0E7DF /* SelectTopicView */,
+				F4AC6E732A4C28670036E997 /* ShareContent */,
+				F4CE0F252A0CF9430089D743 /* TaggedUserList */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -916,7 +963,9 @@
 				F4D98B1929D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib in Resources */,
 				F4CE0F2B2A0CF9430089D743 /* TaggedListTableViewCell.xib in Resources */,
 				F49F6BF52A1B3FAF005B2A81 /* NotificationFeedTableViewCell.xib in Resources */,
+				E54E896A2ABB448E00F0E7DF /* SelectTopicViewController.xib in Resources */,
 				F405D10029E7E0800074F531 /* ReportContentViewController.xib in Resources */,
+				E54E89722ABB491A00F0E7DF /* SelectTopicTableViewCell.xib in Resources */,
 				F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */,
 				F49F6BFD2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib in Resources */,
 			);
@@ -965,6 +1014,7 @@
 				F49F6BFC2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift in Sources */,
 				F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */,
 				F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */,
+				E54E89712ABB491A00F0E7DF /* SelectTopicTableViewCell.swift in Sources */,
 				F4D98B0A29D188BF00CF9743 /* LMTextField.swift in Sources */,
 				F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */,
 				F4A5BD7429DA0A07006FC78D /* UIImageView+Extension.swift in Sources */,
@@ -1019,6 +1069,7 @@
 				F49C76F429E3387E00325AD9 /* ReplyCommentTableViewCell.swift in Sources */,
 				F4AD15872A2BCDC600B752C3 /* BaseViewModel.swift in Sources */,
 				F49C76DF29DF45B100325AD9 /* AWSS3Manager.swift in Sources */,
+				E54E89762ABB50A400F0E7DF /* SelectTopicViewModel.swift in Sources */,
 				F4D58B5929DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift in Sources */,
 				F4A20D2229E57654001D57CB /* LikedUserTableViewCell.swift in Sources */,
 				F4AC6E792A4C681C0036E997 /* LikeMindsFeedExtras.swift in Sources */,
@@ -1030,6 +1081,7 @@
 				F4A3DD2E29E7D2F600498363 /* DeleteContentViewController.swift in Sources */,
 				F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */,
 				F49F6BF72A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift in Sources */,
+				E54E89692ABB448E00F0E7DF /* SelectTopicViewController.swift in Sources */,
 				F4D98B2429D4528900CF9743 /* String+Extension.swift in Sources */,
 				F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */,
 				F49C76FB29E3EB8C00325AD9 /* DataDetector.swift in Sources */,
