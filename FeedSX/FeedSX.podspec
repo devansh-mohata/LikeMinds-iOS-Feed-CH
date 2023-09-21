@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "FeedSX.podspec"
-  spec.version      = "1.4.0"
+  spec.version      = "1.6.0"
   spec.summary      = "A short description of FeedSX.podspec."
 
   # This description is used to generate tags and improve search results.
@@ -146,5 +146,4 @@ spec.pod_target_xcconfig = {
   spec.dependency "FirebaseMessaging"
   spec.dependency "IQKeyboardManagerSwift"
   spec.dependency "LikeMindsFeed"
-  spec.dependency "QCropper"
 end
