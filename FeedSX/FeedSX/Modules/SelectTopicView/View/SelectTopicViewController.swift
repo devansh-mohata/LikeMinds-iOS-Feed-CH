@@ -44,7 +44,7 @@ class SelectTopicViewController: BaseViewController {
         }
     }
     
-    
+    private var debounceForText: Timer?
     private var topicCells: [SelectTopicTableViewCell.ViewModel] {
         didSet {
             topicsTableView.reloadData()
@@ -106,7 +106,8 @@ class SelectTopicViewController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        debounceForText?.invalidate()
+        
         // Doing this to make navigation title left aligned
         let offset = UIOffset(horizontal: .zero, vertical: .zero)
         navigationController?.navigationBar.standardAppearance.titlePositionAdjustment = offset
@@ -192,11 +193,17 @@ extension SelectTopicViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.searchQuery = searchText
-        viewModel.fetchTopics(searchQuery: searchQuery, isFreshSearch: true)
+        debounceForText?.invalidate()
+        searchQuery = searchText
+        
+        debounceForText = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] timer in
+            self?.viewModel.fetchTopics(searchQuery: searchText, isFreshSearch: true)
+            timer.invalidate()
+        }
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        debounceForText?.invalidate()
     }
 }

@@ -14,7 +14,16 @@ class CreatePostViewController: BaseViewController {
     
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var usernameLabel: LMLabel!
-    @IBOutlet weak var addMoreButton: LMButton!
+    @IBOutlet weak var addMoreButton: LMButton! {
+        didSet {
+            addMoreButton.layer.borderWidth = 1
+            addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
+            addMoreButton.tintColor = LMBranding.shared.buttonColor
+            addMoreButton.layer.cornerRadius = 8
+            addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
+            addMoreButton.superview?.isHidden = true
+        }
+    }
     @IBOutlet weak var postinLabel: LMLabel!
     @IBOutlet weak var captionTextView: LMTextView! {
         didSet{
@@ -36,7 +45,14 @@ class CreatePostViewController: BaseViewController {
         }
     }
     @IBOutlet weak var uploadAttachmentActionsView: UIView!
-    @IBOutlet weak var uploadActionsTableView: UITableView!
+    @IBOutlet weak var uploadActionsTableView: UITableView! {
+        didSet {
+            uploadActionsTableView.dataSource = self
+            uploadActionsTableView.delegate = self
+            uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
+            uploadActionsTableView.separatorInset = UIEdgeInsets.zero
+        }
+    }
     @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var uploadAttachmentSuperViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var captionTextViewHeightConstraint: NSLayoutConstraint!
@@ -44,16 +60,9 @@ class CreatePostViewController: BaseViewController {
     @IBOutlet weak var taggingListViewContainer: UIView!
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var topicCollectionView: DynamicCollectionView! {
-        didSet {
-            topicCollectionView.dataSource = self
-            topicCollectionView.delegate = self
-            topicCollectionView.isScrollEnabled = false
-            topicCollectionView.collectionViewLayout = TagsLayout()
-            topicCollectionView.register(UINib(nibName: TopicViewCollectionCell.identifier, bundle: Bundle(for: TopicViewCollectionCell.self)), forCellWithReuseIdentifier: TopicViewCollectionCell.identifier)
-        }
-    }
-    @IBOutlet private weak var topicCollectionHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet private weak var topicFeedView: LMTopicView!
+    @IBOutlet private weak var topicFeedViewHeightConstraint: NSLayoutConstraint!
     
     var debounceForDecodeLink:Timer?
     var uploadActionsHeight:CGFloat = 43 * 3
@@ -77,17 +86,19 @@ class CreatePostViewController: BaseViewController {
     var isReloadTaggingListView = true
     var typeTextRangeInTextView: NSRange?
     var postButtonItem: UIBarButtonItem?
-    private var topics: [TopicViewCollectionCell.ViewModel] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
         NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
         viewModel.getTopics()
-        self.userProfileImage.makeCircleView()
+        
+        userProfileImage.makeCircleView()
         
         captionTextView.delegate = self
         captionTextView.addSubview(placeholderLabel)
+        
+        topicFeedView.delegate = self
         
         placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
         placeholderLabel.textColor = .tertiaryLabel
@@ -95,22 +106,10 @@ class CreatePostViewController: BaseViewController {
         
         viewModel.delegate = self
         
-        uploadActionsTableView.dataSource = self
-        uploadActionsTableView.delegate = self
-        uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
-        uploadActionsTableView.separatorInset = UIEdgeInsets.zero
-        
-        addMoreButton.layer.borderWidth = 1
-        addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
-        addMoreButton.tintColor = LMBranding.shared.buttonColor
-        addMoreButton.layer.cornerRadius = 8
-        addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
-        addMoreButton.superview?.isHidden = true
-        
-        self.setupProfileData()
-        self.setTitleAndSubtile(title: "Create a post", subTitle: nil)
-        self.hideTaggingViewContainer()
-        self.pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
+        setupProfileData()
+        setTitleAndSubtile(title: "Create a post", subTitle: nil)
+        hideTaggingViewContainer()
+        pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -232,10 +231,6 @@ class CreatePostViewController: BaseViewController {
 extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == topicCollectionView {
-            return topics.count
-        }
-        
         switch self.viewModel.currentSelectedUploadeType {
         case .video, .image:
             return viewModel.imageAndVideoAttachments.count
@@ -249,12 +244,6 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == topicCollectionView,
-           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopicViewCollectionCell.identifier, for: indexPath) as? TopicViewCollectionCell {
-            cell.configure(with: topics[indexPath.row])
-            return cell
-        }
-        
         var defaultCell = collectionView.dequeueReusableCell(withReuseIdentifier: "defaultCell", for: indexPath)
         switch self.viewModel.currentSelectedUploadeType {
         case .link:
@@ -293,26 +282,6 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == topicCollectionView {
-            var size: CGFloat = 0
-            if let textWidth = topics[indexPath.row].title?.sizeOfString(with: LMBranding.shared.font(14, .regular)) {
-                size += textWidth.width
-            }
-            
-            if topics[indexPath.row].image != nil {
-                if size != .zero {
-                    // Stack Padding
-                    size += 4
-                }
-                size += 20
-            }
-            
-            // Cell Padding
-            size += 8
-            
-            return .init(width: size, height: 30)
-        }
-        
         switch self.viewModel.currentSelectedUploadeType {
         case .link, .image, .video:
             return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
@@ -325,22 +294,14 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        collectionView == topicCollectionView ? 4 : .zero
+        .zero
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        collectionView == topicCollectionView ? 4 : .zero
+        .zero
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.view.frame.width)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == topicCollectionView,
-           topics[indexPath.row].isEditCell {
-            let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
-            navigationController?.pushViewController(vc, animated: true)
-        }
     }
 }
 
@@ -387,7 +348,6 @@ extension CreatePostViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension CreatePostViewController: UITextViewDelegate {
-
     func textViewDidBeginEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = true
         enablePostButton()
@@ -430,7 +390,6 @@ extension CreatePostViewController: UITextViewDelegate {
 }
 
 extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
-    
     func removeAttachment(_ cell: UICollectionViewCell) {
         guard let indexPath = self.attachmentCollectionView.indexPath(for: cell) else { return }
         print(indexPath.row)
@@ -461,14 +420,12 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
         guard let url = urls.first else { return }
         print(url)
         self.viewModel.addDocumentAttachment(fileUrl: url)
-//        self.delegate?.didSelect(image: image)
         controller.dismiss(animated: true)
     }
     
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         controller.dismiss(animated: true)
     }
-    
 }
 
 //MARK: - Delegate view model
@@ -525,15 +482,8 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     }
     
     func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel]) {
-        self.topics = topics
-        topicCollectionView.reloadData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            // TODO: Height Issue
-            var height = self?.topicCollectionView.intrinsicContentSize.height ?? .zero
-            if height != .zero {
-                height += 20
-            }
-            self?.topicCollectionHeightConstraint.constant = height
+        topicFeedView.configure(with: topics) { [weak self] newheight in
+            self?.topicFeedViewHeightConstraint.constant = newheight
             self?.view.layoutIfNeeded()
         }
     }
@@ -570,26 +520,17 @@ extension CreatePostViewController: TaggedUserListDelegate {
     }
 }
 
-
-class DynamicCollectionView: UICollectionView {
-    override var contentSize: CGSize {
-        didSet {
-            invalidateIntrinsicContentSize()
-        }
-    }
-    
-    override func reloadData() {
-        super.reloadData()
-        self.invalidateIntrinsicContentSize()
-    }
-    
-    override var intrinsicContentSize: CGSize {
-        return contentSize
-    }
-}
-
+// MARK: SelectTopicViewDelegate
 extension CreatePostViewController: SelectTopicViewDelegate {
     func updateSelection(with data: [TopicFeedDataModel]) {
         viewModel.updateSelectedTopics(with: data)
+    }
+}
+
+// MARK: LMTopicViewDelegate
+extension CreatePostViewController: LMTopicViewDelegate {
+    func didTapEditTopics() {
+        let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

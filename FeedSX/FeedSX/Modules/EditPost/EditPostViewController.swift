@@ -52,17 +52,8 @@ class EditPostViewController: BaseViewController {
     @IBOutlet weak var uploadActionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var taggingListViewContainer: UIView!
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet private weak var topicCollectionView: DynamicCollectionView! {
-        didSet {
-            topicCollectionView.dataSource = self
-            topicCollectionView.delegate = self
-            topicCollectionView.isScrollEnabled = false
-            topicCollectionView.collectionViewLayout = TagsLayout()
-            topicCollectionView.register(UINib(nibName: TopicViewCollectionCell.identifier, bundle: Bundle(for: TopicViewCollectionCell.self)), forCellWithReuseIdentifier: TopicViewCollectionCell.identifier)
-        }
-    }
-    @IBOutlet private weak var topicCollectionHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var topicFeedView: LMTopicView!
+    @IBOutlet private weak var topicFeedViewHeightConstraint: NSLayoutConstraint!
     
     var debounceForDecodeLink:Timer?
     var uploadActionsHeight:CGFloat = 0//43 * 3
@@ -86,7 +77,6 @@ class EditPostViewController: BaseViewController {
     var isReloadTaggingListView = true
     var typeTextRangeInTextView: NSRange?
     var postButtonItem: UIBarButtonItem?
-    private var topics: [TopicViewCollectionCell.ViewModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +92,9 @@ class EditPostViewController: BaseViewController {
         
         viewModel.delegate = self
         viewModel.postId = postId
-            
+        
+        topicFeedView.delegate = self
+        
         self.setupProfileData()
         self.setTitleAndSubtile(title: "Edit post", subTitle: nil)
         self.hideTaggingViewContainer()
@@ -249,10 +241,6 @@ class EditPostViewController: BaseViewController {
 extension EditPostViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == topicCollectionView {
-            return topics.count
-        }
-        
         switch self.viewModel.currentSelectedUploadeType {
         case .video, .image:
             return viewModel.imageAndVideoAttachments.count
@@ -266,12 +254,6 @@ extension EditPostViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == topicCollectionView,
-           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopicViewCollectionCell.identifier, for: indexPath) as? TopicViewCollectionCell {
-            cell.configure(with: topics[indexPath.row])
-            return cell
-        }
-        
         var defaultCell = collectionView.dequeueReusableCell(withReuseIdentifier: "defaultCell", for: indexPath)
         switch self.viewModel.currentSelectedUploadeType {
         case .link:
@@ -313,26 +295,6 @@ extension EditPostViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == topicCollectionView {
-            var size: CGFloat = 0
-            if let textWidth = topics[indexPath.row].title?.sizeOfString(with: LMBranding.shared.font(14, .regular)) {
-                size += textWidth.width
-            }
-            
-            if topics[indexPath.row].image != nil {
-                if size != .zero {
-                    // Stack Padding
-                    size += 4
-                }
-                size += 20
-            }
-            
-            // Cell Padding
-            size += 8
-            
-            return .init(width: size, height: 30)
-        }
-        
         switch self.viewModel.currentSelectedUploadeType  {
         case .link, .image, .video:
             return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
@@ -345,22 +307,14 @@ extension EditPostViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        collectionView == topicCollectionView ? 4 : .zero
+        .zero
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        collectionView == topicCollectionView ? 4 : .zero
+        .zero
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.view.frame.width)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == topicCollectionView,
-           topics[indexPath.row].isEditCell {
-            let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
-            navigationController?.pushViewController(vc, animated: true)
-        }
     }
 }
 
@@ -544,16 +498,8 @@ extension EditPostViewController: EditPostViewModelDelegate {
     }
     
     func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel]) {
-        self.topics = topics
-        topicCollectionView.reloadData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            // TODO: Height Issue
-            var height = self?.topicCollectionView.intrinsicContentSize.height ?? .zero
-//            if height != .zero {
-//                height += 20
-//            }
-            self?.topicCollectionHeightConstraint.constant = height
-            self?.view.layoutIfNeeded()
+        topicFeedView.configure(with: topics) { [weak self] newHeight in
+            self?.topicFeedViewHeightConstraint.constant = newHeight
         }
     }
 }
@@ -588,9 +534,17 @@ extension EditPostViewController: TaggedUserListDelegate {
     }
 }
 
-
+// MARK: SelectTopicViewDelegate
 extension EditPostViewController: SelectTopicViewDelegate {
     func updateSelection(with data: [TopicFeedDataModel]) {
         viewModel.updateSelectedTopics(with: data)
+    }
+}
+
+// MARK: LMTopicViewDelegate
+extension EditPostViewController: LMTopicViewDelegate {
+    func didTapEditTopics() {
+        let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

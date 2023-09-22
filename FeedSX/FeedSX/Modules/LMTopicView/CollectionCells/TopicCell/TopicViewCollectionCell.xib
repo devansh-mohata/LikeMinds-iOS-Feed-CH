@@ -19,8 +19,23 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0MB-3h-dON">
                         <rect key="frame" x="0.0" y="0.0" width="311" height="70"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="jjK-1m-we3">
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="jjK-1m-we3">
                                 <rect key="frame" x="8" y="2" width="295" height="66"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="pencil" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="vNW-hm-HUh">
+                                        <rect key="frame" x="0.0" y="27" width="18" height="13"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="vNW-hm-HUh" secondAttribute="height" multiplier="1:1" id="BgV-bY-mGi"/>
+                                            <constraint firstAttribute="height" constant="18" id="ZA9-AA-NEa"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="787-5m-RQ5" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                        <rect key="frame" x="22" y="23" width="273" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                         </subviews>
@@ -43,9 +58,14 @@
             </constraints>
             <size key="customSize" width="311" height="70"/>
             <connections>
+                <outlet property="editIcon" destination="vNW-hm-HUh" id="hm6-U1-StC"/>
+                <outlet property="textLbl" destination="787-5m-RQ5" id="LCD-GS-CPf"/>
                 <outlet property="topicStackView" destination="jjK-1m-we3" id="ToF-qH-Gtp"/>
             </connections>
             <point key="canvasLocation" x="80.152671755725194" y="27.464788732394368"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+    </resources>
 </document>

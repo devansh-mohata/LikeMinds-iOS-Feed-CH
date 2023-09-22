@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="AuB-an-ZaA"/>
+                <outlet property="topicCollectionView" destination="f6P-F1-pki" id="eYw-9e-6Fe"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="567" height="46"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="f6P-F1-pki" customClass="DynamicCollectionView" customModule="FeedSX" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="567" height="28"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mqB-J5-qBR">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1i-op-ags" userLabel="Seprator View">
+                    <rect key="frame" x="0.0" y="44" width="567" height="2"/>
+                    <color key="backgroundColor" red="0.81568627450980391" green="0.84705882352941175" blue="0.88627450980392153" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="X31-YZ-FmV"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="f6P-F1-pki" secondAttribute="trailing" id="Bno-9A-uPv"/>
+                <constraint firstAttribute="bottom" secondItem="m1i-op-ags" secondAttribute="bottom" id="GPt-Wm-Ts5"/>
+                <constraint firstItem="f6P-F1-pki" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Ice-bc-RAF"/>
+                <constraint firstItem="m1i-op-ags" firstAttribute="trailing" secondItem="f6P-F1-pki" secondAttribute="trailing" id="Ieq-pQ-3x1"/>
+                <constraint firstItem="m1i-op-ags" firstAttribute="top" secondItem="f6P-F1-pki" secondAttribute="bottom" constant="16" id="Ogs-Pe-14X"/>
+                <constraint firstItem="m1i-op-ags" firstAttribute="leading" secondItem="f6P-F1-pki" secondAttribute="leading" id="T8c-Qq-gCV"/>
+                <constraint firstItem="f6P-F1-pki" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Xci-19-g8q"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="263.35877862595419" y="-263.38028169014086"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

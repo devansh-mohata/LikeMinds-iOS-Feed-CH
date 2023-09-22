@@ -21,8 +21,8 @@
                 <outlet property="postinLabel" destination="Xdt-uR-Cql" id="MBr-ek-qkj"/>
                 <outlet property="taggingListViewContainer" destination="XZE-Np-r9Z" id="j7a-qX-8WW"/>
                 <outlet property="taggingViewHeightConstraint" destination="Ajr-C5-Jnx" id="chB-xd-u1M"/>
-                <outlet property="topicCollectionHeightConstraint" destination="GXU-Le-hy4" id="cyC-AD-GBa"/>
-                <outlet property="topicCollectionView" destination="IvM-PO-KEA" id="gsT-zq-yZ5"/>
+                <outlet property="topicFeedView" destination="tK5-YW-MMk" id="nhC-6V-laa"/>
+                <outlet property="topicFeedViewHeightConstraint" destination="9ty-fj-4Fg" id="mao-F1-fRc"/>
                 <outlet property="uploadActionViewHeightConstraint" destination="haC-Xz-X3T" id="f2W-lx-xIY"/>
                 <outlet property="uploadActionsTableView" destination="kId-gs-Li4" id="DfF-gW-geE"/>
                 <outlet property="uploadAttachmentActionsView" destination="f74-bF-iIH" id="yre-sq-MXI"/>
@@ -41,12 +41,12 @@
                     <rect key="frame" x="0.0" y="10" width="375" height="674"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L0g-2K-JXQ">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="707"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="697"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gup-ER-zkn" userLabel="ProfileHeaderView">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="89"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="76P-9s-2Dp">
+                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="76P-9s-2Dp" userLabel="HStack">
                                             <rect key="frame" x="16" y="5" width="343" height="40"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="oJi-2C-Z0c">
@@ -86,42 +86,26 @@
                                                 </stackView>
                                             </subviews>
                                         </stackView>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="IvM-PO-KEA" customClass="DynamicCollectionView" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="16" y="53" width="343" height="10"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tK5-YW-MMk" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="16" y="61" width="343" height="10"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="10" id="GXU-Le-hy4"/>
-                                            </constraints>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JBe-iL-VEC">
-                                                <size key="itemSize" width="128" height="128"/>
-                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            </collectionViewFlowLayout>
-                                        </collectionView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7yi-kb-C2n" userLabel="Seprator View">
-                                            <rect key="frame" x="16" y="79" width="343" height="2"/>
-                                            <color key="backgroundColor" red="0.81568627450980391" green="0.84705882352941175" blue="0.88627450980392153" alpha="0.39883350190662203" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="2" id="RmR-dX-gTL"/>
+                                                <constraint firstAttribute="height" constant="10" id="9ty-fj-4Fg"/>
                                             </constraints>
                                         </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="tK5-YW-MMk" secondAttribute="bottom" constant="8" id="1eM-c9-6a0"/>
                                         <constraint firstAttribute="trailing" secondItem="76P-9s-2Dp" secondAttribute="trailing" constant="16" id="L4B-Is-cCq"/>
-                                        <constraint firstItem="IvM-PO-KEA" firstAttribute="top" secondItem="76P-9s-2Dp" secondAttribute="bottom" constant="8" id="Q4e-uD-Hs7"/>
                                         <constraint firstItem="76P-9s-2Dp" firstAttribute="top" secondItem="Gup-ER-zkn" secondAttribute="top" constant="5" id="VPG-R2-tbM"/>
-                                        <constraint firstItem="7yi-kb-C2n" firstAttribute="trailing" secondItem="IvM-PO-KEA" secondAttribute="trailing" id="Xgb-gm-MhJ"/>
-                                        <constraint firstItem="7yi-kb-C2n" firstAttribute="top" secondItem="IvM-PO-KEA" secondAttribute="bottom" constant="16" id="hx2-VU-alo"/>
-                                        <constraint firstAttribute="bottom" secondItem="7yi-kb-C2n" secondAttribute="bottom" constant="8" id="jtX-UF-IWf"/>
-                                        <constraint firstItem="IvM-PO-KEA" firstAttribute="leading" secondItem="76P-9s-2Dp" secondAttribute="leading" id="tRv-GH-ySl"/>
-                                        <constraint firstItem="IvM-PO-KEA" firstAttribute="trailing" secondItem="76P-9s-2Dp" secondAttribute="trailing" id="xp8-Ch-Aql"/>
-                                        <constraint firstItem="7yi-kb-C2n" firstAttribute="leading" secondItem="IvM-PO-KEA" secondAttribute="leading" id="y3g-ye-CXn"/>
+                                        <constraint firstItem="tK5-YW-MMk" firstAttribute="trailing" secondItem="76P-9s-2Dp" secondAttribute="trailing" id="dse-T1-Vmf"/>
+                                        <constraint firstItem="tK5-YW-MMk" firstAttribute="leading" secondItem="76P-9s-2Dp" secondAttribute="leading" id="fa6-Jo-lcU"/>
+                                        <constraint firstItem="tK5-YW-MMk" firstAttribute="top" secondItem="76P-9s-2Dp" secondAttribute="bottom" constant="16" id="uBc-g5-4AD"/>
                                         <constraint firstItem="76P-9s-2Dp" firstAttribute="leading" secondItem="Gup-ER-zkn" secondAttribute="leading" constant="16" id="yfG-2Q-eaZ"/>
                                     </constraints>
                                 </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="iwM-HR-YoK">
-                                    <rect key="frame" x="0.0" y="99" width="375" height="608"/>
+                                    <rect key="frame" x="0.0" y="89" width="375" height="608"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yhw-nb-Mgg" userLabel="CaptionView">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="145"/>
@@ -248,7 +232,7 @@
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XZE-Np-r9Z" userLabel="TaggingListContainer">
-                    <rect key="frame" x="10" y="249" width="355" height="60"/>
+                    <rect key="frame" x="10" y="239" width="355" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="Ajr-C5-Jnx"/>
                     </constraints>
