@@ -206,7 +206,7 @@ class ProfileHeaderView: UIView {
         setupProfile(profileData: feedDataView.postByUser)
         timeLabel.text = Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()
         pinImageView.isHidden = !(self.feedData?.isPinned ?? false)
-        editTitleLabel.text = (feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : ""
+        editTitleLabel.text = ""//(feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : ""
         var organisationDesignaiton = ""
         if let designation = feedDataView.postByUser?.designation, !designation.isEmpty {
             organisationDesignaiton = designation

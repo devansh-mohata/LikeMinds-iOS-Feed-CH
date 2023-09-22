@@ -31,7 +31,7 @@ class DocumentCollectionCell: UICollectionViewCell {
     
     let documentImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(systemName: ImageIcon.docFillIcon)
         imageView.tintColor = .orange
         imageView.translatesAutoresizingMaskIntoConstraints = false

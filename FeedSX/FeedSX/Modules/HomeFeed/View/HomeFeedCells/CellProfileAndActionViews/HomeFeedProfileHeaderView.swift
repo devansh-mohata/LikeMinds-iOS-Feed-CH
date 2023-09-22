@@ -145,7 +145,7 @@ class HomeFeedProfileHeaderView: UIView {
         self.feedData = feedDataView
         setupProfile(profileData: feedDataView.postByUser)
         postTitleLabel.text = feedDataView.header
-        postTimeLabel.text = " \(SpecialCharString.centerDot) " + Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort() + ((feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : "")
+        postTimeLabel.text = " \(SpecialCharString.centerDot) " + Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()// + ((feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : "")
         pinImageView.isHidden = !feedDataView.isPinned
     }
     
