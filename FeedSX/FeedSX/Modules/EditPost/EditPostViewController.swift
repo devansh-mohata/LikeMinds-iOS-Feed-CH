@@ -498,9 +498,7 @@ extension EditPostViewController: EditPostViewModelDelegate {
     }
     
     func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel]) {
-        topicFeedView.configure(with: topics) { [weak self] newHeight in
-            self?.topicFeedViewHeightConstraint.constant = newHeight
-        }
+        topicFeedView.configure(with: topics) 
     }
 }
 

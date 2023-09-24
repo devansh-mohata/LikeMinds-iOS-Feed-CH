@@ -38,7 +38,7 @@ class EditPostOperation {
                 return
             }
             
-            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""]))
+            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], topics: []))
         }
     }
     
@@ -129,7 +129,7 @@ class EditPostOperation {
                     self?.postMessageForCompleteEditPost(with: response.errorMessage)
                     return
                 }
-                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""]))
+                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], topics: []))
             }
         }
     }

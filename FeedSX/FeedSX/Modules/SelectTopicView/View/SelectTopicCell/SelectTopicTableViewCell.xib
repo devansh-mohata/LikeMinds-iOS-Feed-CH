@@ -26,8 +26,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="checkmark.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="h4R-l4-uII">
-                                <rect key="frame" x="280" y="14.666666666666666" width="24" height="22.666666666666679"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="checkmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="h4R-l4-uII">
+                                <rect key="frame" x="280" y="16" width="24" height="20.000000000000007"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="XXH-Qx-Paq"/>
                                     <constraint firstAttribute="width" secondItem="h4R-l4-uII" secondAttribute="height" multiplier="1:1" id="clG-c6-8yO"/>
@@ -61,7 +61,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="checkmark.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -475,7 +475,6 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
 }
 
 extension PostDetailViewController: ActionsFooterViewDelegate {
-    
     func didTappedAction(withActionType actionType: CellActionType, postData: PostFeedDataView?) {
         guard let postId = postData?.postId else { return }
         switch actionType {

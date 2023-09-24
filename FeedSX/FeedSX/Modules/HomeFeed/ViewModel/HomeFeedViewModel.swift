@@ -13,35 +13,57 @@ protocol HomeFeedViewModelDelegate: AnyObject {
     func didReceivedMemberState()
     func reloadSection(_ indexPath: IndexPath)
     func updateNotificationFeedCount(_ count: Int)
+    func updateTopicFeedView(with cells: [HomeFeedTopicCell.ViewModel], isShowTopicFeed: Bool)
 }
 
 class HomeFeedViewModel: BaseViewModel {
-    
     weak var delegate: HomeFeedViewModelDelegate?
     var feeds: [PostFeedDataView] = []
     var currentPage: Int = 1
     var pageSize = 20
     var isFeedLoading: Bool = false
     
+    private var isShowTopicFeed = false
+    var selectedTopics: [TopicFeedDataModel] = []
+    private var selectedTopicIds: [String] {
+        selectedTopics.map {
+            $0.topicID
+        }
+    }
+
     func getFeed() {
         self.isFeedLoading = true
         let requestFeed = GetFeedRequest.builder()
             .page(currentPage)
             .pageSize(pageSize)
+            .topics(selectedTopicIds)
             .build()
         LMFeedClient.shared.getFeed(requestFeed) { [weak self] result in
-            print(result)
             self?.isFeedLoading = false
             if result.success,
                let postsData = result.data?.posts,
-               let users = result.data?.users, postsData.count > 0 {
-                self?.prepareHomeFeedDataView(postsData, users: users)
+               let users = result.data?.users, !postsData.isEmpty {
+                let topics: [TopicFeedResponse.TopicResponse] = result.data?.topics?.compactMap {
+                    $0.value
+                } ?? []
+                self?.prepareHomeFeedDataView(postsData, users: users, topics: topics)
                 self?.currentPage += 1
             } else {
                 print(result.errorMessage ?? "")
                 self?.delegate?.didReceivedFeedData(success: false)
                 self?.postErrorMessageNotification(error: result.errorMessage)
             }
+        }
+    }
+    
+    func getTopics() {
+        let request = TopicFeedRequest.builder()
+            .setEnableState(true)
+            .build()
+        
+        LMFeedClient.shared.getTopicFeed(request) { [weak self] response in
+            self?.isShowTopicFeed = !(response.data?.topics?.isEmpty ?? true)
+            self?.setupTopicFeed()
         }
     }
     
@@ -137,11 +159,11 @@ class HomeFeedViewModel: BaseViewModel {
         }
     }
     
-    func prepareHomeFeedDataView(_ posts: [Post], users: [String: User]) {
+    func prepareHomeFeedDataView(_ posts: [Post], users: [String: User], topics: [TopicFeedResponse.TopicResponse]) {
         if self.currentPage > 1 {
-            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])})
+            feeds.append(contentsOf: posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""], topics: topics)})
         } else {
-            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""])}
+            feeds = posts.map { PostFeedDataView(post: $0, user: users[$0.uuid ?? ""], topics: topics)}
         }
         delegate?.didReceivedFeedData(success:  true)
     }
@@ -172,5 +194,39 @@ class HomeFeedViewModel: BaseViewModel {
                                                       "post_id": postId,
                                                       "post_type": postType
         ])
+    }
+    
+    func updateTopics(with list: [TopicFeedDataModel]) {
+        selectedTopics = list
+        updateFeed()
+    }
+    
+    func removeTopic(for topicId: String) {
+        guard let idx = selectedTopics.firstIndex(where: { $0.topicID == topicId }) else { return }
+        selectedTopics.remove(at: idx)
+        updateFeed()
+    }
+    
+    func removeAllTopics() {
+        selectedTopics.removeAll()
+        updateFeed()
+    }
+}
+
+private extension HomeFeedViewModel {
+    func setupTopicFeed() {
+        let transformedCells: [HomeFeedTopicCell.ViewModel] = selectedTopics.map {
+            .init(topicName: $0.title, topicID: $0.topicID)
+        }
+        
+        delegate?.updateTopicFeedView(with: transformedCells, isShowTopicFeed: isShowTopicFeed)
+    }
+    
+    func updateFeed() {
+        currentPage = 1
+        feeds.removeAll()
+        setupTopicFeed()
+        getFeed()
+        delegate?.didReceivedFeedData(success: true)
     }
 }

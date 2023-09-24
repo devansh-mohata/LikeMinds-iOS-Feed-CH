@@ -10,7 +10,6 @@ import LikeMindsFeed
 
 protocol SelectTopicViewModelToView: AnyObject {
     func updateTableView(with data: [SelectTopicTableViewCell.ViewModel], isSelectAllTopics: Bool)
-    func updateTitleView(with subtitle: String?)
     func updateSelection(with data: [TopicFeedDataModel])
 }
 
@@ -75,11 +74,6 @@ final class SelectTopicViewModel {
     }
     
     private func transformToViewModel() {
-        // Doing this in case if the user selects all the topics, i.e it means select all topics.
-        if isShowAllTopics && selectedTopics.count == allTopics.count {
-            selectedTopics.removeAll()
-        }
-        
         allTopics = allTopics.filter { topic in
             !selectedTopics.contains(where: { $0.topicID == topic.topicID })
         }
@@ -90,15 +84,9 @@ final class SelectTopicViewModel {
             let isSelected = selectedTopics.contains { topic.topicID == $0.topicID }
             return .init(isSelected: isSelected, title: topic.title)
         }
-        updateTitleView()
         delegate?.updateTableView(with: transformedData, isSelectAllTopics: selectedTopics.isEmpty)
     }
-    
-    func updateTitleView() {
-        let subtitle = selectedTopics.isEmpty ? nil : "\(selectedTopics.count) selected"
-        delegate?.updateTitleView(with: subtitle)
-    }
-    
+        
     func didSelectRowAt(indexPath: IndexPath) {
         if let idx = selectedTopics.firstIndex(where: {
             $0.topicID == allTopics[indexPath.row].topicID

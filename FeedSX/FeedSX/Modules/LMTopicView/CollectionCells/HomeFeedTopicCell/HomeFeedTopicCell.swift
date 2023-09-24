@@ -8,7 +8,7 @@
 import UIKit
 
 class HomeFeedTopicCell: UICollectionViewCell {
-    struct ViewModel: LMTopicViewDataProtocol {
+    struct ViewModel {
         let topicName: String
         let topicID: String
     }
@@ -23,10 +23,10 @@ class HomeFeedTopicCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         xmarkImage.tintColor = LMBranding.shared.buttonColor
-        topicLbl.textColor = LMBranding.shared.textLinkColor
+        topicLbl.textColor = LMBranding.shared.buttonColor
         
         layer.cornerRadius = 4
-        layer.borderColor = LMBranding.shared.headerColor.cgColor
+        layer.borderColor = LMBranding.shared.buttonColor.cgColor
         layer.borderWidth = 2
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapView)))

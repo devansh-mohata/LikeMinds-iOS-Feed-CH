@@ -62,7 +62,7 @@ final class EditPostViewModel: BaseViewModel {
                 self?.postErrorMessageNotification(error: response.errorMessage)
                 return
             }
-            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""])
+            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], topics: [])
             self?.selectedTopics = response.data?.topics?.compactMap {
                 guard let id = $0.value.id,
                       let name = $0.value.name else { return nil }

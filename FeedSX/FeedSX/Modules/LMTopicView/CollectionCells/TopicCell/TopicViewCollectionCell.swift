@@ -8,7 +8,7 @@
 import UIKit
 
 final class TopicViewCollectionCell: UICollectionViewCell {
-    struct ViewModel: LMTopicViewDataProtocol {
+    struct ViewModel {
         let image: String?
         let title: String?
         var isEditCell: Bool = false

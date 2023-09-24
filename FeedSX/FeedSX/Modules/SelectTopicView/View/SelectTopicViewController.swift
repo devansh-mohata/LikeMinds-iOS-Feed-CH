@@ -17,11 +17,13 @@ class SelectTopicViewController: BaseViewController {
             allTopicsView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAllTopicsView)))
         }
     }
+    
     @IBOutlet private weak var allTopicsCheckmark: UIImageView! {
         didSet {
             allTopicsCheckmark.tintColor = LMBranding.shared.buttonColor
         }
     }
+    
     @IBOutlet private weak var topicsTableView: UITableView! {
         didSet {
             topicsTableView.dataSource = self
@@ -32,17 +34,15 @@ class SelectTopicViewController: BaseViewController {
             topicsTableView.showsHorizontalScrollIndicator = false
         }
     }
-    @IBOutlet private weak var doneBtn: UIButton! {
+    
+    @IBOutlet private weak var searchBar: UISearchBar! {
         didSet {
-            doneBtn.setTitle(nil, for: .normal)
-            doneBtn.setTitle(nil, for: .selected)
-            doneBtn.setImage(UIImage(systemName: "arrow.right"), for: .normal)
-            doneBtn.setImage(UIImage(systemName: "arrow.right"), for: .selected)
-            doneBtn.backgroundColor = LMBranding.shared.buttonColor
-            doneBtn.tintColor = .white
-            doneBtn.layer.cornerRadius = doneBtn.frame.size.height / 2
+            searchBar.placeholder = "Search Topic"
+            searchBar.delegate = self
+            searchBar.searchTextField.borderStyle = .none
         }
     }
+    
     
     private var debounceForText: Timer?
     private var topicCells: [SelectTopicTableViewCell.ViewModel] {
@@ -53,18 +53,9 @@ class SelectTopicViewController: BaseViewController {
     private var viewModel: SelectTopicViewModel
     private var searchQuery: String?
     private weak var delegate: SelectTopicViewDelegate?
-    
-    private lazy var searchBar: UISearchBar = {
-        let bar = UISearchBar()
-        bar.sizeToFit()
-        bar.placeholder = "Search Topic"
-        bar.showsCancelButton = true
-        bar.delegate = self
-        return bar
-    }()
-    
+
     private lazy var rightBarButton: UIBarButtonItem = {
-        let btn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(didTapSearchBar))
+        let btn = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneBtnTapped))
         btn.tintColor = LMBranding.shared.buttonColor
         return btn
     }()
@@ -92,29 +83,13 @@ class SelectTopicViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Doing this to make navigation title left aligned
-        let offset = UIOffset(horizontal: -CGFloat.greatestFiniteMagnitude, vertical: .zero)
-        navigationController?.navigationBar.standardAppearance.titlePositionAdjustment = offset
-        navigationController?.navigationBar.scrollEdgeAppearance?.titlePositionAdjustment = offset
-        navigationController?.navigationBar.compactAppearance?.titlePositionAdjustment = offset
-        
-        navigationItem.setRightBarButton(rightBarButton, animated: false)
-        
-        setTitleAndSubtile(title: "Select Topic", subTitle: nil, alignment: .leading)
+        setTitleAndSubtile(title: "Select Topic", subTitle: nil)
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         debounceForText?.invalidate()
-        
-        // Doing this to make navigation title left aligned
-        let offset = UIOffset(horizontal: .zero, vertical: .zero)
-        navigationController?.navigationBar.standardAppearance.titlePositionAdjustment = offset
-        navigationController?.navigationBar.scrollEdgeAppearance?.titlePositionAdjustment = offset
-        navigationController?.navigationBar.compactAppearance?.titlePositionAdjustment = offset
-        
-        navigationItem.setRightBarButton(nil, animated: false)
     }
     
     @objc
@@ -124,13 +99,7 @@ class SelectTopicViewController: BaseViewController {
     }
     
     @objc
-    private func didTapSearchBar() {
-        allTopicsView.isHidden = true
-        navigationItem.titleView = searchBar
-        navigationItem.rightBarButtonItem = nil
-    }
-    
-    @IBAction private func doneBtnTapped(_ sender: UIButton) {
+    private func doneBtnTapped() {
         viewModel.updateSelection()
     }
 }
@@ -183,12 +152,8 @@ extension SelectTopicViewController: SelectTopicViewModelToView {
 
 extension SelectTopicViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        navigationItem.titleView = nil
-        navigationItem.setRightBarButton(rightBarButton, animated: false)
-        
-        viewModel.updateTitleView()
+        view.endEditing(true)
         viewModel.fetchTopics(searchQuery: nil, isFreshSearch: true)
-        
         allTopicsView.isHidden = !viewModel.isShowAllTopics
     }
     
@@ -203,7 +168,7 @@ extension SelectTopicViewController: UISearchBarDelegate {
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+        view.endEditing(true)
         debounceForText?.invalidate()
     }
 }

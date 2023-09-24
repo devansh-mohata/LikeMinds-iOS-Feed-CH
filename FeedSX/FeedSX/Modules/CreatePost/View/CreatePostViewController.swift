@@ -124,9 +124,7 @@ class CreatePostViewController: BaseViewController {
         taggingUserList.delegate = self
         self.taggingListViewContainer.layer.borderWidth = 1
         self.taggingListViewContainer.layer.borderColor = ColorConstant.disableButtonColor.cgColor
-//        taggingListViewContainer.addShadow()
         taggingListViewContainer.layer.cornerRadius = 8
-        
     }
     
     func setupNavigationItems() {
@@ -152,7 +150,8 @@ class CreatePostViewController: BaseViewController {
         print("post data")
         self.view.endEditing(true)
         let text = self.captionTextView.trimmedText()
-        if (self.viewModel.currentSelectedUploadeType == .link), let _ = text.detectedFirstLink {
+        if (self.viewModel.currentSelectedUploadeType == .link),
+           text.detectedFirstLink != nil {
             self.viewModel.verifyOgTagsAndCreatePost(message: text) {[weak self] in
                 self?.viewModel.createPost(text)
                 self?.navigationController?.popViewController(animated: true)
@@ -482,10 +481,7 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     }
     
     func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel]) {
-        topicFeedView.configure(with: topics) { [weak self] newheight in
-            self?.topicFeedViewHeightConstraint.constant = newheight
-            self?.view.layoutIfNeeded()
-        }
+        topicFeedView.configure(with: topics)
     }
 }
 

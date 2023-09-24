@@ -13,21 +13,17 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     static let bundle = Bundle(for: HomeFeedLinkTableViewCell.self)
     weak var delegate: HomeFeedTableViewCellDelegate?
     
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var captionLabel: LMTextView! {
-        didSet{
-            //            captionLabel.textContainer.maximumNumberOfLines = 3
-            //            captionLabel.textContainer.lineBreakMode = .byTruncatingTail
-        }
-    }
-    @IBOutlet weak var captionSectionView: UIView!
-    @IBOutlet weak var linkDetailContainerView: UIView!
-    @IBOutlet weak var linkThumbnailImageView: UIImageView!
-    @IBOutlet weak var linkTitleLabel: LMLabel!
-    @IBOutlet weak var linkDescriptionLabel: LMLabel!
-    @IBOutlet weak var linkLabel: LMLabel!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var captionLabel: LMTextView!
+    @IBOutlet private weak var captionSectionView: UIView!
+    @IBOutlet private weak var linkDetailContainerView: UIView!
+    @IBOutlet private weak var linkThumbnailImageView: UIImageView!
+    @IBOutlet private weak var linkTitleLabel: LMLabel!
+    @IBOutlet private weak var linkDescriptionLabel: LMLabel!
+    @IBOutlet private weak var linkLabel: LMLabel!
+    @IBOutlet private weak var topicFeedView: LMTopicView!
     
     let profileSectionHeader: ProfileHeaderView = {
         let profileSection = ProfileHeaderView()
@@ -69,14 +65,8 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
         
-    }
-    
     @objc func tappedTextView(tapGesture: LMTapGesture) {
         guard let textView = tapGesture.view as? LMTextView else { return }
         guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
@@ -98,19 +88,18 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     }
     
     @objc func moreButtonClick() {
-        let count = self.feedData?.attachments?.count ?? 0
         self.tableView()?.beginUpdates()
         self.tableView()?.endUpdates()
-        
     }
     
-    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
+    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?, isSepratorShown: Bool = true) {
         self.feedData = feedDataView
         self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)
+        topicFeedView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
         self.layoutIfNeeded()
     }
     

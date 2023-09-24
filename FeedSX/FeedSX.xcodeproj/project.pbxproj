@@ -90,8 +90,6 @@
 		F4A9618D29DC612F00F395AD /* CreatePostViewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618C29DC612F00F395AD /* CreatePostViewDataModel.swift */; };
 		F4A9618F29DC614400F395AD /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */; };
 		F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9619029DD409D00F395AD /* UIColor+Extension.swift */; };
-		F4A9619429DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */; };
-		F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */; };
 		F4A9C7EE2A31EADB00D35396 /* TaggingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7ED2A31EADB00D35396 /* TaggingView.swift */; };
 		F4A9C7F02A31EB2700D35396 /* TaggingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */; };
 		F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */; };
@@ -259,8 +257,6 @@
 		F4A9618C29DC612F00F395AD /* CreatePostViewDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewDataModel.swift; sourceTree = "<group>"; };
 		F4A9618E29DC614400F395AD /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		F4A9619029DD409D00F395AD /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedNoAttachmentTableViewCell.swift; sourceTree = "<group>"; };
-		F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedNoAttachmentTableViewCell.xib; sourceTree = "<group>"; };
 		F4A9C7ED2A31EADB00D35396 /* TaggingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingView.swift; sourceTree = "<group>"; };
 		F4A9C7EF2A31EB2700D35396 /* TaggingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingDataModel.swift; sourceTree = "<group>"; };
 		F4A9C7F12A31EB5200D35396 /* TaggingViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggingViewDataSource.swift; sourceTree = "<group>"; };
@@ -606,8 +602,6 @@
 				F4D98B1729D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib */,
 				F49F6BFA2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift */,
 				F49F6BFB2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib */,
-				F4A9619229DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift */,
-				F4A9619329DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib */,
 				F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */,
 				F4AD15882A2D160900B752C3 /* HomeFeedLinkTableViewCell.swift */,
 				F4AD15892A2D160900B752C3 /* HomeFeedLinkTableViewCell.xib */,
@@ -1004,7 +998,6 @@
 				E54E896A2ABB448E00F0E7DF /* SelectTopicViewController.xib in Resources */,
 				F405D10029E7E0800074F531 /* ReportContentViewController.xib in Resources */,
 				E54E89722ABB491A00F0E7DF /* SelectTopicTableViewCell.xib in Resources */,
-				F4A9619529DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.xib in Resources */,
 				F49F6BFD2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1126,7 +1119,6 @@
 				F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */,
 				F49C76FB29E3EB8C00325AD9 /* DataDetector.swift in Sources */,
 				F4A4EFA229D58EC600829E5E /* UserDefault+Extension.swift in Sources */,
-				F4A9619429DD4CD700F395AD /* HomeFeedNoAttachmentTableViewCell.swift in Sources */,
 				F4D98B1829D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift in Sources */,
 				F4A85D2029E931F700FB8DAF /* TagFlowLayout.swift in Sources */,
 				F405D10529E811600074F531 /* SpecialCharString.swift in Sources */,

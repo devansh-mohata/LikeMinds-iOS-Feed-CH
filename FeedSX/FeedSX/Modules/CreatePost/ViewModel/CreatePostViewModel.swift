@@ -188,7 +188,7 @@ final class CreatePostViewModel: BaseViewModel {
     func createPost(_ text: String?) {
         let parsedTaggedUserPostText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: text, taggedUsers: self.taggedUsers)
         let filePath = "files/post/\(LocalPrefrerences.getUserData()?.clientUUID ?? "user")/"
-        if self.imageAndVideoAttachments.count > 0 {
+        if !imageAndVideoAttachments.isEmpty {
             var imageVideoAttachments: [AWSFileUploadRequest] = []
             var index = 0
             for attachedItem in self.imageAndVideoAttachments {
@@ -200,7 +200,7 @@ final class CreatePostViewModel: BaseViewModel {
                 index += 1
             }
             CreatePostOperation.shared.createPostWithAttachment(attachments: imageVideoAttachments, postCaption: parsedTaggedUserPostText, topics: selectedTopicIds)
-        } else if self.documentAttachments.count > 0 {
+        } else if !documentAttachments.isEmpty {
             var documentAttachments: [AWSFileUploadRequest] = []
             var index = 0
             for attachedItem in self.documentAttachments {
@@ -237,6 +237,7 @@ private extension CreatePostViewModel {
         let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
             .attachments([attachmentRequest])
+            .addTopics(selectedTopicIds)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }
@@ -244,6 +245,7 @@ private extension CreatePostViewModel {
     func createPostWithOutAttachment(postCaption: String?) {
         let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
+            .addTopics(selectedTopicIds)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }
