@@ -21,37 +21,39 @@
             <rect key="frame" x="0.0" y="0.0" width="567" height="140"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="f6P-F1-pki" customClass="DynamicCollectionView" customModule="FeedSX" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="567" height="122"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" priority="250" constant="10" id="Ig4-7V-lid"/>
-                    </constraints>
-                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mqB-J5-qBR">
-                        <size key="itemSize" width="150" height="150"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1i-op-ags" userLabel="Seprator View">
-                    <rect key="frame" x="0.0" y="138" width="567" height="2"/>
-                    <color key="backgroundColor" red="0.81568627450980391" green="0.84705882352941175" blue="0.88627450980392153" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="2" id="X31-YZ-FmV"/>
-                    </constraints>
-                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="axz-J0-heu">
+                    <rect key="frame" x="0.0" y="0.0" width="567" height="132"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="f6P-F1-pki" customClass="DynamicCollectionView" customModule="FeedSX" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="567" height="114"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="250" constant="10" id="Ig4-7V-lid"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mqB-J5-qBR">
+                                <size key="itemSize" width="150" height="150"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1i-op-ags" userLabel="Seprator View">
+                            <rect key="frame" x="0.0" y="130" width="567" height="2"/>
+                            <color key="backgroundColor" red="0.81568627450980391" green="0.84705882352941175" blue="0.88627450980392153" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="2" id="X31-YZ-FmV"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="f6P-F1-pki" secondAttribute="trailing" id="Bno-9A-uPv"/>
-                <constraint firstAttribute="bottom" secondItem="m1i-op-ags" secondAttribute="bottom" id="GPt-Wm-Ts5"/>
-                <constraint firstItem="f6P-F1-pki" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Ice-bc-RAF"/>
-                <constraint firstItem="m1i-op-ags" firstAttribute="trailing" secondItem="f6P-F1-pki" secondAttribute="trailing" id="Ieq-pQ-3x1"/>
-                <constraint firstItem="m1i-op-ags" firstAttribute="top" secondItem="f6P-F1-pki" secondAttribute="bottom" constant="16" id="Ogs-Pe-14X"/>
-                <constraint firstItem="m1i-op-ags" firstAttribute="leading" secondItem="f6P-F1-pki" secondAttribute="leading" id="T8c-Qq-gCV"/>
-                <constraint firstItem="f6P-F1-pki" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Xci-19-g8q"/>
+                <constraint firstAttribute="bottom" secondItem="axz-J0-heu" secondAttribute="bottom" constant="8" id="Cs7-OA-hnz"/>
+                <constraint firstItem="axz-J0-heu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Dl6-Va-VZS"/>
+                <constraint firstItem="axz-J0-heu" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="NwD-JS-Ywf"/>
+                <constraint firstItem="axz-J0-heu" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="w5L-yS-zLq"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="263.35877862595419" y="-230.28169014084509"/>

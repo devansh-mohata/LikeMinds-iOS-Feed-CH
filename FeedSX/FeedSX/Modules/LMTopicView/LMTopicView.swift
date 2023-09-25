@@ -57,6 +57,7 @@ final class LMTopicView: UIView {
         self.topics = topics
         topicCollectionView.reloadData()
         sepratorView.isHidden = !isSepratorShown
+        layoutIfNeeded()
     }
 }
 
@@ -86,7 +87,7 @@ extension LMTopicView: UICollectionViewDataSource, UICollectionViewDelegate, UIC
             width = 24
         }
         
-        return .init(width: width, height: 40)
+        return .init(width: width, height: 50)
     }
 }
 

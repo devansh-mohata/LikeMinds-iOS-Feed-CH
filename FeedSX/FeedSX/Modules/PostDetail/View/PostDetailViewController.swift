@@ -353,6 +353,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
             return cell
         }
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 { return nil}
         let commentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CommentHeaderViewCell.reuseIdentifier) as! CommentHeaderViewCell

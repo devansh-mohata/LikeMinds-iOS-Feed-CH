@@ -68,23 +68,26 @@ final class SelectTopicViewModel {
                 } ?? []
                 
                 allTopics.append(contentsOf: transformedTopics)
-                self.transformToViewModel()
+                self.updateData()
             }
         }
     }
     
-    private func transformToViewModel() {
+    private func updateData() {
         allTopics = allTopics.filter { topic in
             !selectedTopics.contains(where: { $0.topicID == topic.topicID })
         }
         
         allTopics.insert(contentsOf: selectedTopics, at: .zero)
         
-        let transformedData: [SelectTopicTableViewCell.ViewModel] = allTopics.map { topic in
+        delegate?.updateTableView(with: transformToViewModel(), isSelectAllTopics: selectedTopics.isEmpty)
+    }
+    
+    private func transformToViewModel() -> [SelectTopicTableViewCell.ViewModel] {
+        allTopics.map { topic in
             let isSelected = selectedTopics.contains { topic.topicID == $0.topicID }
             return .init(isSelected: isSelected, title: topic.title)
         }
-        delegate?.updateTableView(with: transformedData, isSelectAllTopics: selectedTopics.isEmpty)
     }
         
     func didSelectRowAt(indexPath: IndexPath) {
@@ -92,7 +95,7 @@ final class SelectTopicViewModel {
             $0.topicID == allTopics[indexPath.row].topicID
         }) {
             selectedTopics.remove(at: idx)
-            transformToViewModel()
+            delegate?.updateTableView(with: transformToViewModel(), isSelectAllTopics: selectedTopics.isEmpty)
             return
         }
         
@@ -100,12 +103,12 @@ final class SelectTopicViewModel {
             selectedTopics.removeAll()
         }
         selectedTopics.append(allTopics[indexPath.row])
-        transformToViewModel()
+        delegate?.updateTableView(with: transformToViewModel(), isSelectAllTopics: selectedTopics.isEmpty)
     }
     
     func didSelectAllTopics() {
         selectedTopics.removeAll()
-        transformToViewModel()
+        delegate?.updateTableView(with: transformToViewModel(), isSelectAllTopics: selectedTopics.isEmpty)
     }
     
     func updateSelection() {

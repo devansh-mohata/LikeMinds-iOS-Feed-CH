@@ -104,6 +104,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         
         topicView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
         setupContainerData()
+        layoutIfNeeded()
     }
     
     func setupImageCollectionView() {

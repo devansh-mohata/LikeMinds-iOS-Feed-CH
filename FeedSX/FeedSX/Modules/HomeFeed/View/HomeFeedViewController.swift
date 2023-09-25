@@ -139,7 +139,7 @@ public final class HomeFeedViewControler: BaseViewController {
         sv.alignment = .fill
         sv.distribution = .fill
         sv.spacing = 8
-        sv.layoutMargins = .init(top: 4, left: 16, bottom: 4, right: 16)
+        sv.layoutMargins = .init(top: 8, left: 16, bottom: 8, right: 16)
         sv.isLayoutMarginsRelativeArrangement = true
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
@@ -771,6 +771,8 @@ extension HomeFeedViewControler: UICollectionViewDataSource, UICollectionViewDel
             cell.configure(with: topics[indexPath.row]) { [weak self] in
                 guard let self else { return }
                 self.homeFeedViewModel.removeTopic(for: topics[indexPath.row].topicID)
+            } openSelection: { [weak self] in
+                self?.didTapAllTopics()
             }
             return cell
         }

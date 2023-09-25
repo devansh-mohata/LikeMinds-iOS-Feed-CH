@@ -106,7 +106,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         topicFeed.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
         setupContainerData()
-        self.layoutIfNeeded()
+        layoutIfNeeded()
     }
     
     func setupImageCollectionView() {

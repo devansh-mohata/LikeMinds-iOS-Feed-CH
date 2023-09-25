@@ -34,16 +34,7 @@ class SelectTopicViewController: BaseViewController {
             topicsTableView.showsHorizontalScrollIndicator = false
         }
     }
-    
-    @IBOutlet private weak var searchBar: UISearchBar! {
-        didSet {
-            searchBar.placeholder = "Search Topic"
-            searchBar.delegate = self
-            searchBar.searchTextField.borderStyle = .none
-        }
-    }
-    
-    
+        
     private var debounceForText: Timer?
     private var topicCells: [SelectTopicTableViewCell.ViewModel] {
         didSet {
@@ -55,9 +46,15 @@ class SelectTopicViewController: BaseViewController {
     private weak var delegate: SelectTopicViewDelegate?
 
     private lazy var rightBarButton: UIBarButtonItem = {
-        let btn = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneBtnTapped))
+        let btn = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneBtnTapped))
         btn.tintColor = LMBranding.shared.buttonColor
         return btn
+    }()
+    
+    private lazy var searchController: UISearchController = {
+        let search = UISearchController()
+        search.searchBar.placeholder = "Search Topic"
+        return search
     }()
     
     init(selectedTopics: [TopicFeedDataModel], selectionStyle: SelectTopicViewModel.SelectionStyle = .multiple, isShowAllTopics: Bool, delegate: SelectTopicViewDelegate?) {
@@ -77,7 +74,10 @@ class SelectTopicViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
         allTopicsView.isHidden = !viewModel.isShowAllTopics
+        navigationItem.searchController = searchController
         viewModel.fetchTopics(searchQuery: searchQuery, isFreshSearch: true)
     }
     
@@ -150,9 +150,10 @@ extension SelectTopicViewController: SelectTopicViewModelToView {
     }
 }
 
-extension SelectTopicViewController: UISearchBarDelegate {
+extension SelectTopicViewController: UISearchControllerDelegate, UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
+        allTopicsView.isHidden = !viewModel.isShowAllTopics
         viewModel.fetchTopics(searchQuery: nil, isFreshSearch: true)
         allTopicsView.isHidden = !viewModel.isShowAllTopics
     }
@@ -167,8 +168,20 @@ extension SelectTopicViewController: UISearchBarDelegate {
         }
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchQuery = searchBar.text
+        view.endEditing(true)
+        viewModel.fetchTopics(searchQuery: nil, isFreshSearch: true)
+        allTopicsView.isHidden = !viewModel.isShowAllTopics
+    }
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         view.endEditing(true)
+        allTopicsView.isHidden = !viewModel.isShowAllTopics
         debounceForText?.invalidate()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        allTopicsView.isHidden = true
     }
 }

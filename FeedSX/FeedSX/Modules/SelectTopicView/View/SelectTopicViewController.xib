@@ -13,7 +13,6 @@
             <connections>
                 <outlet property="allTopicsCheckmark" destination="CMj-oP-VOf" id="9Ea-Qj-iXK"/>
                 <outlet property="allTopicsView" destination="S0j-tN-eBN" id="rrA-DW-vhn"/>
-                <outlet property="searchBar" destination="HI4-ww-jdu" id="m20-IB-WzA"/>
                 <outlet property="topicsTableView" destination="7EZ-Hf-HPl" id="dDx-Yi-H1R"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -29,19 +28,8 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="etj-Mk-Ihf">
                             <rect key="frame" x="0.0" y="0.0" width="295" height="369"/>
                             <subviews>
-                                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="HI4-ww-jdu">
-                                    <rect key="frame" x="0.0" y="0.0" width="295" height="40"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="YHx-r8-Q8G"/>
-                                    </constraints>
-                                    <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="-1" id="Kmw-sj-mE8"/>
-                                    </connections>
-                                </searchBar>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0j-tN-eBN">
-                                    <rect key="frame" x="0.0" y="42" width="295" height="51.333333333333343"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="295" height="51.333333333333336"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Topics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KGk-7Q-ctq">
                                             <rect key="frame" x="16" y="15.999999999999998" width="71.333333333333329" height="19.333333333333329"/>
@@ -70,7 +58,7 @@
                                     </constraints>
                                 </view>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7EZ-Hf-HPl">
-                                    <rect key="frame" x="0.0" y="95.333333333333343" width="295" height="273.66666666666663"/>
+                                    <rect key="frame" x="0.0" y="53.333333333333343" width="295" height="315.66666666666663"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </tableView>
                             </subviews>

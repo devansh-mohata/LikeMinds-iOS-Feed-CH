@@ -30,7 +30,6 @@
 		F405D10529E811600074F531 /* SpecialCharString.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10429E811600074F531 /* SpecialCharString.swift */; };
 		F405D10729E8843F0074F531 /* ReportContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10629E8843F0074F531 /* ReportContentViewModel.swift */; };
 		F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10829E885660074F531 /* ASImageDownloader.swift */; };
-		F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */; };
 		F41731C82A1A7CF7005FD279 /* NetworkOperationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */; };
 		F41731CA2A1A7D47005FD279 /* NetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C92A1A7D47005FD279 /* NetworkOperation.swift */; };
 		F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731CB2A1A7DC0005FD279 /* AttachmentUploadOperation.swift */; };
@@ -194,7 +193,6 @@
 		F405D10429E811600074F531 /* SpecialCharString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialCharString.swift; sourceTree = "<group>"; };
 		F405D10629E8843F0074F531 /* ReportContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewModel.swift; sourceTree = "<group>"; };
 		F405D10829E885660074F531 /* ASImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASImageDownloader.swift; sourceTree = "<group>"; };
-		F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedOtherAttachmentTableViewCell.swift; sourceTree = "<group>"; };
 		F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationQueueManager.swift; sourceTree = "<group>"; };
 		F41731C92A1A7D47005FD279 /* NetworkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperation.swift; sourceTree = "<group>"; };
 		F41731CB2A1A7DC0005FD279 /* AttachmentUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentUploadOperation.swift; sourceTree = "<group>"; };
@@ -602,7 +600,6 @@
 				F4D98B1729D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib */,
 				F49F6BFA2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.swift */,
 				F49F6BFB2A1CBF1B005B2A81 /* HomeFeedDocumentTableViewCell.xib */,
-				F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */,
 				F4AD15882A2D160900B752C3 /* HomeFeedLinkTableViewCell.swift */,
 				F4AD15892A2D160900B752C3 /* HomeFeedLinkTableViewCell.xib */,
 				F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */,
@@ -1096,7 +1093,6 @@
 				F4A20D2029E57628001D57CB /* LikedUserDataView.swift in Sources */,
 				F4D98B0B29D188BF00CF9743 /* LMTextView.swift in Sources */,
 				F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */,
-				F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */,
 				F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */,
 				F49C76F429E3387E00325AD9 /* ReplyCommentTableViewCell.swift in Sources */,
 				F4AD15872A2BCDC600B752C3 /* BaseViewModel.swift in Sources */,

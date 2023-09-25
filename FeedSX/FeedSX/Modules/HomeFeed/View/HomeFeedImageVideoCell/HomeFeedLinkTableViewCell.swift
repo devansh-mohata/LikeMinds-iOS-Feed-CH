@@ -100,7 +100,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)
         topicFeedView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
-        self.layoutIfNeeded()
+        layoutIfNeeded()
     }
     
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
