@@ -50,6 +50,12 @@ extension LikedUserListViewController: UITableViewDataSource, UITableViewDelegat
         cell.setupUserData(data)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let data = self.viewModel?.likedUsers[indexPath.row]
+        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: data?.userUUID ?? "", userId: data?.userId ?? 0)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         guard (scrollView.contentSize.height == (scrollView.frame.size.height + position)) else {return}

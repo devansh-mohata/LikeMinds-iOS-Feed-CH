@@ -529,6 +529,18 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
 
 extension PostDetailViewController: CommentHeaderViewCellDelegate {
     
+    func didTapOnTaggedMember(route: String) {
+        if route.hasPrefix("route://") {
+
+        } else {
+            
+        }
+    }
+
+    func didTapOnUserProfile(selectedComment: PostDetailDataModel.Comment?) {
+        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: selectedComment?.user.uuid ?? "", userId: selectedComment?.user.userId ?? 0)
+    }
+    
     func didTapActionButton(withActionType actionType: CellActionType, section: Int?) {
         guard let section = section else {return}
         let selectedComment = viewModel.comments[section-1]
@@ -628,6 +640,10 @@ extension PostDetailViewController: TaggedUserListDelegate {
 }
 
 extension PostDetailViewController: ProfileHeaderViewDelegate {
+    
+    func didTapOnUserProfile(selectedPost: PostFeedDataView?) {
+        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: selectedPost?.postByUser?.uuid ?? "", userId: selectedPost?.postByUser?.userId ?? 0)
+    }
     
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }

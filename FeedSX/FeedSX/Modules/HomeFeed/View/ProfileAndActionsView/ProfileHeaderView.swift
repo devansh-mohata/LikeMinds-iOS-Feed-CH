@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProfileHeaderViewDelegate: HomeFeedTableViewCellDelegate {
     func didTapOnMoreButton(selectedPost: PostFeedDataView?)
+    func didTapOnUserProfile(selectedPost: PostFeedDataView?)
 }
 
 class ProfileHeaderView: UIView {
@@ -221,6 +222,15 @@ class ProfileHeaderView: UIView {
         usernameLabel.text = profileData?.name
         usernameTitleSetup(title: profileData?.customTitle)
         let profilePlaceHolder = UIImage.generateLetterImage(with: profileData?.name) ?? UIImage()
+        
+        let profileActionTapGesture = LMTapGesture(target: self, action: #selector(self.profileTapped(sender:)))
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(profileActionTapGesture)
+        
+        let usernameActionTapGesture = LMTapGesture(target: self, action: #selector(self.profileTapped(sender:)))
+        usernameLabel.isUserInteractionEnabled = true
+        usernameLabel.addGestureRecognizer(usernameActionTapGesture)
+        
         guard let url = profileData?.profileImageUrl else {
             avatarImageView.image = profilePlaceHolder
             return
@@ -237,5 +247,9 @@ class ProfileHeaderView: UIView {
     @objc private func moreTapped(sender: LMTapGesture) {
         print("More Button Tapped")
         delegate?.didTapOnMoreButton(selectedPost: self.feedData)
+    }
+    
+    @objc private func profileTapped(sender: LMTapGesture) {
+        delegate?.didTapOnUserProfile(selectedPost: self.feedData)
     }
 }

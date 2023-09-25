@@ -432,7 +432,9 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func refreshFeed() {
-        homeFeedViewModel.pullToRefresh()
+        if !isPostCreatingInProgress {
+            homeFeedViewModel.pullToRefresh()
+        }
     }
     
     @objc func notificationIconClicked() {
@@ -687,6 +689,11 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
 }
 
 extension HomeFeedViewControler: ProfileHeaderViewDelegate {
+    
+    func didTapOnUserProfile(selectedPost: PostFeedDataView?) {
+        
+    }
+    
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }
         print("more taped reached VC")

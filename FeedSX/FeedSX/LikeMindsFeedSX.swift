@@ -10,9 +10,14 @@ import UIKit
 import LikeMindsFeed
 import FirebaseMessaging
 
+public protocol LikeMindsFeedSXCallback: AnyObject {
+    func showProfile(userUUID: String, userId: Int)
+}
+
 public class LikeMindsFeedSX {
     public static let shared = LikeMindsFeedSX()
     private init() {}
+    public weak var delegate: LikeMindsFeedSXCallback?
     
     public func configureLikeMindsFeed(lmCallback: LMCallback, branding: SetBrandingRequest = SetBrandingRequest()) {
         LMBranding.shared.setBranding(branding)
