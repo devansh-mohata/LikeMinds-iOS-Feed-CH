@@ -12,6 +12,7 @@ import BSImagePicker
 import PDFKit
 import LikeMindsFeed
 import AVFoundation
+import SafariServices
 
 public final class HomeFeedViewControler: BaseViewController {
     
@@ -164,7 +165,6 @@ public final class HomeFeedViewControler: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshFeed), name: .refreshHomeFeedData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshDataObject), name: .refreshHomeFeedDataObject, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
-//        self.setTitleAndSubtile(title: "Home Feed", subTitle: nil)
         self.setRightItemsOfNavigationBar()
         self.setLeftItemOfNavigationBar()
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Feed.opened, eventProperties: ["feed_type": "universal_feed"])
@@ -690,9 +690,7 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
 
 extension HomeFeedViewControler: ProfileHeaderViewDelegate {
     
-    func didTapOnUserProfile(selectedPost: PostFeedDataView?) {
-        
-    }
+    func didTapOnUserProfile(selectedPost: PostFeedDataView?) {}
     
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }
@@ -793,6 +791,19 @@ extension HomeFeedViewControler: DeleteContentViewProtocol {
     }
 }
 extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
+    
+    func didTapOnUrl(url: String) {
+        print("tapped url: \(url)")
+        if url.hasPrefix("route://user_profile") {
+            let uuid = url.components(separatedBy: "/").last
+            LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: uuid ?? "")
+            
+        } else if let url = URL(string: url.linkWithSchema()) {
+            let safariVC = SFSafariViewController(url: url)
+            present(safariVC, animated: true, completion: nil)
+        }
+    }
+    
     func didTapOnCell(_ feedDataView: PostFeedDataView?) {
         guard let postId = feedDataView?.postId else { return }
         let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))

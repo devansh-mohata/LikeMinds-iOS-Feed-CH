@@ -24,9 +24,6 @@ class LinkCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         removeButton.addTarget(self, action: #selector(removeClicked), for: .touchUpInside)
         self.contentView.bringSubviewToFront(self.removeButton)
-//        linkDetailContainerView.layer.borderWidth = 1
-//        linkDetailContainerView.layer.cornerRadius = 8
-//        linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
         linkThumbnailImageView.tintColor = .white
         linkDetailContainerView.clipsToBounds = true
         linkThumbnailImageView.contentMode = .scaleAspectFill

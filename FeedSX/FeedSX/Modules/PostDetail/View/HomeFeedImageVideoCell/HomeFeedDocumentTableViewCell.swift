@@ -84,7 +84,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         guard let textView = tapGesture.view as? LMTextView else { return }
         guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
         if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: url.absoluteString)
         } else {
             delegate?.didTapOnCell(self.feedData)
         }
@@ -92,9 +92,8 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     @objc func tappedPdfImageContainer(tapGesture: LMTapGesture) {
         if let attachmentItem = self.feedData?.attachments?.first,
-           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: docUrl) {
-            UIApplication.shared.open(url)
+           let docUrl = attachmentItem.attachmentUrl {
+            delegate?.didTapOnUrl(url: docUrl)
         }
     }
     
@@ -224,9 +223,8 @@ extension HomeFeedDocumentTableViewCell:  UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let attachmentItem = self.feedData?.attachments?[indexPath.row],
-           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: docUrl) {
-            UIApplication.shared.open(url)
+           let docUrl = attachmentItem.attachmentUrl {
+            delegate?.didTapOnUrl(url: docUrl)
         }
     }
     

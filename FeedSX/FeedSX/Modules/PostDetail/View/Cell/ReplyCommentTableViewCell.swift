@@ -10,7 +10,7 @@ import UIKit
 protocol ReplyCommentTableViewCellDelegate: AnyObject {
     func didTapActionButton(withActionType actionType: CellActionType, cell: UITableViewCell)
     func didTapOnUserProfile(selectedComment: PostDetailDataModel.Comment?)
-    func didTapOnTaggedMember(route: String)
+    func didTapOnUrl(url: String)
 }
 
 class ReplyCommentTableViewCell: UITableViewCell {
@@ -193,6 +193,7 @@ class ReplyCommentTableViewCell: UITableViewCell {
         usernameAndBadgeStackView.addArrangedSubview(badgeSpaceView)
         badgeSpaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
         commentAndMoreStackView.addArrangedSubview(commentLabel)
+        commentLabel.delegate = self
         commentAndMoreStackView.addArrangedSubview(spaceView)
         spaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
         commentAndMoreStackView.addArrangedSubview(moreImageView)
@@ -281,4 +282,11 @@ class ReplyCommentTableViewCell: UITableViewCell {
         delegate?.didTapOnUserProfile(selectedComment: self.comment)
     }
 
+}
+
+extension ReplyCommentTableViewCell: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
+        return false
+    }
 }

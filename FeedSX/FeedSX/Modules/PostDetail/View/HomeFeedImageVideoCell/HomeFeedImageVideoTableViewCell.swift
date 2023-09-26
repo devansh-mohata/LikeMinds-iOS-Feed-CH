@@ -11,6 +11,7 @@ import Kingfisher
 protocol HomeFeedTableViewCellDelegate: AnyObject {
     func didTapOnFeedCollection(_ feedDataView: PostFeedDataView?)
     func didTapOnCell(_ feedDataView: PostFeedDataView?)
+    func didTapOnUrl(url: String)
 }
 
 extension HomeFeedTableViewCellDelegate {
@@ -80,7 +81,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         guard let textView = tapGesture.view as? LMTextView else { return }
         guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
         if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: url.absoluteString)
         } else {
             delegate?.didTapOnFeedCollection(self.feedData)
         }
@@ -223,15 +224,7 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let linkAttachment = self.feedData?.linkAttachment,
            let urlString = linkAttachment.url {
-            let myURL:URL?
-            if urlString.hasPrefix("https://") || urlString.hasPrefix("http://"){
-                myURL = URL(string: urlString)
-            }else {
-                let correctedURL = "http://\(urlString)"
-                 myURL = URL(string: correctedURL)
-            }
-            guard let url = myURL else { return }
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: urlString)
         } else {
             if let cell  = collectionView.cellForItem(at: indexPath) as? VideoCollectionViewCell {
                 cell.playVideo()

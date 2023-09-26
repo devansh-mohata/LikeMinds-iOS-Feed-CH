@@ -328,10 +328,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
                         imagePicker.dismiss(animated: true) {
                             self?.present(cropper, animated: true, completion: nil)
                         }
-//                        let shittyVC = CropImageViewController(frame: (self?.view.frame) ?? .zero, image: selectedImage, aspectWidth: 16, aspectHeight: 9)
-//                        shittyVC.delegate = self
-//                        imagePicker.dismiss(animated: true)
-//                        self?.present(shittyVC, animated: true, completion: nil)
                     } else  {
                         if mediaType == .video {
                             let asset = AVAsset(url: url)

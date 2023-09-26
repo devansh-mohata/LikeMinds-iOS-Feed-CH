@@ -11,7 +11,7 @@ import LikeMindsFeed
 import FirebaseMessaging
 
 public protocol LikeMindsFeedSXCallback: AnyObject {
-    func showProfile(userUUID: String, userId: Int)
+    func showProfile(userUUID: String)
 }
 
 public class LikeMindsFeedSX {

@@ -19,6 +19,7 @@ class HomeFeedPDFCell: UITableViewCell {
     @IBOutlet weak var pdfImageContainerView: UIView!
     @IBOutlet weak var pdfFileName: LMLabel!
     @IBOutlet weak var pdfDetails: LMLabel!
+    weak var delegate: HomeFeedTableViewCellDelegate?
     
     var feedData: PostFeedDataView?
     
@@ -55,9 +56,8 @@ class HomeFeedPDFCell: UITableViewCell {
     
     @objc func tappedPdfImageContainer(tapGesture: LMTapGesture) {
         if let attachmentItem = self.feedData?.attachments?.first,
-           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: docUrl) {
-            UIApplication.shared.open(url)
+           let docUrl = attachmentItem.attachmentUrl {
+            delegate?.didTapOnUrl(url: docUrl)
         }
     }
     
@@ -77,6 +77,7 @@ class HomeFeedPDFCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
+        self.delegate = delegate
         pdfFileName.text = feedDataView.attachments?.first?.attachmentName()
         pdfDetails.text = feedDataView.attachments?.first?.attachmentDetails()
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
@@ -88,7 +89,7 @@ class HomeFeedPDFCell: UITableViewCell {
     private func setupImageView(_ url: String?) {
         let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle(for: HomeFeedPDFCell.self), with: nil)
         self.postImageView.image = imagePlaceholder
-        guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
+        guard let url = url, let uRL = URL(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
                 self?.postImageView.kf.setImage(with: uRL, placeholder: imagePlaceholder)

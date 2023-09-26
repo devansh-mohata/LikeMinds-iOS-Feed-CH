@@ -7,6 +7,7 @@
 
 import UIKit
 import LikeMindsFeed
+import SafariServices
 
 class PostDetailViewController: BaseViewController {
     
@@ -529,16 +530,20 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
 
 extension PostDetailViewController: CommentHeaderViewCellDelegate {
     
-    func didTapOnTaggedMember(route: String) {
-        if route.hasPrefix("route://") {
-
-        } else {
+    func didTapOnUrl(url: String) {
+        print("tapped url: \(url)")
+        if url.hasPrefix("route://user_profile") {
+            let uuid = url.components(separatedBy: "/").last
+            LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: uuid ?? "")
             
+        } else if let url = URL(string: url.linkWithSchema()) {
+            let safariVC = SFSafariViewController(url: url)
+            present(safariVC, animated: true, completion: nil)
         }
     }
 
     func didTapOnUserProfile(selectedComment: PostDetailDataModel.Comment?) {
-        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: selectedComment?.user.uuid ?? "", userId: selectedComment?.user.userId ?? 0)
+        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: selectedComment?.user.uuid ?? "")
     }
     
     func didTapActionButton(withActionType actionType: CellActionType, section: Int?) {
@@ -580,6 +585,7 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
 }
 
 extension PostDetailViewController: ReplyCommentTableViewCellDelegate {
+
     func didTapActionButton(withActionType actionType: CellActionType, cell: UITableViewCell) {
         guard let indexPath = postDetailTableView.indexPath(for: cell) else { return }
         let selectedComment = viewModel.comments[indexPath.section-1].replies[indexPath.row]
@@ -642,7 +648,7 @@ extension PostDetailViewController: TaggedUserListDelegate {
 extension PostDetailViewController: ProfileHeaderViewDelegate {
     
     func didTapOnUserProfile(selectedPost: PostFeedDataView?) {
-        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: selectedPost?.postByUser?.uuid ?? "", userId: selectedPost?.postByUser?.userId ?? 0)
+        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: selectedPost?.postByUser?.uuid ?? "")
     }
     
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {

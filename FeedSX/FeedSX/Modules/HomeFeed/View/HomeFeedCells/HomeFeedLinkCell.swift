@@ -21,6 +21,8 @@ class HomeFeedLinkCell: UITableViewCell {
     @IBOutlet weak var linkDescriptionLabel: LMLabel!
     @IBOutlet weak var linkLabel: LMLabel!
     
+    weak var delegate: HomeFeedTableViewCellDelegate?
+    
     let profileSectionHeader: HomeFeedProfileHeaderView = {
         let profileSection = HomeFeedProfileHeaderView()
         profileSection.translatesAutoresizingMaskIntoConstraints = false
@@ -58,9 +60,7 @@ class HomeFeedLinkCell: UITableViewCell {
     @IBAction func linkButtonClicked(_ sender: Any) {
         if let linkAttachment = self.feedData?.linkAttachment,
            let urlString = linkAttachment.url {
-            let myURL:URL? = URL(string: urlString.linkWithSchema())
-            guard let url = myURL else { return }
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: urlString)
         }
     }
     
@@ -76,7 +76,7 @@ class HomeFeedLinkCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
-//        self.delegate = delegate
+        self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)

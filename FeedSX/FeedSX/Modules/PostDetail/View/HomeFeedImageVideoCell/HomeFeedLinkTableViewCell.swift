@@ -80,7 +80,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         guard let textView = tapGesture.view as? LMTextView else { return }
         guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
         if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: url.absoluteString)
         } else {
             delegate?.didTapOnCell(self.feedData)
         }
@@ -137,15 +137,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     @IBAction func clickedLinkView(_ sender: UIButton) {
         if let linkAttachment = self.feedData?.linkAttachment,
            let urlString = linkAttachment.url {
-            let myURL:URL?
-            if urlString.hasPrefix("https://") || urlString.hasPrefix("http://"){
-                myURL = URL(string: urlString)
-            }else {
-                let correctedURL = "http://\(urlString)"
-                myURL = URL(string: correctedURL)
-            }
-            guard let url = myURL else { return }
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: urlString)
         }
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 protocol CommentHeaderViewCellDelegate: AnyObject {
     func didTapActionButton(withActionType actionType: CellActionType, section: Int?)
     func didTapOnUserProfile(selectedComment: PostDetailDataModel.Comment?)
-    func didTapOnTaggedMember(route: String)
+    func didTapOnUrl(url: String)
 }
 
 class CommentHeaderViewCell: UITableViewHeaderFooterView {
@@ -364,19 +364,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
 
 extension CommentHeaderViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        self.delegate?.didTapOnTaggedMember(route: URL.absoluteString)
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
         return false
-        if URL.absoluteString.hasPrefix("route://") {
-//            self.cellDelegate?.messageRouteTapped(self, withRoute: URL)
-            self.delegate?.didTapOnTaggedMember(route: URL.absoluteString)
-            print()
-            return false
-        } else {
-            let numberUrl = URL.absoluteURL
-            if UIApplication.shared.canOpenURL(numberUrl) {
-                UIApplication.shared.open(numberUrl)
-            }
-        }
-        return true // return true for telephone, address etc.
     }
 }
