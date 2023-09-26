@@ -21,8 +21,16 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var usernameLabel: LMLabel!
     @IBOutlet weak var changeAuthorButton: LMButton!
-    @IBOutlet weak var addMoreButton: LMButton!
-    @IBOutlet weak var postinLabel: LMLabel!
+    @IBOutlet weak var addMoreButton: LMButton! {
+        didSet {
+            addMoreButton.layer.borderWidth = 1
+            addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
+            addMoreButton.tintColor = LMBranding.shared.buttonColor
+            addMoreButton.layer.cornerRadius = 8
+            addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
+            addMoreButton.superview?.isHidden = true
+        }
+    }
     @IBOutlet weak var titleTextView: LMTextView! {
         didSet{
             titleTextView.textColor = ColorConstant.textBlackColor
@@ -41,9 +49,27 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     @IBOutlet weak var pageControl: UIPageControl?
     @IBOutlet weak var attachmentView: UIView!
-    @IBOutlet weak var attachmentCollectionView: UICollectionView!
+    @IBOutlet weak var attachmentCollectionView: UICollectionView! {
+        didSet {
+            attachmentCollectionView.dataSource = self
+            attachmentCollectionView.delegate = self
+            attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+            attachmentCollectionView.register(UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self)), forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
+        }
+    }
     @IBOutlet weak var uploadAttachmentActionsView: UIView!
-    @IBOutlet weak var uploadActionsTableView: UITableView!
+    @IBOutlet weak var uploadActionsTableView: UITableView! {
+        didSet {
+            uploadActionsTableView.dataSource = self
+            uploadActionsTableView.delegate = self
+            uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
+            uploadActionsTableView.separatorInset = UIEdgeInsets.zero
+        }
+    }
     @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var uploadAttachmentSuperViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var captionTextViewHeightConstraint: NSLayoutConstraint!
@@ -52,8 +78,8 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var attachmentActionBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var taggingViewBottomConstraint: NSLayoutConstraint!
-    private var debounceForDecodeLink:Timer?
-    private var uploadActionsHeight:CGFloat = 43 * 3
+    @IBOutlet private weak var topicFeedView: LMTopicView!
+
     private var addTitlePlaceholderLabel: LMLabel = {
         let label = LMLabel()
         label.numberOfLines = 1
@@ -63,7 +89,11 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private var placeholderLabel: LMLabel = {
+    
+    var debounceForDecodeLink:Timer?
+    var uploadActionsHeight:CGFloat = 43 * 3
+    
+    var placeholderLabel: LMLabel = {
         let label = LMLabel()
         label.numberOfLines = 1
         label.font = LMBranding.shared.font(16, .regular)
@@ -96,34 +126,29 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     var resourceURL: URL?
     
     override func viewDidLoad() {
+        // TODO: Validate Changes
         super.viewDidLoad()
         setupNavigationItems()
         NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
-        self.userProfileImage.makeCircleView()
-        setupTitleAndDescriptionTextView()
+        viewModel.getTopics()
+        
+        userProfileImage.makeCircleView()
+        
+        captionTextView.delegate = self
+        captionTextView.addSubview(placeholderLabel)
+        
+        topicFeedView.delegate = self
+        
+        placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
+        placeholderLabel.textColor = .tertiaryLabel
+        placeholderLabel.isHidden = !captionTextView.text.isEmpty
+        
         viewModel.delegate = self
-        attachmentCollectionView.dataSource = self
-        attachmentCollectionView.delegate = self
-        uploadActionsTableView.dataSource = self
-        uploadActionsTableView.delegate = self
-        uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
-        uploadActionsTableView.separatorInset = UIEdgeInsets.zero
-        addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
-        addMoreButton.superview?.isHidden = true
-        self.attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
-
-        let linkNib = UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self))
-        self.attachmentCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
-        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
-        self.setupProfileData()
-        self.setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
-        self.hideTaggingViewContainer()
-        self.pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
-        changeAuthorButton.addTarget(self, action: #selector(changeAuthor), for: .touchUpInside)
-        self.setupResourceType()
+        
+        setupProfileData()
+        setTitleAndSubtile(title: "Create a post", subTitle: nil)
+        hideTaggingViewContainer()
+        pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -194,7 +219,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         taggingUserList.delegate = self
         self.taggingListViewContainer.layer.borderWidth = 1
         self.taggingListViewContainer.layer.borderColor = ColorConstant.disableButtonColor.cgColor
-//        taggingListViewContainer.addShadow()
         taggingListViewContainer.layer.cornerRadius = 8
     }
     
@@ -246,6 +270,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     func didClickedOnDeleteButton() {
+        // TODO: What here 
         LMFeedAnalyticsEventName.Post.creationIncompleted
         self.navigationController?.popViewController(animated: true)
     }
@@ -464,16 +489,15 @@ extension CreatePostViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        .zero
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        .zero
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.view.frame.width)
     }
-    
 }
 
 extension CreatePostViewController: UITableViewDataSource, UITableViewDelegate {
@@ -519,7 +543,6 @@ extension CreatePostViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension CreatePostViewController: UITextViewDelegate {
-    
     func currentActiveTextViewPlaceholder(_ textView: UITextView, isHiddenPlacehodler: Bool) {
         switch textView {
         case titleTextView:
@@ -595,7 +618,6 @@ extension CreatePostViewController: UITextViewDelegate {
 }
 
 extension CreatePostViewController: AttachmentCollectionViewCellDelegate {
-    
     func removeAttachment(_ cell: UICollectionViewCell) {
         guard let indexPath = self.attachmentCollectionView.indexPath(for: cell) else { return }
         var title = "Remove attachment?"
@@ -667,7 +689,6 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         controller.dismiss(animated: true)
     }
-    
 }
 
 extension CreatePostViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
@@ -675,8 +696,10 @@ extension CreatePostViewController: UIImagePickerControllerDelegate & UINavigati
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        guard let selectedImage = info[.originalImage] as? UIImage, let url = info[.imageURL] as? URL else {
+        guard let selectedImage = info[.originalImage] as? UIImage,
+                let _ = info[.imageURL] as? URL else {
             dismiss(animated: true, completion: nil)
+            // Why Crashing the Whole Application
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
         let size = Int(selectedImage.sizeInKB()/1000)
@@ -813,6 +836,10 @@ extension CreatePostViewController: CreatePostViewModelDelegate {
     func hasReachedMaximumAttachment() -> Bool {
         (viewModel.imageAndVideoAttachments.count > 0 && viewModel.imageAndVideoAttachments.count == 1) || (viewModel.documentAttachments.count > 0 && viewModel.documentAttachments.count == 1)
     }
+    
+    func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel]) {
+        topicFeedView.configure(with: topics)
+    }
 }
 
 extension CreatePostViewController: TaggedUserListDelegate {
@@ -847,11 +874,25 @@ extension CreatePostViewController: TaggedUserListDelegate {
 }
 
 extension CreatePostViewController: MemberListViewControllerDelegate {
-    
     func didSelectMember(member: MemberListDataView.MemberDataView) {
         self.viewModel.onBehalfOfUUID = member.uuid
         let placeholder = UIImage.generateLetterImage(with: member.name)
         self.userProfileImage.setImage(withUrl: member.profileImageURL, placeholder: placeholder)
         self.usernameLabel.text = member.name.capitalized
+    }
+}
+
+// MARK: SelectTopicViewDelegate
+extension CreatePostViewController: SelectTopicViewDelegate {
+    func updateSelection(with data: [TopicFeedDataModel]) {
+        viewModel.updateSelectedTopics(with: data)
+    }
+}
+
+// MARK: LMTopicViewDelegate
+extension CreatePostViewController: LMTopicViewDelegate {
+    func didTapEditTopics() {
+        let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

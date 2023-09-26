@@ -8,18 +8,18 @@
 import UIKit
 
 class HomeFeedLinkCell: UITableViewCell {
-    
     static let nibName: String = "HomeFeedLinkCell"
     static let bundle = Bundle(for: HomeFeedLinkCell.self)
     
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var linkDetailContainerView: UIView!
-    @IBOutlet weak var linkThumbnailImageView: UIImageView!
-    @IBOutlet weak var linkTitleLabel: LMLabel!
-    @IBOutlet weak var linkDescriptionLabel: LMLabel!
-    @IBOutlet weak var linkLabel: LMLabel!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var linkDetailContainerView: UIView!
+    @IBOutlet private weak var linkThumbnailImageView: UIImageView!
+    @IBOutlet private weak var linkTitleLabel: LMLabel!
+    @IBOutlet private weak var linkDescriptionLabel: LMLabel!
+    @IBOutlet private weak var linkLabel: LMLabel!
+    @IBOutlet private weak var topicFeed: LMTopicView!
     
     let profileSectionHeader: HomeFeedProfileHeaderView = {
         let profileSection = HomeFeedProfileHeaderView()
@@ -48,12 +48,6 @@ class HomeFeedLinkCell: UITableViewCell {
         linkDetailContainerView.clipsToBounds = true
         linkThumbnailImageView.contentMode = .scaleAspectFill
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
     @IBAction func linkButtonClicked(_ sender: Any) {
         if let linkAttachment = self.feedData?.linkAttachment,
@@ -76,14 +70,14 @@ class HomeFeedLinkCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
-//        self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)
+        topicFeed.configure(with: feedDataView.topics, isSepratorShown: false)
         self.layoutIfNeeded()
     }
     
-    func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
+    private func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
         self.linkTitleLabel.text = title
         self.linkDescriptionLabel.text = nil
         self.linkLabel.text = link?.lowercased()

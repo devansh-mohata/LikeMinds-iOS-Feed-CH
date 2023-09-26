@@ -12,13 +12,14 @@ class HomeFeedArticleCell: UITableViewCell {
     static let nibName: String = "HomeFeedArticleCell"
     static let bundle = Bundle(for: HomeFeedArticleCell.self)
     
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var coverBannerContainerView: UIView!
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var articleImageView: UIImageView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    var feedData: PostFeedDataView?
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var coverBannerContainerView: UIView!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var articleImageView: UIImageView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var topicFeed: LMTopicView!
     
+    var feedData: PostFeedDataView?
     
     let profileSectionHeader: HomeFeedProfileHeaderView = {
         let profileSection = HomeFeedProfileHeaderView()
@@ -67,6 +68,7 @@ class HomeFeedArticleCell: UITableViewCell {
         }
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
+        topicFeed.configure(with: feedDataView.topics, isSepratorShown: false)
         self.layoutIfNeeded()
     }
     

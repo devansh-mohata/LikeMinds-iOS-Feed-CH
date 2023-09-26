@@ -34,4 +34,6 @@ struct ImageIcon {
     static let ellipsisCircle = "ellipsis.circle"
     static let paperclip = "paperclip"
     static let playVideo = "play.circle"
+    static let editIcon = "pencil"
+    static let plusIcon = "plus"
 }

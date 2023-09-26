@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="371" height="702"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="gg9-Nb-pUv">
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="gg9-Nb-pUv">
                         <rect key="frame" x="0.0" y="6" width="371" height="690"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DfE-uq-BLo">
@@ -71,8 +71,24 @@
                                                     <constraint firstAttribute="height" constant="20" id="mDi-VN-q3F"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bBP-HH-eQK">
+                                                <rect key="frame" x="0.0" y="401" width="371" height="8"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9n-n9-45P" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
+                                                        <rect key="frame" x="16" y="8" width="339" height="0.0"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstItem="Y9n-n9-45P" firstAttribute="leading" secondItem="bBP-HH-eQK" secondAttribute="leading" constant="16" id="7N8-k6-Hhv"/>
+                                                    <constraint firstItem="Y9n-n9-45P" firstAttribute="top" secondItem="bBP-HH-eQK" secondAttribute="top" constant="8" id="NsI-UQ-OBa"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Y9n-n9-45P" secondAttribute="trailing" constant="16" id="RiL-hx-bMC"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Y9n-n9-45P" secondAttribute="bottom" id="vzZ-XJ-WwM"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83c-g6-WBO" userLabel="Header Section View">
-                                                <rect key="frame" x="0.0" y="401" width="371" height="82.666666666666686"/>
+                                                <rect key="frame" x="0.0" y="414" width="371" height="82.666666666666686"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ihf-kg-4mw" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
                                                         <rect key="frame" x="10" y="0.0" width="351" height="92.666666666666671"/>
@@ -93,10 +109,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r90-Rt-NUU">
-                                                <rect key="frame" x="0.0" y="488.66666666666657" width="371" height="55.333333333333314"/>
+                                                <rect key="frame" x="0.0" y="501.66666666666657" width="371" height="42.333333333333314"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TnN-ny-eB9" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                                        <rect key="frame" x="10" y="0.0" width="351" height="65.333333333333329"/>
+                                                        <rect key="frame" x="10" y="0.0" width="351" height="52.333333333333336"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <string key="text">Lorem ipsum dolor sit er elit lamet, google.com consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore ma</string>
                                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -133,6 +149,14 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="DfE-uq-BLo" secondAttribute="trailing" id="8AB-Me-eI6"/>
+                            <constraint firstItem="pYu-6U-fkS" firstAttribute="leading" secondItem="gg9-Nb-pUv" secondAttribute="leading" id="MmG-LI-TuL"/>
+                            <constraint firstAttribute="trailing" secondItem="pYu-6U-fkS" secondAttribute="trailing" id="Oa7-TA-CCK"/>
+                            <constraint firstItem="bjw-lo-VI3" firstAttribute="leading" secondItem="gg9-Nb-pUv" secondAttribute="leading" id="UPl-2e-g34"/>
+                            <constraint firstItem="DfE-uq-BLo" firstAttribute="leading" secondItem="gg9-Nb-pUv" secondAttribute="leading" id="X7I-Z5-pk7"/>
+                            <constraint firstAttribute="trailing" secondItem="bjw-lo-VI3" secondAttribute="trailing" id="wJO-BU-ny9"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <color key="backgroundColor" red="0.81568627450980391" green="0.84705882352941175" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -155,6 +179,7 @@
                 <outlet property="pageControl" destination="Ero-js-alJ" id="G4G-6i-24w"/>
                 <outlet property="pageControlView" destination="y3g-3U-495" id="9ej-rb-NzF"/>
                 <outlet property="profileSectionView" destination="DfE-uq-BLo" id="dTk-e8-xhO"/>
+                <outlet property="topicFeed" destination="Y9n-n9-45P" id="jYG-XB-mHJ"/>
             </connections>
             <point key="canvasLocation" x="-16.030534351145036" y="180.28169014084509"/>
         </tableViewCell>

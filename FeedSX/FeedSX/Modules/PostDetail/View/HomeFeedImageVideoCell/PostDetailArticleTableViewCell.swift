@@ -13,15 +13,15 @@ class PostDetailArticleTableViewCell: UITableViewCell {
     static let bundle = Bundle(for: PostDetailArticleTableViewCell.self)
     weak var delegate: HomeFeedTableViewCellDelegate?
     
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var headerLabel: LMTextView!
-    @IBOutlet weak var captionLabel: LMTextView!
-    
-    @IBOutlet weak var captionSectionView: UIView!
-    @IBOutlet weak var coverBannerContainerView: UIView!
-    @IBOutlet weak var articleImageView: UIImageView!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var headerLabel: LMTextView!
+    @IBOutlet private weak var captionLabel: LMTextView!
+    @IBOutlet private weak var captionSectionView: UIView!
+    @IBOutlet private weak var coverBannerContainerView: UIView!
+    @IBOutlet private weak var articleImageView: UIImageView!
+    @IBOutlet private weak var topicFeed: LMTopicView!
     
     let profileSectionHeader: ProfileHeaderView = {
         let profileSection = ProfileHeaderView()
@@ -76,6 +76,8 @@ class PostDetailArticleTableViewCell: UITableViewCell {
         } else {
             self.articleImageView.image = nil
         }
+        
+        topicFeed.configure(with: feedDataView.topics, isSepratorShown: false)
         self.layoutIfNeeded()
     }
     

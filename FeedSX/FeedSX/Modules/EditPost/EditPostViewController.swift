@@ -36,7 +36,18 @@ class EditPostViewController: BaseViewController {
     }
     @IBOutlet weak var pageControl: UIPageControl?
     @IBOutlet weak var attachmentView: UIView!
-    @IBOutlet weak var attachmentCollectionView: UICollectionView!
+    @IBOutlet weak var attachmentCollectionView: UICollectionView! {
+        didSet {
+            attachmentCollectionView.dataSource = self
+            attachmentCollectionView.delegate = self
+            attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+            attachmentCollectionView.register(UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self)), forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
+        }
+    }
     @IBOutlet weak var uploadAttachmentActionsView: UIView!
     @IBOutlet weak var uploadActionsTableView: UITableView!
     @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
@@ -45,8 +56,8 @@ class EditPostViewController: BaseViewController {
     @IBOutlet weak var uploadActionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var taggingListViewContainer: UIView!
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var attachmentActionBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var taggingViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var topicFeedView: LMTopicView!
     
     var debounceForDecodeLink:Timer?
     private var uploadActionsHeight:CGFloat = 0
@@ -101,10 +112,8 @@ class EditPostViewController: BaseViewController {
         self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
-        let linkNib = UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self))
-        self.attachmentCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
-        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+        topicFeedView.delegate = self
+        
         self.setupProfileData()
         self.setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
         self.hideTaggingViewContainer()
@@ -174,7 +183,6 @@ class EditPostViewController: BaseViewController {
         taggingUserList.delegate = self
         self.taggingListViewContainer.layer.borderWidth = 1
         self.taggingListViewContainer.layer.borderColor = ColorConstant.disableButtonColor.cgColor
-        //        taggingListViewContainer.addShadow()
         taggingListViewContainer.layer.cornerRadius = 8
         
     }
@@ -257,6 +265,14 @@ class EditPostViewController: BaseViewController {
         self.view.endEditing(true)
         let text = self.captionTextView.trimmedText()
         let heading = self.titleTextView.trimmedText()
+        
+        let disabledTopics = viewModel.selectedTopics.filter { !$0.isEnabled }.map { $0.title }
+        if !disabledTopics.isEmpty {
+            var message = "The Following Topics are disabled - \(disabledTopics.joined(separator: ", "))"
+            showErrorAlert(message: message)
+            return
+        }
+        
         switch self.resourceType {
         case .article:
             if text.count < 200 {
@@ -291,10 +307,6 @@ class EditPostViewController: BaseViewController {
                     imagePicker.dismiss(animated: true) {
                         self?.present(cropper, animated: true, completion: nil)
                     }
-//                    let shittyVC = CropImageViewController(frame: (self?.view.frame) ?? .zero, image: selectedImage, aspectWidth: 16, aspectHeight: 9)
-//                    shittyVC.delegate = self
-//                    imagePicker.dismiss(animated: true)
-//                    self?.present(shittyVC, animated: true, completion: nil)
                 } else  {
                     let mediaType: EditPostViewModel.AttachmentUploadType = asset.mediaType == .image ? .image : .video
                     self?.viewModel.addImageVideoAttachment(fileUrl: url, type: mediaType)
@@ -313,14 +325,6 @@ class EditPostViewController: BaseViewController {
             let finish = Date()
             print(finish.timeIntervalSince(start))
         })
-        
-//        if #available(iOS 14, *) {
-//            if PHPhotoLibrary.authorizationStatus() == .authorized {
-//                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-//            }
-//        } else {
-//            // Fallback on earlier versions
-//        }
     }
     
     func openDocumentPicker() {
@@ -419,16 +423,15 @@ extension EditPostViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        .zero
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        .zero
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.view.frame.width)
     }
-    
 }
 
 extension EditPostViewController: UITableViewDataSource, UITableViewDelegate {
@@ -570,7 +573,6 @@ extension EditPostViewController: UIDocumentPickerDelegate {
         guard let url = urls.first else { return }
         print(url)
         self.viewModel.addDocumentAttachment(fileUrl: url)
-        //        self.delegate?.didSelect(image: image)
         controller.dismiss(animated: true)
     }
     
@@ -583,7 +585,6 @@ extension EditPostViewController: UIDocumentPickerDelegate {
 //MARK: - Delegate view model
 
 extension EditPostViewController: EditPostViewModelDelegate {
-    
     func didReceivedPostDetails() {
         self.resourceType = viewModel.editResourceType()
         self.viewModel.currentSelectedUploadeType = self.resourceType ?? .unknown
@@ -653,10 +654,13 @@ extension EditPostViewController: EditPostViewModelDelegate {
     func hasReachedMaximumAttachment() -> Bool {
         (viewModel.imageAndVideoAttachments.count > 0 && viewModel.imageAndVideoAttachments.count == 10) || (viewModel.documentAttachments.count > 0 && viewModel.documentAttachments.count == 10)
     }
+    
+    func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel]) {
+        topicFeedView.configure(with: topics) 
+    }
 }
 
 extension EditPostViewController: TaggedUserListDelegate {
-    
     func didChangedTaggedList(taggedList: [TaggedUser]) {
         hideTaggingViewContainer()
         viewModel.taggedUsers = taggedList
@@ -751,4 +755,18 @@ extension EditPostViewController: BottomSheetViewDelegate {
     }
     
     func didClickedOnContinueButton() {}
+}
+// MARK: SelectTopicViewDelegate
+extension EditPostViewController: SelectTopicViewDelegate {
+    func updateSelection(with data: [TopicFeedDataModel]) {
+        viewModel.updateSelectedTopics(with: data)
+    }
+}
+
+// MARK: LMTopicViewDelegate
+extension EditPostViewController: LMTopicViewDelegate {
+    func didTapEditTopics() {
+        let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

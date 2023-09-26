@@ -25,10 +25,12 @@ class HomeFeedVideoCell: UITableViewCell {
     var avPlayerlayerLooper: AVPlayerLooper?
     var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var playButton: UIButton!
+    @IBOutlet private weak var topicFeed: LMTopicView!
+    
     var feedData: PostFeedDataView?
     
     let profileSectionHeader: HomeFeedProfileHeaderView = {
@@ -87,10 +89,10 @@ class HomeFeedVideoCell: UITableViewCell {
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
         self.feedData = feedDataView
-//        self.delegate = delegate
         self.setupVideoData(url: feedDataView.imageVideos?.first?.url ?? "")
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
+        topicFeed.configure(with: feedDataView.topics, isSepratorShown: false)
         self.layoutIfNeeded()
     }
     

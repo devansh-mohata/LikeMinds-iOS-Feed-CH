@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="inX-Oi-jbW">
-                        <rect key="frame" x="0.0" y="6" width="375" height="455"/>
+                        <rect key="frame" x="0.0" y="6" width="375" height="505"/>
                         <subviews>
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbH-sK-Ntf">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="341"/>
@@ -113,8 +113,27 @@
                                     <constraint firstAttribute="height" constant="64" id="AbJ-jg-TJW"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qNH-Qb-fMB">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p65-FS-aIo">
                                 <rect key="frame" x="0.0" y="405" width="375" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pU-z8-KqB" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="8" width="343" height="42"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" priority="250" constant="10" id="cUa-sr-QF2"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="1pU-z8-KqB" secondAttribute="trailing" constant="16" id="NCp-aO-5cY"/>
+                                    <constraint firstItem="1pU-z8-KqB" firstAttribute="leading" secondItem="p65-FS-aIo" secondAttribute="leading" constant="16" id="omQ-gL-y5b"/>
+                                    <constraint firstItem="1pU-z8-KqB" firstAttribute="top" secondItem="p65-FS-aIo" secondAttribute="top" constant="8" id="qpe-bx-qHu"/>
+                                    <constraint firstAttribute="bottom" secondItem="1pU-z8-KqB" secondAttribute="bottom" id="ugi-ht-d2r"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qNH-Qb-fMB">
+                                <rect key="frame" x="0.0" y="455" width="375" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="r8h-ri-hqd"/>
@@ -141,6 +160,7 @@
                 <outlet property="pdfImageContainerView" destination="bcp-9B-nRa" id="cxH-h0-iyj"/>
                 <outlet property="postImageView" destination="WmF-oM-HZM" id="6EQ-33-0XV"/>
                 <outlet property="profileSectionView" destination="YUW-Ah-okv" id="9NG-Xo-Aqn"/>
+                <outlet property="topicFeed" destination="1pU-z8-KqB" id="gaq-W1-FRv"/>
             </connections>
             <point key="canvasLocation" x="-19.083969465648853" y="122.1830985915493"/>
         </tableViewCell>
