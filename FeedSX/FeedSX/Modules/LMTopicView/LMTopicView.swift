@@ -87,7 +87,7 @@ extension LMTopicView: UICollectionViewDataSource, UICollectionViewDelegate, UIC
             width = 24
         }
         
-        return .init(width: width, height: 50)
+        return .init(width: width, height: 100)
     }
 }
 

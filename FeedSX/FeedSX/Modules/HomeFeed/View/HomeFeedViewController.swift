@@ -84,7 +84,7 @@ public final class HomeFeedViewControler: BaseViewController {
         let sv = UIStackView()
         sv.backgroundColor = .white
         sv.axis  = .horizontal
-        sv.alignment = .fill
+        sv.alignment = .center
         sv.distribution = .fill
         sv.spacing = 8
         sv.layoutMargins = .init(top: 8, left: 16, bottom: 8, right: 16)
@@ -275,9 +275,8 @@ public final class HomeFeedViewControler: BaseViewController {
         if let error = notification.object as? String {
             self.presentAlert(message: error)
             return
-        } else if let data = notification.userInfo as? [String: Any] {
-            
         }
+        
         refreshFeed()
         if !homeFeedViewModel.feeds.isEmpty {
             self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
@@ -364,6 +363,15 @@ public final class HomeFeedViewControler: BaseViewController {
         topicFeedStackView.addArrangedSubview(allTopicsBtn)
         topicFeedStackView.addArrangedSubview(topicCollection)
         topicFeedStackView.addArrangedSubview(clearTopicBtn)
+        
+        NSLayoutConstraint(item: clearTopicBtn, attribute: .top, relatedBy: .equal, toItem: topicFeedStackView, attribute: .top, multiplier: 1, constant: 12).isActive = true
+        NSLayoutConstraint(item: clearTopicBtn, attribute: .bottom, relatedBy: .equal, toItem: topicFeedStackView, attribute: .bottom, multiplier: 1, constant: -12).isActive = true
+        
+        NSLayoutConstraint(item: allTopicsBtn, attribute: .top, relatedBy: .equal, toItem: topicFeedStackView, attribute: .top, multiplier: 1, constant: 12).isActive = true
+        NSLayoutConstraint(item: allTopicsBtn, attribute: .bottom, relatedBy: .equal, toItem: topicFeedStackView, attribute: .bottom, multiplier: 1, constant: -12).isActive = true
+        
+        NSLayoutConstraint(item: topicCollection, attribute: .top, relatedBy: .equal, toItem: topicFeedStackView, attribute: .top, multiplier: 1, constant: 0).isActive = true
+        NSLayoutConstraint(item: topicCollection, attribute: .bottom, relatedBy: .equal, toItem: topicFeedStackView, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
     }
     
     @objc func createNewPost() {

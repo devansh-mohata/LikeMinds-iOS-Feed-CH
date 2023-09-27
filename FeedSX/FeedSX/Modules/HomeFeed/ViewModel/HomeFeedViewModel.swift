@@ -224,7 +224,7 @@ private extension HomeFeedViewModel {
     
     func updateFeed() {
         currentPage = 1
-        feeds.removeAll()
+//        feeds.removeAll()
         setupTopicFeed()
         getFeed()
         delegate?.didReceivedFeedData(success: true)

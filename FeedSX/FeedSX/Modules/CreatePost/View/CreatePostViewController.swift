@@ -134,14 +134,9 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         
         userProfileImage.makeCircleView()
         
-        captionTextView.delegate = self
-        captionTextView.addSubview(placeholderLabel)
-        
         topicFeedView.delegate = self
         
-        placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
-        placeholderLabel.textColor = .tertiaryLabel
-        placeholderLabel.isHidden = !captionTextView.text.isEmpty
+        setupTitleAndDescriptionTextView()
         
         viewModel.delegate = self
         
@@ -281,6 +276,9 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         guard let user = LocalPrefrerences.getUserData() else {
             return
         }
+        
+        changeAuthorButton.addTarget(self, action: #selector(changeAuthor), for: .touchUpInside)
+        
         if LocalPrefrerences.getMemberStateData()?.state != MemberState.admin.rawValue {
             changeAuthorButton.isHidden = true
         }
