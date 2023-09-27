@@ -481,7 +481,7 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc
     private func didTapAllTopics() {
-        let vc = SelectTopicViewController(selectedTopics: homeFeedViewModel.selectedTopics, isShowAllTopics: true, delegate: self)
+        let vc = SelectTopicViewController(selectedTopics: homeFeedViewModel.selectedTopics, isShowAllTopics: true, delegate: self, isEnabledState: false)
         navigationController?.pushViewController(vc, animated: true)
     }
     
