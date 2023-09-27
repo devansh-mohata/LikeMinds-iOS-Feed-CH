@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="inX-Oi-jbW">
-                        <rect key="frame" x="0.0" y="6" width="375" height="505"/>
+                        <rect key="frame" x="0.0" y="6" width="375" height="455"/>
                         <subviews>
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbH-sK-Ntf">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="341"/>
@@ -113,11 +113,11 @@
                                     <constraint firstAttribute="height" constant="64" id="AbJ-jg-TJW"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p65-FS-aIo">
-                                <rect key="frame" x="0.0" y="405" width="375" height="50"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p65-FS-aIo">
+                                <rect key="frame" x="0.0" y="405" width="375" height="8"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1pU-z8-KqB" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="8" width="343" height="42"/>
+                                        <rect key="frame" x="16" y="8" width="343" height="0.0"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" priority="250" constant="10" id="cUa-sr-QF2"/>
@@ -133,7 +133,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qNH-Qb-fMB">
-                                <rect key="frame" x="0.0" y="455" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="405" width="375" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="r8h-ri-hqd"/>

@@ -262,14 +262,7 @@ public final class HomeFeedViewControler: BaseViewController {
     @objc func postCreationStarted(notification: Notification) {
         print("postCreationStarted")
         self.isPostCreatingInProgress = true
-//        self.postingImageSuperView.superview?.isHidden = false
         self.addShimmerTableHeaderView()
-//        if let image = notification.object as? UIImage {
-//            postingImageView.superview?.isHidden = false
-//            postingImageView.image = image
-//        } else {
-//            self.postingImageView.isHidden = true
-//        }
         if homeFeedViewModel.feeds.count > 0 {
             self.feedTableView.setContentOffset( CGPoint(x: 0, y: 0) , animated: false)
         }
@@ -282,9 +275,11 @@ public final class HomeFeedViewControler: BaseViewController {
         if let error = notification.object as? String {
             self.presentAlert(message: error)
             return
+        } else if let data = notification.userInfo as? [String: Any] {
+            
         }
         refreshFeed()
-        if homeFeedViewModel.feeds.count > 0 {
+        if !homeFeedViewModel.feeds.isEmpty {
             self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
     }
@@ -433,7 +428,8 @@ public final class HomeFeedViewControler: BaseViewController {
         }
     }
     
-    @objc func notificationIconClicked() {
+    @objc
+    private func notificationIconClicked() {
         let notificationFeedVC = NotificationFeedViewController()
         self.navigationController?.pushViewController(notificationFeedVC, animated: true)
     }
@@ -450,8 +446,7 @@ public final class HomeFeedViewControler: BaseViewController {
                 self?.createButtonWidthConstraints?.isActive = true
                 weakSelf.view.layoutIfNeeded()
             }
-        }
-        else {
+        } else {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.2) {[weak self] in
                 guard let weakSelf = self else {return}
@@ -494,6 +489,7 @@ public final class HomeFeedViewControler: BaseViewController {
                         }
                     }
                     self?.moveToAddResources(resourceType: mediaType, url: url)
+                    LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.videoAttached, eventProperties: ["video_count": 1])
                     imagePicker.dismiss(animated: true)
                 }
             }
@@ -513,6 +509,7 @@ public final class HomeFeedViewControler: BaseViewController {
                 return
             }
             self?.moveToAddResources(resourceType: .link, url: url)
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.linkAttached, eventProperties: ["link": url.absoluteString])
             alertView.dismiss(animated: true, completion: nil)
         }
         
@@ -852,7 +849,8 @@ extension HomeFeedViewControler: UIDocumentPickerDelegate {
             return
         }
         print(url)
-        self.moveToAddResources(resourceType: .document, url: url)
+        moveToAddResources(resourceType: .document, url: url)
+        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.documentAttached, eventProperties: ["document_count": 1])
         controller.dismiss(animated: true)
     }
     

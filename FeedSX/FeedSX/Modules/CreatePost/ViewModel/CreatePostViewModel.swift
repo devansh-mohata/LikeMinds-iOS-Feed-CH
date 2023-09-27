@@ -200,6 +200,31 @@ final class CreatePostViewModel: BaseViewModel {
         } else if !parsedTaggedUserPostText.isEmpty {
             self.createPostWithOutAttachment(postCaption: parsedTaggedUserPostText, heading: heading)
         }
+        
+        postAnalytics(postType: postType)
+    }
+    
+    private func postAnalytics(postType: AttachmentUploadType) {
+        var analytics: [String: Any] = [:]
+        
+        switch postType {
+        case .document:
+            analytics["document_attached"] = "yes"
+        case .image, .article:
+            analytics["image_attached"] = "yes"
+        case .video:
+            analytics["video_attached"] = "yes"
+        case .link:
+            if let url = linkAttatchment?.url {
+                analytics["link_attached"] = url
+            }
+        default:
+            break
+        }
+        
+        analytics["topics"] = selectedTopics.map { $0.title }
+        
+        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.creationCompleted, eventProperties: analytics)
     }
 }
 

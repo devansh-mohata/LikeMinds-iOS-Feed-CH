@@ -354,6 +354,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
                         imagePicker.dismiss(animated: true) {
                             self?.present(cropper, animated: true, completion: nil)
                         }
+                        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.imageAttached, eventProperties: ["image_count": 1])
                     } else  {
                         if mediaType == .video {
                             let asset = AVAsset(url: url)
@@ -363,6 +364,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
                                 return
                             }
                         }
+                        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.videoAttached, eventProperties: ["video_count": 1])
                         self?.viewModel.addImageVideoAttachment(fileUrl: url, type: mediaType)
                         self?.reloadCollectionView()
                         imagePicker.dismiss(animated: true)
@@ -679,6 +681,7 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
         }
         print(url)
         self.viewModel.addDocumentAttachment(fileUrl: url)
+        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.documentAttached, eventProperties: ["document_count": 1])
         controller.dismiss(animated: true)
     }
     
@@ -737,7 +740,7 @@ extension CreatePostViewController: CropperViewControllerDelegate {
                 }
                 try imageData.write(to: imageURL)
                 let newImage = UIImage(contentsOfFile: imageURL.path)
-                guard let img = newImage else { return }
+                guard newImage != nil else { return }
                 self.viewModel.addImageVideoAttachment(fileUrl: imageURL, type: .image)
                 self.reloadCollectionView()
             } catch let error  {

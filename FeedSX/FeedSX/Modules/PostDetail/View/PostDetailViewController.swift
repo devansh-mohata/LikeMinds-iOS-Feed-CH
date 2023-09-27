@@ -516,6 +516,7 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
             }
         case .likeCount:
             guard (postData?.likedCount ?? 0) > 0 else {return}
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.likeListOpen, eventProperties: ["post_id": postId])
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: nil)
             self.navigationController?.pushViewController(likedUserListView, animated: true)
