@@ -27,7 +27,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bcp-9B-nRa">
                                         <rect key="frame" x="16" y="16" width="343" height="325"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="WmF-oM-HZM">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pdf_icon" translatesAutoresizingMaskIntoConstraints="NO" id="WmF-oM-HZM">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="325"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="WmF-oM-HZM" secondAttribute="height" multiplier="343:325" id="sSs-fW-GoI"/>

@@ -49,7 +49,7 @@ class NotificationFeedTableViewCell: UITableViewCell {
             profileImageView.image = profilePlaceHolder
             return
         }
-        profileImageView.kf.setImage(with: URL(string: url), placeholder: profilePlaceHolder)
+        profileImageView.kf.setImage(with: URL.url(string: url), placeholder: profilePlaceHolder)
     }
     
     func setTypeOfPostActivity(dataView: NotificationFeedDataView) {

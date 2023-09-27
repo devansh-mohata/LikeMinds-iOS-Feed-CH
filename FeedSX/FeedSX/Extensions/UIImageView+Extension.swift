@@ -13,7 +13,7 @@ extension UIImageView {
     func setImage(withUrl url: String, placeholder: UIImage? = nil) {
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
-                self?.kf.setImage(with: URL(string: url), placeholder: placeholder)
+                self?.kf.setImage(with: URL.url(string: url), placeholder: placeholder)
             }
         }
     }

@@ -37,14 +37,14 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DKQ-va-M6e">
                                     <rect key="frame" x="0.0" y="0.0" width="349" height="51.666666666666664"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finish later?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cF-jj-YhK" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="349" height="10"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discard Resource?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cF-jj-YhK" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="349" height="0.0"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Want to finish creating this resource later? Save it as a draft or continue editing it." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckI-I2-nu1" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="17.999999999999996" width="349" height="33.666666666666657"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Your resource creation is in progress. All the resources data would be lost. Are you sure you want to discard it?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckI-I2-nu1" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="8" width="349" height="43.666666666666671"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -129,6 +129,14 @@
             <point key="canvasLocation" x="-79" y="20"/>
         </view>
     </objects>
+    <designables>
+        <designable name="PNf-gg-RO0">
+            <size key="intrinsicContentSize" width="156" height="20.666666666666668"/>
+        </designable>
+        <designable name="h39-Ll-Udv">
+            <size key="intrinsicContentSize" width="195.66666666666666" height="19"/>
+        </designable>
+    </designables>
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="trash.fill" catalog="system" width="119" height="128"/>

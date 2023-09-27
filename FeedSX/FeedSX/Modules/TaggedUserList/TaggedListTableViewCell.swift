@@ -35,7 +35,7 @@ class TaggedListTableViewCell: UITableViewCell {
         labelName.text = member.name
 //        labelAbout.text = member.about
         var placeholderImage = UIImage.generateLetterImage(name: member.name ?? "")
-        if let url = URL(string: member.imageUrl ?? "") {
+        if let url = URL.url(string: member.imageUrl ?? "") {
             imgView.kf.setImage(with: url, placeholder: placeholderImage)
         } else {
             imgView.image = placeholderImage

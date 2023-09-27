@@ -56,9 +56,10 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
 //        setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
-        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
-        captionLabel.isUserInteractionEnabled = true
-        captionLabel.addGestureRecognizer(textViewTapGesture)
+//        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
+//        captionLabel.isUserInteractionEnabled = true
+//        captionLabel.addGestureRecognizer(textViewTapGesture)
+        captionLabel.delegate = self
         
         let pdfImageTapGesture = LMTapGesture(target: self, action: #selector(tappedPdfImageContainer(tapGesture:)))
         pdfImageContainerView.isUserInteractionEnabled = true
@@ -84,7 +85,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         guard let textView = tapGesture.view as? LMTextView else { return }
         guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
         if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: url.absoluteString)
         } else {
             delegate?.didTapOnCell(self.feedData)
         }
@@ -92,9 +93,8 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     @objc func tappedPdfImageContainer(tapGesture: LMTapGesture) {
         if let attachmentItem = self.feedData?.attachments?.first,
-           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: docUrl) {
-            UIApplication.shared.open(url)
+           let docUrl = attachmentItem.attachmentUrl {
+            delegate?.didTapOnUrl(url: docUrl)
         }
     }
     
@@ -136,7 +136,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     private func setupImageView(_ url: String?) {
         let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle(for: HomeFeedDocumentTableViewCell.self), with: nil)
         self.pdfThumbnailImage.image = imagePlaceholder
-        guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
+        guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL.url(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
                 self?.pdfThumbnailImage.kf.setImage(with: uRL, placeholder: imagePlaceholder)
@@ -224,11 +224,18 @@ extension HomeFeedDocumentTableViewCell:  UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let attachmentItem = self.feedData?.attachments?[indexPath.row],
-           let docUrl = attachmentItem.attachmentUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: docUrl) {
-            UIApplication.shared.open(url)
+           let docUrl = attachmentItem.attachmentUrl {
+            delegate?.didTapOnUrl(url: docUrl)
         }
     }
     
+}
+
+extension HomeFeedDocumentTableViewCell: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
+        return false
+    }
 }
 

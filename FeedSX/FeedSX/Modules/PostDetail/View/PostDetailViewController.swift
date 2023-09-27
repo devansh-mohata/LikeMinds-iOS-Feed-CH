@@ -7,6 +7,7 @@
 
 import UIKit
 import LikeMindsFeed
+import SafariServices
 
 class PostDetailViewController: BaseViewController {
     
@@ -462,14 +463,14 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         if !replyId.isEmpty, let section = viewModel.comments.firstIndex(where: {$0.commentId == commentId}),
            let row = viewModel.comments[section].replies.firstIndex(where: {$0.commentId == replyId}){
             let indexPath = IndexPath(row: row, section: section + 1)
-            postDetailTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+            postDetailTableView.scrollToRow(at: indexPath, at: .middle, animated: false)
         }
         closeReplyToUsersCommentView()
     }
     
     func insertAndScrollToRecentComment(_ indexPath: IndexPath) {
         postDetailTableView.reloadData()
-        postDetailTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        postDetailTableView.scrollToRow(at: indexPath, at: .middle, animated: false)
         postDetailTableView.tableFooterView?.isHidden = true
         closeReplyToUsersCommentView()
         self.subTitleLabel.text = viewModel.totalCommentsCount()
@@ -529,6 +530,22 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
 
 extension PostDetailViewController: CommentHeaderViewCellDelegate {
     
+    func didTapOnUrl(url: String) {
+        print("tapped url: \(url)")
+        if url.hasPrefix("route://user_profile") {
+            let uuid = url.components(separatedBy: "/").last
+            LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
+            
+        } else if let url = URL.url(string: url.linkWithSchema()) {
+            let safariVC = SFSafariViewController(url: url)
+            present(safariVC, animated: true, completion: nil)
+        }
+    }
+
+    func didTapOnUserProfile(selectedComment: PostDetailDataModel.Comment?) {
+        LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: selectedComment?.user.uuid ?? "")
+    }
+    
     func didTapActionButton(withActionType actionType: CellActionType, section: Int?) {
         guard let section = section else {return}
         let selectedComment = viewModel.comments[section-1]
@@ -568,6 +585,7 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
 }
 
 extension PostDetailViewController: ReplyCommentTableViewCellDelegate {
+
     func didTapActionButton(withActionType actionType: CellActionType, cell: UITableViewCell) {
         guard let indexPath = postDetailTableView.indexPath(for: cell) else { return }
         let selectedComment = viewModel.comments[indexPath.section-1].replies[indexPath.row]
@@ -628,6 +646,10 @@ extension PostDetailViewController: TaggedUserListDelegate {
 }
 
 extension PostDetailViewController: ProfileHeaderViewDelegate {
+    
+    func didTapOnUserProfile(selectedPost: PostFeedDataView?) {
+        LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: selectedPost?.postByUser?.uuid ?? "")
+    }
     
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }

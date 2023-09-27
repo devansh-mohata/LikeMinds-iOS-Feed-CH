@@ -57,4 +57,8 @@ extension String {
         let height = NSString(string: self).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:.usesLineFragmentOrigin, attributes: attr, context: nil).height
         return CGSize(width: width, height: ceil(height))
     }
+    
+    var intValue: Int {
+        return Int(self) ?? 0
+    }
 }
