@@ -56,9 +56,10 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
 //        setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
-        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
-        captionLabel.isUserInteractionEnabled = true
-        captionLabel.addGestureRecognizer(textViewTapGesture)
+//        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
+//        captionLabel.isUserInteractionEnabled = true
+//        captionLabel.addGestureRecognizer(textViewTapGesture)
+        captionLabel.delegate = self
         
         let pdfImageTapGesture = LMTapGesture(target: self, action: #selector(tappedPdfImageContainer(tapGesture:)))
         pdfImageContainerView.isUserInteractionEnabled = true
@@ -135,7 +136,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     private func setupImageView(_ url: String?) {
         let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle(for: HomeFeedDocumentTableViewCell.self), with: nil)
         self.pdfThumbnailImage.image = imagePlaceholder
-        guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
+        guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL.url(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
                 self?.pdfThumbnailImage.kf.setImage(with: uRL, placeholder: imagePlaceholder)
@@ -228,5 +229,13 @@ extension HomeFeedDocumentTableViewCell:  UICollectionViewDelegate, UICollection
         }
     }
     
+}
+
+extension HomeFeedDocumentTableViewCell: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
+        return false
+    }
 }
 

@@ -796,9 +796,9 @@ extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
         print("tapped url: \(url)")
         if url.hasPrefix("route://user_profile") {
             let uuid = url.components(separatedBy: "/").last
-            LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: uuid ?? "")
+            LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
             
-        } else if let url = URL(string: url.linkWithSchema()) {
+        } else if let url = URL.url(string: url.linkWithSchema()) {
             let safariVC = SFSafariViewController(url: url)
             present(safariVC, animated: true, completion: nil)
         }

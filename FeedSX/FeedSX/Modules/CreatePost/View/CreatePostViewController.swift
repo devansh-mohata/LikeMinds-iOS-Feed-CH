@@ -206,7 +206,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         
         titleTextView.delegate = self
         titleTextView.addSubview(addTitlePlaceholderLabel)
-        addTitlePlaceholderLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor).isActive = true
+        addTitlePlaceholderLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 8).isActive = true
         addTitlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
         
         addLinkTextView.delegate = self

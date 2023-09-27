@@ -11,7 +11,13 @@ import LikeMindsFeed
 import FirebaseMessaging
 
 public protocol LikeMindsFeedSXCallback: AnyObject {
-    func showProfile(userUUID: String)
+    func openProfile(userUUID: String)
+    func routeViewController(viewController: UIViewController?)
+}
+
+extension LikeMindsFeedSXCallback {
+    func routeViewController(viewController: UIViewController?) {}
+    func openProfile(userUUID: String) {}
 }
 
 public class LikeMindsFeedSX {
@@ -82,8 +88,9 @@ public class LikeMindsFeedSX {
      Call this method in AppDelegate in didReceiveRemoteNotification
      @param userInfo The info dict with the push
      */
+    @discardableResult
     public func didReceieveNotification(userInfo: [AnyHashable: Any]) -> Bool {
-        guard let route = userInfo["route"] as? String, UIApplication.shared.applicationState == .inactive else {return false }
+        guard let route = userInfo["route"] as? String else {return false }
         DeepLinkManager.sharedInstance.notificationRoute(routeUrl: route, fromNotification: true, fromDeeplink: false)
         return true
     }

@@ -41,6 +41,7 @@ class PostDetailArticleTableViewCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         self.captionLabel.tintColor = LMBranding.shared.textLinkColor
+        captionLabel.delegate = self
         headerLabel.textColor = ColorConstant.textBlackColor
         setupProfileSectionHeader()
         setupActionSectionFooter()
@@ -72,7 +73,7 @@ class PostDetailArticleTableViewCell: UITableViewCell {
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         if let imageUrl = feedDataView.imageVideos?.first?.url {
             let placeholder = UIImage(named: "placeholder", in: Bundle(for: PostDetailArticleTableViewCell.self), with: nil)
-            self.articleImageView.kf.setImage(with: URL(string: imageUrl), placeholder: placeholder)
+            self.articleImageView.kf.setImage(with: URL.url(string: imageUrl), placeholder: placeholder)
         } else {
             self.articleImageView.image = nil
         }
@@ -87,4 +88,12 @@ class PostDetailArticleTableViewCell: UITableViewCell {
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
     }
     
+}
+
+extension PostDetailArticleTableViewCell: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
+        return false
+    }
 }

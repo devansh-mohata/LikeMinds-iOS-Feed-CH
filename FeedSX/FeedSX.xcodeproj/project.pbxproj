@@ -16,6 +16,7 @@
 		F405D10729E8843F0074F531 /* ReportContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10629E8843F0074F531 /* ReportContentViewModel.swift */; };
 		F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10829E885660074F531 /* ASImageDownloader.swift */; };
 		F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */; };
+		F40CD19C2AC2D73300547BBC /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40CD19B2AC2D73200547BBC /* URL+Extension.swift */; };
 		F40E04042AADDAD600AB3827 /* CropImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E04032AADDAD600AB3827 /* CropImageViewController.swift */; };
 		F41731C82A1A7CF7005FD279 /* NetworkOperationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */; };
 		F41731CA2A1A7D47005FD279 /* NetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C92A1A7D47005FD279 /* NetworkOperation.swift */; };
@@ -217,6 +218,7 @@
 		F405D10629E8843F0074F531 /* ReportContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewModel.swift; sourceTree = "<group>"; };
 		F405D10829E885660074F531 /* ASImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASImageDownloader.swift; sourceTree = "<group>"; };
 		F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedOtherAttachmentTableViewCell.swift; sourceTree = "<group>"; };
+		F40CD19B2AC2D73200547BBC /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		F40E04032AADDAD600AB3827 /* CropImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropImageViewController.swift; sourceTree = "<group>"; };
 		F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationQueueManager.swift; sourceTree = "<group>"; };
 		F41731C92A1A7D47005FD279 /* NetworkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperation.swift; sourceTree = "<group>"; };
@@ -987,6 +989,7 @@
 				F4A0E6712A9F738800767941 /* CustomUIImageView.swift */,
 				F4C766282ABB5C430089062E /* AVAsset+Extension.swift */,
 				F4A6FC5D2ABF7BA700B8963F /* Double+Extension.swift */,
+				F40CD19B2AC2D73200547BBC /* URL+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1278,6 +1281,7 @@
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
 				F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
+				F40CD19C2AC2D73300547BBC /* URL+Extension.swift in Sources */,
 				F49C76F829E3CFFA00325AD9 /* PostDetailViewModel.swift in Sources */,
 				F4A5BEA32ABC2A2E00CD01E6 /* Grid.swift in Sources */,
 				F4A5BE902ABC2A2E00CD01E6 /* AspectRatioPicker.swift in Sources */,

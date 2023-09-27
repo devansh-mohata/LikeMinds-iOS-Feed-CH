@@ -89,7 +89,7 @@ class HomeFeedPDFCell: UITableViewCell {
     private func setupImageView(_ url: String?) {
         let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle(for: HomeFeedPDFCell.self), with: nil)
         self.postImageView.image = imagePlaceholder
-        guard let url = url, let uRL = URL(string: url) else { return }
+        guard let url = url, let uRL = URL.url(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
                 self?.postImageView.kf.setImage(with: uRL, placeholder: imagePlaceholder)

@@ -89,7 +89,7 @@ class HomeFeedLinkCell: UITableViewCell {
         self.linkLabel.text = link?.lowercased()
         if let linkThumbnailUrl = linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
             let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
-            self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl), placeholder: placeholder)
+            self.linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl), placeholder: placeholder)
         } else {
             self.linkThumbnailImageView.image = nil
         }

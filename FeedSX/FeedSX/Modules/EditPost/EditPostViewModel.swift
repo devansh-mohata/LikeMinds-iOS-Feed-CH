@@ -240,7 +240,7 @@ final class EditPostViewModel: BaseViewModel {
             guard let fileUrl = attachedItem.attachmentUrl else { continue }
             let fileType: UploaderType = .file
             let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.name ?? "document_\(Date().millisecondsSince1970)")
-            item.awsUploadedUrl = fileUrl.hasPrefix("https://s3.ap-south-1.amazonaws.com") ? fileUrl : nil
+            item.awsUploadedUrl = fileUrl.contains("amazonaws.com") ? fileUrl : nil
             item.thumbnailImage = attachedItem.thumbnailImage
             item.thumbnailUrl = attachedItem.thumbnailUrl
             item.documentAttachmentSize = attachedItem.attachmentSize
@@ -258,7 +258,7 @@ final class EditPostViewModel: BaseViewModel {
             guard let fileUrl = attachedItem.url else { continue }
             let fileType: UploaderType = attachedItem.fileType == .image ? .image : .video
             let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.name ?? "media_\(Date().millisecondsSince1970)")
-            item.awsUploadedUrl = fileUrl.hasPrefix("https://s3.ap-south-1.amazonaws.com") ? fileUrl : nil
+            item.awsUploadedUrl = fileUrl.contains("amazonaws.com") ? fileUrl : nil
             item.thumbnailImage = attachedItem.thumbnailImage
             item.documentAttachmentSize = attachedItem.size
             imageVideoAttachments.append(item)
@@ -283,7 +283,7 @@ final class EditPostViewModel: BaseViewModel {
             guard let fileUrl = attachedItem.url else { continue }
             let fileType: UploaderType = .image
             let item = AWSFileUploadRequest(fileUrl: fileUrl, awsFilePath: filePath, fileType: fileType, index: index, name: attachedItem.name ?? "media_\(Date().millisecondsSince1970)")
-            item.awsUploadedUrl = fileUrl.hasPrefix("https://s3.ap-south-1.amazonaws.com") ? fileUrl : nil
+            item.awsUploadedUrl = fileUrl.contains("amazonaws.com") ? fileUrl : nil
             item.thumbnailImage = attachedItem.thumbnailImage
             item.documentAttachmentSize = attachedItem.size
             item.title = heading

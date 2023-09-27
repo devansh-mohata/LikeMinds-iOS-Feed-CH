@@ -53,7 +53,7 @@ extension LikedUserListViewController: UITableViewDataSource, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = self.viewModel?.likedUsers[indexPath.row]
-        LikeMindsFeedSX.shared.delegate?.showProfile(userUUID: data?.userUUID ?? "")
+        LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: data?.userUUID ?? "")
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

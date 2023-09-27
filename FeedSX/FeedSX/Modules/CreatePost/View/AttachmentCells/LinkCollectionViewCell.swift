@@ -35,7 +35,7 @@ class LinkCollectionViewCell: UICollectionViewCell {
         self.linkLabel.text = link?.lowercased()
         let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
         if let linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
-            self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl), placeholder: placeHolder)
+            self.linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl), placeholder: placeHolder)
         } else {
             linkThumbnailImageView.image = placeHolder
         }

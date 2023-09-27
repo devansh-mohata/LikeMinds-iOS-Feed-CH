@@ -156,7 +156,7 @@ class HomeFeedProfileHeaderView: UIView {
             avatarImageView.image = profilePlaceHolder
             return
         }
-        avatarImageView.kf.setImage(with: URL(string: url), placeholder: profilePlaceHolder)
+        avatarImageView.kf.setImage(with: URL.url(string: url), placeholder: profilePlaceHolder)
     }
 
 }

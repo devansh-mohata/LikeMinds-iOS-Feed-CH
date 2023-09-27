@@ -67,9 +67,10 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
-        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
-        captionLabel.isUserInteractionEnabled = true
-        captionLabel.addGestureRecognizer(textViewTapGesture)
+//        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
+//        captionLabel.isUserInteractionEnabled = true
+//        captionLabel.addGestureRecognizer(textViewTapGesture)
+        captionLabel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -269,6 +270,14 @@ extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollecti
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     }
     
+}
+
+extension HomeFeedImageVideoTableViewCell: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
+        return false
+    }
 }
 
 class LMTapGesture: UITapGestureRecognizer {

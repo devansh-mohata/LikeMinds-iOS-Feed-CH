@@ -108,7 +108,7 @@ class DocumentCollectionCell: UICollectionViewCell {
         guard let url else { return }
         let imagePlaceholder = UIImage(named: "imageplaceholder", in: Bundle(for: DocumentCollectionCell.self), with: nil)
         self.documentImageView.image = imagePlaceholder
-        guard let url = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
+        guard let url = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL.url(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             DispatchQueue.main.async {
                 self?.documentImageView.kf.setImage(with: uRL, placeholder: imagePlaceholder)
