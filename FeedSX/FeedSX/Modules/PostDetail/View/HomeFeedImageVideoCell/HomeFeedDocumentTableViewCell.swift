@@ -13,21 +13,18 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     static let bundle = Bundle(for: HomeFeedDocumentTableViewCell.self)
     weak var delegate: HomeFeedTableViewCellDelegate?
     
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var imageVideoCollectionView: UICollectionView?
-    @IBOutlet weak var captionSectionView: UIView!
-    @IBOutlet weak var moreAttachmentButton: LMButton!
-    
-    @IBOutlet weak var titleLabel: LMTextView!
-    @IBOutlet weak var captionLabel: LMTextView!
-    @IBOutlet weak var pdfFileNameLabel: LMLabel!
-    @IBOutlet weak var pdfDetailsLabel: LMLabel!
-    @IBOutlet weak var pdfThumbnailImage: UIImageView!
-    @IBOutlet weak var pdfImageContainerView: UIView!
-    
-    @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var captionLabel: LMTextView!
+    @IBOutlet private weak var captionSectionView: UIView!
+    @IBOutlet private weak var moreAttachmentButton: LMButton!
+    @IBOutlet private weak var topicView: LMTopicView!
+    @IBOutlet private weak var titleLabel: LMTextView!
+    @IBOutlet private weak var pdfFileNameLabel: LMLabel!
+    @IBOutlet private weak var pdfDetailsLabel: LMLabel!
+    @IBOutlet private weak var pdfThumbnailImage: UIImageView!
+    @IBOutlet private weak var pdfImageContainerView: UIView!
     
     let profileSectionHeader: ProfileHeaderView = {
         let profileSection = ProfileHeaderView()
@@ -53,7 +50,6 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         self.captionLabel.tintColor = LMBranding.shared.textLinkColor
-//        setupImageCollectionView()
         setupProfileSectionHeader()
         setupActionSectionFooter()
 //        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
@@ -73,12 +69,6 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
     }
     
     @objc func tappedTextView(tapGesture: LMTapGesture) {
@@ -103,36 +93,28 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         actionFooterSectionView.addConstraints(equalToView: self.actionsSectionView)
     }
     
-    fileprivate func setupProfileSectionHeader() {
+    private func setupProfileSectionHeader() {
         self.profileSectionView.addSubview(profileSectionHeader)
         profileSectionHeader.addConstraints(equalToView: self.profileSectionView)
     }
-    
-    fileprivate func setupCaptionSectionView() {
-    }
-    
-    @objc func moreButtonClick() {
-        let count = self.feedData?.attachments?.count ?? 0
-        self.tableView()?.beginUpdates()
-        self.collectionSuperViewHeightConstraint?.constant = CGFloat(90 * count)
-        self.moreAttachmentButton.superview?.isHidden = true
-        self.tableView()?.endUpdates()
         
-    }
-    
-    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
+    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?, isSepratorShown: Bool = true) {
         self.feedData = feedDataView
         self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
-        setupContainerData()
+        
+        topicView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
+        containerView.isHidden = feedData?.postAttachmentType() != .document
+        layoutIfNeeded()
+
         guard let attachmentItem = feedDataView.attachments?.first else { return }
         self.pdfFileNameLabel.text =  attachmentItem.attachmentName()
         self.pdfDetailsLabel.text = attachmentItem.attachmentDetails()
         self.setupImageView(attachmentItem.thumbnailUrl)
     }
-    
+
     private func setupImageView(_ url: String?) {
         let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle(for: HomeFeedDocumentTableViewCell.self), with: nil)
         self.pdfThumbnailImage.image = imagePlaceholder
@@ -143,34 +125,8 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
             }
         }
     }
-    
-    func setupImageCollectionView() {
-        
-//        self.imageVideoCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
-        
-        self.moreAttachmentButton.superview?.isHidden = true
-//        imageVideoCollectionView.dataSource = self
-//        imageVideoCollectionView.delegate = self
-        self.moreAttachmentButton.addTarget(self, action: #selector(moreButtonClick), for: .touchUpInside)
-        self.moreAttachmentButton.setTitleColor(LMBranding.shared.buttonColor, for: .normal)
-    }
-    
-    private func setupContainerData() {
-        switch self.feedData?.postAttachmentType() ?? .unknown {
-        case .document:
-//            let flowlayout = UICollectionViewFlowLayout()
-//            flowlayout.scrollDirection = .vertical
-//            flowlayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 90)
-//            self.imageVideoCollectionView.collectionViewLayout = flowlayout
-            containerView.isHidden = false
-//            imageVideoCollectionView.reloadData()
-        default:
-            containerView.isHidden = true
-        }
-    }
-    
+ 
     private func setupCaption() {
-        
         let caption = self.feedData?.caption ?? ""
         let header = self.feedData?.header ?? ""
         self.titleLabel.text = header
@@ -182,7 +138,6 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
 }
 
 extension HomeFeedDocumentTableViewCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch self.feedData?.postAttachmentType() ?? .unknown {
         case .document:

@@ -25,8 +25,9 @@ final class PostFeedDataView {
     var isSaved: Bool
     var postTime: Int
     var postMenuItems: [MenuItem]?
+    var topics: [TopicViewCollectionCell.ViewModel] = []
     
-    init(post: Post, user: User?, widgets: [String: Widget]?) {
+    init(post: Post, user: User?, topics: [TopicFeedResponse.TopicResponse] = [], widgets: [String: Widget]? = nil) {
         self.postId = post.id
         self.caption = post.text
         self.header = post.heading
@@ -43,6 +44,7 @@ final class PostFeedDataView {
         self.attachments = docAttachments(post: post)
         self.linkAttachment = linkAttachment(post: post)
         self.postMenuItems = menuItems(post: post)
+        setTopics(post: post, allTopics: topics)
     }
     
     private func docAttachments(post: Post) -> [Attachment]? {
@@ -73,6 +75,14 @@ final class PostFeedDataView {
                 return ImageVideo(url: url, type: attachment.attachmentMeta?.format, duration: attachment.attachmentMeta?.duration, size: attachment.attachmentMeta?.size, fileType: type, name: attachment.attachmentMeta?.name)
             }
         }
+    }
+
+    private func setTopics(post: Post, allTopics: [TopicFeedResponse.TopicResponse]) {
+        topics = post.topics?.compactMap { topicID in
+            guard let obj = allTopics.first(where: { $0.id == topicID }),
+                  let name = obj.name else { return nil }
+            return .init(image: nil, title: name)
+        } ?? []
     }
     
     private func linkAttachment(post: Post) -> LinkAttachment? {

@@ -58,6 +58,12 @@ extension String {
         return CGSize(width: width, height: ceil(height))
     }
     
+    func sizeOfString(with font: UIFont = .systemFont(ofSize: 16)) -> CGSize {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = (self as NSString).size(withAttributes: fontAttributes)
+        return size
+    }
+    
     var intValue: Int {
         return Int(self) ?? 0
     }

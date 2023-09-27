@@ -166,19 +166,23 @@ class ProfileHeaderView: UIView {
     
     func setupSubviews() {
         addSubview(avatarAndUsernameStackView)
+        addSubview(pinAndActionsStackView)
+        
         avatarAndUsernameStackView.addArrangedSubview(avatarImageView)
         avatarAndUsernameStackView.addArrangedSubview(usernameAndTimeStackView)
+        
         usernameAndTimeStackView.addArrangedSubview(usernameAndTitleStackView)
         usernameAndTitleStackView.addArrangedSubview(usernameLabel)
         usernameAndTitleStackView.addArrangedSubview(usernameTitleLabel)
         usernameAndTimeStackView.addArrangedSubview(designationAtLabel)
         usernameAndTimeStackView.addArrangedSubview(timeAndEditStackView)
+        
         timeAndEditStackView.addArrangedSubview(timeLabel)
         timeAndEditStackView.addArrangedSubview(editTitleLabel)
         
-        addSubview(pinAndActionsStackView)
         pinAndActionsStackView.addArrangedSubview(pinImageView)
         pinAndActionsStackView.addArrangedSubview(moreImageView)
+        
         moreImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
         moreImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         

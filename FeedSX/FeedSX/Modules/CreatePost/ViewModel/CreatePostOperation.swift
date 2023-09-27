@@ -38,9 +38,9 @@ class CreatePostOperation {
         }
     }
     
-    func createPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, heading: String, onBehalfOfUUID:String?, postType: CreatePostViewModel.AttachmentUploadType) {
+    func createPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, topics: [String], heading: String, onBehalfOfUUID:String?, postType: CreatePostViewModel.AttachmentUploadType) {
         self.attachmentList = attachments
-        guard attachments.count > 0 else { return }
+        guard !attachments.isEmpty else { return }
         postMessageForCreatingPost()
         for attachment in attachments {
             dispatchGroup.enter()
@@ -98,7 +98,7 @@ class CreatePostOperation {
         }
         self.dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
             guard let attachmentList = self?.attachmentList else {return}
-            if attachmentList.count > 0 {
+            if !attachmentList.isEmpty {
                 var attachments: [Attachment] = []
                 for attachedItem in attachmentList {
                     switch attachedItem.fileType {
@@ -131,6 +131,7 @@ class CreatePostOperation {
                 let addPostRequest = AddPostRequest.builder()
                     .onBehalfOfUUID(onBehalfOfUUID)
                     .attachments(attachments)
+                    .addTopics(topics)
                     .build()
                 if postType != .article {
                     _ = addPostRequest.text(postCaption)

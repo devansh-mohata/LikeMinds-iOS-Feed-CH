@@ -350,11 +350,11 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
             switch post.postAttachmentType() {
             case .document:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedDocumentTableViewCell.nibName, for: indexPath) as! HomeFeedDocumentTableViewCell
-                cell.setupFeedCell(post, withDelegate: self)
+                cell.setupFeedCell(post, withDelegate: self, isSepratorShown: false)
                 return cell
             case .link:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkTableViewCell.nibName, for: indexPath) as! HomeFeedLinkTableViewCell
-                cell.setupFeedCell(post, withDelegate: self)
+                cell.setupFeedCell(post, withDelegate: self, isSepratorShown: false)
                 return cell
             case .article:
                 let cell = tableView.dequeueReusableCell(withIdentifier: PostDetailArticleTableViewCell.nibName, for: indexPath) as! PostDetailArticleTableViewCell
@@ -362,7 +362,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
                 return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedImageVideoTableViewCell.nibName, for: indexPath) as! HomeFeedImageVideoTableViewCell
-                cell.setupFeedCell(post, withDelegate: self)
+                cell.setupFeedCell(post, withDelegate: self, isSepratorShown: false)
                 return cell
             }
         }
@@ -378,6 +378,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
             return cell
         }
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 { return nil}
         let commentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CommentHeaderViewCell.reuseIdentifier) as! CommentHeaderViewCell
@@ -500,7 +501,6 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
 }
 
 extension PostDetailViewController: ActionsFooterViewDelegate {
-    
     func didTappedAction(withActionType actionType: CellActionType, postData: PostFeedDataView?) {
         guard let postId = postData?.postId else { return }
         switch actionType {
@@ -516,6 +516,7 @@ extension PostDetailViewController: ActionsFooterViewDelegate {
             }
         case .likeCount:
             guard (postData?.likedCount ?? 0) > 0 else {return}
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.likeListOpen, eventProperties: ["post_id": postId])
             let likedUserListView = LikedUserListViewController()
             likedUserListView.viewModel = .init(postId: postId, commentId: nil)
             self.navigationController?.pushViewController(likedUserListView, animated: true)

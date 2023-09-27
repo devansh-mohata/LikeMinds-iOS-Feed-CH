@@ -30,7 +30,7 @@
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgA-MR-eg1">
                                 <rect key="frame" x="0.0" y="64" width="375" height="506"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0HA-s2-xHY">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0HA-s2-xHY">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="506"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="50X-Vf-TVK">
@@ -115,11 +115,15 @@
                                                     <constraint firstItem="tHx-ON-Q1K" firstAttribute="leading" secondItem="50X-Vf-TVK" secondAttribute="leading" constant="16" id="t2b-Ap-DQG"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uWu-BO-YjF" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
+                                                <rect key="frame" x="16" y="355" width="343" height="22.666666666666686"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5xj-Hz-0cV" userLabel="Titleview">
-                                                <rect key="frame" x="0.0" y="355" width="375" height="45.666666666666686"/>
+                                                <rect key="frame" x="0.0" y="377.66666666666669" width="375" height="35.666666666666686"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="253" verticalCompressionResistancePriority="751" scrollEnabled="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet, google.co" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8Uy-UO-kg8" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                                        <rect key="frame" x="10" y="0.0" width="355" height="45.666666666666664"/>
+                                                        <rect key="frame" x="10" y="0.0" width="355" height="35.666666666666664"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
@@ -136,10 +140,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bCP-ER-mp7">
-                                                <rect key="frame" x="0.0" y="400.66666666666669" width="375" height="105.33333333333331"/>
+                                                <rect key="frame" x="0.0" y="413.33333333333331" width="375" height="92.666666666666686"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OEU-xv-ghl" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                                        <rect key="frame" x="10" y="0.0" width="355" height="105.33333333333333"/>
+                                                        <rect key="frame" x="10" y="0.0" width="355" height="92.666666666666671"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <string key="text">Lorem ipsum dolor sit er elit lamet, google.com consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore ma</string>
                                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -177,6 +181,18 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="50X-Vf-TVK" firstAttribute="leading" secondItem="0HA-s2-xHY" secondAttribute="leading" id="1N4-7O-v5U"/>
+                                            <constraint firstAttribute="trailing" secondItem="bCP-ER-mp7" secondAttribute="trailing" id="4zv-hc-RSA"/>
+                                            <constraint firstItem="bCP-ER-mp7" firstAttribute="leading" secondItem="0HA-s2-xHY" secondAttribute="leading" id="TfT-ih-yTh"/>
+                                            <constraint firstAttribute="trailing" secondItem="5xj-Hz-0cV" secondAttribute="trailing" id="aas-5F-HOt"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ve5-aS-2OU" secondAttribute="trailing" id="cuI-Se-VAg"/>
+                                            <constraint firstItem="5xj-Hz-0cV" firstAttribute="leading" secondItem="0HA-s2-xHY" secondAttribute="leading" id="o8l-d3-0zZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="uWu-BO-YjF" secondAttribute="trailing" constant="16" id="sgt-BH-DaJ"/>
+                                            <constraint firstItem="uWu-BO-YjF" firstAttribute="leading" secondItem="0HA-s2-xHY" secondAttribute="leading" constant="16" id="xKs-43-Lbt"/>
+                                            <constraint firstItem="Ve5-aS-2OU" firstAttribute="leading" secondItem="0HA-s2-xHY" secondAttribute="leading" id="yI3-cf-QYI"/>
+                                            <constraint firstAttribute="trailing" secondItem="50X-Vf-TVK" secondAttribute="trailing" id="zEk-2D-K1F"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -218,10 +234,16 @@
                 <outlet property="pdfThumbnailImage" destination="Vpe-ZE-0DT" id="9I2-vK-tZg"/>
                 <outlet property="profileSectionView" destination="rpK-hp-LCf" id="CKf-r3-dcY"/>
                 <outlet property="titleLabel" destination="8Uy-UO-kg8" id="hWU-JH-9qG"/>
+                <outlet property="topicView" destination="uWu-BO-YjF" id="7za-gU-Vif"/>
             </connections>
             <point key="canvasLocation" x="-58.778625954198468" y="222.53521126760563"/>
         </tableViewCell>
     </objects>
+    <designables>
+        <designable name="jBc-AS-AET">
+            <size key="intrinsicContentSize" width="54" height="29"/>
+        </designable>
+    </designables>
     <resources>
         <image name="pdf_icon" width="26" height="33"/>
         <systemColor name="systemBackgroundColor">

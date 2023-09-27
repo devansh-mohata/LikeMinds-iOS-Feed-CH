@@ -12,17 +12,17 @@ class HomeFeedPDFCell: UITableViewCell {
     static let nibName: String = "HomeFeedPDFCell"
     static let bundle = Bundle(for: HomeFeedPDFCell.self)
     
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var postImageView: UIImageView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var pdfImageContainerView: UIView!
-    @IBOutlet weak var pdfFileName: LMLabel!
-    @IBOutlet weak var pdfDetails: LMLabel!
-    weak var delegate: HomeFeedTableViewCellDelegate?
-    
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var postImageView: UIImageView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var pdfImageContainerView: UIView!
+    @IBOutlet private weak var pdfFileName: LMLabel!
+    @IBOutlet private weak var pdfDetails: LMLabel!
+    @IBOutlet private weak var topicFeed: LMTopicView!
+
+    weak var delegate: HomeFeedTableViewCellDelegate?    
     var feedData: PostFeedDataView?
-    
     
     let profileSectionHeader: HomeFeedProfileHeaderView = {
         let profileSection = HomeFeedProfileHeaderView()
@@ -48,10 +48,6 @@ class HomeFeedPDFCell: UITableViewCell {
         let pdfImageTapGesture = LMTapGesture(target: self, action: #selector(tappedPdfImageContainer(tapGesture:)))
         pdfImageContainerView.isUserInteractionEnabled = true
         pdfImageContainerView.addGestureRecognizer(pdfImageTapGesture)
-    }
-
-    override func prepareForReuse() {
-//        postImageView.image = nil
     }
     
     @objc func tappedPdfImageContainer(tapGesture: LMTapGesture) {
@@ -83,6 +79,7 @@ class HomeFeedPDFCell: UITableViewCell {
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupImageView(feedDataView.attachments?.first?.thumbnailUrl)
+        topicFeed.configure(with: feedDataView.topics, isSepratorShown: false)
         self.layoutIfNeeded()
     }
     

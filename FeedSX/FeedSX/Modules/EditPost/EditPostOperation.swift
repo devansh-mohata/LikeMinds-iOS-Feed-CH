@@ -37,16 +37,16 @@ class EditPostOperation {
                 self?.postMessageForCompleteEditPost(with: response.errorMessage)
                 return
             }
-            
-            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], widgets: response.data?.widgets))
+            // TODO: Topics Empty Why
+            self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], topics: [], widgets: response.data?.widgets))
         }
     }
     
-    func editPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, heading: String, postId: String, postType: EditPostViewModel.AttachmentUploadType) {
+    func editPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, heading: String, postId: String, topics: [String], postType: EditPostViewModel.AttachmentUploadType) {
         self.attachmentList = attachments
         guard let newAttachments = self.attachmentList?.filter({($0.awsUploadedUrl ?? "").isEmpty}), newAttachments.count > 0 else {
             postMessageForEditingPost()
-            self.editPostWithAttachments(postId: postId, postCaption: postCaption, heading: heading, postType: postType)
+            self.editPostWithAttachments(postId: postId, postCaption: postCaption, topics: topics, heading: heading, postType: postType)
             return
         }
         postMessageForEditingPost()
@@ -64,7 +64,6 @@ class EditPostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .image, filePath: attachment.awsFilePath, image: image, thumbNailUrl: nil,index: attachment.index) { (progress) in
                     print("Image - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (imageResponse,thumbnailUrl, error, nil)  in
-                    print(imageResponse)
                     attachment.awsUploadedUrl = (imageResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
@@ -77,7 +76,6 @@ class EditPostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .video, filePath: attachment.awsFilePath, path: url.path , thumbNailUrl: nil, index: attachment.index ) { (progress) in
                     print("video - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (videoResponse, thumbnailUrl, error, nil)  in
-                    print(videoResponse)
                     attachment.awsUploadedUrl = (videoResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
@@ -85,7 +83,6 @@ class EditPostOperation {
                 AWSUploadManager.sharedInstance.awsUploader(uploaderType: .file, filePath: attachment.awsFilePath, path: attachment.fileUrl, thumbNailUrl: nil, index: attachment.index ) { (progress) in
                     print("file - \(attachment.index) upload progress...\(progress)")
                 } completion: {[weak self] (fileResponse, thumbnailUrl, error, nil)  in
-                    print(fileResponse)
                     attachment.awsUploadedUrl = (fileResponse as? String) ?? ""
                     self?.dispatchGroup.leave()
                 }
@@ -94,11 +91,11 @@ class EditPostOperation {
             }
         }
         self.dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
-            self?.editPostWithAttachments(postId: postId, postCaption: postCaption, heading: heading, postType: postType)
+            self?.editPostWithAttachments(postId: postId, postCaption: postCaption, topics: topics, heading: heading, postType: postType)
         }
     }
     
-    private func editPostWithAttachments(postId: String, postCaption: String?, heading: String, postType: EditPostViewModel.AttachmentUploadType) {
+    private func editPostWithAttachments(postId: String, postCaption: String?, topics: [String], heading: String, postType: EditPostViewModel.AttachmentUploadType) {
         guard let attachmentList = self.attachmentList else {return}
         if attachmentList.count > 0 {
             var attachments: [Attachment] = []
@@ -126,6 +123,7 @@ class EditPostOperation {
             let editPostRequest = EditPostRequest.builder()
                 .postId(postId)
                 .attachments(attachments)
+                .addTopics(topics)
                 .build()
             if postType != .article {
                 _ = editPostRequest.text(postCaption)
@@ -140,7 +138,7 @@ class EditPostOperation {
                     self?.postMessageForCompleteEditPost(with: response.errorMessage)
                     return
                 }
-                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], widgets: response.data?.widgets))
+                self?.postMessageForCompleteEditPost(with: PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], topics: [], widgets: response.data?.widgets))
             }
         }
     }

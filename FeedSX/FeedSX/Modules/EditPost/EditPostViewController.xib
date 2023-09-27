@@ -28,6 +28,7 @@
                 <outlet property="taggingViewBottomConstraint" destination="GO5-BT-IIf" id="9aZ-5o-Ukq"/>
                 <outlet property="taggingViewHeightConstraint" destination="izW-DE-gIP" id="6aJ-wQ-zp2"/>
                 <outlet property="titleTextView" destination="uwg-m9-gOs" id="vKp-qU-nQe"/>
+                <outlet property="topicFeedView" destination="0ah-io-lGv" id="71b-Xo-fCW"/>
                 <outlet property="uploadActionViewHeightConstraint" destination="bvZ-30-eol" id="A0c-fl-25N"/>
                 <outlet property="uploadActionsTableView" destination="dtk-TX-kNe" id="Mtv-1Y-mKv"/>
                 <outlet property="uploadArticleBannerButton" destination="siX-8t-7LL" id="xBu-30-5Dy"/>
@@ -47,7 +48,7 @@
                     <rect key="frame" x="0.0" y="69" width="393" height="749"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGv-C3-KWI">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="753"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="813"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dEP-Oy-J27" userLabel="ProfileHeaderView">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
@@ -106,15 +107,14 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="S5S-5R-TKC" secondAttribute="bottom" constant="5" id="3Gr-ro-X9Z"/>
-                                        <constraint firstAttribute="height" constant="50" id="D6O-LN-hdo"/>
                                         <constraint firstAttribute="trailing" secondItem="S5S-5R-TKC" secondAttribute="trailing" constant="16" id="EmD-gD-nru"/>
                                         <constraint firstItem="S5S-5R-TKC" firstAttribute="leading" secondItem="dEP-Oy-J27" secondAttribute="leading" constant="16" id="YmQ-16-bna"/>
+                                        <constraint firstAttribute="bottom" secondItem="S5S-5R-TKC" secondAttribute="bottom" constant="5" id="aVl-Ml-oKu"/>
                                         <constraint firstItem="S5S-5R-TKC" firstAttribute="top" secondItem="dEP-Oy-J27" secondAttribute="top" constant="5" id="qVF-G9-2gz"/>
                                     </constraints>
                                 </view>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aQd-3u-62Z">
-                                    <rect key="frame" x="0.0" y="60" width="393" height="693"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aQd-3u-62Z">
+                                    <rect key="frame" x="0.0" y="60" width="393" height="753"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eqi-m5-wkC">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="223"/>
@@ -195,8 +195,15 @@
                                                 <constraint firstItem="Pmf-zJ-zT6" firstAttribute="leading" secondItem="Eqi-m5-wkC" secondAttribute="leading" constant="16" id="xTc-qA-jnE"/>
                                             </constraints>
                                         </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ah-io-lGv" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
+                                            <rect key="frame" x="16" y="233" width="361" height="50"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" priority="250" constant="10" id="v5l-BE-deB"/>
+                                            </constraints>
+                                        </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bkI-ll-dmM" userLabel="TitleView">
-                                            <rect key="frame" x="0.0" y="233" width="393" height="80"/>
+                                            <rect key="frame" x="0.0" y="293" width="393" height="80"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uwg-m9-gOs" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="0.0" width="361" height="75"/>
@@ -226,7 +233,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ms9-c5-EO7" userLabel="CaptionView">
-                                            <rect key="frame" x="0.0" y="323" width="393" height="150"/>
+                                            <rect key="frame" x="0.0" y="383" width="393" height="150"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2ej-IC-JIY" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="0.0" width="361" height="145"/>
@@ -256,7 +263,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mnn-If-mGU" userLabel="AttachmentView">
-                                            <rect key="frame" x="0.0" y="483" width="393" height="150"/>
+                                            <rect key="frame" x="0.0" y="543" width="393" height="150"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hb4-8x-E2g">
                                                     <rect key="frame" x="0.0" y="0.0" width="393" height="150"/>
@@ -279,7 +286,7 @@
                                             </constraints>
                                         </view>
                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XAq-Aj-jjM" userLabel="Pagecounter">
-                                            <rect key="frame" x="0.0" y="638" width="393" height="10"/>
+                                            <rect key="frame" x="0.0" y="698" width="393" height="10"/>
                                             <subviews>
                                                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="M4U-aX-Y3V">
                                                     <rect key="frame" x="138.66666666666666" y="-8" width="115.66666666666666" height="26"/>
@@ -295,7 +302,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6dH-ZK-BoI">
-                                            <rect key="frame" x="0.0" y="643" width="393" height="50"/>
+                                            <rect key="frame" x="0.0" y="703" width="393" height="50"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBU-U5-2uB" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
                                                     <rect key="frame" x="121.66666666666669" y="5" width="150" height="40"/>
@@ -319,6 +326,22 @@
                                             </constraints>
                                         </view>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="ms9-c5-EO7" secondAttribute="trailing" id="0ZS-bP-4Eg"/>
+                                        <constraint firstAttribute="trailing" secondItem="6dH-ZK-BoI" secondAttribute="trailing" id="2sb-bz-A8r"/>
+                                        <constraint firstItem="6dH-ZK-BoI" firstAttribute="leading" secondItem="aQd-3u-62Z" secondAttribute="leading" id="AdD-Nh-cyx"/>
+                                        <constraint firstItem="0ah-io-lGv" firstAttribute="leading" secondItem="aQd-3u-62Z" secondAttribute="leading" constant="16" id="GPU-Pw-qtA"/>
+                                        <constraint firstItem="ms9-c5-EO7" firstAttribute="leading" secondItem="aQd-3u-62Z" secondAttribute="leading" id="M4r-B5-Bb8"/>
+                                        <constraint firstAttribute="trailing" secondItem="bkI-ll-dmM" secondAttribute="trailing" id="NxB-9o-KBC"/>
+                                        <constraint firstAttribute="trailing" secondItem="Mnn-If-mGU" secondAttribute="trailing" id="TU9-2y-Plr"/>
+                                        <constraint firstItem="bkI-ll-dmM" firstAttribute="leading" secondItem="aQd-3u-62Z" secondAttribute="leading" id="Ttr-e1-B6l"/>
+                                        <constraint firstItem="Mnn-If-mGU" firstAttribute="leading" secondItem="aQd-3u-62Z" secondAttribute="leading" id="X9w-r7-Xeh"/>
+                                        <constraint firstAttribute="trailing" secondItem="XAq-Aj-jjM" secondAttribute="trailing" id="d8m-BS-lpg"/>
+                                        <constraint firstAttribute="trailing" secondItem="0ah-io-lGv" secondAttribute="trailing" constant="16" id="heR-cO-Uyf"/>
+                                        <constraint firstItem="XAq-Aj-jjM" firstAttribute="leading" secondItem="aQd-3u-62Z" secondAttribute="leading" id="i9O-l1-hd5"/>
+                                        <constraint firstItem="Eqi-m5-wkC" firstAttribute="leading" secondItem="aQd-3u-62Z" secondAttribute="leading" id="oGr-SM-DG0"/>
+                                        <constraint firstAttribute="trailing" secondItem="Eqi-m5-wkC" secondAttribute="trailing" id="zUW-L9-HkQ"/>
+                                    </constraints>
                                 </stackView>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -380,7 +403,8 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0hn-hp-1Fw" secondAttribute="trailing" id="nUl-b2-Obz"/>
                 <constraint firstItem="0hn-hp-1Fw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oXU-O2-8Ow"/>
             </constraints>
-            <point key="canvasLocation" x="-59" y="20"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-60.305343511450381" y="19.718309859154932"/>
         </view>
     </objects>
     <designables>

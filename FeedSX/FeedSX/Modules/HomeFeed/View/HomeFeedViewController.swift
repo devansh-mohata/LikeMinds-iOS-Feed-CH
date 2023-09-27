@@ -35,68 +35,12 @@ public final class HomeFeedViewControler: BaseViewController {
         return createPost
     }()
     
-    let postingProgressSuperView: UIView = {
-        let sv = UIView()
-        sv.backgroundColor = .white
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    
     let postingProgressShimmerView: HomeFeedShimmerView = {
         let width = UIScreen.main.bounds.width
         let sView = HomeFeedShimmerView(frame: .zero)
 //        sv.backgroundColor = .white
         sView.translatesAutoresizingMaskIntoConstraints = false
         return sView
-    }()
-    
-    let postingProgressSuperStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis  = .vertical
-        sv.alignment = .fill
-        sv.distribution = .fillProportionally
-        sv.backgroundColor = .white
-        sv.spacing = 0
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    
-    let postingProgressStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis  = .horizontal
-        sv.alignment = .center
-        sv.distribution = .fill
-        sv.spacing = 16
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    
-    let postingImageView: UIImageView = {
-        let imageSize = 50.0
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
-        imageView.image = UIImage(systemName: "person.circle")
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
-        return imageView
-    }()
-    
-    let postingImageSuperView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
-        view.clipsToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setSizeConstraint(width: 70, height: 70)
-        return view
-    }()
-    
-    let postingLabel: LMLabel = {
-        let label = LMLabel()
-        label.font = LMBranding.shared.font(16, .medium)
-        label.text = "Posting"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return label
     }()
     
     let leftTitleLabel: LMLabel = {
@@ -108,19 +52,6 @@ public final class HomeFeedViewControler: BaseViewController {
         return label
     }()
     
-    var spaceView: UIView = {
-        let uiView = UIView()
-        uiView.translatesAutoresizingMaskIntoConstraints = false
-        return uiView
-    }()
-    
-    let progressIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return activityIndicator
-    }()
     var notificationBarItem: UIBarButtonItem!
     let notificationBellButton: LMButton = {
         let button = LMButton(frame: CGRect(x: 0, y: 6, width: 44, height: 44))
@@ -148,23 +79,112 @@ public final class HomeFeedViewControler: BaseViewController {
     }()
     var isPostCreatingInProgress: Bool = false
     var isAlreadyViewLoaded: Bool = false
+    
+    private var topicFeedStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.backgroundColor = .white
+        sv.axis  = .horizontal
+        sv.alignment = .fill
+        sv.distribution = .fill
+        sv.spacing = 8
+        sv.layoutMargins = .init(top: 8, left: 16, bottom: 8, right: 16)
+        sv.isLayoutMarginsRelativeArrangement = true
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
+    private var topicCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.estimatedItemSize = .init(width: 100, height: 30)
+        let tc = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        tc.register(UINib(nibName: HomeFeedTopicCell.identifier, bundle: Bundle(for: HomeFeedTopicCell.self)), forCellWithReuseIdentifier: HomeFeedTopicCell.identifier)
+        tc.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
+        tc.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        tc.showsHorizontalScrollIndicator = false
+        tc.showsVerticalScrollIndicator = false
+        tc.backgroundColor = .clear
+        tc.translatesAutoresizingMaskIntoConstraints = false
+        return tc
+    }()
+    
+    private var clearTopicBtn: LMButton = {
+        let btn = LMButton()
+        btn.setTitle("Clear", for: .normal)
+        btn.setTitle("Clear", for: .selected)
+        btn.setImage(nil, for: .normal)
+        btn.setImage(nil, for: .selected)
+        btn.setTitleColor(ColorConstant.postCaptionColor, for: .normal)
+        btn.setTitleColor(ColorConstant.postCaptionColor, for: .selected)
+        btn.titleLabel?.font = LMBranding.shared.font(16, .regular)
+        btn.tintColor = LMBranding.shared.buttonColor
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.contentEdgeInsets = .zero
+        btn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        return btn
+    }()
+    
+    private var allTopicsBtn: LMButton = {
+        let btn = LMButton()
+        btn.setTitle("All Topics", for: .normal)
+        btn.setTitle("All Topics", for: .selected)
+        btn.titleLabel?.font = LMBranding.shared.font(16, .regular)
+        btn.setTitleColor(ColorConstant.postCaptionColor, for: .normal)
+        btn.setTitleColor(ColorConstant.postCaptionColor, for: .selected)
+        btn.tintColor = ColorConstant.postCaptionColor
+        btn.setImage(UIImage(systemName: "arrow.down"), for: .normal)
+        btn.setImage(UIImage(systemName: "arrow.down"), for: .selected)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.semanticContentAttribute = .forceRightToLeft
+        btn.titleEdgeInsets = .init(top: .zero, left: -4, bottom: .zero, right: 4)
+        btn.contentEdgeInsets = .init(top: .zero, left: 4, bottom: .zero, right: .zero)
+        btn.imageEdgeInsets = .zero
+        btn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        return btn
+    }()
+    
+    private var topics: [HomeFeedTopicCell.ViewModel] = []
+    
+    public override func loadView() {
+        super.loadView()
+        
+        view.addSubview(feedTableView)
+        view.addSubview(createPostButton)
+        view.addSubview(topicFeedStackView)
+        
+        setupTopicFeed()
+        setupTableView()
+        setupSpinner()
+        setupCreateButton()
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        setupTableView()
-        setupCreateButton()
-        setupPostingProgress()
-        self.createPostButton.isHidden = true
+        self.view.backgroundColor = ColorConstant.backgroudColor
+        
+        topicCollection.dataSource = self
+        topicCollection.delegate = self
+        
+        createPostButton.isHidden = true
         homeFeedViewModel.delegate = self
-        self.postingImageSuperView.superview?.isHidden = true
+        
         homeFeedViewModel.getFeed()
+        homeFeedViewModel.getTopics()
         createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(postEditCompleted), name: .postEditCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationCompleted), name: .postCreationCompleted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(postCreationStarted), name: .postCreationStarted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshFeed), name: .refreshHomeFeedData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshDataObject), name: .refreshHomeFeedDataObject, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
+        
+        allTopicsBtn.addTarget(self, action: #selector(didTapAllTopics), for: .touchUpInside)
+        clearTopicBtn.addTarget(self, action: #selector(didTapClearTopics), for: .touchUpInside)
+        topicFeedStackView.subviews.forEach {
+            $0.isHidden = true
+        }
+        
         self.setRightItemsOfNavigationBar()
         self.setLeftItemOfNavigationBar()
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Feed.opened, eventProperties: ["feed_type": "universal_feed"])
@@ -242,14 +262,7 @@ public final class HomeFeedViewControler: BaseViewController {
     @objc func postCreationStarted(notification: Notification) {
         print("postCreationStarted")
         self.isPostCreatingInProgress = true
-//        self.postingImageSuperView.superview?.isHidden = false
         self.addShimmerTableHeaderView()
-//        if let image = notification.object as? UIImage {
-//            postingImageView.superview?.isHidden = false
-//            postingImageView.image = image
-//        } else {
-//            self.postingImageView.isHidden = true
-//        }
         if homeFeedViewModel.feeds.count > 0 {
             self.feedTableView.setContentOffset( CGPoint(x: 0, y: 0) , animated: false)
         }
@@ -258,26 +271,16 @@ public final class HomeFeedViewControler: BaseViewController {
     @objc func postCreationCompleted(notification: Notification) {
         print("postCreationCompleted")
         self.isPostCreatingInProgress = false
-//        self.postingImageSuperView.superview?.isHidden = true
         self.removeShimmerFromTableView()
         if let error = notification.object as? String {
             self.presentAlert(message: error)
             return
+        } else if let data = notification.userInfo as? [String: Any] {
+            
         }
         refreshFeed()
-        if homeFeedViewModel.feeds.count > 0 {
+        if !homeFeedViewModel.feeds.isEmpty {
             self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        }
-    }
-    
-    @objc func postEditingStarted(notification: Notification) {
-        print("postEditingStarted")
-//        self.postingImageSuperView.superview?.isHidden = false
-        if let image = notification.object as? UIImage {
-            postingImageView.superview?.isHidden = false
-            postingImageView.image = image
-        } else {
-            self.postingImageView.isHidden = true
         }
     }
     
@@ -309,14 +312,10 @@ public final class HomeFeedViewControler: BaseViewController {
         feedTableView.tableHeaderView = nil
         self.feedTableView.tableHeaderView?.layoutIfNeeded()
     }
-    
+       
     func setupTableView() {
-        self.postingProgressSuperView.addSubview(postingProgressSuperStackView)
-        self.view.addSubview(postingProgressSuperView)
-        self.view.addSubview(feedTableView)
-        self.view.addSubview(createPostButton)
         feedTableView.translatesAutoresizingMaskIntoConstraints = false
-        feedTableView.topAnchor.constraint(equalTo: postingProgressSuperView.bottomAnchor).isActive = true
+        feedTableView.topAnchor.constraint(equalTo: topicFeedStackView.bottomAnchor, constant: 0).isActive = true
         feedTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         feedTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         feedTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -328,15 +327,18 @@ public final class HomeFeedViewControler: BaseViewController {
         feedTableView.register(UINib(nibName: HomeFeedPDFCell.nibName, bundle: HomeFeedPDFCell.bundle), forCellReuseIdentifier: HomeFeedPDFCell.nibName)
         feedTableView.register(UINib(nibName: HomeFeedArticleCell.nibName, bundle: HomeFeedArticleCell.bundle), forCellReuseIdentifier: HomeFeedArticleCell.nibName)
         feedTableView.register(UINib(nibName: HomeFeedWithoutResourceCell.nibName, bundle: HomeFeedWithoutResourceCell.bundle), forCellReuseIdentifier: HomeFeedWithoutResourceCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedImageVideoTableViewCell.nibName, bundle: HomeFeedImageVideoTableViewCell.bundle), forCellReuseIdentifier: HomeFeedImageVideoTableViewCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedDocumentTableViewCell.nibName, bundle: HomeFeedDocumentTableViewCell.bundle), forCellReuseIdentifier: HomeFeedDocumentTableViewCell.nibName)
+        feedTableView.register(UINib(nibName: HomeFeedLinkTableViewCell.nibName, bundle: HomeFeedLinkTableViewCell.bundle), forCellReuseIdentifier: HomeFeedLinkTableViewCell.nibName)
         
-        
+        feedTableView.backgroundColor = .clear
         feedTableView.delegate = self
         feedTableView.dataSource = self
         feedTableView.separatorStyle = .none
         refreshControl.addTarget(self, action: #selector(refreshFeed), for: .valueChanged)
         feedTableView.refreshControl = refreshControl
-        setupSpinner()
     }
+    
     func setupSpinner(){
         bottomLoadSpinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height:40))
         bottomLoadSpinner.color = .gray
@@ -354,25 +356,14 @@ public final class HomeFeedViewControler: BaseViewController {
         createPostButton.layer.cornerRadius = 25
     }
     
-    func setupPostingProgress() {
-        postingProgressSuperStackView.addArrangedSubview(postingProgressStackView)
-        postingProgressStackView.addArrangedSubview(postingImageSuperView)
-        postingProgressStackView.addArrangedSubview(postingLabel)
-        postingProgressStackView.addArrangedSubview(spaceView)
-        postingProgressStackView.addArrangedSubview(progressIndicator)
-        postingImageSuperView.addSubview(postingImageView)
-        postingImageView.centerYAnchor.constraint(equalTo: self.postingImageSuperView.centerYAnchor).isActive = true
-        postingImageView.centerXAnchor.constraint(equalTo: self.postingImageSuperView.centerXAnchor).isActive = true
-        spaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
+    private func setupTopicFeed() {
+        topicFeedStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .zero).isActive = true
+        topicFeedStackView.trailingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: .zero).isActive = true
+        topicFeedStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         
-        postingProgressSuperView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        postingProgressSuperView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        postingProgressSuperView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        
-        postingProgressSuperStackView.topAnchor.constraint(equalTo: postingProgressSuperView.safeAreaLayoutGuide.topAnchor).isActive = true
-        postingProgressSuperStackView.bottomAnchor.constraint(equalTo: postingProgressSuperView.bottomAnchor).isActive = true
-        postingProgressSuperStackView.rightAnchor.constraint(equalTo: postingProgressSuperView.rightAnchor, constant: -16).isActive = true
-        postingProgressSuperStackView.leftAnchor.constraint(equalTo: postingProgressSuperView.leftAnchor, constant: 16).isActive = true
+        topicFeedStackView.addArrangedSubview(allTopicsBtn)
+        topicFeedStackView.addArrangedSubview(topicCollection)
+        topicFeedStackView.addArrangedSubview(clearTopicBtn)
     }
     
     @objc func createNewPost() {
@@ -437,7 +428,8 @@ public final class HomeFeedViewControler: BaseViewController {
         }
     }
     
-    @objc func notificationIconClicked() {
+    @objc
+    private func notificationIconClicked() {
         let notificationFeedVC = NotificationFeedViewController()
         self.navigationController?.pushViewController(notificationFeedVC, animated: true)
     }
@@ -454,8 +446,7 @@ public final class HomeFeedViewControler: BaseViewController {
                 self?.createButtonWidthConstraints?.isActive = true
                 weakSelf.view.layoutIfNeeded()
             }
-        }
-        else {
+        } else {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 0.2) {[weak self] in
                 guard let weakSelf = self else {return}
@@ -483,7 +474,7 @@ public final class HomeFeedViewControler: BaseViewController {
         imagePicker.settings.fetch.assets.supportedMediaTypes = [.video]
         imagePicker.settings.selection.unselectOnReachingMax = true
         imagePicker.doneButton.isEnabled = false
-        self.presentImagePicker(imagePicker, select: {[weak self] (asset) in
+        self.presentImagePicker(imagePicker, select: { [weak self] (asset) in
             print("Selected: \(asset)")
             asset.getURL { [weak self] responseURL in
                 guard let url = responseURL else { return }
@@ -498,6 +489,7 @@ public final class HomeFeedViewControler: BaseViewController {
                         }
                     }
                     self?.moveToAddResources(resourceType: mediaType, url: url)
+                    LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.videoAttached, eventProperties: ["video_count": 1])
                     imagePicker.dismiss(animated: true)
                 }
             }
@@ -517,6 +509,7 @@ public final class HomeFeedViewControler: BaseViewController {
                 return
             }
             self?.moveToAddResources(resourceType: .link, url: url)
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.linkAttached, eventProperties: ["link": url.absoluteString])
             alertView.dismiss(animated: true, completion: nil)
         }
         
@@ -538,12 +531,23 @@ public final class HomeFeedViewControler: BaseViewController {
         documentPicker.modalPresentationStyle = .formSheet
         self.present(documentPicker, animated: true, completion: nil)
     }
+    
+    @objc
+    private func didTapAllTopics() {
+        let vc = SelectTopicViewController(selectedTopics: homeFeedViewModel.selectedTopics, isShowAllTopics: true, delegate: self, isEnabledState: false)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    private func didTapClearTopics() {
+        homeFeedViewModel.removeAllTopics()
+    }
 }
 
 extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return homeFeedViewModel.feeds.count
+        homeFeedViewModel.feeds.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -647,10 +651,9 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeFeedViewControler: HomeFeedViewModelDelegate {
-    
-    func didReceivedFeedData(success: Bool) {
-        self.removeShimmerFromTableView()
-        if homeFeedViewModel.feeds.count == 0 {
+   func didReceivedFeedData(success: Bool) {
+    self.removeShimmerFromTableView()
+        if homeFeedViewModel.feeds.isEmpty {
             setHomeFeedEmptyView()
             self.createPostButton.isHidden = true
         } else {
@@ -686,6 +689,19 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
             notificationBadgeLabel.removeFromSuperview()
         }
     }
+    
+    func updateTopicFeedView(with cells: [HomeFeedTopicCell.ViewModel], isShowTopicFeed: Bool) {
+        topicFeedStackView.subviews.forEach {
+            $0.isHidden = !isShowTopicFeed
+        }
+        
+        if isShowTopicFeed {
+            topics = cells
+            allTopicsBtn.isHidden = !cells.isEmpty
+            clearTopicBtn.isHidden = cells.isEmpty
+            topicCollection.reloadData()
+        }
+    }
 }
 
 extension HomeFeedViewControler: ProfileHeaderViewDelegate {
@@ -694,7 +710,6 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
     
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }
-        print("more taped reached VC")
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         for menu in menues {
             switch menu.id {
@@ -834,12 +849,52 @@ extension HomeFeedViewControler: UIDocumentPickerDelegate {
             return
         }
         print(url)
-        self.moveToAddResources(resourceType: .document, url: url)
+        moveToAddResources(resourceType: .document, url: url)
+        LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.documentAttached, eventProperties: ["document_count": 1])
         controller.dismiss(animated: true)
     }
     
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         controller.dismiss(animated: true)
     }
+}
     
+// MARK: LMTopicViewDelegate
+extension HomeFeedViewControler: LMTopicViewDelegate {
+    func didTapRemoveCell(topicId: String) {
+        homeFeedViewModel.removeTopic(for: topicId)
+    }
+}
+
+extension HomeFeedViewControler: SelectTopicViewDelegate {
+    func updateSelection(with data: [TopicFeedDataModel]) {
+        homeFeedViewModel.updateTopics(with: data)
+    }
+}
+
+// MARK: UICollectionView
+extension HomeFeedViewControler: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        topics.count
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeFeedTopicCell.identifier, for: indexPath) as? HomeFeedTopicCell {
+            cell.configure(with: topics[indexPath.row]) { [weak self] in
+                guard let self else { return }
+                self.homeFeedViewModel.removeTopic(for: topics[indexPath.row].topicID)
+            } openSelection: { [weak self] in
+                self?.didTapAllTopics()
+            }
+            return cell
+        }
+        
+        let defaultCell = collectionView.dequeueReusableCell(withReuseIdentifier: "defaultCell", for: indexPath)
+        return defaultCell
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = topics[indexPath.row].topicName.sizeOfString(with: LMBranding.shared.font(14, .regular)).width + 20 + 2 + 16
+        return .init(width: width, height: 30)
+    }
 }

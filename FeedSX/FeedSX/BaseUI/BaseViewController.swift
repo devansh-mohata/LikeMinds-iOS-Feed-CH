@@ -123,20 +123,19 @@ public class BaseViewController: UIViewController {
    
     @objc
     func keyboardWillShow(_ sender: Notification) {
-        guard let userInfo = sender.userInfo,
-              let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+        guard let userInfo = sender.userInfo else {
             return
         }
-        self.viewBottomConstraint?.constant = (frame.size.height - self.view.safeAreaInsets.bottom)
-        UIView.animate(withDuration: 0.1) {
-            self.view.layoutIfNeeded()
+        
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
     }
     
     @objc
     func keyboardWillHide(_ sender: Notification) {
-        self.viewBottomConstraint?.constant = 0
-        self.view.layoutIfNeeded()
+        viewBottomConstraint?.constant = 0
+        view.layoutIfNeeded()
     }
     
     func navigationBarColor() {
@@ -148,10 +147,11 @@ public class BaseViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
-    func setTitleAndSubtile(title: String, subTitle: String?) {
+    func setTitleAndSubtile(title: String, subTitle: String?, alignment: UIStackView.Alignment = .center) {
         self.titleLabel.text = title
         self.subTitleLabel.text = subTitle
         guard self.navigationItem.titleView == nil else { return }
+        self.titleAndSubtitleStackView.alignment = alignment
         self.titleAndSubtitleStackView.addArrangedSubview(titleLabel)
         self.titleAndSubtitleStackView.addArrangedSubview(subTitleLabel)
         self.navigationItem.titleView = self.titleAndSubtitleStackView
@@ -167,7 +167,6 @@ public class BaseViewController: UIViewController {
     }
     
     func showErrorAlert(_ title: String? = "Error", message: String?) {
-        print("error message: \(message)")
         guard let message = message else { return }
         self.presentAlert(title: title, message: message)
     }
@@ -244,6 +243,3 @@ private extension KeyboardHandlingBaseVC {
         }
     }
 }
-
-
-
