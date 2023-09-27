@@ -196,7 +196,7 @@
                                             <rect key="frame" x="0.0" y="223" width="375" height="80"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Xvi-yY-yTK" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="0.0" width="343" height="56"/>
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="70"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -213,11 +213,11 @@
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="HpJ-8d-tKe" secondAttribute="bottom" id="1yD-w8-hIP"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="Bbf-HC-eeJ"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="Bbf-HC-eeJ"/>
                                                 <constraint firstItem="HpJ-8d-tKe" firstAttribute="trailing" secondItem="Xvi-yY-yTK" secondAttribute="trailing" id="KfB-Gv-7nf"/>
                                                 <constraint firstItem="Xvi-yY-yTK" firstAttribute="top" secondItem="pu7-Ah-6qa" secondAttribute="top" id="bIl-QL-lcC"/>
                                                 <constraint firstItem="Xvi-yY-yTK" firstAttribute="leading" secondItem="pu7-Ah-6qa" secondAttribute="leading" constant="16" id="cgB-U5-z4Y"/>
-                                                <constraint firstAttribute="bottom" secondItem="Xvi-yY-yTK" secondAttribute="bottom" constant="24" id="plm-O0-vdC"/>
+                                                <constraint firstAttribute="bottom" secondItem="Xvi-yY-yTK" secondAttribute="bottom" constant="10" id="plm-O0-vdC"/>
                                                 <constraint firstAttribute="trailing" secondItem="Xvi-yY-yTK" secondAttribute="trailing" constant="16" id="ugf-GU-Jo2"/>
                                                 <constraint firstItem="HpJ-8d-tKe" firstAttribute="leading" secondItem="Xvi-yY-yTK" secondAttribute="leading" id="zpb-le-i8Z"/>
                                             </constraints>

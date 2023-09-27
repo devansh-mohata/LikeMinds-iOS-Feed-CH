@@ -9,6 +9,8 @@ import UIKit
 
 protocol ReplyCommentTableViewCellDelegate: AnyObject {
     func didTapActionButton(withActionType actionType: CellActionType, cell: UITableViewCell)
+    func didTapOnUserProfile(selectedComment: PostDetailDataModel.Comment?)
+    func didTapOnUrl(url: String)
 }
 
 class ReplyCommentTableViewCell: UITableViewCell {
@@ -191,6 +193,7 @@ class ReplyCommentTableViewCell: UITableViewCell {
         usernameAndBadgeStackView.addArrangedSubview(badgeSpaceView)
         badgeSpaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
         commentAndMoreStackView.addArrangedSubview(commentLabel)
+        commentLabel.delegate = self
         commentAndMoreStackView.addArrangedSubview(spaceView)
         spaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
         commentAndMoreStackView.addArrangedSubview(moreImageView)
@@ -234,7 +237,12 @@ class ReplyCommentTableViewCell: UITableViewCell {
     
     func setupDataView(comment: PostDetailDataModel.Comment) {
         self.comment = comment
+        
         self.usernameLabel.text = comment.user.name
+        let usernameActionTapGesture = LMTapGesture(target: self, action: #selector(self.profileTapped(sender:)))
+        usernameLabel.isUserInteractionEnabled = true
+        usernameLabel.addGestureRecognizer(usernameActionTapGesture)
+        
         self.commentLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: comment.text ?? "", forTextView: false, withFont: LMBranding.shared.font(14, .regular))
         self.likeCountLabel.text = comment.likeCounts()
         let postTime = Date(timeIntervalSince1970: TimeInterval(comment.createdAt)).timeAgoDisplayShort()
@@ -269,5 +277,16 @@ class ReplyCommentTableViewCell: UITableViewCell {
     @objc private func moreTapped(sender: LMTapGesture) {
         delegate?.didTapActionButton(withActionType: .more, cell: self)
     }
+    
+    @objc private func profileTapped(sender: LMTapGesture) {
+        delegate?.didTapOnUserProfile(selectedComment: self.comment)
+    }
 
+}
+
+extension ReplyCommentTableViewCell: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
+        return false
+    }
 }

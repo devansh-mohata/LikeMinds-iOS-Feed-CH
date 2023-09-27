@@ -63,4 +63,8 @@ extension String {
         let size = (self as NSString).size(withAttributes: fontAttributes)
         return size
     }
+    
+    var intValue: Int {
+        return Int(self) ?? 0
+    }
 }

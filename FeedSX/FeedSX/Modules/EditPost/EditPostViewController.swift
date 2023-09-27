@@ -65,7 +65,7 @@ class EditPostViewController: BaseViewController {
         let label = LMLabel()
         label.numberOfLines = 1
         label.font = LMBranding.shared.font(16, .bold)
-        label.textColor = ColorConstant.textBlackColor
+        label.textColor = ColorConstant.textBlackColor.withAlphaComponent(0.7)
         label.text = " Add title *"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -74,7 +74,7 @@ class EditPostViewController: BaseViewController {
         let label = LMLabel()
         label.numberOfLines = 1
         label.font = LMBranding.shared.font(16, .regular)
-        label.textColor = .lightGray
+        label.textColor = ColorConstant.textBlackColor.withAlphaComponent(0.7)
         label.text = " Write something (optional)"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -191,13 +191,12 @@ class EditPostViewController: BaseViewController {
         captionTextView.delegate = self
         captionTextView.addSubview(placeholderLabel)
         placeholderLabel.topAnchor.constraint(equalTo: captionTextView.topAnchor, constant: 10).isActive = true
-        placeholderLabel.textColor = .tertiaryLabel
         placeholderLabel.isHidden = !captionTextView.text.isEmpty
         
         titleTextView.delegate = self
         titleTextView.addSubview(addTitlePlaceholderLabel)
         addTitlePlaceholderLabel.centerYAnchor.constraint(equalTo: titleTextView.centerYAnchor).isActive = true
-        addTitlePlaceholderLabel.attributedText = Self.checkRequiredField(textColor: ColorConstant.textBlackColor, title: " Add title")
+        addTitlePlaceholderLabel.attributedText = Self.checkRequiredField(textColor: ColorConstant.textBlackColor.withAlphaComponent(0.7), title: " Add title")
         addTitlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
     }
     

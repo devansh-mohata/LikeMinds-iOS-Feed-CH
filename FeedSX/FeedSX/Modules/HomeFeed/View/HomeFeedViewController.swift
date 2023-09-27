@@ -12,6 +12,7 @@ import BSImagePicker
 import PDFKit
 import LikeMindsFeed
 import AVFoundation
+import SafariServices
 
 public final class HomeFeedViewControler: BaseViewController {
     
@@ -427,7 +428,9 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func refreshFeed() {
-        homeFeedViewModel.pullToRefresh()
+        if !isPostCreatingInProgress {
+            homeFeedViewModel.pullToRefresh()
+        }
     }
     
     @objc func notificationIconClicked() {
@@ -705,6 +708,9 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
 }
 
 extension HomeFeedViewControler: ProfileHeaderViewDelegate {
+    
+    func didTapOnUserProfile(selectedPost: PostFeedDataView?) {}
+    
     func didTapOnMoreButton(selectedPost: PostFeedDataView?) {
         guard let menues = selectedPost?.postMenuItems else { return }
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -803,6 +809,19 @@ extension HomeFeedViewControler: DeleteContentViewProtocol {
     }
 }
 extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
+    
+    func didTapOnUrl(url: String) {
+        print("tapped url: \(url)")
+        if url.hasPrefix("route://user_profile") {
+            let uuid = url.components(separatedBy: "/").last
+            LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
+            
+        } else if let url = URL.url(string: url.linkWithSchema()) {
+            let safariVC = SFSafariViewController(url: url)
+            present(safariVC, animated: true, completion: nil)
+        }
+    }
+    
     func didTapOnCell(_ feedDataView: PostFeedDataView?) {
         guard let postId = feedDataView?.postId else { return }
         let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))

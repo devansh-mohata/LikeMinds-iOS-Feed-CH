@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProfileHeaderViewDelegate: HomeFeedTableViewCellDelegate {
     func didTapOnMoreButton(selectedPost: PostFeedDataView?)
+    func didTapOnUserProfile(selectedPost: PostFeedDataView?)
 }
 
 class ProfileHeaderView: UIView {
@@ -210,7 +211,7 @@ class ProfileHeaderView: UIView {
         setupProfile(profileData: feedDataView.postByUser)
         timeLabel.text = Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()
         pinImageView.isHidden = !(self.feedData?.isPinned ?? false)
-        editTitleLabel.text = (feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : ""
+        editTitleLabel.text = ""//(feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : ""
         var organisationDesignaiton = ""
         if let designation = feedDataView.postByUser?.designation, !designation.isEmpty {
             organisationDesignaiton = designation
@@ -225,11 +226,20 @@ class ProfileHeaderView: UIView {
         usernameLabel.text = profileData?.name
         usernameTitleSetup(title: profileData?.customTitle)
         let profilePlaceHolder = UIImage.generateLetterImage(with: profileData?.name) ?? UIImage()
+        
+        let profileActionTapGesture = LMTapGesture(target: self, action: #selector(self.profileTapped(sender:)))
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(profileActionTapGesture)
+        
+        let usernameActionTapGesture = LMTapGesture(target: self, action: #selector(self.profileTapped(sender:)))
+        usernameLabel.isUserInteractionEnabled = true
+        usernameLabel.addGestureRecognizer(usernameActionTapGesture)
+        
         guard let url = profileData?.profileImageUrl else {
             avatarImageView.image = profilePlaceHolder
             return
         }
-        avatarImageView.kf.setImage(with: URL(string: url), placeholder: profilePlaceHolder)
+        avatarImageView.kf.setImage(with: URL.url(string: url), placeholder: profilePlaceHolder)
     }
     
     private func usernameTitleSetup(title: String?) {
@@ -241,5 +251,9 @@ class ProfileHeaderView: UIView {
     @objc private func moreTapped(sender: LMTapGesture) {
         print("More Button Tapped")
         delegate?.didTapOnMoreButton(selectedPost: self.feedData)
+    }
+    
+    @objc private func profileTapped(sender: LMTapGesture) {
+        delegate?.didTapOnUserProfile(selectedPost: self.feedData)
     }
 }

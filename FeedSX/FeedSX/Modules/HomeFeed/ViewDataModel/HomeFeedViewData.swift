@@ -117,6 +117,7 @@ final class PostFeedDataView {
                           profileImageUrl: user.imageUrl ?? "",
                           customTitle: user.customTitle,
                           uuid: userId,
+                          userId: user.sdkClientInfo?.user,
                           designation: designation,
                           organisation: organisation)
     }
@@ -192,6 +193,7 @@ final class PostFeedDataView {
         let profileImageUrl: String?
         let customTitle: String?
         let uuid: String
+        let userId: Int?
         let designation: String?
         let organisation: String?
     }

@@ -31,7 +31,7 @@ class MemberCell: UITableViewCell {
     
     func configCellData(data: MemberListDataView.MemberDataView) {
         let placeHolder = UIImage.generateLetterImage(with: data.name)
-        profileImageView.kf.setImage(with: URL(string: data.profileImageURL), placeholder: placeHolder)
+        profileImageView.kf.setImage(with: URL.url(string: data.profileImageURL), placeholder: placeHolder)
         self.usernameLabel.text = data.name.capitalized
         self.userTitle.text = data.customTitle
         self.titleView.isHidden = (data.customTitle == nil)

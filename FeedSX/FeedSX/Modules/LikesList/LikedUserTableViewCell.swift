@@ -102,7 +102,7 @@ class LikedUserTableViewCell: UITableViewCell {
         let userTitle = likedUserData.userTitle.isEmpty ? "" : " • \(likedUserData.userTitle)"
         self.usernameTitleLabel.text = userTitle
         let profilePlaceHolder = UIImage.generateLetterImage(with: likedUserData.username) ?? UIImage()
-        guard let url = URL(string: likedUserData.profileImage)  else {
+        guard let url = URL.url(string: likedUserData.profileImage)  else {
             avatarImageView.image = profilePlaceHolder
             return
         }

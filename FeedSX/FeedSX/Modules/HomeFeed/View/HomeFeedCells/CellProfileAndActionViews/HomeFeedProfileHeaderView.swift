@@ -145,7 +145,7 @@ class HomeFeedProfileHeaderView: UIView {
         self.feedData = feedDataView
         setupProfile(profileData: feedDataView.postByUser)
         postTitleLabel.text = feedDataView.header
-        postTimeLabel.text = " \(SpecialCharString.centerDot) " + Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort() + ((feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : "")
+        postTimeLabel.text = " \(SpecialCharString.centerDot) " + Date(timeIntervalSince1970: TimeInterval(feedDataView.postTime)).timeAgoDisplayShort()// + ((feedData?.isEdited ?? false) ? " \(SpecialCharString.centerDot) Edited" : "")
         pinImageView.isHidden = !feedDataView.isPinned
     }
     
@@ -156,7 +156,7 @@ class HomeFeedProfileHeaderView: UIView {
             avatarImageView.image = profilePlaceHolder
             return
         }
-        avatarImageView.kf.setImage(with: URL(string: url), placeholder: profilePlaceHolder)
+        avatarImageView.kf.setImage(with: URL.url(string: url), placeholder: profilePlaceHolder)
     }
 
 }

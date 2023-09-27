@@ -53,9 +53,10 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         linkTitleLabel.textColor = ColorConstant.textBlackColor
         setupProfileSectionHeader()
         setupActionSectionFooter()
-        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
-        captionLabel.isUserInteractionEnabled = true
-        captionLabel.addGestureRecognizer(textViewTapGesture)
+//        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
+        captionLabel.delegate = self
+//        captionLabel.isUserInteractionEnabled = true
+//        captionLabel.addGestureRecognizer(textViewTapGesture)
         linkDetailContainerView.layer.borderWidth = 1
         linkDetailContainerView.layer.cornerRadius = 8
         linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
@@ -72,7 +73,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         guard let textView = tapGesture.view as? LMTextView else { return }
         guard let position = textView.closestPosition(to: tapGesture.location(in: textView)) else { return }
         if let url = textView.textStyling(at: position, in: .forward)?[NSAttributedString.Key.link] as? URL {
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: url.absoluteString)
         } else {
             delegate?.didTapOnCell(self.feedData)
         }
@@ -110,7 +111,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         self.linkLabel.text = link?.lowercased()
         if let linkThumbnailUrl = linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
             let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
-            self.linkThumbnailImageView.kf.setImage(with: URL(string: linkThumbnailUrl), placeholder: placeholder)
+            self.linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl), placeholder: placeholder)
         } else {
             self.linkThumbnailImageView.image = nil
         }
@@ -128,15 +129,15 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     @IBAction func clickedLinkView(_ sender: UIButton) {
         if let linkAttachment = self.feedData?.linkAttachment,
            let urlString = linkAttachment.url {
-            let myURL:URL?
-            if urlString.hasPrefix("https://") || urlString.hasPrefix("http://"){
-                myURL = URL(string: urlString)
-            }else {
-                let correctedURL = "http://\(urlString)"
-                myURL = URL(string: correctedURL)
-            }
-            guard let url = myURL else { return }
-            UIApplication.shared.open(url)
+            delegate?.didTapOnUrl(url: urlString)
         }
+    }
+}
+
+extension HomeFeedLinkTableViewCell: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        self.delegate?.didTapOnUrl(url: URL.absoluteString)
+        return false
     }
 }

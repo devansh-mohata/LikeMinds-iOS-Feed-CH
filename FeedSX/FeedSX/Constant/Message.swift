@@ -15,7 +15,7 @@ public struct MessageConstant {
     static let nofiticationFeedDataNotFound = "Oops! You don't have any notification yet."
     static let articalMinimumBodyCharError = "Please provide minimum 200 characters in article body!"
     static let articalMinimumBodyChars = " Write something here (min. 200 char)"
-    static let maxVideoError = "Video max limit size \(ConstantValue.maxVideoUploadSizeInMB) MB and duration \(ConstantValue.maxVideoUploadDurationInMins) mins!"
-    static let maxPDFError = "PDF max size limit is \(ConstantValue.maxPDFUploadSizeInMB) MB!"
-    static let aritcleCoverPhotoRatioError = "Please select 16:9 size cover photo!"
+    static let maxVideoError = "Max. file upload size \(ConstantValue.maxVideoUploadSizeInMB)MB and duration \(ConstantValue.maxVideoUploadDurationInMins) mins"
+    static let maxPDFError = "Max. file upload size allowed: \(ConstantValue.maxPDFUploadSizeInMB)MB"
+    static let aritcleCoverPhotoRatioError = "Please select 16:9 size cover photo"
 }

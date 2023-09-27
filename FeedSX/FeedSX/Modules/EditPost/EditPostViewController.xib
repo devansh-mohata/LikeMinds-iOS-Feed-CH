@@ -366,7 +366,7 @@
                     </constraints>
                 </scrollView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O06-0s-Lfg" userLabel="TaggingListContainer">
-                    <rect key="frame" x="0.0" y="388" width="393" height="60"/>
+                    <rect key="frame" x="16" y="392" width="361" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="izW-DE-gIP"/>
                     </constraints>
@@ -394,14 +394,14 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0Ka-j1-UKB" secondAttribute="trailing" id="7xv-dK-Ily"/>
                 <constraint firstItem="0Ka-j1-UKB" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="8au-RC-cSO"/>
+                <constraint firstItem="O06-0s-Lfg" firstAttribute="leading" secondItem="2ej-IC-JIY" secondAttribute="leading" id="8ee-c5-SPX"/>
                 <constraint firstItem="2ej-IC-JIY" firstAttribute="top" secondItem="O06-0s-Lfg" secondAttribute="bottom" id="GO5-BT-IIf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="0hn-hp-1Fw" secondAttribute="bottom" id="Hv2-07-ert"/>
+                <constraint firstItem="O06-0s-Lfg" firstAttribute="trailing" secondItem="2ej-IC-JIY" secondAttribute="trailing" id="RFO-GQ-o4N"/>
                 <constraint firstItem="0hn-hp-1Fw" firstAttribute="top" secondItem="0Ka-j1-UKB" secondAttribute="bottom" id="ZOz-dS-Hv5"/>
-                <constraint firstItem="O06-0s-Lfg" firstAttribute="trailing" secondItem="ms9-c5-EO7" secondAttribute="trailing" id="brR-df-vWu"/>
                 <constraint firstItem="0Ka-j1-UKB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kPi-C5-NhC"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0hn-hp-1Fw" secondAttribute="trailing" id="nUl-b2-Obz"/>
                 <constraint firstItem="0hn-hp-1Fw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oXU-O2-8Ow"/>
-                <constraint firstItem="O06-0s-Lfg" firstAttribute="leading" secondItem="ms9-c5-EO7" secondAttribute="leading" id="yi9-n9-BXa"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-60.305343511450381" y="19.718309859154932"/>

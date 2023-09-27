@@ -119,7 +119,7 @@ class HomeFeedVideoCell: UITableViewCell {
     }
     
     func setupVideoData(url: String) {
-        guard let _ = URL(string: url) else {
+        guard let _ = URL.url(string: url) else {
             print("Not opened")
             return
         }
@@ -127,7 +127,7 @@ class HomeFeedVideoCell: UITableViewCell {
     }
     
     func createFanPlayer(videoName: String)  {
-        guard let pathURL = URL(string: videoName) else {
+        guard let pathURL = URL.url(string: videoName) else {
             print("Not opened")
             return
         }
