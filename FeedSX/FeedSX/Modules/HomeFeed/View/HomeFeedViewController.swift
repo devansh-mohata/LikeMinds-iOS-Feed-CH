@@ -34,70 +34,12 @@ public final class HomeFeedViewControler: BaseViewController {
         return createPost
     }()
     
-    let postingProgressSuperView: UIView = {
-        let sv = UIView()
-        sv.backgroundColor = .white
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    
     let postingProgressShimmerView: HomeFeedShimmerView = {
         let width = UIScreen.main.bounds.width
         let sView = HomeFeedShimmerView(frame: .zero)
 //        sv.backgroundColor = .white
         sView.translatesAutoresizingMaskIntoConstraints = false
         return sView
-    }()
-    
-    let postingProgressSuperStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis  = .vertical
-        sv.alignment = .fill
-        sv.distribution = .fillProportionally
-        sv.backgroundColor = .white
-        sv.spacing = 0
-        sv.layoutMargins = .init(top: .zero, left: 8, bottom: .zero, right: 30)
-        sv.isLayoutMarginsRelativeArrangement = true
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    
-    let postingProgressStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis  = .horizontal
-        sv.alignment = .center
-        sv.distribution = .fill
-        sv.spacing = .zero
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    
-    let postingImageView: UIImageView = {
-        let imageSize = 50.0
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
-        imageView.image = UIImage(systemName: "person.circle")
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setSizeConstraint(width: imageSize, height: imageSize)
-        return imageView
-    }()
-    
-    let postingImageSuperView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
-        view.clipsToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setSizeConstraint(width: 70, height: 70)
-        return view
-    }()
-    
-    let postingLabel: LMLabel = {
-        let label = LMLabel()
-        label.font = LMBranding.shared.font(16, .medium)
-        label.text = "Posting"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return label
     }()
     
     let leftTitleLabel: LMLabel = {
@@ -107,20 +49,6 @@ public final class HomeFeedViewControler: BaseViewController {
         label.text = "Community"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    var spaceView: UIView = {
-        let uiView = UIView()
-        uiView.translatesAutoresizingMaskIntoConstraints = false
-        return uiView
-    }()
-    
-    let progressIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return activityIndicator
     }()
     
     var notificationBarItem: UIBarButtonItem!
@@ -219,13 +147,11 @@ public final class HomeFeedViewControler: BaseViewController {
     public override func loadView() {
         super.loadView()
         
-        view.addSubview(postingProgressSuperStackView)
         view.addSubview(feedTableView)
         view.addSubview(createPostButton)
         view.addSubview(topicFeedStackView)
         
         setupTopicFeed()
-        setupPostingProgress()
         setupTableView()
         setupSpinner()
         setupCreateButton()
@@ -241,7 +167,6 @@ public final class HomeFeedViewControler: BaseViewController {
         createPostButton.isHidden = true
         homeFeedViewModel.delegate = self
         
-        self.postingImageSuperView.superview?.isHidden = true
         homeFeedViewModel.getFeed()
         homeFeedViewModel.getTopics()
         createPostButton.addTarget(self, action: #selector(createNewPost), for: .touchUpInside)
@@ -352,7 +277,6 @@ public final class HomeFeedViewControler: BaseViewController {
     @objc func postCreationCompleted(notification: Notification) {
         print("postCreationCompleted")
         self.isPostCreatingInProgress = false
-//        self.postingImageSuperView.superview?.isHidden = true
         self.removeShimmerFromTableView()
         if let error = notification.object as? String {
             self.presentAlert(message: error)
@@ -361,17 +285,6 @@ public final class HomeFeedViewControler: BaseViewController {
         refreshFeed()
         if homeFeedViewModel.feeds.count > 0 {
             self.feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        }
-    }
-    
-    @objc func postEditingStarted(notification: Notification) {
-        print("postEditingStarted")
-//        self.postingImageSuperView.superview?.isHidden = false
-        if let image = notification.object as? UIImage {
-            postingImageView.superview?.isHidden = false
-            postingImageView.image = image
-        } else {
-            self.postingImageView.isHidden = true
         }
     }
     
@@ -447,25 +360,10 @@ public final class HomeFeedViewControler: BaseViewController {
         createPostButton.layer.cornerRadius = 25
     }
     
-    func setupPostingProgress() {
-        postingProgressSuperStackView.addArrangedSubview(postingProgressStackView)
-        postingProgressStackView.addArrangedSubview(postingImageSuperView)
-        postingProgressStackView.addArrangedSubview(postingLabel)
-        postingProgressStackView.addArrangedSubview(spaceView)
-        postingProgressStackView.addArrangedSubview(progressIndicator)
-        postingImageSuperView.addSubview(postingImageView)
-        postingImageView.centerYAnchor.constraint(equalTo: self.postingImageSuperView.centerYAnchor).isActive = true
-        postingImageView.centerXAnchor.constraint(equalTo: self.postingImageSuperView.centerXAnchor).isActive = true
-        spaceView.widthAnchor.constraint(greaterThanOrEqualToConstant: 5).isActive = true
-        postingProgressSuperStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        postingProgressSuperStackView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        postingProgressSuperStackView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-    }
-    
     private func setupTopicFeed() {
         topicFeedStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .zero).isActive = true
         topicFeedStackView.trailingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: .zero).isActive = true
-        topicFeedStackView.topAnchor.constraint(equalTo: postingProgressSuperStackView.bottomAnchor).isActive = true
+        topicFeedStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         
         topicFeedStackView.addArrangedSubview(allTopicsBtn)
         topicFeedStackView.addArrangedSubview(topicCollection)
@@ -578,7 +476,7 @@ public final class HomeFeedViewControler: BaseViewController {
         imagePicker.settings.fetch.assets.supportedMediaTypes = [.video]
         imagePicker.settings.selection.unselectOnReachingMax = true
         imagePicker.doneButton.isEnabled = false
-        self.presentImagePicker(imagePicker, select: {[weak self] (asset) in
+        self.presentImagePicker(imagePicker, select: { [weak self] (asset) in
             print("Selected: \(asset)")
             asset.getURL { [weak self] responseURL in
                 guard let url = responseURL else { return }

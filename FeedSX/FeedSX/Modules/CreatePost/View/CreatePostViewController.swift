@@ -145,6 +145,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         
         viewModel.delegate = self
         
+        setupResourceType()
         setupProfileData()
         setTitleAndSubtile(title: "Create a post", subTitle: nil)
         hideTaggingViewContainer()
