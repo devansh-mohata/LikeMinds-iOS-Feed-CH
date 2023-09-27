@@ -24,17 +24,19 @@ final class SelectTopicViewModel {
     private var selectedTopics: [TopicFeedDataModel]
     private var allowAPICall: Bool
     private var allTopics: [TopicFeedDataModel]
+    private var enabledState: Bool
     var isShowAllTopics: Bool
     
     weak var delegate: SelectTopicViewModelToView?
     
-    init(selectedTopics: [TopicFeedDataModel], selectionStyle: SelectionStyle, isShowAllTopics: Bool) {
+    init(selectedTopics: [TopicFeedDataModel], selectionStyle: SelectionStyle, isShowAllTopics: Bool, enabledState: Bool) {
         self.pageNumber = 1
         self.allowAPICall = true
         self.allTopics = []
         self.selectedTopics = selectedTopics
         self.selectionStyle = selectionStyle
         self.isShowAllTopics = isShowAllTopics
+        self.enabledState = enabledState
     }
     
     func fetchTopics(searchQuery: String?, isFreshSearch: Bool = false) {
@@ -47,7 +49,7 @@ final class SelectTopicViewModel {
         guard allowAPICall else { return }
         
         var request = TopicFeedRequest.builder()
-            .setEnableState(true)
+            .setEnableState(enabledState)
             .setPage(pageNumber)
         
         if let searchQuery,

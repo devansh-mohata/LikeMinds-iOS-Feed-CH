@@ -57,9 +57,9 @@ class SelectTopicViewController: BaseViewController {
         return search
     }()
     
-    init(selectedTopics: [TopicFeedDataModel], selectionStyle: SelectTopicViewModel.SelectionStyle = .multiple, isShowAllTopics: Bool, delegate: SelectTopicViewDelegate?) {
+    init(selectedTopics: [TopicFeedDataModel], selectionStyle: SelectTopicViewModel.SelectionStyle = .multiple, isShowAllTopics: Bool, delegate: SelectTopicViewDelegate?, isEnabledState: Bool = true) {
         self.topicCells = []
-        self.viewModel = .init(selectedTopics: selectedTopics, selectionStyle: selectionStyle, isShowAllTopics: isShowAllTopics)
+        self.viewModel = .init(selectedTopics: selectedTopics, selectionStyle: selectionStyle, isShowAllTopics: isShowAllTopics, enabledState: isEnabledState)
         super.init(nibName: "SelectTopicViewController", bundle: Bundle(for: SelectTopicViewController.self))
         viewModel.delegate = self
         self.delegate = delegate
@@ -67,7 +67,7 @@ class SelectTopicViewController: BaseViewController {
     
     required init?(coder: NSCoder) {
         self.topicCells = []
-        self.viewModel = .init(selectedTopics: [], selectionStyle: .multiple, isShowAllTopics: false)
+        self.viewModel = .init(selectedTopics: [], selectionStyle: .multiple, isShowAllTopics: false, enabledState: true)
         super.init(coder: coder)
         viewModel.delegate = self
     }
