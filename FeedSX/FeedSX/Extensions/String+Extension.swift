@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension String {
     // MARK: Link Detector
@@ -41,5 +42,11 @@ extension String {
             let to = to16.samePosition(in: self)
         else { return nil }
         return from ..< to
+    }
+    
+    func sizeOfString(with font: UIFont = .systemFont(ofSize: 16)) -> CGSize {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = (self as NSString).size(withAttributes: fontAttributes)
+        return size
     }
 }

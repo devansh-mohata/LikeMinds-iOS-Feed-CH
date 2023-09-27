@@ -15,7 +15,15 @@ class EditPostViewController: BaseViewController {
     
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var usernameLabel: LMLabel!
-    @IBOutlet weak var addMoreButton: LMButton!
+    @IBOutlet weak var addMoreButton: LMButton! {
+        didSet {
+            addMoreButton.layer.borderWidth = 1
+            addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
+            addMoreButton.tintColor = LMBranding.shared.buttonColor
+            addMoreButton.layer.cornerRadius = 8
+            addMoreButton.superview?.isHidden = true
+        }
+    }
     @IBOutlet weak var postinLabel: LMLabel!
     @IBOutlet weak var captionTextView: LMTextView! {
         didSet{
@@ -24,7 +32,18 @@ class EditPostViewController: BaseViewController {
     }
     @IBOutlet weak var pageControl: UIPageControl?
     @IBOutlet weak var attachmentView: UIView!
-    @IBOutlet weak var attachmentCollectionView: UICollectionView!
+    @IBOutlet weak var attachmentCollectionView: UICollectionView! {
+        didSet {
+            attachmentCollectionView.dataSource = self
+            attachmentCollectionView.delegate = self
+            attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
+            attachmentCollectionView.register(UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self)), forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
+        }
+    }
     @IBOutlet weak var uploadAttachmentActionsView: UIView!
     @IBOutlet weak var uploadActionsTableView: UITableView!
     @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
@@ -33,6 +52,9 @@ class EditPostViewController: BaseViewController {
     @IBOutlet weak var uploadActionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var taggingListViewContainer: UIView!
     @IBOutlet weak var taggingViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var topicFeedView: LMTopicView!
+    @IBOutlet private weak var topicFeedViewHeightConstraint: NSLayoutConstraint!
+    
     var debounceForDecodeLink:Timer?
     var uploadActionsHeight:CGFloat = 0//43 * 3
     var placeholderLabel: LMLabel = {
@@ -63,32 +85,16 @@ class EditPostViewController: BaseViewController {
         self.userProfileImage.makeCircleView()
         captionTextView.delegate = self
         captionTextView.addSubview(placeholderLabel)
+        
         placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
         placeholderLabel.textColor = .tertiaryLabel
         placeholderLabel.isHidden = !captionTextView.text.isEmpty
-        //        attachmentView.isHidden = true
+        
         viewModel.delegate = self
         viewModel.postId = postId
-        attachmentCollectionView.dataSource = self
-        attachmentCollectionView.delegate = self
-//        uploadActionsTableView.dataSource = self
-//        uploadActionsTableView.delegate = self
-//        uploadActionsTableView.layoutMargins = UIEdgeInsets.zero
-//        uploadActionsTableView.separatorInset = UIEdgeInsets.zero
-        addMoreButton.layer.borderWidth = 1
-        addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
-        addMoreButton.tintColor = LMBranding.shared.buttonColor
-        addMoreButton.layer.cornerRadius = 8
-//        addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
-        addMoreButton.superview?.isHidden = true
-        self.attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
-        let linkNib = UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self))
-        self.attachmentCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
-        self.attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
-        self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
+        topicFeedView.delegate = self
+        
         self.setupProfileData()
         self.setTitleAndSubtile(title: "Edit post", subTitle: nil)
         self.hideTaggingViewContainer()
@@ -108,7 +114,6 @@ class EditPostViewController: BaseViewController {
         taggingUserList.delegate = self
         self.taggingListViewContainer.layer.borderWidth = 1
         self.taggingListViewContainer.layer.borderColor = ColorConstant.disableButtonColor.cgColor
-        //        taggingListViewContainer.addShadow()
         taggingListViewContainer.layer.cornerRadius = 8
         
     }
@@ -135,6 +140,19 @@ class EditPostViewController: BaseViewController {
     @objc func editPost() {
         self.view.endEditing(true)
         let text = self.captionTextView.trimmedText()
+        
+        let disabledTopics = viewModel.selectedTopics.filter { !$0.isEnabled }.map { $0.title }
+        if !disabledTopics.isEmpty {
+            var message = "The Following Topics are disabled - \(disabledTopics.joined(separator: ", "))"
+            showErrorAlert(message: message)
+            return
+        }
+        
+        if viewModel.selectedTopics.contains(where: { !$0.isEnabled }) {
+            showErrorAlert(message: "This Post Contains some ")
+            return
+        }
+        
         if (self.viewModel.currentSelectedUploadeType == .link), let _ = text.detectedFirstLink {
             self.viewModel.verifyOgTagsAndEditPost(message: text) {[weak self] in
                 self?.viewModel.editPost(text)
@@ -289,16 +307,15 @@ extension EditPostViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        .zero
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        .zero
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl?.currentPage = Int(scrollView.contentOffset.x  / self.view.frame.width)
     }
-    
 }
 
 extension EditPostViewController: UITableViewDataSource, UITableViewDelegate {
@@ -341,7 +358,6 @@ extension EditPostViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension EditPostViewController: UITextViewDelegate {
-    
     func textViewDidBeginEditing(_ textView: UITextView) {
         placeholderLabel.isHidden = true
         enablePostButton()
@@ -417,7 +433,6 @@ extension EditPostViewController: UIDocumentPickerDelegate {
         guard let url = urls.first else { return }
         print(url)
         self.viewModel.addDocumentAttachment(fileUrl: url)
-        //        self.delegate?.didSelect(image: image)
         controller.dismiss(animated: true)
     }
     
@@ -430,7 +445,6 @@ extension EditPostViewController: UIDocumentPickerDelegate {
 //MARK: - Delegate view model
 
 extension EditPostViewController: EditPostViewModelDelegate {
-    
     func didReceivedPostDetails() {
         self.reloadAttachmentsView()
         let data  = TaggedRouteParser.shared.getTaggedParsedAttributedStringForEditText(with: self.viewModel.postDetail?.caption ?? "", forTextView: true)
@@ -468,13 +482,7 @@ extension EditPostViewController: EditPostViewModelDelegate {
             pageControl?.superview?.isHidden = true
             break
         }
-//        enablePostButton()
         attachmentCollectionView.reloadData()
-//        addMoreButton.superview?.isHidden = !isCountGreaterThanZero
-//        if hasReachedMaximumAttachment() {
-//            addMoreButton.superview?.isHidden = true
-//            self.uploadActionViewHeightConstraint.constant = 0
-//        }
     }
     
     func reloadCollectionView() {
@@ -488,33 +496,18 @@ extension EditPostViewController: EditPostViewModelDelegate {
     func hasReachedMaximumAttachment() -> Bool {
         (viewModel.imageAndVideoAttachments.count > 0 && viewModel.imageAndVideoAttachments.count == 10) || (viewModel.documentAttachments.count > 0 && viewModel.documentAttachments.count == 10)
     }
+    
+    func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel]) {
+        topicFeedView.configure(with: topics) 
+    }
 }
 
 extension EditPostViewController: TaggedUserListDelegate {
-    
     func didChangedTaggedList(taggedList: [TaggedUser]) {
         hideTaggingViewContainer()
         viewModel.taggedUsers = taggedList
     }
-    
-//    func didSelectMemberFromTagList(_ user: User) {
-//        hideTaggingViewContainer()
-//        var attributedMessage:NSAttributedString?
-//        if let attributedText = captionTextView.attributedText {
-//            attributedMessage = attributedText
-//        }
-//        if let selectedRange = captionTextView.selectedTextRange {
-//            captionTextView.attributedText = TaggedRouteParser.shared.createTaggednames(with: captionTextView.text, member: user, attributedMessage: attributedMessage, textRange: self.typeTextRangeInTextView)
-//            let increasedLength = captionTextView.attributedText.length - (attributedMessage?.length ?? 0)
-//            if let newPosition = captionTextView.position(from: selectedRange.start, offset: increasedLength) {
-//                captionTextView.selectedTextRange = captionTextView.textRange(from: newPosition, to: newPosition)
-//            }
-//        }
-//        if !viewModel.taggedUsers.contains(where: {$0.user.id == user.userUniqueId}) {
-//            viewModel.taggedUsers.append(TaggedUser(TaggingUser(name: user.name, id: user.userUniqueId), range: captionTextView.selectedRange))
-//        }
-//    }
-    
+
     func hideTaggingViewContainer() {
         isTaggingViewHidden = true
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .showHideTransitionViews, animations: {
@@ -536,5 +529,20 @@ extension EditPostViewController: TaggedUserListDelegate {
             
         }) { finished in
         }
+    }
+}
+
+// MARK: SelectTopicViewDelegate
+extension EditPostViewController: SelectTopicViewDelegate {
+    func updateSelection(with data: [TopicFeedDataModel]) {
+        viewModel.updateSelectedTopics(with: data)
+    }
+}
+
+// MARK: LMTopicViewDelegate
+extension EditPostViewController: LMTopicViewDelegate {
+    func didTapEditTopics() {
+        let vc = SelectTopicViewController(selectedTopics: viewModel.selectedTopics, isShowAllTopics: false, delegate: self)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -24,20 +24,16 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     static let bundle = Bundle(for: HomeFeedImageVideoTableViewCell.self)
     weak var delegate: HomeFeedTableViewCellDelegate?
     
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var captionLabel: LMTextView! {
-        didSet{
-//            captionLabel.textContainer.maximumNumberOfLines = 3
-//            captionLabel.textContainer.lineBreakMode = .byTruncatingTail
-        }
-    }
-    @IBOutlet weak var pageControl: UIPageControl?
-    @IBOutlet weak var pageControlView: UIView?
-    @IBOutlet weak var imageVideoCollectionView: UICollectionView!
-    @IBOutlet weak var captionSectionView: UIView!
-    @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var captionLabel: LMTextView!
+    @IBOutlet private weak var pageControl: UIPageControl?
+    @IBOutlet private weak var pageControlView: UIView?
+    @IBOutlet private weak var imageVideoCollectionView: UICollectionView!
+    @IBOutlet private weak var captionSectionView: UIView!
+    @IBOutlet private weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var topicFeed: LMTopicView!
     
     let profileSectionHeader: ProfileHeaderView = {
         let profileSection = ProfileHeaderView()
@@ -102,14 +98,15 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
     
     fileprivate func setupCaptionSectionView() {}
     
-    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
+    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?, isSepratorShown: Bool = true) {
         self.feedData = feedDataView
         self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
+        topicFeed.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
         setupContainerData()
-        self.layoutIfNeeded()
+        layoutIfNeeded()
     }
     
     func setupImageCollectionView() {

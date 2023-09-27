@@ -10,8 +10,6 @@
 		A64B71F5989B4E98BEE37FB0 /* Pods_LikeMindsFeedSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D3962ACFCA784F1CD3710B /* Pods_LikeMindsFeedSample.framework */; };
 		F44ECC522A2F2E5D0096DCC6 /* FeedSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; };
 		F44ECC532A2F2E5D0096DCC6 /* FeedSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F44ECC5A2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */; };
-		F44ECC5B2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F4BB415229ABC7970033F26E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415129ABC7970033F26E /* AppDelegate.swift */; };
 		F4BB415429ABC7970033F26E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415329ABC7970033F26E /* SceneDelegate.swift */; };
 		F4BB415629ABC7970033F26E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415529ABC7970033F26E /* ViewController.swift */; };
@@ -22,6 +20,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E5A938A72ABACC1A001B5D2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F414169C299E41C000622058;
+			remoteInfo = LikeMindsFeed;
+		};
 		F4A86BAE2A2E27A900C7D5C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4A86BA92A2E27A900C7D5C2 /* FeedSX.xcodeproj */;
@@ -39,7 +44,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F44ECC532A2F2E5D0096DCC6 /* FeedSX.framework in Embed Frameworks */,
-				F44ECC5B2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,6 +54,7 @@
 		0CDF2F08A0BDDD9D60359CDD /* Pods-LikeMindsFeedSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.release.xcconfig"; sourceTree = "<group>"; };
 		5F898A8C93CF44FF3B6E1A96 /* Pods-LikeMindsFeedSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.debug.xcconfig"; sourceTree = "<group>"; };
 		70D3962ACFCA784F1CD3710B /* Pods_LikeMindsFeedSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsFeedSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../SDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F46E14CE2A253ECE003C43BA /* AWSCognito.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LikeMindsFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F487732929AC9DAD00A7B0D0 /* LMFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LMFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,7 +81,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F44ECC5A2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Frameworks */,
 				F44ECC522A2F2E5D0096DCC6 /* FeedSX.framework in Frameworks */,
 				A64B71F5989B4E98BEE37FB0 /* Pods_LikeMindsFeedSample.framework in Frameworks */,
 			);
@@ -94,6 +98,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E5A938A32ABACC1A001B5D2B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E5A938A82ABACC1A001B5D2B /* LikeMindsFeed.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F4A86BAA2A2E27A900C7D5C2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +117,7 @@
 		F4BB414529ABC7970033F26E = {
 			isa = PBXGroup;
 			children = (
+				E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */,
 				F4A86BA92A2E27A900C7D5C2 /* FeedSX.xcodeproj */,
 				F4BB415029ABC7970033F26E /* LikeMindsFeedSample */,
 				F4BB414F29ABC7970033F26E /* Products */,
@@ -207,6 +220,10 @@
 					ProductGroup = F4A86BAA2A2E27A900C7D5C2 /* Products */;
 					ProjectRef = F4A86BA92A2E27A900C7D5C2 /* FeedSX.xcodeproj */;
 				},
+				{
+					ProductGroup = E5A938A32ABACC1A001B5D2B /* Products */;
+					ProjectRef = E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -216,6 +233,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		E5A938A82ABACC1A001B5D2B /* LikeMindsFeed.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = LikeMindsFeed.framework;
+			remoteRef = E5A938A72ABACC1A001B5D2B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

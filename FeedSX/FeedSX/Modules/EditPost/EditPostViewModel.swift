@@ -14,21 +14,30 @@ protocol EditPostViewModelDelegate: AnyObject {
     func reloadCollectionView()
     func reloadActionTableView()
     func didReceivedPostDetails()
+    func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel])
 }
 
 final class EditPostViewModel: BaseViewModel {
-    
+    let attachmentUploadTypes: [AttachmentUploadType] = [.image, .video, .document]
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
     var documentAttachments: [PostFeedDataView.Attachment] = []
     var linkAttatchment: PostFeedDataView.LinkAttachment?
-    let attachmentUploadTypes: [AttachmentUploadType] = [.image, .video, .document]
     var currentSelectedUploadeType: CreatePostViewModel.AttachmentUploadType = .unknown
-    weak var delegate: EditPostViewModelDelegate?
     var postCaption: String?
     var taggedUsers: [TaggedUser] = []
     var postId: String = ""
     var postDetail: PostFeedDataView?
+    var selectedTopics: [TopicFeedDataModel] = []
+    
+    private var isShowTopicFeed = false
+    private var selectedTopicIds: [String] {
+        selectedTopics.map {
+            $0.topicID
+        }
+    }
     private let filePath = "files/post/\(LocalPrefrerences.getUserData()?.clientUUID ?? "user")/"
+    
+    weak var delegate: EditPostViewModelDelegate?
     
     enum AttachmentUploadType: String {
         case document = "Attach Files"
@@ -53,27 +62,26 @@ final class EditPostViewModel: BaseViewModel {
                 self?.postErrorMessageNotification(error: response.errorMessage)
                 return
             }
-            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""])
+            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], topics: [])
+            self?.selectedTopics = response.data?.topics?.compactMap {
+                guard let id = $0.value.id,
+                      let name = $0.value.name else { return nil }
+                return .init(title: name, topicID: id, isEnabled: $0.value.isEnabled ?? false)
+            } ?? []
+            self?.getTopics()
             self?.postDetailsAttachments()
         }
     }
     
-    private func postDetailsAttachments() {
-        if let attachments = self.postDetail?.attachments, !attachments.isEmpty {
-            documentAttachments.append(contentsOf: attachments)
-            self.currentSelectedUploadeType = .document
-        }
+    func getTopics() {
+        let request = TopicFeedRequest.builder()
+            .setEnableState(true)
+            .build()
         
-        if let attachments = self.postDetail?.imageVideos, !attachments.isEmpty {
-            imageAndVideoAttachments.append(contentsOf: attachments)
-            self.currentSelectedUploadeType = attachments.first?.fileType == .image ? .image : .video
+        LMFeedClient.shared.getTopicFeed(request) { [weak self] response in
+            self?.isShowTopicFeed = !(response.data?.topics?.isEmpty ?? true)
+            self?.setupTopicFeed()
         }
-        
-        if let attachment = self.postDetail?.linkAttachment {
-            self.linkAttatchment = attachment
-            self.currentSelectedUploadeType = .link
-        }
-        self.delegate?.didReceivedPostDetails()
     }
     
     func addDocumentAttachment(fileUrl: URL) {
@@ -109,25 +117,6 @@ final class EditPostViewModel: BaseViewModel {
         }
         attachment.name = fileUrl.pathComponents.last ?? "media_\(Date().millisecondsSince1970)"
         self.imageAndVideoAttachments.append(attachment)
-    }
-    
-    private func generatePdfThumbnail(of thumbnailSize: CGSize , for documentUrl: URL, atPage pageIndex: Int) -> UIImage? {
-        let pdfDocument = PDFDocument(url: documentUrl)
-        let pdfDocumentPage = pdfDocument?.page(at: pageIndex)
-        return pdfDocumentPage?.thumbnail(of: thumbnailSize, for: PDFDisplayBox.trimBox)
-    }
-    
-    private func generateVideoThumbnail(forUrl url: URL) -> UIImage? {
-        let asset: AVAsset = AVAsset(url: url)
-        let imageGenerator = AVAssetImageGenerator(asset: asset)
-        
-        do {
-            let thumbnailImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1, timescale: 60), actualTime: nil)
-            return UIImage(cgImage: thumbnailImage)
-        } catch let error {
-            print(error)
-        }
-        return nil
     }
     
     func parseMessageForLink(message: String) {
@@ -191,7 +180,15 @@ final class EditPostViewModel: BaseViewModel {
         }
     }
     
-    private func editPostWithLinkAttachment(postCaption: String?) {
+    func updateSelectedTopics(with data: [TopicFeedDataModel]) {
+        self.selectedTopics = data
+        setupTopicFeed()
+    }
+}
+
+// MARK: Private Functions
+private extension EditPostViewModel {
+    func editPostWithLinkAttachment(postCaption: String?) {
         guard let linkAttatchment = self.linkAttatchment else { return }
         let attachmentMeta = AttachmentMeta()
             .ogTags(.init()
@@ -206,11 +203,12 @@ final class EditPostViewModel: BaseViewModel {
             .postId(postId)
             .text(postCaption)
             .attachments([attachmentRequest])
+            .addTopics(selectedTopicIds)
             .build()
         EditPostOperation.shared.editPost(request: editPostRequest, postId: self.postId)
     }
     
-    private func editPostWithDocAttachment(postCaption: String) {
+    func editPostWithDocAttachment(postCaption: String) {
         var documentAttachments: [AWSFileUploadRequest] = []
         var index = 0
         for attachedItem in self.documentAttachments {
@@ -224,10 +222,10 @@ final class EditPostViewModel: BaseViewModel {
             documentAttachments.append(item)
             index += 1
         }
-        EditPostOperation.shared.editPostWithAttachment(attachments: documentAttachments, postCaption: postCaption, postId: self.postId)
+        EditPostOperation.shared.editPostWithAttachment(attachments: documentAttachments, postCaption: postCaption, postId: self.postId, topics: selectedTopicIds)
     }
     
-    private func editPostWithImageOrVideoAttachment(postCaption: String) {
+    func editPostWithImageOrVideoAttachment(postCaption: String) {
         var imageVideoAttachments: [AWSFileUploadRequest] = []
         var index = 0
         for attachedItem in self.imageAndVideoAttachments {
@@ -239,15 +237,64 @@ final class EditPostViewModel: BaseViewModel {
             imageVideoAttachments.append(item)
             index += 1
         }
-        EditPostOperation.shared.editPostWithAttachment(attachments: imageVideoAttachments, postCaption: postCaption, postId: self.postId)
+        EditPostOperation.shared.editPostWithAttachment(attachments: imageVideoAttachments, postCaption: postCaption, postId: self.postId, topics: selectedTopicIds)
     }
     
-    private func editPostWithOutAttachment(postCaption: String?) {
+    func editPostWithOutAttachment(postCaption: String?) {
         let editPostRequest = EditPostRequest.builder()
             .postId(postId)
             .text(postCaption)
+            .addTopics(selectedTopicIds)
             .build()
         EditPostOperation.shared.editPost(request: editPostRequest, postId: self.postId)
     }
+    
+    func generatePdfThumbnail(of thumbnailSize: CGSize , for documentUrl: URL, atPage pageIndex: Int) -> UIImage? {
+        let pdfDocument = PDFDocument(url: documentUrl)
+        let pdfDocumentPage = pdfDocument?.page(at: pageIndex)
+        return pdfDocumentPage?.thumbnail(of: thumbnailSize, for: PDFDisplayBox.trimBox)
+    }
+    
+    func generateVideoThumbnail(forUrl url: URL) -> UIImage? {
+        let asset: AVAsset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        
+        do {
+            let thumbnailImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1, timescale: 60), actualTime: nil)
+            return UIImage(cgImage: thumbnailImage)
+        } catch let error {
+            print(error)
+        }
+        return nil
+    }
+    
+    func postDetailsAttachments() {
+        if let attachments = self.postDetail?.attachments, !attachments.isEmpty {
+            documentAttachments.append(contentsOf: attachments)
+            self.currentSelectedUploadeType = .document
+        }
+        
+        if let attachments = self.postDetail?.imageVideos, !attachments.isEmpty {
+            imageAndVideoAttachments.append(contentsOf: attachments)
+            self.currentSelectedUploadeType = attachments.first?.fileType == .image ? .image : .video
+        }
+        
+        if let attachment = self.postDetail?.linkAttachment {
+            self.linkAttatchment = attachment
+            self.currentSelectedUploadeType = .link
+        }
+        self.delegate?.didReceivedPostDetails()
+    }
+    
+    func setupTopicFeed() {
+        var transformedCells: [TopicViewCollectionCell.ViewModel] = selectedTopics.map {
+            .init(image: nil, title: $0.title)
+        }
+        
+        if isShowTopicFeed {
+            transformedCells.append(.init(image: transformedCells.isEmpty ? ImageIcon.plusIcon : ImageIcon.editIcon, title: transformedCells.isEmpty ? "Select Topics" : nil, isEditCell: true))
+        }
+        
+        delegate?.showHideTopicView(topics: transformedCells)
+    }
 }
-
