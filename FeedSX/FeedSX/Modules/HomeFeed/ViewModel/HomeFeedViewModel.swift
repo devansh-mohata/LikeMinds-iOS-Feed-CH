@@ -14,6 +14,7 @@ protocol HomeFeedViewModelDelegate: AnyObject {
     func reloadSection(_ indexPath: IndexPath)
     func updateNotificationFeedCount(_ count: Int)
     func updateTopicFeedView(with cells: [HomeFeedTopicCell.ViewModel], isShowTopicFeed: Bool)
+    func hideShowLoader(isShow: Bool)
 }
 
 class HomeFeedViewModel: BaseViewModel {
@@ -38,8 +39,12 @@ class HomeFeedViewModel: BaseViewModel {
             .pageSize(pageSize)
             .topics(selectedTopicIds)
             .build()
+        
         LMFeedClient.shared.getFeed(requestFeed) { [weak self] result in
             self?.isFeedLoading = false
+            if self?.currentPage == 1 {
+                self?.delegate?.hideShowLoader(isShow: false)
+            }
             if result.success,
                let postsData = result.data?.posts,
                let users = result.data?.users, !postsData.isEmpty {
@@ -224,9 +229,9 @@ private extension HomeFeedViewModel {
     
     func updateFeed() {
         currentPage = 1
-//        feeds.removeAll()
+        delegate?.hideShowLoader(isShow: true)
+        feeds.removeAll()
         setupTopicFeed()
         getFeed()
-        delegate?.didReceivedFeedData(success: true)
     }
 }

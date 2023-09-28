@@ -51,9 +51,8 @@ public class BaseViewController: UIViewController {
     }()
     
     let activityIndicatorContinerView: UIView = {
-        let containerView
-        = UIView(frame: UIScreen.main.bounds)
-        containerView.backgroundColor = .clear
+        let containerView = UIView(frame: UIScreen.main.bounds)
+        containerView.backgroundColor = .white
         return containerView
     }()
     

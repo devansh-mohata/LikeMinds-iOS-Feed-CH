@@ -663,6 +663,7 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     self.removeShimmerFromTableView()
         if homeFeedViewModel.feeds.isEmpty {
             setHomeFeedEmptyView()
+            feedTableView.reloadData()
             self.createPostButton.isHidden = true
         } else {
             feedTableView.restore()
@@ -709,6 +710,10 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
             clearTopicBtn.isHidden = cells.isEmpty
             topicCollection.reloadData()
         }
+    }
+    
+    func hideShowLoader(isShow: Bool) {
+        showLoader(isShow: isShow)
     }
 }
 
