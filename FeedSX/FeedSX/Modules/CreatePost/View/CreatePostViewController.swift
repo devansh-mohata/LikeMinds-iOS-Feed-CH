@@ -142,7 +142,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         
         setupResourceType()
         setupProfileData()
-        setTitleAndSubtile(title: "Create a post", subTitle: nil)
+        setTitleAndSubtile(title: resourceType?.rawValue ?? "Create Post", subTitle: nil)
         hideTaggingViewContainer()
         pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
     }

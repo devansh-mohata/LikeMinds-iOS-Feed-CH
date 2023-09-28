@@ -13,7 +13,11 @@ final class SelectTopicTableViewCell: UITableViewCell {
         let title: String
     }
     
-    @IBOutlet private weak var topicLbl: UILabel!
+    @IBOutlet private weak var topicLbl: UILabel! {
+        didSet {
+            topicLbl.font = LMBranding.shared.font(17, .regular)
+        }
+    }
     @IBOutlet private weak var checkmarkImgView: UIImageView! {
         didSet {
             checkmarkImgView.tintColor = LMBranding.shared.buttonColor

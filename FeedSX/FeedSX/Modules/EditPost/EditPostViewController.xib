@@ -206,14 +206,14 @@
                                             <rect key="frame" x="0.0" y="293" width="393" height="80"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uwg-m9-gOs" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="0.0" width="361" height="75"/>
+                                                    <rect key="frame" x="16" y="0.0" width="361" height="72"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                 </textView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rNd-Ii-C0a">
-                                                    <rect key="frame" x="16" y="74" width="361" height="1"/>
+                                                    <rect key="frame" x="16" y="79" width="361" height="1"/>
                                                     <color key="backgroundColor" red="0.81568627449999997" green="0.84705882349999995" blue="0.8862745098" alpha="0.5" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="fBH-rc-xPL"/>
@@ -222,13 +222,12 @@
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="uwg-m9-gOs" secondAttribute="bottom" constant="5" id="9Qf-ZI-bSX"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="DMF-yZ-FCn"/>
+                                                <constraint firstAttribute="bottom" secondItem="uwg-m9-gOs" secondAttribute="bottom" constant="8" id="9Qf-ZI-bSX"/>
                                                 <constraint firstItem="uwg-m9-gOs" firstAttribute="leading" secondItem="bkI-ll-dmM" secondAttribute="leading" constant="16" id="Fqj-Hf-79s"/>
+                                                <constraint firstAttribute="bottom" secondItem="rNd-Ii-C0a" secondAttribute="bottom" id="R4y-zD-nlj"/>
                                                 <constraint firstItem="rNd-Ii-C0a" firstAttribute="leading" secondItem="uwg-m9-gOs" secondAttribute="leading" id="R7S-Xh-eSF"/>
                                                 <constraint firstItem="rNd-Ii-C0a" firstAttribute="trailing" secondItem="uwg-m9-gOs" secondAttribute="trailing" id="aAI-I4-kjF"/>
                                                 <constraint firstItem="uwg-m9-gOs" firstAttribute="top" secondItem="bkI-ll-dmM" secondAttribute="top" id="hOU-AJ-IQZ"/>
-                                                <constraint firstItem="rNd-Ii-C0a" firstAttribute="bottom" secondItem="uwg-m9-gOs" secondAttribute="bottom" id="oR1-8Y-WCO"/>
                                                 <constraint firstAttribute="trailing" secondItem="uwg-m9-gOs" secondAttribute="trailing" constant="16" id="v8i-Gl-O6h"/>
                                             </constraints>
                                         </view>
@@ -366,7 +365,7 @@
                     </constraints>
                 </scrollView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O06-0s-Lfg" userLabel="TaggingListContainer">
-                    <rect key="frame" x="16" y="392" width="361" height="60"/>
+                    <rect key="frame" x="16" y="452" width="361" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="izW-DE-gIP"/>
                     </constraints>

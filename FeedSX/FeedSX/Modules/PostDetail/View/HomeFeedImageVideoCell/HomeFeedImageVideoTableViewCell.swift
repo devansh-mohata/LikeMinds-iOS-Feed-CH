@@ -108,6 +108,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         topicFeed.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
+        topicFeed.superview?.isHidden = feedDataView.topics.isEmpty
         setupContainerData()
         layoutIfNeeded()
     }
@@ -154,7 +155,6 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
     }
-    
 }
 
 extension HomeFeedImageVideoTableViewCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {

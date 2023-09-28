@@ -106,6 +106,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         
         topicView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
+        topicView.isHidden = feedDataView.topics.isEmpty
         containerView.isHidden = feedData?.postAttachmentType() != .document
         layoutIfNeeded()
 

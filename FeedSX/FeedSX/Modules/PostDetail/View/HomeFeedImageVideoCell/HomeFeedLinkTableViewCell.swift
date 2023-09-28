@@ -53,10 +53,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         linkTitleLabel.textColor = ColorConstant.textBlackColor
         setupProfileSectionHeader()
         setupActionSectionFooter()
-//        let textViewTapGesture = LMTapGesture(target: self, action: #selector(tappedTextView(tapGesture:)))
         captionLabel.delegate = self
-//        captionLabel.isUserInteractionEnabled = true
-//        captionLabel.addGestureRecognizer(textViewTapGesture)
         linkDetailContainerView.layer.borderWidth = 1
         linkDetailContainerView.layer.cornerRadius = 8
         linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
@@ -102,6 +99,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)
         topicFeedView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
+        topicFeedView.isHidden = feedDataView.topics.isEmpty
         layoutIfNeeded()
     }
     

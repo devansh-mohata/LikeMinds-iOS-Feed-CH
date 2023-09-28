@@ -15,6 +15,7 @@ protocol PostDetailViewModelDelegate: AnyObject {
     func didReceivedMemberState()
     func reloadSection(_ indexPath: IndexPath)
     func didReceivedEditResponse(_ indexPath: IndexPath)
+    func showHideLoader(isShow: Bool)
 }
 
 final class PostDetailViewModel: BaseViewModel {
@@ -75,7 +76,9 @@ final class PostDetailViewModel: BaseViewModel {
             .pageSize(commentPageSize)
             .build()
         self.isCommentLoading = true
+        delegate?.showHideLoader(isShow: true)
         LMFeedClient.shared.getPost(request) {[weak self] response in
+            self?.delegate?.showHideLoader(isShow: false)
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }
@@ -195,6 +198,7 @@ final class PostDetailViewModel: BaseViewModel {
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.uuid ?? ""])
             if let replyCommentIndex = self?.replyOnComment?.replies.firstIndex(where: {$0.tempId == postComment.tempId}) {
                 self?.replyOnComment?.replies[replyCommentIndex] = postComment
+                self?.replyOnComment = nil
                 guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
                     self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
                     return
@@ -203,6 +207,7 @@ final class PostDetailViewModel: BaseViewModel {
             } else {
                 self?.replyOnComment?.replies.insert(postComment, at: 0)
                 self?.replyOnComment?.commentCount += 1
+                self?.replyOnComment = nil
                 guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
                     self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
                     return
