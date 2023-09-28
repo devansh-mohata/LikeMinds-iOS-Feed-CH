@@ -120,7 +120,6 @@ extension NotificationFeedViewController: NotificationFeedTableViewCellDelegate 
 }
 
 extension NotificationFeedViewController: NotificationFeedViewModelDelegate {
-    
     func didReceiveNotificationFeedsResponse() {
         if viewModel.activities.count == 0 {
             let emptyPlaceholder = UIImage(named: ImageIcon.emptyDataImage, in: Bundle(for: NotificationFeedViewController.self), with: nil) ?? UIImage()
@@ -133,8 +132,9 @@ extension NotificationFeedViewController: NotificationFeedViewModelDelegate {
         notificationFeedTableView.reloadData()
     }
     
-    func didReceiveMarkReadNotificationResponse() {
-        
+    func didReceiveMarkReadNotificationResponse() { }
+    
+    func showHideLoader(isShow: Bool) {
+        showLoader(isShow: isShow)
     }
-
 }

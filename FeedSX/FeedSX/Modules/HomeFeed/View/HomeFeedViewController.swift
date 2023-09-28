@@ -678,17 +678,17 @@ extension HomeFeedViewControler: HomeFeedViewModelDelegate {
     }
     
     func didReceivedMemberState() {
-        if self.homeFeedViewModel.hasRightForCreatePost() {
-            self.createPostButton.isHidden = false
-            self.createPostButton.backgroundColor = LMBranding.shared.buttonColor
+        // Adding Feeds Condition as `member state` api is called in `viewWillAppear()` and if feed is empty and the button is still shown but should not be.
+        if homeFeedViewModel.feeds.isEmpty {
+            createPostButton.isHidden = true
         } else {
-            self.createPostButton.isHidden = true
-            self.createPostButton.backgroundColor = .lightGray
+            createPostButton.isHidden = !homeFeedViewModel.hasRightForCreatePost()
         }
+        createPostButton.backgroundColor = homeFeedViewModel.hasRightForCreatePost() ? LMBranding.shared.buttonColor : .lightGray
     }
     
     func reloadSection(_ indexPath: IndexPath) {
-        self.feedTableView.reloadRows(at: [indexPath], with: .none)
+        feedTableView.reloadRows(at: [indexPath], with: .none)
     }
     
     func updateNotificationFeedCount(_ count: Int){

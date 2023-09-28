@@ -11,6 +11,7 @@ import LikeMindsFeed
 protocol NotificationFeedViewModelDelegate: AnyObject {
     func didReceiveNotificationFeedsResponse()
     func didReceiveMarkReadNotificationResponse()
+    func showHideLoader(isShow: Bool)
 }
 
 class NotificationFeedViewModel: BaseViewModel {
@@ -30,7 +31,13 @@ class NotificationFeedViewModel: BaseViewModel {
             .page(currentPage)
             .build()
         self.isNotificationFeedLoading = true
+        if currentPage == 1 {
+            delegate?.showHideLoader(isShow: true)
+        }
         LMFeedClient.shared.getNotificationFeed(request) {[weak self] response in
+            if self?.currentPage == 1 {
+                self?.delegate?.showHideLoader(isShow: false)
+            }
             if response.success {
                 if let notificationActivities = response.data?.activities,
                    let users = response.data?.users,
