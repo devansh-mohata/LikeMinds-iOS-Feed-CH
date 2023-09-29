@@ -134,20 +134,15 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         
         userProfileImage.makeCircleView()
         
-        captionTextView.delegate = self
-        captionTextView.addSubview(placeholderLabel)
-        
         topicFeedView.delegate = self
         
-        placeholderLabel.centerYAnchor.constraint(equalTo: captionTextView.centerYAnchor).isActive = true
-        placeholderLabel.textColor = .tertiaryLabel
-        placeholderLabel.isHidden = !captionTextView.text.isEmpty
+        setupTitleAndDescriptionTextView()
         
         viewModel.delegate = self
         
         setupResourceType()
         setupProfileData()
-        setTitleAndSubtile(title: "Create a post", subTitle: nil)
+        setTitleAndSubtile(title: resourceType?.rawValue ?? "Create Post", subTitle: nil)
         hideTaggingViewContainer()
         pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
     }
@@ -270,8 +265,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     func didClickedOnDeleteButton() {
-        // TODO: What here 
-        LMFeedAnalyticsEventName.Post.creationIncompleted
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -281,6 +274,9 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         guard let user = LocalPrefrerences.getUserData() else {
             return
         }
+        
+        changeAuthorButton.addTarget(self, action: #selector(changeAuthor), for: .touchUpInside)
+        
         if LocalPrefrerences.getMemberStateData()?.state != MemberState.admin.rawValue {
             changeAuthorButton.isHidden = true
         }
@@ -308,6 +304,12 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         default:
             break
         }
+        
+        if viewModel.selectedTopics.isEmpty {
+            showError(errorMessage: "Please select at least one topic")
+            return
+        }
+        
         self.viewModel.createPost(text, heading: heading, postType: self.resourceType ?? .image)
         self.navigationController?.popViewController(animated: true)
     }

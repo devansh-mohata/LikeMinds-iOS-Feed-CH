@@ -22,10 +22,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="axz-J0-heu">
-                    <rect key="frame" x="0.0" y="0.0" width="567" height="132"/>
+                    <rect key="frame" x="0.0" y="0.0" width="567" height="140"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="f6P-F1-pki" customClass="DynamicCollectionView" customModule="FeedSX" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="567" height="114"/>
+                            <rect key="frame" x="0.0" y="0.0" width="567" height="123"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" priority="250" constant="10" id="Ig4-7V-lid"/>
@@ -38,10 +38,10 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1i-op-ags" userLabel="Seprator View">
-                            <rect key="frame" x="0.0" y="130" width="567" height="2"/>
+                            <rect key="frame" x="0.0" y="139" width="567" height="1"/>
                             <color key="backgroundColor" red="0.81568627450980391" green="0.84705882352941175" blue="0.88627450980392153" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="2" id="X31-YZ-FmV"/>
+                                <constraint firstAttribute="height" constant="1" id="X31-YZ-FmV"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -50,7 +50,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="axz-J0-heu" secondAttribute="bottom" constant="8" id="Cs7-OA-hnz"/>
+                <constraint firstAttribute="bottom" secondItem="axz-J0-heu" secondAttribute="bottom" id="Cs7-OA-hnz"/>
                 <constraint firstItem="axz-J0-heu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Dl6-Va-VZS"/>
                 <constraint firstItem="axz-J0-heu" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="NwD-JS-Ywf"/>
                 <constraint firstItem="axz-J0-heu" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="w5L-yS-zLq"/>

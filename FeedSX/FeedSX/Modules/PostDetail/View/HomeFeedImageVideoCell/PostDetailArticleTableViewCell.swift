@@ -79,6 +79,7 @@ class PostDetailArticleTableViewCell: UITableViewCell {
         }
         
         topicFeed.configure(with: feedDataView.topics, isSepratorShown: false)
+        topicFeed.superview?.isHidden = feedDataView.topics.isEmpty
         self.layoutIfNeeded()
     }
     

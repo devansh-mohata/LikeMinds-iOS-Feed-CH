@@ -270,7 +270,7 @@ private extension CreatePostViewModel {
             .init(image: nil, title: $0.title)
         }
         
-        transformedCells.append(.init(image: transformedCells.isEmpty ? ImageIcon.plusIcon : ImageIcon.editIcon, title: transformedCells.isEmpty ? "Select Topics" : nil, isEditCell: true))
+        transformedCells.append(.init(image: transformedCells.isEmpty ? ImageIcon.plusIcon : ImageIcon.editIcon, title: transformedCells.isEmpty ? "Select Topics*" : nil, isEditCell: true))
         
         delegate?.showHideTopicView(topics: transformedCells)
     }

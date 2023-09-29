@@ -76,7 +76,7 @@ class PostDetailViewController: BaseViewController {
         viewModel.postId = self.postId
         postDetailTableView.rowHeight = 50
         refreshControl.addTarget(self, action: #selector(pullToRefreshData), for: .valueChanged)
-        closeReplyToUserButton.addTarget(self, action: #selector(closeReplyToUsersCommentView), for: .touchUpInside)
+        closeReplyToUserButton.addTarget(self, action: #selector(closeReplyButtonClicked), for: .touchUpInside)
         postDetailTableView.backgroundColor = ColorConstant.backgroudColor
         sendButton.isEnabled = false
         sendButton.tintColor = LMBranding.shared.buttonColor
@@ -273,6 +273,10 @@ class PostDetailViewController: BaseViewController {
     @objc func closeReplyToUsersCommentView() {
         replyToUserContainer.isHidden = true
         replyToUserImageView.isHidden = true
+    }
+    
+    @objc func closeReplyButtonClicked() {
+        closeReplyToUsersCommentView()
         viewModel.replyOnComment = nil
     }
     
@@ -445,6 +449,9 @@ extension PostDetailViewController: UITextViewDelegate {
 }
 
 extension PostDetailViewController: PostDetailViewModelDelegate {
+    func showHideLoader(isShow: Bool) {
+        showLoader(isShow: isShow)
+    }
     
     func didReceiveComments() {
         refreshControl.endRefreshing()

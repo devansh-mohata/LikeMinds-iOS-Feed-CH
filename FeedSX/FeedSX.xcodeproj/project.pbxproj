@@ -30,7 +30,6 @@
 		F405D10529E811600074F531 /* SpecialCharString.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10429E811600074F531 /* SpecialCharString.swift */; };
 		F405D10729E8843F0074F531 /* ReportContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10629E8843F0074F531 /* ReportContentViewModel.swift */; };
 		F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10829E885660074F531 /* ASImageDownloader.swift */; };
-		F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */; };
 		F40CD19C2AC2D73300547BBC /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40CD19B2AC2D73200547BBC /* URL+Extension.swift */; };
 		F40E04042AADDAD600AB3827 /* CropImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E04032AADDAD600AB3827 /* CropImageViewController.swift */; };
 		F41731C82A1A7CF7005FD279 /* NetworkOperationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */; };
@@ -256,7 +255,6 @@
 		F405D10429E811600074F531 /* SpecialCharString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialCharString.swift; sourceTree = "<group>"; };
 		F405D10629E8843F0074F531 /* ReportContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewModel.swift; sourceTree = "<group>"; };
 		F405D10829E885660074F531 /* ASImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASImageDownloader.swift; sourceTree = "<group>"; };
-		F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedOtherAttachmentTableViewCell.swift; sourceTree = "<group>"; };
 		F40CD19B2AC2D73200547BBC /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		F40E04032AADDAD600AB3827 /* CropImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropImageViewController.swift; sourceTree = "<group>"; };
 		F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationQueueManager.swift; sourceTree = "<group>"; };
@@ -883,14 +881,14 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				F4E15E952AA363F400BAEB99 /* MemberList */,
-				E5D955DA2ABD62FE0038BDAE /* LMTopicView */,
 				F4EA97A72A14980B0020E672 /* Analytics */,
 				F4A9617629DBF9E500F395AD /* CreatePost */,
 				F4A3DD2B29E7D29400498363 /* DeleteContent */,
 				F4AD157A2A2BC5EC00B752C3 /* EditPost */,
 				F4D98AFA29D1879700CF9743 /* HomeFeed */,
 				F4A20D1C29E575D4001D57CB /* LikesList */,
+				E5D955DA2ABD62FE0038BDAE /* LMTopicView */,
+				F4E15E952AA363F400BAEB99 /* MemberList */,
 				F49F6BE92A1B3BAC005B2A81 /* NotificationFeed */,
 				F49C76E829E3101000325AD9 /* PostDetail */,
 				F405D0FC29E7E0410074F531 /* ReportContent */,

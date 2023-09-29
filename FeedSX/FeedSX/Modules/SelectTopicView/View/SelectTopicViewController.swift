@@ -145,8 +145,8 @@ extension SelectTopicViewController: SelectTopicViewModelToView {
     }
     
     func updateSelection(with data: [TopicFeedDataModel]) {
-        delegate?.updateSelection(with: data)
         navigationController?.popViewController(animated: true)
+        delegate?.updateSelection(with: data)
     }
 }
 

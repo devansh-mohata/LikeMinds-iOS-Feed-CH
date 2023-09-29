@@ -124,7 +124,7 @@ class ReplyCommentTableViewCell: UITableViewCell {
         sv.axis  = .horizontal
         sv.alignment = .center
         sv.distribution = .fill
-        sv.spacing = 8
+        sv.spacing = 0
         sv.translatesAutoresizingMaskIntoConstraints = false;
         return sv
     }()
@@ -144,7 +144,7 @@ class ReplyCommentTableViewCell: UITableViewCell {
     
     let likeCountLabel: LMLabel = {
         let label = LMPaddedLabel()
-        label.paddingLeft = 5
+        label.paddingLeft = 0
         label.paddingRight = 5
         label.paddingTop = 5
         label.paddingBottom = 5

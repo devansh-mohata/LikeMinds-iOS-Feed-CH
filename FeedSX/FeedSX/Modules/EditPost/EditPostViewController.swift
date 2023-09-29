@@ -281,6 +281,12 @@ class EditPostViewController: BaseViewController {
         default:
             break
         }
+        
+        if viewModel.selectedTopics.isEmpty {
+            showErrorAlert(message: "Please select at least one topic")
+            return
+        }
+        
         self.viewModel.editPost(text, heading: heading, postType: self.resourceType ?? .image)
         self.navigationController?.popViewController(animated: true)
     }

@@ -343,7 +343,7 @@ private extension EditPostViewModel {
         }
         
         if isShowTopicFeed {
-            transformedCells.append(.init(image: transformedCells.isEmpty ? ImageIcon.plusIcon : ImageIcon.editIcon, title: transformedCells.isEmpty ? "Select Topics" : nil, isEditCell: true))
+            transformedCells.append(.init(image: transformedCells.isEmpty ? ImageIcon.plusIcon : ImageIcon.editIcon, title: transformedCells.isEmpty ? "Select Topics*" : nil, isEditCell: true))
         }
         
         delegate?.showHideTopicView(topics: transformedCells)
