@@ -401,11 +401,11 @@ public final class HomeFeedViewControler: BaseViewController {
             LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "article"])
             self?.moveToAddResources(resourceType: .article, url: nil)
         }
-        let videoAction = UIAlertAction(title: "Add Video", style: .default) {[weak self] action in
+        let videoAction = UIAlertAction(title: "Add Video (Max. 200MB)", style: .default) {[weak self] action in
             LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "video"])
             self?.addImageOrVideoResource()
         }
-        let pdfAction = UIAlertAction(title: "Add PDF", style: .default) {[weak self] action in
+        let pdfAction = UIAlertAction(title: "Add PDF (Max. 100MB)", style: .default) {[weak self] action in
             LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.clickedOnAttachment, eventProperties: ["type": "file"])
             self?.addPDFResource()
         }
@@ -856,8 +856,6 @@ extension HomeFeedViewControler: UIDocumentPickerDelegate {
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
         if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > ConstantValue.maxPDFUploadSizeInMB {
-            print(size)
-            print((size/1000000))
             self.showErrorAlert(message: MessageConstant.maxPDFError)
             return
         }
