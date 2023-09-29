@@ -362,7 +362,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
                             let asset = AVAsset(url: url)
                             if asset.videoDuration() > (ConstantValue.maxVideoUploadDurationInMins*60) || (AVAsset.videoSizeInKB(url: url)/1000) > ConstantValue.maxVideoUploadSizeInMB {
                                 imagePicker.doneButton.isEnabled = false
-                                imagePicker.presentAlert(message: MessageConstant.maxVideoError)
+                                imagePicker.presentAlert(title: MessageConstant.fileSizeTooBig, message: MessageConstant.maxVideoError)
                                 return
                             }
                         }
@@ -678,7 +678,7 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
         if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > ConstantValue.maxPDFUploadSizeInMB {
             print(size)
             print((size/1000000))
-            self.showErrorAlert(message: MessageConstant.maxPDFError)
+            self.showErrorAlert(MessageConstant.fileSizeTooBig, message: MessageConstant.maxPDFError)
             return
         }
         print(url)

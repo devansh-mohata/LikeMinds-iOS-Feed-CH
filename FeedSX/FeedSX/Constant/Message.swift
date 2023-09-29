@@ -18,4 +18,5 @@ public struct MessageConstant {
     static let maxVideoError = "The file you have selected is too large.\nThe max. size should be \(ConstantValue.maxVideoUploadSizeInMB)MB"
     static let maxPDFError = "The file you have selected is too large.\nThe max. size should be \(ConstantValue.maxPDFUploadSizeInMB)MB"
     static let aritcleCoverPhotoRatioError = "Please select 16:9 size cover photo"
+    static let fileSizeTooBig = "File size too big"
 }
