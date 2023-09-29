@@ -265,8 +265,6 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     func didClickedOnDeleteButton() {
-        // TODO: What here 
-        LMFeedAnalyticsEventName.Post.creationIncompleted
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -306,6 +304,12 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         default:
             break
         }
+        
+        if viewModel.selectedTopics.isEmpty {
+            showError(errorMessage: "Please select at least one topic")
+            return
+        }
+        
         self.viewModel.createPost(text, heading: heading, postType: self.resourceType ?? .image)
         self.navigationController?.popViewController(animated: true)
     }
