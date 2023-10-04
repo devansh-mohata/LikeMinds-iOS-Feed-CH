@@ -42,4 +42,8 @@ extension String {
         else { return nil }
         return from ..< to
     }
+    
+    var intValue: Int {
+        return Int(self) ?? 0
+    }
 }
