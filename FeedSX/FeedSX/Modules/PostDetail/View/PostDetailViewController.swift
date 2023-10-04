@@ -357,6 +357,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
             return cell
         }
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 { return nil}
         let commentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CommentHeaderViewCell.reuseIdentifier) as! CommentHeaderViewCell
@@ -479,7 +480,6 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
 }
 
 extension PostDetailViewController: ActionsFooterViewDelegate {
-    
     func didTappedAction(withActionType actionType: CellActionType, postData: PostFeedDataView?) {
         guard let postId = postData?.postId else { return }
         switch actionType {

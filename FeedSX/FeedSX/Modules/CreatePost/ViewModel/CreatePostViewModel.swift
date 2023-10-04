@@ -14,6 +14,7 @@ protocol CreatePostViewModelDelegate: AnyObject {
     func reloadCollectionView()
     func reloadActionTableView()
     func showError(errorMessage: String?)
+    func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel])
 }
 
 class TaggedUser {
@@ -35,8 +36,13 @@ class TaggingUser {
     }
 }
 
+struct TopicFeedDataModel {
+    let title: String
+    let topicID: String
+    var isEnabled: Bool
+}
+
 final class CreatePostViewModel: BaseViewModel {
-    
     var imageAndVideoAttachments: [PostFeedDataView.ImageVideo] = []
     var documentAttachments: [PostFeedDataView.Attachment] = []
     var linkAttatchment: PostFeedDataView.LinkAttachment?
@@ -46,6 +52,13 @@ final class CreatePostViewModel: BaseViewModel {
     var postCaption: String?
     var taggedUsers: [TaggedUser] = []
     
+    private var isShowTopicFeed = false
+    var selectedTopics: [TopicFeedDataModel] = []
+    private var selectedTopicIds: [String] {
+        selectedTopics.map {
+            $0.topicID
+        }
+    }
     enum AttachmentUploadType: String {
         case document = "Attach Files"
         case image = "Add Photo"
@@ -53,6 +66,22 @@ final class CreatePostViewModel: BaseViewModel {
         case link
         case dontAttachOgTag
         case unknown
+    }
+    
+    func getTopics() {
+        let request = TopicFeedRequest.builder()
+            .setEnableState(true)
+            .build()
+        
+        LMFeedClient.shared.getTopicFeed(request) { [weak self] response in
+            self?.isShowTopicFeed = !(response.data?.topics?.isEmpty ?? true)
+            self?.setupTopicFeed()
+        }
+    }
+    
+    func updateSelectedTopics(with data: [TopicFeedDataModel]) {
+        self.selectedTopics = data
+        setupTopicFeed()
     }
     
     func addDocumentAttachment(fileUrl: URL) {
@@ -80,7 +109,6 @@ final class CreatePostViewModel: BaseViewModel {
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             attachment.size = attr[.size] as? Int
             if let size = attachment.size, (size/1000) > 100000 {
-//                delegate?.showError(errorMessage: "File can not be more than 100 Mb.")
                 return
             }
         }
@@ -113,7 +141,6 @@ final class CreatePostViewModel: BaseViewModel {
     
     func parseMessageForLink(message: String) {
         guard let link = message.detectedFirstLink, currentSelectedUploadeType != .dontAttachOgTag else {
-//            self.currentSelectedUploadeType = .unknown
             self.linkAttatchment = nil
             self.delegate?.reloadCollectionView()
             return
@@ -136,7 +163,6 @@ final class CreatePostViewModel: BaseViewModel {
                 self?.currentSelectedUploadeType = .link
                 self?.linkAttatchment = .init(title: ogTags.title, linkThumbnailUrl: ogTags.image, description: ogTags.description, url: ogTags.url)
             } else {
-//                self?.currentSelectedUploadeType = .unknown
                 self?.linkAttatchment = nil
             }
             completion?()
@@ -162,7 +188,7 @@ final class CreatePostViewModel: BaseViewModel {
     func createPost(_ text: String?) {
         let parsedTaggedUserPostText = TaggedRouteParser.shared.editAnswerTextWithTaggedList(text: text, taggedUsers: self.taggedUsers)
         let filePath = "files/post/\(LocalPrefrerences.getUserData()?.clientUUID ?? "user")/"
-        if self.imageAndVideoAttachments.count > 0 {
+        if !imageAndVideoAttachments.isEmpty {
             var imageVideoAttachments: [AWSFileUploadRequest] = []
             var index = 0
             for attachedItem in self.imageAndVideoAttachments {
@@ -173,8 +199,8 @@ final class CreatePostViewModel: BaseViewModel {
                 imageVideoAttachments.append(item)
                 index += 1
             }
-            CreatePostOperation.shared.createPostWithAttachment(attachments: imageVideoAttachments, postCaption: parsedTaggedUserPostText)
-        } else if self.documentAttachments.count > 0 {
+            CreatePostOperation.shared.createPostWithAttachment(attachments: imageVideoAttachments, postCaption: parsedTaggedUserPostText, topics: selectedTopicIds)
+        } else if !documentAttachments.isEmpty {
             var documentAttachments: [AWSFileUploadRequest] = []
             var index = 0
             for attachedItem in self.documentAttachments {
@@ -187,15 +213,17 @@ final class CreatePostViewModel: BaseViewModel {
                 documentAttachments.append(item)
                 index += 1
             }
-            CreatePostOperation.shared.createPostWithAttachment(attachments: documentAttachments, postCaption: parsedTaggedUserPostText)
+            CreatePostOperation.shared.createPostWithAttachment(attachments: documentAttachments, postCaption: parsedTaggedUserPostText, topics: selectedTopicIds)
         } else if self.linkAttatchment != nil {
             self.createPostWithLinkAttachment(postCaption: parsedTaggedUserPostText)
         } else if !parsedTaggedUserPostText.isEmpty {
             self.createPostWithOutAttachment(postCaption: parsedTaggedUserPostText)
         }
     }
-    
-    private func createPostWithLinkAttachment(postCaption: String?) {
+}
+
+private extension CreatePostViewModel {
+    func createPostWithLinkAttachment(postCaption: String?) {
         guard let linkAttatchment = self.linkAttatchment else { return }
         let attachmentMeta = AttachmentMeta()
             .ogTags(.init()
@@ -209,22 +237,31 @@ final class CreatePostViewModel: BaseViewModel {
         let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
             .attachments([attachmentRequest])
+            .addTopics(selectedTopicIds)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }
     
-    private func createPostWithDocAttachment(postCaption: String?) {
-        
-    }
-    
-    private func createPostWithImageOrVideoAttachment(postCaption: String?) {
-        
-    }
-    
-    private func createPostWithOutAttachment(postCaption: String?) {
+    func createPostWithOutAttachment(postCaption: String?) {
         let addPostRequest = AddPostRequest.builder()
             .text(postCaption)
+            .addTopics(selectedTopicIds)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
+    }
+    
+    func setupTopicFeed() {
+        if !isShowTopicFeed {
+            delegate?.showHideTopicView(topics: [])
+            return
+        }
+        
+        var transformedCells: [TopicViewCollectionCell.ViewModel] = selectedTopics.map {
+            .init(image: nil, title: $0.title)
+        }
+        
+        transformedCells.append(.init(image: transformedCells.isEmpty ? ImageIcon.plusIcon : ImageIcon.editIcon, title: transformedCells.isEmpty ? "Select Topics" : nil, isEditCell: true))
+        
+        delegate?.showHideTopicView(topics: transformedCells)
     }
 }

@@ -38,7 +38,7 @@ class CreatePostOperation {
         }
     }
     
-    func createPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?) {
+    func createPostWithAttachment(attachments:  [AWSFileUploadRequest], postCaption: String?, topics: [String]) {
         self.attachmentList = attachments
         guard attachments.count > 0 else { return }
         postMessageForCreatingPost()
@@ -111,6 +111,7 @@ class CreatePostOperation {
                 let addPostRequest = AddPostRequest.builder()
                     .text(postCaption)
                     .attachments(attachments)
+                    .addTopics(topics)
                     .build()
                 LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
                     print("Post Creation with attachment done....")

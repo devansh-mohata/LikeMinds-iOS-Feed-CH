@@ -10,8 +10,6 @@
 		A64B71F5989B4E98BEE37FB0 /* Pods_LikeMindsFeedSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D3962ACFCA784F1CD3710B /* Pods_LikeMindsFeedSample.framework */; };
 		F44ECC522A2F2E5D0096DCC6 /* FeedSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; };
 		F44ECC532A2F2E5D0096DCC6 /* FeedSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F44ECC5A2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */; };
-		F44ECC5B2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F4BB415229ABC7970033F26E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415129ABC7970033F26E /* AppDelegate.swift */; };
 		F4BB415429ABC7970033F26E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415329ABC7970033F26E /* SceneDelegate.swift */; };
 		F4BB415629ABC7970033F26E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB415529ABC7970033F26E /* ViewController.swift */; };
@@ -39,7 +37,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F44ECC532A2F2E5D0096DCC6 /* FeedSX.framework in Embed Frameworks */,
-				F44ECC5B2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,7 +73,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F44ECC5A2A2F31CF0096DCC6 /* LikeMindsFeed.framework in Frameworks */,
 				F44ECC522A2F2E5D0096DCC6 /* FeedSX.framework in Frameworks */,
 				A64B71F5989B4E98BEE37FB0 /* Pods_LikeMindsFeedSample.framework in Frameworks */,
 			);

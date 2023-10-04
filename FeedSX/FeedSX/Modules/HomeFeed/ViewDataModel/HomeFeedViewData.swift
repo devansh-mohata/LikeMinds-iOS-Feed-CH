@@ -24,8 +24,10 @@ final class PostFeedDataView {
     var isSaved: Bool
     var postTime: Int
     var postMenuItems: [MenuItem]?
+    var topics: [TopicViewCollectionCell.ViewModel] = []
+    var topicFeedHeight: CGFloat?
     
-    init(post: Post, user: User?) {
+    init(post: Post, user: User?, topics: [TopicFeedResponse.TopicResponse]) {
         self.postId = post.id
         self.caption = post.text
         self.commentCount = post.commentsCount ?? 0
@@ -41,12 +43,21 @@ final class PostFeedDataView {
         self.attachments = docAttachments(post: post)
         self.linkAttachment = linkAttachment(post: post)
         self.postMenuItems = menuItems(post: post)
+        setTopics(post: post, allTopics: topics)
     }
     
     private func docAttachments(post: Post) -> [Attachment]? {
         guard let attachments = post.attachments, attachments.contains(where: {$0.attachmentType?.rawValue == 3}) else { return nil }
         
         return attachments.map { Attachment(attachmentUrl: $0.attachmentMeta?.attachmentUrl, attachmentType: $0.attachmentMeta?.format, attachmentSize: $0.attachmentMeta?.size, numberOfPages: $0.attachmentMeta?.pageCount, name: $0.attachmentMeta?.name)}
+    }
+    
+    private func setTopics(post: Post, allTopics: [TopicFeedResponse.TopicResponse]) {
+        topics = post.topics?.compactMap { topicID in
+            guard let obj = allTopics.first(where: { $0.id == topicID }),
+                  let name = obj.name else { return nil }
+            return .init(image: nil, title: name)
+        } ?? []
     }
     
     private func imageVideoAttachments(post: Post) -> [ImageVideo]? {
