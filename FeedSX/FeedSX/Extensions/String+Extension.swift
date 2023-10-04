@@ -44,6 +44,10 @@ extension String {
         return from ..< to
     }
     
+    var intValue: Int {
+        return Int(self) ?? 0
+    }
+    
     func sizeOfString(with font: UIFont = .systemFont(ofSize: 16)) -> CGSize {
         let fontAttributes = [NSAttributedString.Key.font: font]
         let size = (self as NSString).size(withAttributes: fontAttributes)

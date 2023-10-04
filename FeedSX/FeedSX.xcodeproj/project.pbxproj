@@ -30,6 +30,9 @@
 		F405D10529E811600074F531 /* SpecialCharString.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10429E811600074F531 /* SpecialCharString.swift */; };
 		F405D10729E8843F0074F531 /* ReportContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10629E8843F0074F531 /* ReportContentViewModel.swift */; };
 		F405D10929E885660074F531 /* ASImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10829E885660074F531 /* ASImageDownloader.swift */; };
+		F405D10B29E88EDE0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */; };
+		F40CC6AC2AC765CD000A2CA0 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F40CC6AA2AC765C1000A2CA0 /* LikeMindsFeed.framework */; };
+		F40CC6B22AC76719000A2CA0 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40CC6B12AC76719000A2CA0 /* Double+Extension.swift */; };
 		F41731C82A1A7CF7005FD279 /* NetworkOperationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */; };
 		F41731CA2A1A7D47005FD279 /* NetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C92A1A7D47005FD279 /* NetworkOperation.swift */; };
 		F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731CB2A1A7DC0005FD279 /* AttachmentUploadOperation.swift */; };
@@ -144,6 +147,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F40CC6A92AC765C1000A2CA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F40CC6A52AC765C1000A2CA0 /* LikeMindsFeed.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F414169C299E41C000622058;
+			remoteInfo = LikeMindsFeed;
+		};
 		F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
@@ -193,6 +203,9 @@
 		F405D10429E811600074F531 /* SpecialCharString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialCharString.swift; sourceTree = "<group>"; };
 		F405D10629E8843F0074F531 /* ReportContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewModel.swift; sourceTree = "<group>"; };
 		F405D10829E885660074F531 /* ASImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASImageDownloader.swift; sourceTree = "<group>"; };
+		F405D10A29E88EDD0074F531 /* HomeFeedOtherAttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedOtherAttachmentTableViewCell.swift; sourceTree = "<group>"; };
+		F40CC6A52AC765C1000A2CA0 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
+		F40CC6B12AC76719000A2CA0 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		F41731C72A1A7CF7005FD279 /* NetworkOperationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationQueueManager.swift; sourceTree = "<group>"; };
 		F41731C92A1A7D47005FD279 /* NetworkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperation.swift; sourceTree = "<group>"; };
 		F41731CB2A1A7DC0005FD279 /* AttachmentUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentUploadOperation.swift; sourceTree = "<group>"; };
@@ -424,6 +437,14 @@
 				F49F6BF82A1C8AF1005B2A81 /* Message.swift */,
 			);
 			path = Constant;
+			sourceTree = "<group>";
+		};
+		F40CC6A62AC765C1000A2CA0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F40CC6AA2AC765C1000A2CA0 /* LikeMindsFeed.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		F41731C62A1A7CB0005FD279 /* OperationQueue */ = {
@@ -746,6 +767,7 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
+				F40CC6A52AC765C1000A2CA0 /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -851,6 +873,7 @@
 				F4D3059A2A1D436300964114 /* UITableViewCell+Extension.swift */,
 				F46E15D02A26197D003C43BA /* UITextView+Extension.swift */,
 				F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */,
+				F40CC6B12AC76719000A2CA0 /* Double+Extension.swift */,
 				E54E895E2ABB103000F0E7DF /* UIStackView+Extension.swift */,
 			);
 			path = Extensions;
@@ -914,7 +937,6 @@
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
 				F4C3330129CDC83200AD5F52 /* Resources */,
-				F44ECC592A2F2EB40096DCC6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -952,6 +974,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = F40CC6A62AC765C1000A2CA0 /* Products */;
+					ProjectRef = F40CC6A52AC765C1000A2CA0 /* LikeMindsFeed.xcodeproj */;
+				},
+				{
 					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
 					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
 				},
@@ -964,6 +990,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		F40CC6AA2AC765C1000A2CA0 /* LikeMindsFeed.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = LikeMindsFeed.framework;
+			remoteRef = F40CC6A92AC765C1000A2CA0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1052,6 +1085,7 @@
 				F4A9618429DC06D300F395AD /* LinkCollectionViewCell.swift in Sources */,
 				F41731C82A1A7CF7005FD279 /* NetworkOperationQueueManager.swift in Sources */,
 				F405D0FF29E7E0800074F531 /* ReportContentViewController.swift in Sources */,
+				F40CC6B22AC76719000A2CA0 /* Double+Extension.swift in Sources */,
 				F49C76FE29E4345300325AD9 /* PlayerView.swift in Sources */,
 				F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */,
 				F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */,
