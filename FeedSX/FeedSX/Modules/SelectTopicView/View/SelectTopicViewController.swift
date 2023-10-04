@@ -54,6 +54,7 @@ class SelectTopicViewController: BaseViewController {
     private lazy var searchController: UISearchController = {
         let search = UISearchController()
         search.searchBar.placeholder = "Search Topic"
+        search.searchBar.setValue("Confirm", forKey: "cancelButtonText")
         return search
     }()
     
@@ -78,6 +79,8 @@ class SelectTopicViewController: BaseViewController {
         searchController.searchBar.delegate = self
         allTopicsView.isHidden = !viewModel.isShowAllTopics
         navigationItem.searchController = searchController
+        let cancelButton = searchController.searchBar.value(forKey: "cancelButton") as? UIButton
+        cancelButton?.setTitle("Confirm", for: .normal)
         viewModel.fetchTopics(searchQuery: searchQuery, isFreshSearch: true)
     }
     
@@ -154,6 +157,7 @@ extension SelectTopicViewController: UISearchControllerDelegate, UISearchBarDele
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         allTopicsView.isHidden = !viewModel.isShowAllTopics
+        searchQuery = nil
         viewModel.fetchTopics(searchQuery: nil, isFreshSearch: true)
         allTopicsView.isHidden = !viewModel.isShowAllTopics
     }
@@ -171,7 +175,7 @@ extension SelectTopicViewController: UISearchControllerDelegate, UISearchBarDele
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchQuery = searchBar.text
         view.endEditing(true)
-        viewModel.fetchTopics(searchQuery: nil, isFreshSearch: true)
+        viewModel.fetchTopics(searchQuery: searchQuery, isFreshSearch: true)
         allTopicsView.isHidden = !viewModel.isShowAllTopics
     }
     
