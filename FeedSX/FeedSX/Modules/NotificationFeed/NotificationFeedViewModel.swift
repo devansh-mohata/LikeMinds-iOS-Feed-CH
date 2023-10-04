@@ -23,16 +23,16 @@ class NotificationFeedViewModel: BaseViewModel {
     
     func pullToRefreshData() {
         self.currentPage = 1
-        self.getNotificationFeed()
+        self.getNotificationFeed(isShowLoader: false)
     }
     
-    func getNotificationFeed() {
+    func getNotificationFeed(isShowLoader: Bool = true) {
         let request = GetNotificationFeedRequest.builder()
             .page(currentPage)
             .build()
         self.isNotificationFeedLoading = true
         if currentPage == 1 {
-            delegate?.showHideLoader(isShow: true)
+            delegate?.showHideLoader(isShow: isShowLoader)
         }
         LMFeedClient.shared.getNotificationFeed(request) {[weak self] response in
             if self?.currentPage == 1 {

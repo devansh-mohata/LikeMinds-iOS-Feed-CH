@@ -65,10 +65,10 @@ final class PostDetailViewModel: BaseViewModel {
     
     func pullToRefreshData() {
         commentCurrentPage = 1
-        getPostDetail()
+        getPostDetail(isShowLoader: false)
     }
     
-    func getPostDetail() {
+    func getPostDetail(isShowLoader: Bool = true) {
         guard !self.isCommentLoading else { return }
         let request = GetPostRequest.builder()
             .postId(postId)
@@ -76,7 +76,7 @@ final class PostDetailViewModel: BaseViewModel {
             .pageSize(commentPageSize)
             .build()
         self.isCommentLoading = true
-        delegate?.showHideLoader(isShow: true)
+        delegate?.showHideLoader(isShow: isShowLoader)
         LMFeedClient.shared.getPost(request) {[weak self] response in
             self?.delegate?.showHideLoader(isShow: false)
             if response.success == false {

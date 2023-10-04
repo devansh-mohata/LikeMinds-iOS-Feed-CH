@@ -42,7 +42,6 @@ final class SelectTopicViewModel {
     func fetchTopics(searchQuery: String?, isFreshSearch: Bool = false) {
         if isFreshSearch {
             pageNumber = 1
-            allTopics = []
             allowAPICall = true
         }
         
@@ -61,7 +60,6 @@ final class SelectTopicViewModel {
         LMFeedClient.shared.getTopicFeed(request) { [weak self] response in
             guard let self else { return }
             if response.success {
-                self.pageNumber += 1
                 self.allowAPICall = !(response.data?.topics?.isEmpty ?? true)
                 let transformedTopics: [TopicFeedDataModel] = response.data?.topics?.compactMap {
                     guard let name = $0.name,
@@ -69,7 +67,12 @@ final class SelectTopicViewModel {
                     return .init(title: name, topicID: id, isEnabled: $0.isEnabled ?? false)
                 } ?? []
                 
-                allTopics.append(contentsOf: transformedTopics)
+                if self.pageNumber > 1 {
+                    allTopics.append(contentsOf: transformedTopics)
+                } else {
+                    allTopics = transformedTopics
+                }
+                self.pageNumber += 1
                 self.updateData()
             }
         }
@@ -93,6 +96,7 @@ final class SelectTopicViewModel {
     }
         
     func didSelectRowAt(indexPath: IndexPath) {
+        guard allTopics.count > indexPath.row else { return }
         if let idx = selectedTopics.firstIndex(where: {
             $0.topicID == allTopics[indexPath.row].topicID
         }) {
