@@ -13,14 +13,15 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     static let bundle = Bundle(for: HomeFeedDocumentTableViewCell.self)
     weak var delegate: HomeFeedTableViewCellDelegate?
     
-    @IBOutlet weak var profileSectionView: UIView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var actionsSectionView: UIView!
-    @IBOutlet weak var captionLabel: LMTextView!
-    @IBOutlet weak var imageVideoCollectionView: UICollectionView!
-    @IBOutlet weak var captionSectionView: UIView!
-    @IBOutlet weak var moreAttachmentButton: LMButton!
-    @IBOutlet weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var profileSectionView: UIView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var actionsSectionView: UIView!
+    @IBOutlet private weak var captionLabel: LMTextView!
+    @IBOutlet private weak var imageVideoCollectionView: UICollectionView!
+    @IBOutlet private weak var captionSectionView: UIView!
+    @IBOutlet private weak var moreAttachmentButton: LMButton!
+    @IBOutlet private weak var collectionSuperViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var topicView: LMTopicView!
     
     let profileSectionHeader: ProfileHeaderView = {
         let profileSection = ProfileHeaderView()
@@ -56,12 +57,6 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
     }
     
     @objc func tappedTextView(tapGesture: LMTapGesture) {
@@ -74,19 +69,14 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         }
     }
     
-    fileprivate func setupActionSectionFooter() {
+    private func setupActionSectionFooter() {
         self.actionsSectionView.addSubview(actionFooterSectionView)
         actionFooterSectionView.addConstraints(equalToView: self.actionsSectionView)
     }
     
-    fileprivate func setupProfileSectionHeader() {
+    private func setupProfileSectionHeader() {
         self.profileSectionView.addSubview(profileSectionHeader)
         profileSectionHeader.addConstraints(equalToView: self.profileSectionView)
-    }
-    
-    fileprivate func setupCaptionSectionView() {
-        //        self.captionSectionView.addSubview(postCaptionView)
-        //        postCaptionView.addConstraints(equalToView: self.captionSectionView)
     }
     
     @objc func moreButtonClick() {
@@ -95,10 +85,9 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
         self.collectionSuperViewHeightConstraint.constant = CGFloat(90 * count)
         self.moreAttachmentButton.superview?.isHidden = true
         self.tableView()?.endUpdates()
-        
     }
     
-    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
+    func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?, isSepratorShown: Bool = true) {
         self.feedData = feedDataView
         self.delegate = delegate
         profileSectionHeader.setupProfileSectionData(feedDataView, delegate: delegate)
@@ -112,11 +101,13 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
             self.moreAttachmentButton.superview?.isHidden = true
         }
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
+        
+        topicView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
         setupContainerData()
+        layoutIfNeeded()
     }
     
     func setupImageCollectionView() {
-        
         self.imageVideoCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
         self.moreAttachmentButton.superview?.isHidden = true
@@ -129,10 +120,6 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     private func setupContainerData() {
         switch self.feedData?.postAttachmentType() ?? .unknown {
         case .document:
-//            let flowlayout = UICollectionViewFlowLayout()
-//            flowlayout.scrollDirection = .vertical
-//            flowlayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 90)
-//            self.imageVideoCollectionView.collectionViewLayout = flowlayout
             containerView.isHidden = false
             imageVideoCollectionView.reloadData()
         default:
@@ -150,7 +137,6 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
 }
 
 extension HomeFeedDocumentTableViewCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch self.feedData?.postAttachmentType() ?? .unknown {
         case .document:

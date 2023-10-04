@@ -165,7 +165,8 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     }()
     
     let deviderLabel: LMLabel = {
-        let label = LMLabel()
+        let label = LMPaddedLabel()
+        label.paddingRight = 8
         label.font = LMBranding.shared.font(16, .regular)
         label.text = "|"
         label.textColor = ColorConstant.likeTextColor
@@ -309,6 +310,7 @@ class CommentHeaderViewCell: UITableViewHeaderFooterView {
     }
     
     @objc private func likeTapped(sender: LMTapGesture) {
+        guard let commentId = self.comment?.commentId else { return }
         let isLike = !(self.comment?.isLiked ?? false)
         self.comment?.isLiked = isLike
         self.comment?.likedCount += isLike ? 1 : -1

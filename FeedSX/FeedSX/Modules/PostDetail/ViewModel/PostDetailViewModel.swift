@@ -83,7 +83,9 @@ final class PostDetailViewModel: BaseViewModel {
                 self?.isCommentLoading = false
                 return
             }
-            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""])
+            
+            let topics = response.data?.topics?.compactMap { $0.value } ?? []
+            self?.postDetail = PostFeedDataView(post: postDetails, user: users[postDetails.uuid ?? ""], topics: topics)
             if let replies = postDetails.replies, replies.count > 0 {
                 if (self?.commentCurrentPage ?? 1) > 1 {
                     self?.comments.append(contentsOf: replies.compactMap({.init(comment: $0, user: users[$0.uuid ?? ""])}))
@@ -130,7 +132,9 @@ final class PostDetailViewModel: BaseViewModel {
         let request = AddCommentRequest.builder()
             .postId(self.postId)
             .text(comment)
+            .tempId("\(Date().millisecondsSince1970.intValue)")
             .build()
+        self.postCommentOnPostUpdateLoacally(request: request)
         LMFeedClient.shared.addComment(request) { [weak self] response in
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
@@ -138,13 +142,38 @@ final class PostDetailViewModel: BaseViewModel {
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
-            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.onPost, eventProperties: ["post_id": self?.postId ?? "", "comment_id": comment.id])
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.onPost, eventProperties: ["post_id": self?.postId ?? "", "comment_id": comment.id ?? ""])
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.uuid ?? ""])
-            self?.postDetail?.commentCount += 1
-            self?.comments.insert(postComment, at: 0)
-            self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: NSNotFound, section: 1))
+            if let indexOfComment = self?.comments.firstIndex(where: {$0.tempId == postComment.tempId}) {
+                self?.comments[indexOfComment] = postComment
+                self?.delegate?.reloadSection(IndexPath(row: NSNotFound, section: 0))
+            } else {
+                self?.postDetail?.commentCount += 1
+                self?.comments.insert(postComment, at: 0)
+                self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: NSNotFound, section: 1))
+            }
             self?.notifyObjectChanges()
         }
+    }
+    
+    private func postCommentOnPostUpdateLoacally(request: AddCommentRequest) {
+        let jsonEncoder = JSONEncoder()
+        guard let jsonData = try? jsonEncoder.encode(request) else {
+            print("Unable to endcode request..")
+            return
+        }
+        // Decode
+        let jsonDecoder = JSONDecoder()
+        guard let comment = try? jsonDecoder.decode(LikeMindsFeed.Comment.self, from: jsonData) else {
+            print("Unable to decode request..")
+            return
+        }
+        
+        let postComment = PostDetailDataModel.Comment(comment: comment, user: LocalPrefrerences.getUserData())
+        postComment.createdAt = (postComment.tempId ?? "").intValue
+        self.postDetail?.commentCount += 1
+        self.comments.insert(postComment, at: 0)
+        self.delegate?.insertAndScrollToRecentComment(IndexPath(row: NSNotFound, section: 1))
     }
     
     private func postCommentsReply(commentId: String, comment: String) {
@@ -152,7 +181,9 @@ final class PostDetailViewModel: BaseViewModel {
             .postId(postId)
             .commentId(commentId)
             .text(comment)
+            .tempId("\(Date().millisecondsSince1970.intValue)")
             .build()
+        self.postCommentsReplyUpdateLoacally(request: request, commentId: commentId)
         LMFeedClient.shared.replyComment(request) { [weak self] response in
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
@@ -160,16 +191,50 @@ final class PostDetailViewModel: BaseViewModel {
             guard let comment = response.data?.comment, let users =  response.data?.users else {
                 return
             }
-            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.reply, eventProperties: ["post_id": self?.postId ?? "", "comment_reply_id": comment.id, "comment_id": commentId])
+            LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.reply, eventProperties: ["post_id": self?.postId ?? "", "comment_reply_id": comment.id ?? "", "comment_id": commentId])
             let postComment = PostDetailDataModel.Comment(comment: comment, user: users[comment.uuid ?? ""])
-            self?.replyOnComment?.replies.insert(postComment, at: 0)
-            self?.replyOnComment?.commentCount += 1
-            guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
-                self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
-                return
+            if let replyCommentIndex = self?.replyOnComment?.replies.firstIndex(where: {$0.tempId == postComment.tempId}) {
+                self?.replyOnComment?.replies[replyCommentIndex] = postComment
+                self?.replyOnComment = nil
+                guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
+                    self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
+                    return
+                }
+                self?.delegate?.reloadSection(IndexPath(row: replyCommentIndex, section: section+1))
+            } else {
+                self?.replyOnComment?.replies.insert(postComment, at: 0)
+                self?.replyOnComment?.commentCount += 1
+                self?.replyOnComment = nil
+                guard let section = self?.comments.firstIndex(where:{$0.commentId == commentId}) else {
+                    self?.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
+                    return
+                }
+                self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: 0, section: section+1))
             }
-            self?.delegate?.insertAndScrollToRecentComment(IndexPath(row: 0, section: section+1))
         }
+    }
+    
+    private func postCommentsReplyUpdateLoacally(request: ReplyCommentRequest, commentId: String) {
+        let jsonEncoder = JSONEncoder()
+        guard let jsonData = try? jsonEncoder.encode(request) else {
+            print("Unable to endcode request..")
+            return
+        }
+        // Decode
+        let jsonDecoder = JSONDecoder()
+        guard let comment = try? jsonDecoder.decode(LikeMindsFeed.Comment.self, from: jsonData) else {
+            print("Unable to decode request..")
+            return
+        }
+        let postComment = PostDetailDataModel.Comment(comment: comment, user: LocalPrefrerences.getUserData())
+        postComment.createdAt = (postComment.tempId ?? "").intValue
+        self.replyOnComment?.replies.insert(postComment, at: 0)
+        self.replyOnComment?.commentCount += 1
+        guard let section = self.comments.firstIndex(where:{$0.commentId == commentId}) else {
+            self.delegate?.didReceiveCommentsReply(withCommentId: commentId, withBatchFirstReplyId: comment.replies?.first?.id ?? "")
+            return
+        }
+        self.delegate?.insertAndScrollToRecentComment(IndexPath(row: 0, section: section+1))
     }
     
     func likePost(postId: String) {

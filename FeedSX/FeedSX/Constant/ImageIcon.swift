@@ -29,4 +29,6 @@ struct ImageIcon {
     static let crossIcon = "multiply.circle.fill"
     static let calenderBadgePlus = "calendar.badge.plus"
     static let emptyDataImage = "emptydata_icon"
+    static let editIcon = "pencil"
+    static let plusIcon = "plus"
 }
