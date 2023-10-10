@@ -553,7 +553,6 @@ public final class HomeFeedViewControler: BaseViewController {
 }
 
 extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
-    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         homeFeedViewModel.feeds.count
     }
@@ -566,7 +565,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         case .link:
-            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkCell.nibName, for: indexPath) as! HomeFeedLinkCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkCell.nibName) as! HomeFeedLinkCell
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         case .image:
@@ -589,8 +588,11 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print(cell, indexPath)
         if let cell = cell as? HomeFeedImageVideoTableViewCell {
             cell.pauseAllInVisibleVideos()
+        } else if let cell = cell as? HomeFeedLinkCell {
+            cell.pauseVideo()
         }
     }
     
@@ -614,9 +616,16 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         self.lastKnowScrollViewContentOfsset = scrollView.contentOffset.y
 
         checkWhichVideoToEnable()
-        if offsetY > contentHeight - (scrollView.frame.height + 60) && !homeFeedViewModel.isFeedLoading
-        {
+        if offsetY > contentHeight - (scrollView.frame.height + 60) && !homeFeedViewModel.isFeedLoading {
             homeFeedViewModel.getFeed()
+        }
+        
+        if let tblView = scrollView as? UITableView {
+            tblView.visibleCells.forEach { cell in
+                if let linkCell = cell as? HomeFeedLinkCell {
+                    linkCell.pauseVideo()
+                }
+            }
         }
     }
     
@@ -628,7 +637,6 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     func checkWhichVideoToEnable() {
         
         for cell in feedTableView.visibleCells as [UITableViewCell] {
-            
             if let cell = cell as? HomeFeedVideoCell {
                 
                 let indexPath = feedTableView.indexPath(for: cell)

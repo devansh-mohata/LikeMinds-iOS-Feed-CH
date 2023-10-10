@@ -337,11 +337,13 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
         guard let _ = viewModel.postDetail else { return 0 }
         return viewModel.comments.count + 1
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 { return 1//(viewModel.postDetail?.commentCount ?? 0) > 0 ? 2 : 1
         }
         return viewModel.repliesCount(section: section - 1)
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0,
            let post = viewModel.postDetail
@@ -384,7 +386,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 { return nil}
+        if section == 0 { return nil }
         let commentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CommentHeaderViewCell.reuseIdentifier) as! CommentHeaderViewCell
         commentView.delegate = self
         commentView.section = section
@@ -410,7 +412,15 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
+        if let tempCell = cell as? HomeFeedLinkTableViewCell {
+            tempCell.playVideo()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let tempCell = cell as? HomeFeedLinkTableViewCell {
+            tempCell.pauseVideo()
+        }
     }
 }
 
