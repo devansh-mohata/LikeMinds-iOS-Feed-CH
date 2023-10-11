@@ -20,9 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E5A938A72ABACC1A001B5D2B /* PBXContainerItemProxy */ = {
+		E5E076A42AD6833700261CBB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */;
+			containerPortal = E5E0769F2AD6833700261CBB /* LikeMindsFeed.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F414169C299E41C000622058;
 			remoteInfo = LikeMindsFeed;
@@ -54,7 +54,7 @@
 		0CDF2F08A0BDDD9D60359CDD /* Pods-LikeMindsFeedSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.release.xcconfig"; sourceTree = "<group>"; };
 		5F898A8C93CF44FF3B6E1A96 /* Pods-LikeMindsFeedSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsFeedSample.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsFeedSample/Pods-LikeMindsFeedSample.debug.xcconfig"; sourceTree = "<group>"; };
 		70D3962ACFCA784F1CD3710B /* Pods_LikeMindsFeedSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsFeedSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../SDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
+		E5E0769F2AD6833700261CBB /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../MegaCollab/TempSDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F46E14CE2A253ECE003C43BA /* AWSCognito.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F46E15C12A25D9A0003C43BA /* LikeMindsFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LikeMindsFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F487732929AC9DAD00A7B0D0 /* LMFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LMFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,10 +98,10 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		E5A938A32ABACC1A001B5D2B /* Products */ = {
+		E5E076A02AD6833700261CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E5A938A82ABACC1A001B5D2B /* LikeMindsFeed.framework */,
+				E5E076A52AD6833700261CBB /* LikeMindsFeed.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 		F4BB414529ABC7970033F26E = {
 			isa = PBXGroup;
 			children = (
-				E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */,
+				E5E0769F2AD6833700261CBB /* LikeMindsFeed.xcodeproj */,
 				F4A86BA92A2E27A900C7D5C2 /* FeedSX.xcodeproj */,
 				F4BB415029ABC7970033F26E /* LikeMindsFeedSample */,
 				F4BB414F29ABC7970033F26E /* Products */,
@@ -221,8 +221,8 @@
 					ProjectRef = F4A86BA92A2E27A900C7D5C2 /* FeedSX.xcodeproj */;
 				},
 				{
-					ProductGroup = E5A938A32ABACC1A001B5D2B /* Products */;
-					ProjectRef = E5A938A22ABACC1A001B5D2B /* LikeMindsFeed.xcodeproj */;
+					ProductGroup = E5E076A02AD6833700261CBB /* Products */;
+					ProjectRef = E5E0769F2AD6833700261CBB /* LikeMindsFeed.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -233,11 +233,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E5A938A82ABACC1A001B5D2B /* LikeMindsFeed.framework */ = {
+		E5E076A52AD6833700261CBB /* LikeMindsFeed.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = LikeMindsFeed.framework;
-			remoteRef = E5A938A72ABACC1A001B5D2B /* PBXContainerItemProxy */;
+			remoteRef = E5E076A42AD6833700261CBB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F4A86BAF2A2E27A900C7D5C2 /* FeedSX.framework */ = {
