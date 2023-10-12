@@ -591,8 +591,6 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         print(cell, indexPath)
         if let cell = cell as? HomeFeedImageVideoTableViewCell {
             cell.pauseAllInVisibleVideos()
-        } else if let cell = cell as? HomeFeedLinkCell {
-            cell.pauseVideo()
         }
     }
     
@@ -618,14 +616,6 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         checkWhichVideoToEnable()
         if offsetY > contentHeight - (scrollView.frame.height + 60) && !homeFeedViewModel.isFeedLoading {
             homeFeedViewModel.getFeed()
-        }
-        
-        if let tblView = scrollView as? UITableView {
-            tblView.visibleCells.forEach { cell in
-                if let linkCell = cell as? HomeFeedLinkCell {
-                    linkCell.pauseVideo()
-                }
-            }
         }
     }
     
@@ -829,11 +819,12 @@ extension HomeFeedViewControler: DeleteContentViewProtocol {
 extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
     
     func didTapOnUrl(url: String) {
-        print("tapped url: \(url)")
         if url.hasPrefix("route://user_profile") {
             let uuid = url.components(separatedBy: "/").last
             LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
-            
+        } else if let videoID = url.youtubeVideoID() {
+            let youtubeVC = YoutubeViewController(videoID: videoID)
+            navigationController?.pushViewController(youtubeVC, animated: true)
         } else if let url = URL.url(string: url.linkWithSchema()) {
             let safariVC = SFSafariViewController(url: url)
             present(safariVC, animated: true, completion: nil)

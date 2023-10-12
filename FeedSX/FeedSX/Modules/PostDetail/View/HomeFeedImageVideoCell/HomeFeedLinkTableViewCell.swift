@@ -13,10 +13,7 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     static let bundle = Bundle(for: HomeFeedLinkTableViewCell.self)
     weak var delegate: HomeFeedTableViewCellDelegate?
     
-    @IBOutlet private weak var youtubeContainerView: UIView!
-    @IBOutlet private weak var youtubePlayerView: YTPlayerView!
-    @IBOutlet private weak var youtubeIndicator: UIActivityIndicatorView!
-    
+    @IBOutlet private weak var playVideoIcon: UIImageView!
     @IBOutlet private weak var profileSectionView: UIView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var actionsSectionView: UIView!
@@ -62,14 +59,8 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
     
     var feedData: PostFeedDataView?
     
-    private let ytPlayerVars = ["rel" : 0,
-                              "showinfo": 0,
-                              "disablekb": 1]
-
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        youtubePlayerView.delegate = self
         captionLabel.delegate = self
         
         selectionStyle = .none
@@ -78,12 +69,6 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         
         setupProfileSectionHeader()
         setupActionSectionFooter()
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        youtubePlayerView.pauseVideo()
-        youtubeContainerView.isHidden = true
     }
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?, isSepratorShown: Bool = true) {
@@ -96,14 +81,6 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
         topicFeedView.configure(with: feedDataView.topics, isSepratorShown: isSepratorShown)
         topicFeedView.isHidden = feedDataView.topics.isEmpty
         layoutIfNeeded()
-    }
-    
-    func pauseVideo() {
-        youtubePlayerView.pauseVideo()
-    }
-    
-    func playVideo() {
-        youtubePlayerView.playVideo()
     }
     
     @objc
@@ -138,33 +115,18 @@ extension HomeFeedLinkTableViewCell: UITextViewDelegate {
     }
 }
 
-extension HomeFeedLinkTableViewCell: YTPlayerViewDelegate {
-    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        youtubeIndicator.stopAnimating()
-//        playerView.playVideo()
-    }
-}
-
-
 private extension HomeFeedLinkTableViewCell {
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
-        youtubeContainerView.isHidden = true
-        containerView.isHidden = true
-        
+       
         linkTitleLabel.text = title
         linkDescriptionLabel.text = description
         linkLabel.text = link?.lowercased()
+        playVideoIcon.isHidden = link?.youtubeVideoID() == nil
+
+        let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
+        linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? ""), placeholder: placeholder)
         
-        if let videoID = link?.youtubeVideoID() {
-            youtubeContainerView.isHidden = false
-            setupYoutubePlayer(videoID: videoID)
-        } else {
-            containerView.isHidden = false
-            let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
-            self.linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? ""), placeholder: placeholder)
-        }
-        
-        self.containerView.layoutIfNeeded()
+        containerView.layoutIfNeeded()
     }
     
     func setupCaption() {
@@ -173,11 +135,6 @@ private extension HomeFeedLinkTableViewCell {
         self.headerLabel.text = self.feedData?.header
         self.captionSectionView.isHidden = caption.isEmpty
         self.captionLabel.attributedText = TaggedRouteParser.shared.getTaggedParsedAttributedString(with: caption, forTextView: true, withTextColor: ColorConstant.postCaptionColor)
-    }
-    
-    func setupYoutubePlayer(videoID: String) {
-        youtubeIndicator.startAnimating()
-        youtubePlayerView.load(withVideoId: videoID, playerVars: ytPlayerVars)
     }
     
     func setupActionSectionFooter() {

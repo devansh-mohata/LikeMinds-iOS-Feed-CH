@@ -410,18 +410,6 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
             }
         }
     }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let tempCell = cell as? HomeFeedLinkTableViewCell {
-            tempCell.playVideo()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let tempCell = cell as? HomeFeedLinkTableViewCell {
-            tempCell.pauseVideo()
-        }
-    }
 }
 
 extension PostDetailViewController: UITextViewDelegate {
@@ -553,7 +541,9 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
         if url.hasPrefix("route://user_profile") {
             let uuid = url.components(separatedBy: "/").last
             LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
-            
+        } else if let videoID = url.youtubeVideoID() {
+            let youtubeVC = YoutubeViewController(videoID: videoID)
+            navigationController?.pushViewController(youtubeVC, animated: true)
         } else if let url = URL.url(string: url.linkWithSchema()) {
             let safariVC = SFSafariViewController(url: url)
             present(safariVC, animated: true, completion: nil)

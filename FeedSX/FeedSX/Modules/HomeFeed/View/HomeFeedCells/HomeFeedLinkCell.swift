@@ -12,10 +12,7 @@ class HomeFeedLinkCell: UITableViewCell {
     static let nibName: String = "HomeFeedLinkCell"
     static let bundle = Bundle(for: HomeFeedLinkCell.self)
     
-    @IBOutlet private weak var youtubeContainerView: UIView!
-    @IBOutlet private weak var youtubePlayer: YTPlayerView!
-    @IBOutlet private weak var youtubeIndicator: UIActivityIndicatorView!
-    
+    @IBOutlet private weak var playVideoIcon: UIImageView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var profileSectionView: UIView!
     @IBOutlet private weak var actionsSectionView: UIView!
@@ -52,10 +49,6 @@ class HomeFeedLinkCell: UITableViewCell {
         return actionsSection
     }()
     
-    private let ytPlayerVars = ["rel" : 0,
-                              "showinfo": 0,
-                              "disablekb": 1]
-    
     var feedData: PostFeedDataView?
 
     override func awakeFromNib() {
@@ -65,8 +58,6 @@ class HomeFeedLinkCell: UITableViewCell {
         
         setupProfileSectionHeader()
         setupActionSectionFooter()
-        
-        youtubePlayer.delegate = self
     }
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
@@ -77,14 +68,6 @@ class HomeFeedLinkCell: UITableViewCell {
         setupLinkCell(feedDataView.linkAttachment?.title, description: feedDataView.linkAttachment?.description, link: feedDataView.linkAttachment?.url, linkThumbnailUrl: feedDataView.linkAttachment?.linkThumbnailUrl)
         topicFeed.configure(with: feedDataView.topics, isSepratorShown: false)
         self.layoutIfNeeded()
-    }
-    
-    func pauseVideo() {
-        youtubePlayer.pauseVideo()
-    }
-    
-    func playVideo() {
-        youtubePlayer.playVideo()
     }
     
     @IBAction private func linkButtonClicked(_ sender: Any) {
@@ -108,34 +91,14 @@ private extension HomeFeedLinkCell {
     }
     
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
-        youtubeContainerView.isHidden = true
-        containerView.isHidden = true
-        
         linkTitleLabel.text = title
         linkDescriptionLabel.text = nil
         linkLabel.text = link?.lowercased()
+        playVideoIcon.isHidden = link?.youtubeVideoID() == nil
         
-        if let videoID = link?.youtubeVideoID() {
-            youtubeContainerView.isHidden = false
-            setupYoutubePlayer(videoID: videoID)
-        } else {
-            containerView.isHidden = false
-            let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
-            self.linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? ""), placeholder: placeholder)
-        }
+        let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
+        linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? ""), placeholder: placeholder)
         
-        self.containerView.layoutIfNeeded()
-    }
-    
-    func setupYoutubePlayer(videoID: String) {
-        youtubeIndicator.startAnimating()
-        youtubePlayer.load(withVideoId: videoID, playerVars: ytPlayerVars)
-    }
-}
-
-extension HomeFeedLinkCell: YTPlayerViewDelegate {
-    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
-        youtubeIndicator.stopAnimating()
-//        playerView.playVideo()
+        containerView.layoutIfNeeded()
     }
 }

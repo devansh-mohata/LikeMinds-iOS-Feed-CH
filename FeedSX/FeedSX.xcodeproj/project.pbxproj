@@ -20,8 +20,10 @@
 		E5D955DE2ABD63260038BDAE /* LMTopicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955DD2ABD63260038BDAE /* LMTopicView.xib */; };
 		E5D955E32ABD7A480038BDAE /* HomeFeedTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */; };
 		E5D955E42ABD7A480038BDAE /* HomeFeedTopicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */; };
-		E5E0764C2AD4155600261CBB /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5E0764B2AD4154D00261CBB /* LikeMindsFeed.framework */; };
-		E5E0764D2AD4155600261CBB /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5E0764B2AD4154D00261CBB /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E5E529722AD6AE0700C8743F /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */; };
+		E5E529732AD6AE0700C8743F /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E5E529872AD7E15200C8743F /* YoutubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E529852AD7E15200C8743F /* YoutubeViewController.swift */; };
+		E5E529882AD7E15200C8743F /* YoutubeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E529862AD7E15200C8743F /* YoutubeViewController.xib */; };
 		F401D5F32A6419E400DDC10C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */; };
 		F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */; };
 		F405D0FF29E7E0800074F531 /* ReportContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */; };
@@ -201,9 +203,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E5E0764A2AD4154D00261CBB /* PBXContainerItemProxy */ = {
+		E5E529702AD6ADFA00C8743F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E5E076462AD4154D00261CBB /* LikeMindsFeed.xcodeproj */;
+			containerPortal = E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F414169C299E41C000622058;
 			remoteInfo = LikeMindsFeed;
@@ -224,7 +226,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E5E0764D2AD4155600261CBB /* LikeMindsFeed.framework in Embed Frameworks */,
+				E5E529732AD6AE0700C8743F /* LikeMindsFeed.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,7 +251,9 @@
 		E5D955DD2ABD63260038BDAE /* LMTopicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LMTopicView.xib; sourceTree = "<group>"; };
 		E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedTopicCell.swift; sourceTree = "<group>"; };
 		E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedTopicCell.xib; sourceTree = "<group>"; };
-		E5E076462AD4154D00261CBB /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../TempSDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
+		E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../MegaCollab/TempSDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
+		E5E529852AD7E15200C8743F /* YoutubeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeViewController.swift; sourceTree = "<group>"; };
+		E5E529862AD7E15200C8743F /* YoutubeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YoutubeViewController.xib; sourceTree = "<group>"; };
 		F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContentViewModel.swift; sourceTree = "<group>"; };
 		F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewController.swift; sourceTree = "<group>"; };
@@ -438,7 +442,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5E0764C2AD4155600261CBB /* LikeMindsFeed.framework in Frameworks */,
+				E5E529722AD6AE0700C8743F /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,12 +531,21 @@
 			path = HomeFeedTopicCell;
 			sourceTree = "<group>";
 		};
-		E5E076472AD4154D00261CBB /* Products */ = {
+		E5E5296D2AD6ADFA00C8743F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E5E0764B2AD4154D00261CBB /* LikeMindsFeed.framework */,
+				E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E5E529842AD7E13000C8743F /* YoutubePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				E5E529852AD7E15200C8743F /* YoutubeViewController.swift */,
+				E5E529862AD7E15200C8743F /* YoutubeViewController.xib */,
+			);
+			path = YoutubePlayer;
 			sourceTree = "<group>";
 		};
 		F405D0FC29E7E0410074F531 /* ReportContent */ = {
@@ -885,6 +898,7 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E5E529842AD7E13000C8743F /* YoutubePlayer */,
 				F4EA97A72A14980B0020E672 /* Analytics */,
 				F4A9617629DBF9E500F395AD /* CreatePost */,
 				F4A3DD2B29E7D29400498363 /* DeleteContent */,
@@ -988,7 +1002,7 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
-				E5E076462AD4154D00261CBB /* LikeMindsFeed.xcodeproj */,
+				E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -1246,12 +1260,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
-					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
+					ProductGroup = E5E5296D2AD6ADFA00C8743F /* Products */;
+					ProjectRef = E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */;
 				},
 				{
-					ProductGroup = E5E076472AD4154D00261CBB /* Products */;
-					ProjectRef = E5E076462AD4154D00261CBB /* LikeMindsFeed.xcodeproj */;
+					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
+					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1262,11 +1276,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E5E0764B2AD4154D00261CBB /* LikeMindsFeed.framework */ = {
+		E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = LikeMindsFeed.framework;
-			remoteRef = E5E0764A2AD4154D00261CBB /* PBXContainerItemProxy */;
+			remoteRef = E5E529702AD6ADFA00C8743F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
@@ -1293,6 +1307,7 @@
 				E5D955DE2ABD63260038BDAE /* LMTopicView.xib in Resources */,
 				E5A938BC2ABADC4A001B5D2B /* TopicViewCollectionCell.xib in Resources */,
 				F4A3DD2F29E7D2F600498363 /* DeleteContentViewController.xib in Resources */,
+				E5E529882AD7E15200C8743F /* YoutubeViewController.xib in Resources */,
 				F4A0E6612A9F355900767941 /* HomeFeedImageCell.xib in Resources */,
 				F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */,
 				F4AD157F2A2BC65F00B752C3 /* EditPostViewController.xib in Resources */,
@@ -1455,6 +1470,7 @@
 				F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */,
 				F4A5BE8D2ABC2A2E00CD01E6 /* Toolbar.swift in Sources */,
 				F49F6BF72A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift in Sources */,
+				E5E529872AD7E15200C8743F /* YoutubeViewController.swift in Sources */,
 				E54E89692ABB448E00F0E7DF /* SelectTopicViewController.swift in Sources */,
 				F4D98B2429D4528900CF9743 /* String+Extension.swift in Sources */,
 				F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */,
