@@ -12,6 +12,7 @@ class HomeFeedLinkCell: UITableViewCell {
     static let nibName: String = "HomeFeedLinkCell"
     static let bundle = Bundle(for: HomeFeedLinkCell.self)
     
+    @IBOutlet private weak var imageContainerView: UIView!
     @IBOutlet private weak var playVideoIcon: UIImageView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var profileSectionView: UIView!
@@ -30,7 +31,7 @@ class HomeFeedLinkCell: UITableViewCell {
             linkThumbnailImageView.contentMode = .scaleAspectFill
         }
     }
-    @IBOutlet private weak var linkTitleLabel: LMLabel!
+    @IBOutlet private weak var linkTitleLabel: LMPaddedLabel!
     @IBOutlet private weak var linkDescriptionLabel: LMLabel!
     @IBOutlet private weak var linkLabel: LMLabel!
     @IBOutlet private weak var topicFeed: LMTopicView!
@@ -55,7 +56,7 @@ class HomeFeedLinkCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         linkTitleLabel.textColor = ColorConstant.textBlackColor
-        
+        linkTitleLabel.paddingTop = 8
         setupProfileSectionHeader()
         setupActionSectionFooter()
     }
@@ -98,7 +99,7 @@ private extension HomeFeedLinkCell {
         
         let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
         linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? ""), placeholder: placeholder)
-        
+        imageContainerView.isHidden = linkThumbnailUrl?.isEmpty != false
         containerView.layoutIfNeeded()
     }
 }
