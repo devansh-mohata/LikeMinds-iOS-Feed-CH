@@ -69,12 +69,20 @@ extension String {
     }
     
     func youtubeVideoID() -> Self? {
-        let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
-        let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-        let range = NSRange(location: 0, length: count)
-        guard let result = regex?.firstMatch(in: self, range: range) else {
+        let pattern = #"(?:(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/v\/|youtu\.be\/|youtube\.com\/shorts\/)|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/|shorts\.youtube\.com\/|youtu.be\/)([^?&/]+)"#
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
             return nil
         }
-        return (self as NSString).substring(with: result.range)
+        
+        let range = NSRange(location: 0, length: count)
+        if let match = regex.firstMatch(in: self, options: [], range: range) {
+            let idRange = Range(match.range(at: 1), in: self)
+            if let idRange = idRange {
+                return String(self[idRange])
+            }
+        }
+        
+        return nil
     }
 }
