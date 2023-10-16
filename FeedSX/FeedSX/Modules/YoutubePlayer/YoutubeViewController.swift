@@ -33,6 +33,8 @@ public class YoutubeViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        youtubeIndicator.color = .white
+        
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerTapped))
         view.addGestureRecognizer(panGestureRecognizer)
         view.isUserInteractionEnabled = true
