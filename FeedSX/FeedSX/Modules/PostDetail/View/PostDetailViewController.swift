@@ -543,7 +543,7 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
             LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
         } else if let videoID = url.youtubeVideoID() {
             let youtubeVC = YoutubeViewController(videoID: videoID)
-            navigationController?.pushViewController(youtubeVC, animated: true)
+            navigationController?.pushViewController(youtubeVC, animated: false)
         } else if let url = URL.url(string: url.linkWithSchema()) {
             let safariVC = SFSafariViewController(url: url)
             present(safariVC, animated: true, completion: nil)
