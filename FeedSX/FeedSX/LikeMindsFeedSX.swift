@@ -25,7 +25,7 @@ public class LikeMindsFeedSX {
     private init() {}
     public weak var delegate: LikeMindsFeedSXCallback?
     
-    public func configureLikeMindsFeed(lmCallback: LMCallback, branding: SetBrandingRequest = SetBrandingRequest()) {
+    public func configureLikeMindsFeed(lmCallback: LMCallback?, branding: SetBrandingRequest = SetBrandingRequest()) {
         LMBranding.shared.setBranding(branding)
         AWSS3Manager.shared.initializeS3()
         let _ = LMFeedClient.builder()
