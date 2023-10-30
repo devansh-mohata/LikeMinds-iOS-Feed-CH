@@ -260,7 +260,6 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func postCreationStarted(notification: Notification) {
-        print("postCreationStarted")
         self.isPostCreatingInProgress = true
         self.addShimmerTableHeaderView()
         if homeFeedViewModel.feeds.count > 0 {
@@ -269,7 +268,6 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func postCreationCompleted(notification: Notification) {
-        print("postCreationCompleted")
         self.isPostCreatingInProgress = false
         self.removeShimmerFromTableView()
         if let error = notification.object as? String {
@@ -284,8 +282,6 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func postEditCompleted(notification: Notification) {
-        print("postEditCompleted")
-//        self.postingImageSuperView.superview?.isHidden = true
         let notificationObject = notification.object
         if let error = notificationObject as? String {
             self.presentAlert(message: error)
@@ -483,7 +479,6 @@ public final class HomeFeedViewControler: BaseViewController {
         imagePicker.settings.selection.unselectOnReachingMax = true
         imagePicker.doneButton.isEnabled = false
         self.presentImagePicker(imagePicker, select: { [weak self] (asset) in
-            print("Selected: \(asset)")
             asset.getURL { [weak self] responseURL in
                 guard let url = responseURL else { return }
                 DispatchQueue.main.async {
@@ -588,7 +583,6 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print(cell, indexPath)
         if let cell = cell as? HomeFeedImageVideoTableViewCell {
             cell.pauseAllInVisibleVideos()
         }
@@ -858,7 +852,6 @@ extension HomeFeedViewControler: UIDocumentPickerDelegate {
             self.showErrorAlert(MessageConstant.fileSizeTooBig, message: MessageConstant.maxPDFError)
             return
         }
-        print(url)
         moveToAddResources(resourceType: .document, url: url)
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.documentAttached, eventProperties: ["document_count": 1])
         controller.dismiss(animated: true)
