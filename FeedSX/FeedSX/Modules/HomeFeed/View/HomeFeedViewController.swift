@@ -260,7 +260,6 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func postCreationStarted(notification: Notification) {
-        print("postCreationStarted")
         self.isPostCreatingInProgress = true
         self.addShimmerTableHeaderView()
         if homeFeedViewModel.feeds.count > 0 {
@@ -269,7 +268,6 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func postCreationCompleted(notification: Notification) {
-        print("postCreationCompleted")
         self.isPostCreatingInProgress = false
         self.removeShimmerFromTableView()
         if let error = notification.object as? String {
@@ -284,8 +282,6 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     @objc func postEditCompleted(notification: Notification) {
-        print("postEditCompleted")
-//        self.postingImageSuperView.superview?.isHidden = true
         let notificationObject = notification.object
         if let error = notificationObject as? String {
             self.presentAlert(message: error)
@@ -483,7 +479,6 @@ public final class HomeFeedViewControler: BaseViewController {
         imagePicker.settings.selection.unselectOnReachingMax = true
         imagePicker.doneButton.isEnabled = false
         self.presentImagePicker(imagePicker, select: { [weak self] (asset) in
-            print("Selected: \(asset)")
             asset.getURL { [weak self] responseURL in
                 guard let url = responseURL else { return }
                 DispatchQueue.main.async {
@@ -553,7 +548,6 @@ public final class HomeFeedViewControler: BaseViewController {
 }
 
 extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
-    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         homeFeedViewModel.feeds.count
     }
@@ -566,7 +560,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         case .link:
-            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkCell.nibName, for: indexPath) as! HomeFeedLinkCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeFeedLinkCell.nibName) as! HomeFeedLinkCell
             cell.setupFeedCell(feed, withDelegate: self)
             return cell
         case .image:
@@ -614,8 +608,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
         self.lastKnowScrollViewContentOfsset = scrollView.contentOffset.y
 
         checkWhichVideoToEnable()
-        if offsetY > contentHeight - (scrollView.frame.height + 60) && !homeFeedViewModel.isFeedLoading
-        {
+        if offsetY > contentHeight - (scrollView.frame.height + 60) && !homeFeedViewModel.isFeedLoading {
             homeFeedViewModel.getFeed()
         }
     }
@@ -628,7 +621,6 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     func checkWhichVideoToEnable() {
         
         for cell in feedTableView.visibleCells as [UITableViewCell] {
-            
             if let cell = cell as? HomeFeedVideoCell {
                 
                 let indexPath = feedTableView.indexPath(for: cell)
@@ -822,11 +814,12 @@ extension HomeFeedViewControler: DeleteContentViewProtocol {
 extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
     
     func didTapOnUrl(url: String) {
-        print("tapped url: \(url)")
         if url.hasPrefix("route://user_profile") {
             let uuid = url.components(separatedBy: "/").last
             LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
-            
+        } else if let videoID = url.youtubeVideoID() {
+            let youtubeVC = YoutubeViewController(videoID: videoID)
+            navigationController?.pushViewController(youtubeVC, animated: false)
         } else if let url = URL.url(string: url.linkWithSchema()) {
             let safariVC = SFSafariViewController(url: url)
             present(safariVC, animated: true, completion: nil)
@@ -860,7 +853,6 @@ extension HomeFeedViewControler: UIDocumentPickerDelegate {
             self.showErrorAlert(MessageConstant.fileSizeTooBig, message: MessageConstant.maxPDFError)
             return
         }
-        print(url)
         moveToAddResources(resourceType: .document, url: url)
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.documentAttached, eventProperties: ["document_count": 1])
         controller.dismiss(animated: true)
