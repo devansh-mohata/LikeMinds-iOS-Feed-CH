@@ -68,6 +68,7 @@ class PostDetailViewController: BaseViewController {
     }()
     
     var postActionsButton: UIBarButtonItem?
+    private var isFirstTime: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -337,11 +338,13 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
         guard let _ = viewModel.postDetail else { return 0 }
         return viewModel.comments.count + 1
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 { return 1//(viewModel.postDetail?.commentCount ?? 0) > 0 ? 2 : 1
         }
         return viewModel.repliesCount(section: section - 1)
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0,
            let post = viewModel.postDetail
@@ -384,7 +387,7 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 { return nil}
+        if section == 0 { return nil }
         let commentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CommentHeaderViewCell.reuseIdentifier) as! CommentHeaderViewCell
         commentView.delegate = self
         commentView.section = section
@@ -407,10 +410,6 @@ extension PostDetailViewController: UITableViewDataSource, UITableViewDelegate, 
                 viewModel.getCommentReplies(commentId: comment.commentId)
             }
         }
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
     }
 }
 
@@ -458,12 +457,19 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         closeReplyToUsersCommentView()
         postDetailTableView.reloadData()
         self.subTitleLabel.text = viewModel.totalCommentsCount()
+        
+        if commentId != nil,
+           !viewModel.comments.isEmpty,
+           isFirstTime {
+            isFirstTime.toggle()
+            postDetailTableView.scrollToRow(at: .init(row: NSNotFound, section: 1), at: .top, animated: true)
+        }
+        
         postDetailTableView.tableFooterView?.isHidden = true
-        if viewModel.comments.count == 0 {
+        if viewModel.comments.isEmpty {
             postDetailTableView.tableFooterView?.isHidden = false
             self.setAttributedTextForNoComments()
         }
-        
     }
     
     func didReceiveCommentsReply(withCommentId commentId: String, withBatchFirstReplyId replyId: String) {
@@ -543,7 +549,9 @@ extension PostDetailViewController: CommentHeaderViewCellDelegate {
         if url.hasPrefix("route://user_profile") {
             let uuid = url.components(separatedBy: "/").last
             LikeMindsFeedSX.shared.delegate?.openProfile(userUUID: uuid ?? "")
-            
+        } else if let videoID = url.youtubeVideoID() {
+            let youtubeVC = YoutubeViewController(videoID: videoID)
+            navigationController?.pushViewController(youtubeVC, animated: false)
         } else if let url = URL.url(string: url.linkWithSchema()) {
             let safariVC = SFSafariViewController(url: url)
             present(safariVC, animated: true, completion: nil)
