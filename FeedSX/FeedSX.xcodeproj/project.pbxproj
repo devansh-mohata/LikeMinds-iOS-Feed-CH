@@ -14,6 +14,8 @@
 		E54E89712ABB491A00F0E7DF /* SelectTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E896F2ABB491A00F0E7DF /* SelectTopicTableViewCell.swift */; };
 		E54E89722ABB491A00F0E7DF /* SelectTopicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54E89702ABB491A00F0E7DF /* SelectTopicTableViewCell.xib */; };
 		E54E89762ABB50A400F0E7DF /* SelectTopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */; };
+		E59DBC722AEBB95100C34B48 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E59DBC6E2AEBB8A300C34B48 /* LikeMindsFeed.framework */; };
+		E59DBC732AEBB95100C34B48 /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E59DBC6E2AEBB8A300C34B48 /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5A938BB2ABADC4A001B5D2B /* TopicViewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */; };
 		E5A938BC2ABADC4A001B5D2B /* TopicViewCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */; };
 		E5D955DC2ABD631C0038BDAE /* LMTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955DB2ABD631C0038BDAE /* LMTopicView.swift */; };
@@ -244,6 +246,7 @@
 		E54E896F2ABB491A00F0E7DF /* SelectTopicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicTableViewCell.swift; sourceTree = "<group>"; };
 		E54E89702ABB491A00F0E7DF /* SelectTopicTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectTopicTableViewCell.xib; sourceTree = "<group>"; };
 		E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicViewModel.swift; sourceTree = "<group>"; };
+		E59DBC692AEBB8A300C34B48 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../MegaCollab/TempSDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LikeMindsFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewCollectionCell.swift; sourceTree = "<group>"; };
 		E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicViewCollectionCell.xib; sourceTree = "<group>"; };
@@ -492,6 +495,14 @@
 				E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E59DBC6A2AEBB8A300C34B48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E59DBC6E2AEBB8A300C34B48 /* LikeMindsFeed.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		E5A938B82ABADC2D001B5D2B /* TopicCell */ = {

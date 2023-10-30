@@ -21,7 +21,14 @@ class EditPostViewController: BaseViewController {
     
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var usernameLabel: LMLabel!
-    @IBOutlet weak var addMoreButton: LMButton!
+    @IBOutlet weak var addMoreButton: LMButton! {
+        didSet {
+            addMoreButton.layer.borderWidth = 1
+            addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
+            addMoreButton.tintColor = LMBranding.shared.buttonColor
+            addMoreButton.layer.cornerRadius = 8
+        }
+    }
     @IBOutlet weak var changeAuthorButton: LMButton!
     @IBOutlet weak var postinLabel: LMLabel!
     @IBOutlet weak var titleTextView: LMTextView! {
@@ -98,26 +105,26 @@ class EditPostViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(errorMessage), name: .errorInApi, object: nil)
         self.userProfileImage.makeCircleView()
         setupTitleAndDescriptionTextView()
+        
         viewModel.delegate = self
         viewModel.postId = postId
+        
         attachmentCollectionView.dataSource = self
         attachmentCollectionView.delegate = self
-        addMoreButton.layer.borderWidth = 1
-        addMoreButton.layer.borderColor = LMBranding.shared.buttonColor.cgColor
-        addMoreButton.tintColor = LMBranding.shared.buttonColor
-        addMoreButton.layer.cornerRadius = 8
-//        addMoreButton.addTarget(self, action: #selector(addMoreAction), for: .touchUpInside)
+        
         addMoreButton.superview?.isHidden = true
+        
         self.attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
         self.attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
         topicFeedView.delegate = self
         
-        self.setupProfileData()
-        self.setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
-        self.hideTaggingViewContainer()
-        self.pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
+        setupProfileData(name: nil, imageURL: nil)
+        setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
+        hideTaggingViewContainer()
+        pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
+        
         changeAuthorButton.addTarget(self, action: #selector(changeAuthor), for: .touchUpInside)
         self.viewModel.getPost()
         self.setupResourceType()
@@ -227,13 +234,10 @@ class EditPostViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = backButton
     }
     
-    func setupProfileData() {
-        guard let user = LocalPrefrerences.getUserData() else {
-            return
-        }
-        let placeholder = UIImage.generateLetterImage(with: user.name)
-        self.userProfileImage.setImage(withUrl: user.imageUrl ?? "", placeholder: placeholder)
-        self.usernameLabel.text = user.name?.capitalized
+    func setupProfileData(name: String?, imageURL: String?) {
+        let placeholder = UIImage.generateLetterImage(with: name)
+        self.userProfileImage.setImage(withUrl: imageURL ?? "", placeholder: placeholder)
+        self.usernameLabel.text = name?.capitalized
     }
     
     @objc func changeAuthor() {
@@ -267,7 +271,7 @@ class EditPostViewController: BaseViewController {
         
         let disabledTopics = viewModel.selectedTopics.filter { !$0.isEnabled }.map { $0.title }
         if !disabledTopics.isEmpty {
-            var message = "The Following Topics are disabled - \(disabledTopics.joined(separator: ", "))"
+            let message = "The Following Topics are disabled - \(disabledTopics.joined(separator: ", "))"
             showErrorAlert(message: message)
             return
         }
@@ -299,9 +303,8 @@ class EditPostViewController: BaseViewController {
         imagePicker.settings.fetch.assets.supportedMediaTypes = forAddMore ? [.image, .video] : [mediaType]
         imagePicker.doneButton.isEnabled = false
         imagePicker.settings.selection.unselectOnReachingMax = true
-        let start = Date()
-        self.presentImagePicker(imagePicker, select: {[weak self] (asset) in
-            print("Selected: \(asset)")
+        
+        presentImagePicker(imagePicker, select: {[weak self] (asset) in
             asset.getURL { responseURL in
                 guard let url = responseURL else {return }
                 
@@ -319,17 +322,10 @@ class EditPostViewController: BaseViewController {
                     imagePicker.dismiss(animated: true)
                 }
             }
-        }, deselect: {[weak self] (asset) in
-            print("Deselected: \(asset)")
-        }, cancel: { (assets) in
-            print("Canceled with selections: \(assets)")
-        }, finish: {[weak self] (assets) in
-            print("Finished with selections: \(assets)")
-            
-        }, completion: {
-            let finish = Date()
-            print(finish.timeIntervalSince(start))
-        })
+        }, deselect: { _ in
+        }, cancel: { _ in
+        }, finish: { _ in
+        }, completion: { })
     }
     
     func openDocumentPicker() {
@@ -363,7 +359,10 @@ class EditPostViewController: BaseViewController {
         let linkAttachment = self.viewModel.linkAttatchment != nil
         postButtonItem?.isEnabled = (imageVideoCount || documentCount || linkAttachment) && headingText
     }
- 
+    
+    override func showLoader(isShow: Bool) {
+        super.showLoader(isShow: isShow)
+    }
 }
 
 extension EditPostViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
@@ -588,13 +587,13 @@ extension EditPostViewController: UIDocumentPickerDelegate {
 }
 
 //MARK: - Delegate view model
-
 extension EditPostViewController: EditPostViewModelDelegate {
     func didReceivedPostDetails() {
         self.resourceType = viewModel.editResourceType()
         self.viewModel.currentSelectedUploadeType = self.resourceType ?? .unknown
         self.setupResourceType()
         self.reloadAttachmentsView()
+        self.setupProfileData(name: viewModel.postDetail?.postByUser?.name, imageURL: viewModel.postDetail?.postByUser?.profileImageUrl)
         let data  = TaggedRouteParser.shared.getTaggedParsedAttributedStringForEditText(with: self.viewModel.postDetail?.caption ?? "", forTextView: true)
         captionTextView.attributedText = data.0
         viewModel.taggedUsers = data.1
