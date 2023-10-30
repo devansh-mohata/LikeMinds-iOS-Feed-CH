@@ -68,6 +68,7 @@ class PostDetailViewController: BaseViewController {
     }()
     
     var postActionsButton: UIBarButtonItem?
+    private var isFirstTime: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -456,12 +457,19 @@ extension PostDetailViewController: PostDetailViewModelDelegate {
         closeReplyToUsersCommentView()
         postDetailTableView.reloadData()
         self.subTitleLabel.text = viewModel.totalCommentsCount()
+        
+        if commentId != nil,
+           !viewModel.comments.isEmpty,
+           isFirstTime {
+            isFirstTime.toggle()
+            postDetailTableView.scrollToRow(at: .init(row: NSNotFound, section: 1), at: .top, animated: true)
+        }
+        
         postDetailTableView.tableFooterView?.isHidden = true
-        if viewModel.comments.count == 0 {
+        if viewModel.comments.isEmpty {
             postDetailTableView.tableFooterView?.isHidden = false
             self.setAttributedTextForNoComments()
         }
-        
     }
     
     func didReceiveCommentsReply(withCommentId commentId: String, withBatchFirstReplyId replyId: String) {

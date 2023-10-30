@@ -651,8 +651,9 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeFeedViewControler: HomeFeedViewModelDelegate {
-   func didReceivedFeedData(success: Bool) {
-    self.removeShimmerFromTableView()
+    func didReceivedFeedData(success: Bool) {
+        isAlreadyViewLoaded = true
+        self.removeShimmerFromTableView()
         if homeFeedViewModel.feeds.isEmpty {
             setHomeFeedEmptyView()
             feedTableView.reloadData()
