@@ -55,5 +55,7 @@ struct LMFeedAnalyticsEventName {
         static let reply = "Reply posted"
         static let replyDeleted = "Reply deleted"
         static let replyReported = "Reply reported"
+        static let liked = "Comment Like"
+        static let unliked = "Comment Unlike"
     }
 }

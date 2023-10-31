@@ -265,21 +265,29 @@ final class PostDetailViewModel: BaseViewModel {
             .commentId(commentId)
             .build()
         LMFeedClient.shared.likeComment(request) { [weak self] response in
-            if response.success {
-//                self?.notifyObjectChanges()
-            } else {
-                if let section = section, var comment = self?.comments[section] {
-                    var tmpRow: Int = 0
-                    if let row = row {
-                        comment =  comment.replies[row]
-                        tmpRow = row
-                    }
-                    let isLike = !(comment.isLiked)
-                    comment.isLiked = isLike
-                    comment.likedCount += isLike ? 1 : -1
-                    self?.delegate?.reloadSection(IndexPath(row: tmpRow, section: section))
-                }
-                self?.postErrorMessageNotification(error: response.errorMessage)
+            guard let self,
+                let section else { return }
+            
+            var comment = self.comments[section]
+            var tmpRow = 0
+            if let row {
+                comment = comment.replies[row]
+                tmpRow = row
+            }
+            
+            switch response.success {
+            case true:
+                let eventName = comment.isLiked ? LMFeedAnalyticsEventName.Comment.liked : LMFeedAnalyticsEventName.Comment.unliked
+                LMFeedAnalytics.shared.track(eventName: eventName, eventProperties: [
+                    "post_id": postId,
+                    "user_id": LocalPrefrerences.uuid(),
+                    "comment_id": commentId
+                ])
+            case false:
+                comment.isLiked.toggle()
+                comment.likedCount += comment.isLiked ? 1 : -1
+                self.delegate?.reloadSection(IndexPath(row: tmpRow, section: section))
+                self.postErrorMessageNotification(error: response.errorMessage)
             }
         }
     }
