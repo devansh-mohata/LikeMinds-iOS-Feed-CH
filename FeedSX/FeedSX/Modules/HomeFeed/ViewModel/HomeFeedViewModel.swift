@@ -100,15 +100,19 @@ class HomeFeedViewModel: BaseViewModel {
             .postId(postId)
             .build()
         LMFeedClient.shared.likePost(request) { [weak self] response in
+            guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), 
+                    let feed = self?.feeds[index] else {
+                return
+            }
             if !response.success {
-                guard let index = self?.feeds.firstIndex(where: {$0.postId == postId}), let feed = self?.feeds[index] else {
-                    return
-                }
                 let isLike = !(feed.isLiked)
                 feed.isLiked = isLike
                 feed.likedCount += isLike ? 1 : -1
                 self?.delegate?.reloadSection(IndexPath(row: index, section: 0))
                 self?.postErrorMessageNotification(error: response.errorMessage)
+            } else {
+                let eventName = feed.isLiked ? LMFeedAnalyticsEventName.Post.postLiked : LMFeedAnalyticsEventName.Post.postUnliked
+                LMFeedAnalytics.shared.track(eventName: eventName, eventProperties: ["post_id": postId, "user_id": LocalPrefrerences.uuid()])
             }
         }
     }
