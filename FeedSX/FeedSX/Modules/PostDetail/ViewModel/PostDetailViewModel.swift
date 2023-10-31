@@ -247,6 +247,8 @@ final class PostDetailViewModel: BaseViewModel {
         LMFeedClient.shared.likePost(request) {[weak self] response in
             if response.success {
                 self?.notifyObjectChanges()
+                let eventName = self?.postDetail?.isLiked == true ? LMFeedAnalyticsEventName.Post.postLiked : LMFeedAnalyticsEventName.Post.postUnliked
+                LMFeedAnalytics.shared.track(eventName: eventName, eventProperties: ["post_id": postId, "user_id": LocalPrefrerences.uuid()])
             } else {
                 let isLike = !(self?.postDetail?.isLiked ?? false)
                 self?.postDetail?.isLiked = isLike

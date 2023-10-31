@@ -43,6 +43,8 @@ struct LMFeedAnalyticsEventName {
         static let deleted = "Post deleted"
         static let userFollowed = "User followed"
         static let likeListOpen = "Like list open"
+        static let postLiked = "Post Liked"
+        static let postUnliked = "Post Unliked"
     }
     
     struct Comment {
