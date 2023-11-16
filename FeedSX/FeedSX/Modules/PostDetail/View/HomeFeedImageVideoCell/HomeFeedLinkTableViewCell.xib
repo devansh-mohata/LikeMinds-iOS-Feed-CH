@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -36,13 +36,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="498"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wU0-k1-4th">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="243.66666666666666"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="229.66666666666666"/>
                                                 <subviews>
                                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8QW-Yq-P7o">
-                                                        <rect key="frame" x="16" y="0.0" width="288" height="235.66666666666666"/>
+                                                        <rect key="frame" x="16" y="0.0" width="288" height="221.66666666666666"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wQy-FN-Ovu">
-                                                                <rect key="frame" x="0.0" y="0.0" width="288" height="227.66666666666666"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="288" height="213.66666666666666"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r1C-fR-4i4">
                                                                         <rect key="frame" x="0.0" y="0.0" width="288" height="162"/>
@@ -81,20 +81,20 @@
                                                                             <constraint firstItem="Sg5-q0-kp3" firstAttribute="leading" secondItem="r1C-fR-4i4" secondAttribute="leading" id="bgT-qg-BEt"/>
                                                                         </constraints>
                                                                     </view>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Sh-cv-ghF" customClass="LMPaddedLabel" customModule="FeedSX" customModuleProvider="target">
-                                                                        <rect key="frame" x="16" y="167" width="256" height="19.333333333333343"/>
+                                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Sh-cv-ghF" customClass="LMPaddedLabel" customModule="FeedSX" customModuleProvider="target">
+                                                                        <rect key="frame" x="16" y="164.66666666666666" width="256" height="0.0"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0TQ-JS-1if" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                                                        <rect key="frame" x="16" y="191.33333333333331" width="256" height="17"/>
+                                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0TQ-JS-1if" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                                                        <rect key="frame" x="16" y="164.66666666666666" width="256" height="0.0"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJa-Xq-ORB" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                                                        <rect key="frame" x="16" y="213.33333333333331" width="256" height="14.333333333333343"/>
+                                                                        <rect key="frame" x="16" y="167" width="256" height="46.666666666666657"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -112,7 +112,7 @@
                                                                 </constraints>
                                                             </stackView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSq-uQ-MXw">
-                                                                <rect key="frame" x="0.0" y="0.0" width="288" height="235.66666666666666"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="288" height="221.66666666666666"/>
                                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                                 <connections>
                                                                     <action selector="clickedLinkView:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="etL-zv-WLc"/>
@@ -141,11 +141,11 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nDw-kc-tLJ" customClass="LMTopicView" customModule="FeedSX" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="248.66666666666669" width="288" height="50"/>
+                                                <rect key="frame" x="16" y="234.66666666666669" width="288" height="50"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-Oj-OQ3" userLabel="Header Section View">
-                                                <rect key="frame" x="0.0" y="303.66666666666669" width="320" height="101.66666666666669"/>
+                                                <rect key="frame" x="0.0" y="289.66666666666669" width="320" height="101.66666666666669"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sN6-Yo-noS" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
                                                         <rect key="frame" x="10" y="0.0" width="300" height="111.66666666666667"/>
@@ -166,10 +166,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="chg-2c-Evd">
-                                                <rect key="frame" x="0.0" y="410.33333333333331" width="320" height="87.666666666666686"/>
+                                                <rect key="frame" x="0.0" y="396.33333333333331" width="320" height="101.66666666666669"/>
                                                 <subviews>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="AkN-oq-SDK" customClass="LMTextView" customModule="FeedSX" customModuleProvider="target">
-                                                        <rect key="frame" x="10" y="0.0" width="300" height="97.666666666666671"/>
+                                                        <rect key="frame" x="10" y="0.0" width="300" height="111.66666666666667"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <string key="text">Lorem ipsum dolor sit er elit lamet, google.com consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore ma</string>
                                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
