@@ -16,4 +16,7 @@ extension URL {
         return url
     }
     
+    func domainUrl() -> String? {
+        return "https://" + (self.host ?? "")
+    }
 }

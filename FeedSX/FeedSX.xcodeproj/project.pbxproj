@@ -14,16 +14,12 @@
 		E54E89712ABB491A00F0E7DF /* SelectTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E896F2ABB491A00F0E7DF /* SelectTopicTableViewCell.swift */; };
 		E54E89722ABB491A00F0E7DF /* SelectTopicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54E89702ABB491A00F0E7DF /* SelectTopicTableViewCell.xib */; };
 		E54E89762ABB50A400F0E7DF /* SelectTopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */; };
-		E59DBC722AEBB95100C34B48 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E59DBC6E2AEBB8A300C34B48 /* LikeMindsFeed.framework */; };
-		E59DBC732AEBB95100C34B48 /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E59DBC6E2AEBB8A300C34B48 /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5A938BB2ABADC4A001B5D2B /* TopicViewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */; };
 		E5A938BC2ABADC4A001B5D2B /* TopicViewCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */; };
 		E5D955DC2ABD631C0038BDAE /* LMTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955DB2ABD631C0038BDAE /* LMTopicView.swift */; };
 		E5D955DE2ABD63260038BDAE /* LMTopicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955DD2ABD63260038BDAE /* LMTopicView.xib */; };
 		E5D955E32ABD7A480038BDAE /* HomeFeedTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */; };
 		E5D955E42ABD7A480038BDAE /* HomeFeedTopicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */; };
-		E5E529722AD6AE0700C8743F /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */; };
-		E5E529732AD6AE0700C8743F /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5E529872AD7E15200C8743F /* YoutubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E529852AD7E15200C8743F /* YoutubeViewController.swift */; };
 		E5E529882AD7E15200C8743F /* YoutubeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E529862AD7E15200C8743F /* YoutubeViewController.xib */; };
 		F401D5F32A6419E400DDC10C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */; };
@@ -43,6 +39,7 @@
 		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
 		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
 		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
+		F465CEC22B03510A0016AD71 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */; };
 		F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */; };
 		F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D02A26197D003C43BA /* UITextView+Extension.swift */; };
 		F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D32A263448003C43BA /* RouteBuilderManager.swift */; };
@@ -205,9 +202,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E5E529702AD6ADFA00C8743F /* PBXContainerItemProxy */ = {
+		F465CEC02B0350FE0016AD71 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */;
+			containerPortal = F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F414169C299E41C000622058;
 			remoteInfo = LikeMindsFeed;
@@ -221,20 +218,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		E5E0764E2AD4155600261CBB /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				E5E529732AD6AE0700C8743F /* LikeMindsFeed.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.debug.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.debug.xcconfig"; sourceTree = "<group>"; };
 		629A91E42929945BCC7DA669 /* Pods_FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,7 +229,6 @@
 		E54E896F2ABB491A00F0E7DF /* SelectTopicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicTableViewCell.swift; sourceTree = "<group>"; };
 		E54E89702ABB491A00F0E7DF /* SelectTopicTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectTopicTableViewCell.xib; sourceTree = "<group>"; };
 		E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicViewModel.swift; sourceTree = "<group>"; };
-		E59DBC692AEBB8A300C34B48 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../MegaCollab/TempSDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LikeMindsFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewCollectionCell.swift; sourceTree = "<group>"; };
 		E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicViewCollectionCell.xib; sourceTree = "<group>"; };
@@ -254,7 +236,6 @@
 		E5D955DD2ABD63260038BDAE /* LMTopicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LMTopicView.xib; sourceTree = "<group>"; };
 		E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedTopicCell.swift; sourceTree = "<group>"; };
 		E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedTopicCell.xib; sourceTree = "<group>"; };
-		E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../MegaCollab/TempSDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		E5E529852AD7E15200C8743F /* YoutubeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeViewController.swift; sourceTree = "<group>"; };
 		E5E529862AD7E15200C8743F /* YoutubeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YoutubeViewController.xib; sourceTree = "<group>"; };
 		F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
@@ -274,6 +255,7 @@
 		F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewCell.swift; sourceTree = "<group>"; };
 		F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionViewCell.swift; sourceTree = "<group>"; };
 		F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
+		F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../LikeMinds-Feed-SDK/Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeMindsFeedSX.swift; sourceTree = "<group>"; };
 		F46E15D02A26197D003C43BA /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		F46E15D32A263448003C43BA /* RouteBuilderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderManager.swift; sourceTree = "<group>"; };
@@ -445,7 +427,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5E529722AD6AE0700C8743F /* LikeMindsFeed.framework in Frameworks */,
+				F465CEC22B03510A0016AD71 /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,14 +479,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		E59DBC6A2AEBB8A300C34B48 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E59DBC6E2AEBB8A300C34B48 /* LikeMindsFeed.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		E5A938B82ABADC2D001B5D2B /* TopicCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,14 +514,6 @@
 				E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */,
 			);
 			path = HomeFeedTopicCell;
-			sourceTree = "<group>";
-		};
-		E5E5296D2AD6ADFA00C8743F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		E5E529842AD7E13000C8743F /* YoutubePlayer */ = {
@@ -599,6 +565,14 @@
 				F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */,
 			);
 			path = OtherCells;
+			sourceTree = "<group>";
+		};
+		F465CEBD2B0350FE0016AD71 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		F46E15D22A263448003C43BA /* LinkManager */ = {
@@ -1013,7 +987,7 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
-				E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */,
+				F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -1233,7 +1207,6 @@
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
 				F4C3330129CDC83200AD5F52 /* Resources */,
-				E5E0764E2AD4155600261CBB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1271,12 +1244,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = E5E5296D2AD6ADFA00C8743F /* Products */;
-					ProjectRef = E5E5296C2AD6ADFA00C8743F /* LikeMindsFeed.xcodeproj */;
-				},
-				{
 					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
 					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
+				},
+				{
+					ProductGroup = F465CEBD2B0350FE0016AD71 /* Products */;
+					ProjectRef = F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1287,11 +1260,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E5E529712AD6ADFA00C8743F /* LikeMindsFeed.framework */ = {
+		F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = LikeMindsFeed.framework;
-			remoteRef = E5E529702AD6ADFA00C8743F /* PBXContainerItemProxy */;
+			remoteRef = F465CEC02B0350FE0016AD71 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {

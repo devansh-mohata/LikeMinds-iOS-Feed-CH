@@ -56,6 +56,8 @@ class HomeFeedLinkCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         linkTitleLabel.textColor = ColorConstant.textBlackColor
+        linkTitleLabel.isHidden = true
+        linkDescriptionLabel.isHidden = true
         linkTitleLabel.paddingTop = 8
         setupProfileSectionHeader()
         setupActionSectionFooter()
@@ -92,9 +94,11 @@ private extension HomeFeedLinkCell {
     }
     
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
-        linkTitleLabel.text = title
-        linkDescriptionLabel.text = nil
-        linkLabel.text = link?.lowercased()
+        linkTitleLabel.isHidden = true
+        linkDescriptionLabel.isHidden = true
+        if let link, let url = URL(string: link.linkWithSchema()) {
+            linkLabel.text = url.domainUrl()
+        }
         playVideoIcon.isHidden = link?.youtubeVideoID() == nil
         
         let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
