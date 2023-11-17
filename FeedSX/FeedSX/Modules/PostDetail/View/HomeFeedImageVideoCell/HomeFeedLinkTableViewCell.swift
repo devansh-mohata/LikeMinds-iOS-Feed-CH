@@ -124,7 +124,7 @@ private extension HomeFeedLinkTableViewCell {
         linkTitleLabel.isHidden = true
         linkDescriptionLabel.isHidden = true
         if let link, let url = URL(string: link.linkWithSchema()) {
-            linkLabel.text = "https://" + (url.host ?? "")
+            linkLabel.text = url.domainUrl()
         }
         playVideoIcon.isHidden = link?.youtubeVideoID() == nil
         let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
