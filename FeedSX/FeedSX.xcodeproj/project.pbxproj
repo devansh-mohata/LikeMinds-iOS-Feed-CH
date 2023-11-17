@@ -16,6 +16,7 @@
 		E54E89762ABB50A400F0E7DF /* SelectTopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */; };
 		E5A938BB2ABADC4A001B5D2B /* TopicViewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */; };
 		E5A938BC2ABADC4A001B5D2B /* TopicViewCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */; };
+		E5BC698B2AF0EE6300FB9723 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5D955DC2ABD631C0038BDAE /* LMTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955DB2ABD631C0038BDAE /* LMTopicView.swift */; };
 		E5D955DE2ABD63260038BDAE /* LMTopicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955DD2ABD63260038BDAE /* LMTopicView.xib */; };
 		E5D955E32ABD7A480038BDAE /* HomeFeedTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */; };
@@ -209,14 +210,21 @@
 			remoteGlobalIDString = F414169C299E41C000622058;
 			remoteInfo = LikeMindsFeed;
 		};
-		F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F414169C299E41C000622058;
-			remoteInfo = LikeMindsFeed;
-		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E5BC698C2AF0EE6400FB9723 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E5BC698B2AF0EE6300FB9723 /* (null) in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.debug.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.debug.xcconfig"; sourceTree = "<group>"; };
@@ -232,6 +240,7 @@
 		E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LikeMindsFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicViewCollectionCell.swift; sourceTree = "<group>"; };
 		E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopicViewCollectionCell.xib; sourceTree = "<group>"; };
+		E5BC69842AF0EE5A00FB9723 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../MegaCollab/TempSDK/LikeMinds-iOS-Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		E5D955DB2ABD631C0038BDAE /* LMTopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMTopicView.swift; sourceTree = "<group>"; };
 		E5D955DD2ABD63260038BDAE /* LMTopicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LMTopicView.xib; sourceTree = "<group>"; };
 		E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedTopicCell.swift; sourceTree = "<group>"; };
@@ -338,7 +347,6 @@
 		F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyHomeFeedView.swift; sourceTree = "<group>"; };
 		F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
-		F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F4A86BD42A2E6B0E00C7D5C2 /* AWSCognito.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePostViewController.xib; sourceTree = "<group>"; };
@@ -486,6 +494,13 @@
 				E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */,
 			);
 			path = TopicCell;
+			sourceTree = "<group>";
+		};
+		E5BC69852AF0EE5A00FB9723 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		E5D955DA2ABD62FE0038BDAE /* LMTopicView */ = {
@@ -862,14 +877,6 @@
 			path = TagCollectionCell;
 			sourceTree = "<group>";
 		};
-		F4A86B8B2A2DCB2900C7D5C2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F4A9617629DBF9E500F395AD /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -1207,6 +1214,7 @@
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
 				F4C3330129CDC83200AD5F52 /* Resources */,
+				E5BC698C2AF0EE6400FB9723 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1244,8 +1252,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
-					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
+					ProductGroup = E5BC69852AF0EE5A00FB9723 /* Products */;
+					ProjectRef = E5BC69842AF0EE5A00FB9723 /* LikeMindsFeed.xcodeproj */;
 				},
 				{
 					ProductGroup = F465CEBD2B0350FE0016AD71 /* Products */;
@@ -1265,13 +1273,6 @@
 			fileType = wrapper.framework;
 			path = LikeMindsFeed.framework;
 			remoteRef = F465CEC02B0350FE0016AD71 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LikeMindsFeed.framework;
-			remoteRef = F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1637,7 +1638,7 @@
 			baseConfigurationReference = 51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1652,7 +1653,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1667,7 +1668,7 @@
 			baseConfigurationReference = 6921C336C8CE49CFDAC3E467 /* Pods-FeedSX.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1682,7 +1683,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
