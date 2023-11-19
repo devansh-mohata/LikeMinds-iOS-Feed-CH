@@ -15,6 +15,7 @@ protocol EditPostViewModelDelegate: AnyObject {
     func reloadActionTableView()
     func didReceivedPostDetails()
     func showHideTopicView(topics: [TopicViewCollectionCell.ViewModel])
+    func showLoader(isShow: Bool)
 }
 
 final class EditPostViewModel: BaseViewModel {
@@ -65,12 +66,14 @@ final class EditPostViewModel: BaseViewModel {
     }
     
     func getPost() {
+        delegate?.showLoader(isShow: true)
         let request = GetPostRequest.builder()
             .postId(self.postId)
             .page(1)
             .pageSize(1)
             .build()
         LMFeedClient.shared.getPost(request) {[weak self] response in
+            self?.delegate?.showLoader(isShow: false)
             if response.success == false {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }
@@ -78,7 +81,7 @@ final class EditPostViewModel: BaseViewModel {
                 self?.postErrorMessageNotification(error: response.errorMessage)
                 return
             }
-            // TODO: Check for Topics Logic
+            
             let allTopics: [TopicFeedDataModel] = response.data?.topics?.compactMap {
                 guard let id = $0.value.id,
                       let name = $0.value.name else { return nil }

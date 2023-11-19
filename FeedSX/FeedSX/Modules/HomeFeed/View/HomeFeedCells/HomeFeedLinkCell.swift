@@ -6,17 +6,32 @@
 //
 
 import UIKit
+import youtube_ios_player_helper
 
 class HomeFeedLinkCell: UITableViewCell {
     static let nibName: String = "HomeFeedLinkCell"
     static let bundle = Bundle(for: HomeFeedLinkCell.self)
     
+    @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var playVideoIcon: UIImageView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var profileSectionView: UIView!
     @IBOutlet private weak var actionsSectionView: UIView!
-    @IBOutlet private weak var linkDetailContainerView: UIView!
-    @IBOutlet private weak var linkThumbnailImageView: UIImageView!
-    @IBOutlet private weak var linkTitleLabel: LMLabel!
+    @IBOutlet private weak var linkDetailContainerView: UIView! {
+        didSet {
+            linkDetailContainerView.layer.borderWidth = 1
+            linkDetailContainerView.layer.cornerRadius = 8
+            linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
+            linkDetailContainerView.clipsToBounds = true
+        }
+    }
+    @IBOutlet private weak var linkThumbnailImageView: UIImageView! {
+        didSet {
+            linkThumbnailImageView.tintColor = ColorConstant.likeTextColor
+            linkThumbnailImageView.contentMode = .scaleAspectFill
+        }
+    }
+    @IBOutlet private weak var linkTitleLabel: LMPaddedLabel!
     @IBOutlet private weak var linkDescriptionLabel: LMLabel!
     @IBOutlet private weak var linkLabel: LMLabel!
     @IBOutlet private weak var topicFeed: LMTopicView!
@@ -41,31 +56,11 @@ class HomeFeedLinkCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         linkTitleLabel.textColor = ColorConstant.textBlackColor
+        linkTitleLabel.isHidden = true
+        linkDescriptionLabel.isHidden = true
+        linkTitleLabel.paddingTop = 8
         setupProfileSectionHeader()
         setupActionSectionFooter()
-        linkDetailContainerView.layer.borderWidth = 1
-        linkDetailContainerView.layer.cornerRadius = 8
-        linkDetailContainerView.layer.borderColor = UIColor.systemGroupedBackground.cgColor
-        linkThumbnailImageView.tintColor = ColorConstant.likeTextColor
-        linkDetailContainerView.clipsToBounds = true
-        linkThumbnailImageView.contentMode = .scaleAspectFill
-    }
-    
-    @IBAction func linkButtonClicked(_ sender: Any) {
-        if let linkAttachment = self.feedData?.linkAttachment,
-           let urlString = linkAttachment.url {
-            delegate?.didTapOnUrl(url: urlString)
-        }
-    }
-    
-    fileprivate func setupActionSectionFooter() {
-        self.actionsSectionView.addSubview(actionFooterSectionView)
-        actionFooterSectionView.addConstraints(equalToView: self.actionsSectionView)
-    }
-    
-    fileprivate func setupProfileSectionHeader() {
-        self.profileSectionView.addSubview(profileSectionHeader)
-        profileSectionHeader.addConstraints(equalToView: self.profileSectionView)
     }
     
     func setupFeedCell(_ feedDataView: PostFeedDataView, withDelegate delegate: HomeFeedTableViewCellDelegate?) {
@@ -78,16 +73,37 @@ class HomeFeedLinkCell: UITableViewCell {
         self.layoutIfNeeded()
     }
     
-    private func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
-        self.linkTitleLabel.text = title
-        self.linkDescriptionLabel.text = nil
-        self.linkLabel.text = link?.lowercased()
-        if let linkThumbnailUrl = linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
-            let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
-            self.linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl), placeholder: placeholder)
-        } else {
-            self.linkThumbnailImageView.image = nil
+    @IBAction private func linkButtonClicked(_ sender: Any) {
+        if let linkAttachment = self.feedData?.linkAttachment,
+           let urlString = linkAttachment.url {
+            delegate?.didTapOnUrl(url: urlString)
         }
-        self.containerView.layoutIfNeeded()
-    }  
+    }
+}
+
+
+private extension HomeFeedLinkCell {
+    func setupProfileSectionHeader() {
+        self.profileSectionView.addSubview(profileSectionHeader)
+        profileSectionHeader.addConstraints(equalToView: self.profileSectionView)
+    }
+    
+    func setupActionSectionFooter() {
+        self.actionsSectionView.addSubview(actionFooterSectionView)
+        actionFooterSectionView.addConstraints(equalToView: self.actionsSectionView)
+    }
+    
+    func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
+        linkTitleLabel.isHidden = true
+        linkDescriptionLabel.isHidden = true
+        if let link, let url = URL(string: link.linkWithSchema()) {
+            linkLabel.text = url.domainUrl()
+        }
+        playVideoIcon.isHidden = link?.youtubeVideoID() == nil
+        
+        let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
+        linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? ""), placeholder: placeholder)
+        imageContainerView.isHidden = linkThumbnailUrl?.isEmpty != false
+        containerView.layoutIfNeeded()
+    }
 }

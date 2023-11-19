@@ -30,9 +30,11 @@ class LinkCollectionViewCell: UICollectionViewCell {
     }
     
     func setupLinkCell(_ title: String?, description: String?, link: String?, linkThumbnailUrl: String?) {
-        self.linkTitleLabel.text = title
-        self.linkDescriptionLabel.text = description
-        self.linkLabel.text = link?.lowercased()
+        linkTitleLabel.isHidden = true
+        linkDescriptionLabel.isHidden = true
+        if let link, let url = URL(string: link.linkWithSchema()) {
+            linkLabel.text = url.domainUrl()
+        }
         let placeHolder = UIImage(systemName: ImageIcon.linkIcon)
         if let linkThumbnailUrl, !linkThumbnailUrl.isEmpty {
             self.linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl), placeholder: placeHolder)

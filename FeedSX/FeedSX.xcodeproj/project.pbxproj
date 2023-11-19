@@ -16,12 +16,13 @@
 		E54E89762ABB50A400F0E7DF /* SelectTopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */; };
 		E5A938BB2ABADC4A001B5D2B /* TopicViewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */; };
 		E5A938BC2ABADC4A001B5D2B /* TopicViewCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */; };
-		E5BC698A2AF0EE6300FB9723 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5BC69892AF0EE5A00FB9723 /* LikeMindsFeed.framework */; };
-		E5BC698B2AF0EE6300FB9723 /* LikeMindsFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5BC69892AF0EE5A00FB9723 /* LikeMindsFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E5BC698B2AF0EE6300FB9723 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5D955DC2ABD631C0038BDAE /* LMTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955DB2ABD631C0038BDAE /* LMTopicView.swift */; };
 		E5D955DE2ABD63260038BDAE /* LMTopicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955DD2ABD63260038BDAE /* LMTopicView.xib */; };
 		E5D955E32ABD7A480038BDAE /* HomeFeedTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */; };
 		E5D955E42ABD7A480038BDAE /* HomeFeedTopicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */; };
+		E5E529872AD7E15200C8743F /* YoutubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E529852AD7E15200C8743F /* YoutubeViewController.swift */; };
+		E5E529882AD7E15200C8743F /* YoutubeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E529862AD7E15200C8743F /* YoutubeViewController.xib */; };
 		F401D5F32A6419E400DDC10C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */; };
 		F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */; };
 		F405D0FF29E7E0800074F531 /* ReportContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */; };
@@ -39,6 +40,7 @@
 		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
 		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
 		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
+		F465CEC22B03510A0016AD71 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */; };
 		F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */; };
 		F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D02A26197D003C43BA /* UITextView+Extension.swift */; };
 		F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D32A263448003C43BA /* RouteBuilderManager.swift */; };
@@ -201,16 +203,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E5BC69882AF0EE5A00FB9723 /* PBXContainerItemProxy */ = {
+		F465CEC02B0350FE0016AD71 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E5BC69842AF0EE5A00FB9723 /* LikeMindsFeed.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F414169C299E41C000622058;
-			remoteInfo = LikeMindsFeed;
-		};
-		F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
+			containerPortal = F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F414169C299E41C000622058;
 			remoteInfo = LikeMindsFeed;
@@ -224,7 +219,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E5BC698B2AF0EE6300FB9723 /* LikeMindsFeed.framework in Embed Frameworks */,
+				E5BC698B2AF0EE6300FB9723 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +227,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.debug.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.debug.xcconfig"; sourceTree = "<group>"; };
+		629A91E42929945BCC7DA669 /* Pods_FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6921C336C8CE49CFDAC3E467 /* Pods-FeedSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.release.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.release.xcconfig"; sourceTree = "<group>"; };
 		E54E895C2ABAFC3100F0E7DF /* TagsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
 		E54E895E2ABB103000F0E7DF /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		E54E89672ABB448E00F0E7DF /* SelectTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicViewController.swift; sourceTree = "<group>"; };
@@ -247,6 +245,8 @@
 		E5D955DD2ABD63260038BDAE /* LMTopicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LMTopicView.xib; sourceTree = "<group>"; };
 		E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedTopicCell.swift; sourceTree = "<group>"; };
 		E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedTopicCell.xib; sourceTree = "<group>"; };
+		E5E529852AD7E15200C8743F /* YoutubeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeViewController.swift; sourceTree = "<group>"; };
+		E5E529862AD7E15200C8743F /* YoutubeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YoutubeViewController.xib; sourceTree = "<group>"; };
 		F401D5F22A6419E400DDC10C /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		F405D0FA29E7DA720074F531 /* DeleteContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContentViewModel.swift; sourceTree = "<group>"; };
 		F405D0FD29E7E0800074F531 /* ReportContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportContentViewController.swift; sourceTree = "<group>"; };
@@ -264,6 +264,7 @@
 		F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewCell.swift; sourceTree = "<group>"; };
 		F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionViewCell.swift; sourceTree = "<group>"; };
 		F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
+		F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../LikeMinds-Feed-SDK/Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeMindsFeedSX.swift; sourceTree = "<group>"; };
 		F46E15D02A26197D003C43BA /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		F46E15D32A263448003C43BA /* RouteBuilderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderManager.swift; sourceTree = "<group>"; };
@@ -346,7 +347,6 @@
 		F4A70F702A65C8500038A101 /* EmptyHomeFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyHomeFeedView.swift; sourceTree = "<group>"; };
 		F4A85D1E29E931F700FB8DAF /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		F4A85D2129E9338900FB8DAF /* ReportTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagCollectionViewCell.swift; sourceTree = "<group>"; };
-		F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F4A86BD42A2E6B0E00C7D5C2 /* AWSCognito.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSCognito.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A9617929DBFAE600F395AD /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		F4A9617A29DBFAE600F395AD /* CreatePostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePostViewController.xib; sourceTree = "<group>"; };
@@ -428,9 +428,6 @@
 		F4F21ED32AAF219C00C22302 /* ShimmerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		F4F21ED52AAF227F00C22302 /* HomeFeedShimmerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeFeedShimmerView.xib; sourceTree = "<group>"; };
 		F4F21ED62AAF228000C22302 /* HomeFeedShimmerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedShimmerView.swift; sourceTree = "<group>"; };
-		F7817546B69CF6D24ADA8CA2 /* Pods_FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F93D74588988181D1703E2B6 /* Pods-FeedSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.release.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.release.xcconfig"; sourceTree = "<group>"; };
-		FED758651F8FABB7C8130F03 /* Pods-FeedSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.debug.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,7 +435,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5BC698A2AF0EE6300FB9723 /* LikeMindsFeed.framework in Frameworks */,
+				F465CEC22B03510A0016AD71 /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,8 +445,8 @@
 		E3450CFBE03C651D272766F1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FED758651F8FABB7C8130F03 /* Pods-FeedSX.debug.xcconfig */,
-				F93D74588988181D1703E2B6 /* Pods-FeedSX.release.xcconfig */,
+				51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */,
+				6921C336C8CE49CFDAC3E467 /* Pods-FeedSX.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -502,7 +499,6 @@
 		E5BC69852AF0EE5A00FB9723 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E5BC69892AF0EE5A00FB9723 /* LikeMindsFeed.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -533,6 +529,15 @@
 				E5D955E22ABD7A480038BDAE /* HomeFeedTopicCell.xib */,
 			);
 			path = HomeFeedTopicCell;
+			sourceTree = "<group>";
+		};
+		E5E529842AD7E13000C8743F /* YoutubePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				E5E529852AD7E15200C8743F /* YoutubeViewController.swift */,
+				E5E529862AD7E15200C8743F /* YoutubeViewController.xib */,
+			);
+			path = YoutubePlayer;
 			sourceTree = "<group>";
 		};
 		F405D0FC29E7E0410074F531 /* ReportContent */ = {
@@ -575,6 +580,14 @@
 				F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */,
 			);
 			path = OtherCells;
+			sourceTree = "<group>";
+		};
+		F465CEBD2B0350FE0016AD71 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		F46E15D22A263448003C43BA /* LinkManager */ = {
@@ -753,7 +766,7 @@
 				E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */,
 				F4A86BD42A2E6B0E00C7D5C2 /* AWSCognito.framework */,
 				F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */,
-				F7817546B69CF6D24ADA8CA2 /* Pods_FeedSX.framework */,
+				629A91E42929945BCC7DA669 /* Pods_FeedSX.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -864,14 +877,6 @@
 			path = TagCollectionCell;
 			sourceTree = "<group>";
 		};
-		F4A86B8B2A2DCB2900C7D5C2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F4A9617629DBF9E500F395AD /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -885,6 +890,7 @@
 		F4A9617729DBF9F500F395AD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E5E529842AD7E13000C8743F /* YoutubePlayer */,
 				F4EA97A72A14980B0020E672 /* Analytics */,
 				F4A9617629DBF9E500F395AD /* CreatePost */,
 				F4A3DD2B29E7D29400498363 /* DeleteContent */,
@@ -988,7 +994,7 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
-				E5BC69842AF0EE5A00FB9723 /* LikeMindsFeed.xcodeproj */,
+				F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -1203,7 +1209,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4C3330C29CDC83300AD5F52 /* Build configuration list for PBXNativeTarget "FeedSX" */;
 			buildPhases = (
-				B69D5DDF45E1BEB1F8726A77 /* [CP] Check Pods Manifest.lock */,
+				F935DE3C08F070587FE16925 /* [CP] Check Pods Manifest.lock */,
 				F4C332FE29CDC83200AD5F52 /* Headers */,
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
@@ -1250,8 +1256,8 @@
 					ProjectRef = E5BC69842AF0EE5A00FB9723 /* LikeMindsFeed.xcodeproj */;
 				},
 				{
-					ProductGroup = F4A86B8B2A2DCB2900C7D5C2 /* Products */;
-					ProjectRef = F4A86B8A2A2DCB2900C7D5C2 /* LikeMindsFeed.xcodeproj */;
+					ProductGroup = F465CEBD2B0350FE0016AD71 /* Products */;
+					ProjectRef = F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1262,18 +1268,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E5BC69892AF0EE5A00FB9723 /* LikeMindsFeed.framework */ = {
+		F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = LikeMindsFeed.framework;
-			remoteRef = E5BC69882AF0EE5A00FB9723 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F4A86BC12A2E676200C7D5C2 /* LikeMindsFeed.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LikeMindsFeed.framework;
-			remoteRef = F4A86BC02A2E676200C7D5C2 /* PBXContainerItemProxy */;
+			remoteRef = F465CEC02B0350FE0016AD71 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1293,6 +1292,7 @@
 				E5D955DE2ABD63260038BDAE /* LMTopicView.xib in Resources */,
 				E5A938BC2ABADC4A001B5D2B /* TopicViewCollectionCell.xib in Resources */,
 				F4A3DD2F29E7D2F600498363 /* DeleteContentViewController.xib in Resources */,
+				E5E529882AD7E15200C8743F /* YoutubeViewController.xib in Resources */,
 				F4A0E6612A9F355900767941 /* HomeFeedImageCell.xib in Resources */,
 				F4A9617C29DBFAE600F395AD /* CreatePostViewController.xib in Resources */,
 				F4AD157F2A2BC65F00B752C3 /* EditPostViewController.xib in Resources */,
@@ -1319,7 +1319,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B69D5DDF45E1BEB1F8726A77 /* [CP] Check Pods Manifest.lock */ = {
+		F935DE3C08F070587FE16925 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1455,6 +1455,7 @@
 				F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */,
 				F4A5BE8D2ABC2A2E00CD01E6 /* Toolbar.swift in Sources */,
 				F49F6BF72A1B6BFA005B2A81 /* UIBarButtonItem+Extension.swift in Sources */,
+				E5E529872AD7E15200C8743F /* YoutubeViewController.swift in Sources */,
 				E54E89692ABB448E00F0E7DF /* SelectTopicViewController.swift in Sources */,
 				F4D98B2429D4528900CF9743 /* String+Extension.swift in Sources */,
 				F405D0FB29E7DA720074F531 /* DeleteContentViewModel.swift in Sources */,
@@ -1634,10 +1635,10 @@
 		};
 		F4C3330D29CDC83300AD5F52 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FED758651F8FABB7C8130F03 /* Pods-FeedSX.debug.xcconfig */;
+			baseConfigurationReference = 51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1652,7 +1653,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1664,10 +1665,10 @@
 		};
 		F4C3330E29CDC83300AD5F52 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F93D74588988181D1703E2B6 /* Pods-FeedSX.release.xcconfig */;
+			baseConfigurationReference = 6921C336C8CE49CFDAC3E467 /* Pods-FeedSX.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1682,7 +1683,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.LMFeedUI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

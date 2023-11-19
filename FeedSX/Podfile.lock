@@ -53,6 +53,7 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.3.1)
+  - youtube-ios-player-helper (1.0.4)
 
 DEPENDENCIES:
   - AWSCognito
@@ -62,6 +63,7 @@ DEPENDENCIES:
   - FirebaseCore
   - FirebaseMessaging
   - Kingfisher
+  - youtube-ios-player-helper
 
 SPEC REPOS:
   trunk:
@@ -78,6 +80,7 @@ SPEC REPOS:
     - Kingfisher
     - nanopb
     - PromisesObjC
+    - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
   AWSCognito: f50de600804941d083af37a7568905f31a774727
@@ -93,7 +96,8 @@ SPEC CHECKSUMS:
   Kingfisher: 59f908b6d2f403b0a3e539debb0eec05cb27002c
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 988741fdcc82a9fa8cf0de726e3986c8961420c5
+PODFILE CHECKSUM: ea6f8a49eea7d06e802378ad3483a6555c75e0cb
 
 COCOAPODS: 1.13.0
