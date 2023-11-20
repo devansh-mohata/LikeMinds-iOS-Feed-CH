@@ -41,7 +41,7 @@
                                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8QW-Yq-P7o">
                                                         <rect key="frame" x="16" y="0.0" width="288" height="221.66666666666666"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wQy-FN-Ovu">
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wQy-FN-Ovu">
                                                                 <rect key="frame" x="0.0" y="0.0" width="288" height="213.66666666666666"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r1C-fR-4i4">
@@ -81,20 +81,27 @@
                                                                             <constraint firstItem="Sg5-q0-kp3" firstAttribute="leading" secondItem="r1C-fR-4i4" secondAttribute="leading" id="bgT-qg-BEt"/>
                                                                         </constraints>
                                                                     </view>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Ho-XC-sFh">
+                                                                        <rect key="frame" x="24" y="162" width="240" height="8"/>
+                                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="8" id="w1t-KD-Gew"/>
+                                                                        </constraints>
+                                                                    </view>
                                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Sh-cv-ghF" customClass="LMPaddedLabel" customModule="FeedSX" customModuleProvider="target">
-                                                                        <rect key="frame" x="16" y="164.66666666666666" width="256" height="0.0"/>
+                                                                        <rect key="frame" x="16" y="170" width="256" height="0.0"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0TQ-JS-1if" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                                                        <rect key="frame" x="16" y="164.66666666666666" width="256" height="0.0"/>
+                                                                        <rect key="frame" x="16" y="170" width="256" height="0.0"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJa-Xq-ORB" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                                                        <rect key="frame" x="16" y="167" width="256" height="46.666666666666657"/>
+                                                                        <rect key="frame" x="16" y="170" width="256" height="43.666666666666657"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
