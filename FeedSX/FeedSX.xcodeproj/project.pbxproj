@@ -16,7 +16,6 @@
 		E54E89762ABB50A400F0E7DF /* SelectTopicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89752ABB50A400F0E7DF /* SelectTopicViewModel.swift */; };
 		E5A938BB2ABADC4A001B5D2B /* TopicViewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A938B92ABADC4A001B5D2B /* TopicViewCollectionCell.swift */; };
 		E5A938BC2ABADC4A001B5D2B /* TopicViewCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A938BA2ABADC4A001B5D2B /* TopicViewCollectionCell.xib */; };
-		E5BC698B2AF0EE6300FB9723 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5D955DC2ABD631C0038BDAE /* LMTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955DB2ABD631C0038BDAE /* LMTopicView.swift */; };
 		E5D955DE2ABD63260038BDAE /* LMTopicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5D955DD2ABD63260038BDAE /* LMTopicView.xib */; };
 		E5D955E32ABD7A480038BDAE /* HomeFeedTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D955E12ABD7A480038BDAE /* HomeFeedTopicCell.swift */; };
@@ -37,6 +36,7 @@
 		F41731CA2A1A7D47005FD279 /* NetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731C92A1A7D47005FD279 /* NetworkOperation.swift */; };
 		F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731CB2A1A7DC0005FD279 /* AttachmentUploadOperation.swift */; };
 		F41731CE2A1A8FBD005FD279 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41731CD2A1A8FBD005FD279 /* NotificationName+Extension.swift */; };
+		F41B24CB2B0DC5D600A6F070 /* Pluralize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B24CA2B0DC5D600A6F070 /* Pluralize.swift */; };
 		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
 		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
 		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
@@ -219,7 +219,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E5BC698B2AF0EE6300FB9723 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +260,7 @@
 		F41731C92A1A7D47005FD279 /* NetworkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperation.swift; sourceTree = "<group>"; };
 		F41731CB2A1A7DC0005FD279 /* AttachmentUploadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentUploadOperation.swift; sourceTree = "<group>"; };
 		F41731CD2A1A8FBD005FD279 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		F41B24CA2B0DC5D600A6F070 /* Pluralize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pluralize.swift; sourceTree = "<group>"; };
 		F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewCell.swift; sourceTree = "<group>"; };
 		F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionViewCell.swift; sourceTree = "<group>"; };
 		F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
@@ -665,6 +665,7 @@
 				F4A5BE6F2ABC2A2D00CD01E6 /* QCropper */,
 				F46E15D22A263448003C43BA /* LinkManager */,
 				F49C76FA29E3EB8C00325AD9 /* DataDetector.swift */,
+				F41B24CA2B0DC5D600A6F070 /* Pluralize.swift */,
 				F4A20D2729E5FA4C001D57CB /* TaggedRouteParser.swift */,
 				F405D10829E885660074F531 /* ASImageDownloader.swift */,
 				F40E04032AADDAD600AB3827 /* CropImageViewController.swift */,
@@ -1414,6 +1415,7 @@
 				F4AB905C2A3654B300B85245 /* TotalCommentCountCell.swift in Sources */,
 				F4CE0F2F2A0CF9890089D743 /* TaggedUserListViewModel.swift in Sources */,
 				F49D70D32A1392E0004ABD5B /* Array+Extension.swift in Sources */,
+				F41B24CB2B0DC5D600A6F070 /* Pluralize.swift in Sources */,
 				E54E895F2ABB103000F0E7DF /* UIStackView+Extension.swift in Sources */,
 				F4A70F712A65C8500038A101 /* EmptyHomeFeedView.swift in Sources */,
 				F4EA97AB2A1499930020E672 /* LMFeedAnalyticsEventName.swift in Sources */,

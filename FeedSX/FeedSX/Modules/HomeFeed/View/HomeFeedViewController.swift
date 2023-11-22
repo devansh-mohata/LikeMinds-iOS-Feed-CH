@@ -22,7 +22,7 @@ public final class HomeFeedViewControler: BaseViewController {
     var bottomLoadSpinner: UIActivityIndicatorView!
     fileprivate var lastKnowScrollViewContentOfsset: CGFloat = 0
     private var createButtonWidthConstraints: NSLayoutConstraint?
-    private static let createPostTitle = "NEW RESOURCE"
+    private static let createPostTitle = StringConstant.HomeFeed.newPost
     let createPostButton: LMButton = {
         let createPost = LMButton()
         createPost.setImage(UIImage(systemName: ImageIcon.calenderBadgePlus), for: .normal)
@@ -38,7 +38,6 @@ public final class HomeFeedViewControler: BaseViewController {
     let postingProgressShimmerView: HomeFeedShimmerView = {
         let width = UIScreen.main.bounds.width
         let sView = HomeFeedShimmerView(frame: .zero)
-//        sv.backgroundColor = .white
         sView.translatesAutoresizingMaskIntoConstraints = false
         return sView
     }()
@@ -372,11 +371,11 @@ public final class HomeFeedViewControler: BaseViewController {
     
     @objc func createNewPost() {
         if self.isPostCreatingInProgress {
-            self.presentAlert(message: MessageConstant.postingInProgress)
+            self.presentAlert(message: StringConstant.postingInProgress)
             return
         }
         guard self.homeFeedViewModel.hasRightForCreatePost() else  {
-            self.presentAlert(message: MessageConstant.restrictToCreatePost)
+            self.presentAlert(message: StringConstant.restrictToCreatePost)
             return
         }
         
@@ -487,7 +486,7 @@ public final class HomeFeedViewControler: BaseViewController {
                         let asset = AVAsset(url: url)
                         if asset.videoDuration() > (ConstantValue.maxVideoUploadDurationInMins*60) || (AVAsset.videoSizeInKB(url: url)/1000) > ConstantValue.maxVideoUploadSizeInMB {
                             imagePicker.doneButton.isEnabled = false
-                            imagePicker.presentAlert(title: MessageConstant.fileSizeTooBig, message: MessageConstant.maxVideoError)
+                            imagePicker.presentAlert(title: StringConstant.fileSizeTooBig, message: StringConstant.maxVideoError)
                             return
                         }
                     }
@@ -850,7 +849,7 @@ extension HomeFeedViewControler: UIDocumentPickerDelegate {
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
         if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > ConstantValue.maxPDFUploadSizeInMB {
-            self.showErrorAlert(MessageConstant.fileSizeTooBig, message: MessageConstant.maxPDFError)
+            self.showErrorAlert(StringConstant.fileSizeTooBig, message: StringConstant.maxPDFError)
             return
         }
         moveToAddResources(resourceType: .document, url: url)

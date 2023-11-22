@@ -142,7 +142,9 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         
         setupResourceType()
         setupProfileData()
-        setTitleAndSubtile(title: resourceType?.rawValue ?? "Create Post", subTitle: nil)
+        let screenTitle = resourceType?.rawValue ?? StringConstant.CreatePost.screenTitle
+        let title = String(format: screenTitle, pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .firstLetterCapitalSingular))
+        setTitleAndSubtile(title: title, subTitle: nil)
         hideTaggingViewContainer()
         pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
     }
@@ -161,7 +163,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
             self.attachmentView.isHidden = true
             self.deleteArticleBannerButton.isHidden = true
             articalBannerImage.contentMode = .scaleToFill
-            self.placeholderLabel.text = MessageConstant.articalMinimumBodyChars
+            self.placeholderLabel.text = StringConstant.articalMinimumBodyChars
             self.uploadArticleBannerButton.addTarget(self, action: #selector(uploadArticleBanner), for: .touchUpInside)
             self.deleteArticleBannerButton.addTarget(self, action: #selector(deleteArticleBanner), for: .touchUpInside)
         case .link:
@@ -236,7 +238,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     func setupNavigationItems() {
-         postButtonItem = UIBarButtonItem(title: "Post",
+         postButtonItem = UIBarButtonItem(title: "Create",
                         style: .done,
                         target: self,
                         action: #selector(createPost))
@@ -298,7 +300,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
         switch self.resourceType {
         case .article:
             if text.count < 200 {
-                self.showError(errorMessage: MessageConstant.articalMinimumBodyCharError)
+                self.showError(errorMessage: StringConstant.articalMinimumBodyCharError)
                 return
             }
         default:
@@ -362,7 +364,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
                             let asset = AVAsset(url: url)
                             if asset.videoDuration() > (ConstantValue.maxVideoUploadDurationInMins*60) || (AVAsset.videoSizeInKB(url: url)/1000) > ConstantValue.maxVideoUploadSizeInMB {
                                 imagePicker.doneButton.isEnabled = false
-                                imagePicker.presentAlert(title: MessageConstant.fileSizeTooBig, message: MessageConstant.maxVideoError)
+                                imagePicker.presentAlert(title: StringConstant.fileSizeTooBig, message: StringConstant.maxVideoError)
                                 return
                             }
                         }
@@ -678,7 +680,7 @@ extension CreatePostViewController: UIDocumentPickerDelegate {
         if let attr = try? FileManager.default.attributesOfItem(atPath: url.relativePath), let size = attr[.size] as? Int, (size/1000000) > ConstantValue.maxPDFUploadSizeInMB {
             print(size)
             print((size/1000000))
-            self.showErrorAlert(MessageConstant.fileSizeTooBig, message: MessageConstant.maxPDFError)
+            self.showErrorAlert(StringConstant.fileSizeTooBig, message: StringConstant.maxPDFError)
             return
         }
         print(url)
@@ -749,7 +751,7 @@ extension CreatePostViewController: CropperViewControllerDelegate {
                 print("error:  \(error.localizedDescription)")
             }
         } else {
-            cropper.presentAlert(message: MessageConstant.aritcleCoverPhotoRatioError)
+            cropper.presentAlert(message: StringConstant.aritcleCoverPhotoRatioError)
         }
     }
 }

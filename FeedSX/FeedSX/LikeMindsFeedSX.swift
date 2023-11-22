@@ -56,6 +56,7 @@ public class LikeMindsFeedSX {
                 weakSelf.registerDeviceToken(deviceid: deviceId)
             }
             LocalPrefrerences.saveObject(user, forKey: LocalPreferencesKey.userDetails)
+            weakSelf.getCommunityConfiguration()
             let homeFeedVC = HomeFeedViewControler()
             viewController.addChild(homeFeedVC)
             viewController.view.addSubview(homeFeedVC.view)
@@ -81,6 +82,16 @@ public class LikeMindsFeedSX {
                     print(response)
                 }
             }
+        }
+    }
+    
+    func getCommunityConfiguration() {
+        LMFeedClient.shared.getCommunityConfiguration(GetCommunityConfigurationRequest.builder()) { response in
+            guard let configurations = response.data?.communityConfigurations else {
+                return
+            }
+            print("------Configuration Data----- \(configurations)")
+            LocalPrefrerences.saveObject(configurations, forKey: LocalPreferencesKey.communityConfigurations)
         }
     }
     

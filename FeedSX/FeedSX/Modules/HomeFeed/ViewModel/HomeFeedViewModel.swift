@@ -23,6 +23,7 @@ class HomeFeedViewModel: BaseViewModel {
     var currentPage: Int = 1
     var pageSize = 20
     var isFeedLoading: Bool = false
+    var isReachedLastPost: Bool = false
     
     private var isShowTopicFeed = false
     var selectedTopics: [TopicFeedDataModel] = []
