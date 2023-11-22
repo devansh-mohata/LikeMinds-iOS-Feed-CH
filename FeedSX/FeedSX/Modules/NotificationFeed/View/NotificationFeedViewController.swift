@@ -79,6 +79,12 @@ extension NotificationFeedViewController: UITableViewDelegate, UITableViewDataSo
         let cell = tableView.dequeueReusableCell(withIdentifier: NotificationFeedTableViewCell.nibName, for: indexPath) as! NotificationFeedTableViewCell
         cell.setupNotificationFeedCell(dataView: viewModel.activities[indexPath.row])
         cell.delegate = self
+        if viewModel.activities.count >= viewModel.pageSize,
+           indexPath.row >= viewModel.activities.count - 3,
+           !viewModel.isNotificationFeedLoading,
+           !viewModel.isReachedLastPage {
+            viewModel.getNotificationFeed()
+        }
         return cell
     }
     

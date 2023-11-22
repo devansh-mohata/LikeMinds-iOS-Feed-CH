@@ -23,8 +23,7 @@ class HomeFeedViewModel: BaseViewModel {
     var currentPage: Int = 1
     var pageSize = 20
     var isFeedLoading: Bool = false
-    var isReachedLastPost: Bool = false
-    
+    var isReachedLastPage: Bool = false
     private var isShowTopicFeed = false
     var selectedTopics: [TopicFeedDataModel] = []
     private var selectedTopicIds: [String] {
@@ -55,6 +54,7 @@ class HomeFeedViewModel: BaseViewModel {
                 self?.prepareHomeFeedDataView(postsData, users: users, topics: topics, widgets: result.data?.widgets)
                 self?.currentPage += 1
             } else {
+                self?.isReachedLastPage = result.data?.posts?.isEmpty ?? false
                 print(result.errorMessage ?? "")
                 self?.delegate?.didReceivedFeedData(success: false)
                 self?.postErrorMessageNotification(error: result.errorMessage)

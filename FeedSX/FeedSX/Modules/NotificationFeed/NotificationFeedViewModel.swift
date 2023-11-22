@@ -17,10 +17,12 @@ protocol NotificationFeedViewModelDelegate: AnyObject {
 class NotificationFeedViewModel: BaseViewModel {
     
     var currentPage: Int = 1
+    var pageSize: Int = 20
     weak var delegate: NotificationFeedViewModelDelegate?
     var activities: [NotificationFeedDataView] = []
     var isNotificationFeedLoading: Bool = false
-    
+    var isReachedLastPage: Bool = false
+
     func pullToRefreshData() {
         self.currentPage = 1
         self.getNotificationFeed(isShowLoader: false)
@@ -28,6 +30,7 @@ class NotificationFeedViewModel: BaseViewModel {
     
     func getNotificationFeed(isShowLoader: Bool = true) {
         let request = GetNotificationFeedRequest.builder()
+            .pageSize(pageSize)
             .page(currentPage)
             .build()
         self.isNotificationFeedLoading = true
@@ -49,6 +52,7 @@ class NotificationFeedViewModel: BaseViewModel {
                     }
                     self?.currentPage += 1
                 }
+                self?.isReachedLastPage = response.data?.activities?.isEmpty ?? false
             } else {
                 self?.postErrorMessageNotification(error: response.errorMessage)
             }
