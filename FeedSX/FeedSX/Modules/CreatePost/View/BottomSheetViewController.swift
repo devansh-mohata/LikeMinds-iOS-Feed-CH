@@ -18,6 +18,8 @@ class BottomSheetViewController: UIViewController {
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var bottomSheetView: UIView!
     @IBOutlet weak var bottomSheetBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var firstTitleLabel: UILabel!
+    @IBOutlet weak var subtitleLabel: UILabel!
     
     weak var delegate: BottomSheetViewDelegate?
 
@@ -27,6 +29,10 @@ class BottomSheetViewController: UIViewController {
         bottomSheetView.clipsToBounds = true
         bottomSheetView.layer.cornerRadius = 10
         bottomSheetView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        firstTitleLabel.text = StringConstant.BottomSheet.firstTitle
+        subtitleLabel.text = StringConstant.BottomSheet.subtitle
+        continueButton.setTitle(StringConstant.BottomSheet.continueTitle, for: .normal)
+        deleteButton.setTitle(StringConstant.BottomSheet.deleteTitle, for: .normal)
     }
 
 

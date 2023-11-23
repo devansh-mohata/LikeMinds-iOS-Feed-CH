@@ -58,6 +58,28 @@ public struct StringConstant {
         }
     }
     
+    struct BottomSheet {
+        static var firstTitle: String {
+            String(format: "Discard %@?",
+                   pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .firstLetterCapitalSingular))
+        }
+        
+        static var subtitle: String {
+            String(format: "Your %@ creation is in progress. All the %@ data would be lost. Are you sure you want to discard it?",
+                   pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .allSmallSingular),
+                   pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .allSmallPlural))
+        }
+        static var deleteTitle: String {
+            String(format: "Discard this %@",
+                   pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .allSmallSingular))
+        }
+        
+        static var continueTitle: String {
+            String(format: "Continue creating %@",
+                   pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .allSmallSingular))
+        }
+    }
+    
     struct ReportPost {
         private init() {}
         static var reportSubtitle: String {
