@@ -100,10 +100,22 @@ private extension HomeFeedLinkCell {
             linkLabel.text = url.domainUrl()
         }
         playVideoIcon.isHidden = link?.youtubeVideoID() == nil
-        
+      imageContainerView.isHidden = linkThumbnailUrl?.isEmpty != false
+
         let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
-        linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? ""), placeholder: placeholder)
-        imageContainerView.isHidden = linkThumbnailUrl?.isEmpty != false
+        linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? "")) {[weak self] result in
+            switch result {
+            case .success:
+                self?.imageContainerView.isHidden = false
+                break
+            case .failure:
+                self?.imageContainerView.isHidden = true
+                self?.tableView()?.beginUpdates()
+                self?.tableView()?.endUpdates()
+                break
+            }
+            self?.containerView.layoutIfNeeded()
+        }
         containerView.layoutIfNeeded()
     }
 }

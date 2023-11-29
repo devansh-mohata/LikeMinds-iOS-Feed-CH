@@ -43,8 +43,14 @@ import UIKit
                     guard let vc = viewController else {
                         return
                     }
-                    
-                    LikeMindsFeedSX.shared.delegate?.routeViewController(viewController: vc)
+                    // Added this check due to delay in delegate value assign in case of routing from app killed state
+                    if LikeMindsFeedSX.shared.delegate != nil {
+                        LikeMindsFeedSX.shared.delegate?.routeViewController(viewController: vc)
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            LikeMindsFeedSX.shared.delegate?.routeViewController(viewController: vc)
+                        }
+                    }
                 }
             }
         }
