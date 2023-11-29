@@ -120,6 +120,12 @@ class PostDetailViewController: BaseViewController {
         self.setBackButtonIfNotExist()
         self.setupTaggingView()
         refreshControl.bounds =  CGRectOffset(refreshControl.bounds, 0, -20)
+        // Added this code due to topics ui issue [LM-10297]
+        // delay in updating UI view after tableview reload
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.postDetailTableView.beginUpdates()
+            self?.postDetailTableView.endUpdates()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
