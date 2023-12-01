@@ -24,12 +24,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="GQe-iv-XzF">
                                 <rect key="frame" x="0.0" y="0.0" width="264" height="78"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b9i-3p-9jq">
-                                        <rect key="frame" x="0.0" y="0.0" width="78" height="78"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="link.icloud" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b9i-3p-9jq">
+                                        <rect key="frame" x="0.0" y="3.6666666666666643" width="78" height="70.333333333333343"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="78" id="JUh-av-rRU"/>
                                             <constraint firstAttribute="width" secondItem="b9i-3p-9jq" secondAttribute="height" multiplier="1:1" id="wen-sz-LOM"/>
                                         </constraints>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small" weight="thin"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="J6i-Bq-e6g">
                                         <rect key="frame" x="93" y="10.000000000000004" width="116" height="58.333333333333343"/>
@@ -106,6 +107,7 @@
         </designable>
     </designables>
     <resources>
+        <image name="link.icloud" catalog="system" width="128" height="90"/>
         <image name="trash.fill" catalog="system" width="117" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

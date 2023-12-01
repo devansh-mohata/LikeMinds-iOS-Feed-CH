@@ -503,6 +503,7 @@ public final class HomeFeedViewControler: BaseViewController {
         alertView.addTextField { (txtField) in
             txtField.textColor = LMBranding.shared.textLinkColor
             txtField.placeholder = "http://www.example.com"
+            txtField.keyboardType = .URL
         }
         let actionSubmit = UIAlertAction(title: "Continue", style: .default) { [weak self] (action) in
             guard let txtfield = alertView.textFields?.first,

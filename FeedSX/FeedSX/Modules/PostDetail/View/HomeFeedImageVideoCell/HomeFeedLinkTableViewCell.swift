@@ -29,10 +29,23 @@ class HomeFeedLinkTableViewCell: UITableViewCell {
             linkDetailContainerView.clipsToBounds = true
         }
     }
+    
+    @IBOutlet private weak var brokenLinkContainer: UIStackView! {
+        didSet {
+            brokenLinkContainer.isHidden = true
+        }
+    }
+    @IBOutlet private weak var brokenLinkLabel: LMLabel! {
+        didSet {
+            brokenLinkLabel.textColor = LMBranding.shared.textLinkColor
+        }
+    }
+    
     @IBOutlet private weak var linkThumbnailImageView: UIImageView! {
         didSet {
             linkThumbnailImageView.tintColor = ColorConstant.likeTextColor
             linkThumbnailImageView.contentMode = .scaleAspectFill
+            linkThumbnailImageView.backgroundColor = LMBranding.shared.textLinkColor.withAlphaComponent(0.1)
         }
     }
     @IBOutlet private weak var linkTitleLabel: LMPaddedLabel!
@@ -124,25 +137,24 @@ private extension HomeFeedLinkTableViewCell {
         linkTitleLabel.isHidden = true
         linkDescriptionLabel.isHidden = true
         if let link, let url = URL(string: link.linkWithSchema()) {
-            linkLabel.text = url.domainUrl()
+            linkLabel.text = url.domainUrl()?.lowercased()
+            brokenLinkLabel.text = url.domainUrl()?.lowercased()
         }
         playVideoIcon.isHidden = link?.youtubeVideoID() == nil
-        let placeholder = UIImage(named: "link_icon", in: Bundle(for: HomeFeedLinkTableViewCell.self), with: nil)
         linkThumbnailImageView.kf.setImage(with: URL.url(string: linkThumbnailUrl ?? "")) {[weak self] result in
             guard let self else {return}
             switch result {
             case .success:
-                self.imageContainerView.isHidden = false
+                brokenLinkContainer.isHidden = true
+                linkThumbnailImageView.backgroundColor = .white
                 break
             case .failure:
-                self.imageContainerView.isHidden = true
-                self.tableView()?.beginUpdates()
-                self.tableView()?.endUpdates()
+                brokenLinkContainer.isHidden = false
+                linkThumbnailImageView.backgroundColor = LMBranding.shared.textLinkColor.withAlphaComponent(0.1)
                 break
             }
         }
-        imageContainerView.isHidden = linkThumbnailUrl?.isEmpty != false
-        
+        brokenLinkContainer.isHidden = linkThumbnailUrl?.isEmpty == false
         containerView.layoutIfNeeded()
     }
     

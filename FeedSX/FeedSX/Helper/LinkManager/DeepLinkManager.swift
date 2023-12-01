@@ -56,13 +56,16 @@ import UIKit
         }
     }
     
-    private func initiateFeed(routeUrl: String, fromNotification: Bool, fromDeeplink: Bool) {
+    private func initiateFeed(withUUID uuid: String, routeUrl: String, fromNotification: Bool, fromDeeplink: Bool) {
+        let uuid = LocalPrefrerences.uuid().isEmpty ? uuid : LocalPrefrerences.uuid()
         guard let user = LocalPrefrerences.getUserData(),
-        let apiKey = LocalPrefrerences.userDefault.string(forKey: LocalPreferencesKey.feedApiKey) else { return }
+        let apiKey = LocalPrefrerences.userDefault.string(forKey: LocalPreferencesKey.feedApiKey),
+        !uuid.isEmpty else { return }
+        
         let request = InitiateUserRequest.builder()
             .apiKey(apiKey)
             .userName(user.name ?? "")
-            .uuid(LocalPrefrerences.uuid())
+            .uuid(uuid)
             .isGuest(false)
             .build()
         LMFeedClient.shared.initiateUser(request: request) { [weak self] response in
@@ -73,17 +76,17 @@ import UIKit
         }
     }
     
-    func notificationRoute(routeUrl: String, fromNotification: Bool, fromDeeplink: Bool) {
-        self.initiateFeed(routeUrl: routeUrl, fromNotification: fromNotification, fromDeeplink: fromDeeplink)
+    func notificationRoute(withUUID uuid: String, routeUrl: String, fromNotification: Bool) {
+        self.initiateFeed(withUUID: uuid, routeUrl: routeUrl, fromNotification: fromNotification, fromDeeplink: false)
     }
     
-    func deeplinkRoute(routeUrl: String, fromNotification: Bool, fromDeeplink: Bool) {
+    func deeplinkRoute(withUUID uuid: String, routeUrl: String, fromDeeplink: Bool) {
         guard let linkUrl = URL(string: routeUrl),
               let firstPath = linkUrl.path.components(separatedBy: "/").filter({$0 != ""}).first?.lowercased(),
               (firstPath == post || firstPath == postDetail),
               let routeUrl = RouteBuilderManager.buildRouteForPostDetails(url: routeUrl) else {
             return
         }
-        self.initiateFeed(routeUrl: routeUrl, fromNotification: fromNotification, fromDeeplink: fromDeeplink)
+        self.initiateFeed(withUUID: uuid, routeUrl: routeUrl, fromNotification: false, fromDeeplink: fromDeeplink)
     }
 }

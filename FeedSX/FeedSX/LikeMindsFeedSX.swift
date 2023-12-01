@@ -100,9 +100,9 @@ public class LikeMindsFeedSX {
      @param userInfo The info dict with the push
      */
     @discardableResult
-    public func didReceieveNotification(userInfo: [AnyHashable: Any]) -> Bool {
+    public func didReceieveNotification(userInfo: [AnyHashable: Any], withUUID uuid: String) -> Bool {
         guard let route = userInfo["route"] as? String else {return false }
-        DeepLinkManager.sharedInstance.notificationRoute(routeUrl: route, fromNotification: true, fromDeeplink: false)
+        DeepLinkManager.sharedInstance.notificationRoute(withUUID: uuid, routeUrl: route, fromNotification: true)
         return true
     }
     
@@ -110,8 +110,8 @@ public class LikeMindsFeedSX {
      Call this method when deeplink decoded url has received
      @param deeplinkRequest: deeplink url with userid and username details
      */
-    public func parseDeepLink(routeUrl: String) {
-        DeepLinkManager.sharedInstance.deeplinkRoute(routeUrl: routeUrl, fromNotification: false, fromDeeplink: true)
+    public func parseDeepLink(routeUrl: String, withUUID uuid: String) {
+        DeepLinkManager.sharedInstance.deeplinkRoute(withUUID: uuid, routeUrl: routeUrl, fromDeeplink: true)
     }
     
     public func logout(_ refreshToken: String, deviceId: String) {

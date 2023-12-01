@@ -57,11 +57,34 @@
                                                                 </imageReference>
                                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                                             </imageView>
+                                                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7FD-v9-vPh">
+                                                                <rect key="frame" x="119" y="41.666666666666657" width="50" height="79"/>
+                                                                <subviews>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="link.icloud" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dt0-or-NGj">
+                                                                        <rect key="frame" x="4" y="1.6666666666666661" width="42" height="25"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="42" id="Io0-TD-DiG"/>
+                                                                            <constraint firstAttribute="height" constant="29" id="Tgi-Z8-TZW"/>
+                                                                        </constraints>
+                                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="thin"/>
+                                                                    </imageView>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdV-SA-fZ3" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="29.000000000000007" width="50" height="49.999999999999993"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </stackView>
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstItem="UUN-bj-Lmc" firstAttribute="centerX" secondItem="now-D7-eUr" secondAttribute="centerX" id="0J1-vD-nIc"/>
                                                             <constraint firstItem="UUN-bj-Lmc" firstAttribute="centerY" secondItem="now-D7-eUr" secondAttribute="centerY" id="8yJ-Ky-yC2"/>
+                                                            <constraint firstItem="7FD-v9-vPh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="11L-ls-88T" secondAttribute="leading" constant="20" id="I3a-xT-SyS"/>
+                                                            <constraint firstItem="7FD-v9-vPh" firstAttribute="centerX" secondItem="11L-ls-88T" secondAttribute="centerX" id="LSh-BT-Mq8"/>
+                                                            <constraint firstItem="7FD-v9-vPh" firstAttribute="centerY" secondItem="11L-ls-88T" secondAttribute="centerY" id="THe-bq-eU8"/>
+                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7FD-v9-vPh" secondAttribute="trailing" constant="20" id="W1b-0Q-Jqn"/>
                                                             <constraint firstItem="now-D7-eUr" firstAttribute="top" secondItem="11L-ls-88T" secondAttribute="top" id="Wib-LC-GkB"/>
                                                             <constraint firstItem="now-D7-eUr" firstAttribute="leading" secondItem="11L-ls-88T" secondAttribute="leading" id="Zwl-GP-4Qp"/>
                                                             <constraint firstAttribute="trailing" secondItem="now-D7-eUr" secondAttribute="trailing" id="o2y-VV-h1i"/>
@@ -178,6 +201,8 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="actionsSectionView" destination="tJB-8h-HD4" id="ScP-u9-KKJ"/>
+                <outlet property="brokenLinkContainer" destination="7FD-v9-vPh" id="sPo-aO-GjV"/>
+                <outlet property="brokenLinkLabel" destination="fdV-SA-fZ3" id="05C-LF-RFp"/>
                 <outlet property="containerView" destination="vI7-tv-t4m" id="55M-Jm-JwE"/>
                 <outlet property="imageContainerView" destination="11L-ls-88T" id="FQH-R0-OT0"/>
                 <outlet property="linkDescriptionLabel" destination="1ms-Uo-KV2" id="8Jp-Qw-FH8"/>
@@ -193,6 +218,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="link.icloud" catalog="system" width="128" height="90"/>
         <image name="play.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
