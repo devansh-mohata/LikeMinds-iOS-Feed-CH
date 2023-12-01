@@ -79,6 +79,12 @@ extension NotificationFeedViewController: UITableViewDelegate, UITableViewDataSo
         let cell = tableView.dequeueReusableCell(withIdentifier: NotificationFeedTableViewCell.nibName, for: indexPath) as! NotificationFeedTableViewCell
         cell.setupNotificationFeedCell(dataView: viewModel.activities[indexPath.row])
         cell.delegate = self
+        if viewModel.activities.count >= viewModel.pageSize,
+           indexPath.row >= viewModel.activities.count - 3,
+           !viewModel.isNotificationFeedLoading,
+           !viewModel.isReachedLastPage {
+            viewModel.getNotificationFeed()
+        }
         return cell
     }
     
@@ -123,7 +129,7 @@ extension NotificationFeedViewController: NotificationFeedViewModelDelegate {
     func didReceiveNotificationFeedsResponse() {
         if viewModel.activities.count == 0 {
             let emptyPlaceholder = UIImage(named: ImageIcon.emptyDataImage, in: Bundle(for: NotificationFeedViewController.self), with: nil) ?? UIImage()
-            notificationFeedTableView.setEmptyMessage(MessageConstant.nofiticationFeedDataNotFound, emptyImage: emptyPlaceholder)
+            notificationFeedTableView.setEmptyMessage(StringConstant.nofiticationFeedDataNotFound, emptyImage: emptyPlaceholder)
         } else {
             notificationFeedTableView.restore()
         }

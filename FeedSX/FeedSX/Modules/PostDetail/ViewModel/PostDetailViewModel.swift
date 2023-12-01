@@ -76,7 +76,9 @@ final class PostDetailViewModel: BaseViewModel {
             .pageSize(commentPageSize)
             .build()
         self.isCommentLoading = true
-        delegate?.showHideLoader(isShow: isShowLoader)
+        if commentCurrentPage <= 1 {
+            delegate?.showHideLoader(isShow: isShowLoader)
+        }
         LMFeedClient.shared.getPost(request) {[weak self] response in
             self?.delegate?.showHideLoader(isShow: false)
             if response.success == false {

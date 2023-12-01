@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,6 +13,10 @@
             <connections>
                 <outlet property="bottomSheetBottomConstraint" destination="sS1-il-Zse" id="ch3-WN-ioR"/>
                 <outlet property="bottomSheetView" destination="fa2-1Z-Yup" id="Vd1-bc-qRb"/>
+                <outlet property="continueButton" destination="h39-Ll-Udv" id="sNa-cF-eXZ"/>
+                <outlet property="deleteButton" destination="PNf-gg-RO0" id="CUl-JH-Fvf"/>
+                <outlet property="firstTitleLabel" destination="6cF-jj-YhK" id="z95-YS-OFp"/>
+                <outlet property="subtitleLabel" destination="ckI-I2-nu1" id="uGw-ZP-jGL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -35,16 +39,16 @@
                             <rect key="frame" x="22" y="30" width="349" height="181"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DKQ-va-M6e">
-                                    <rect key="frame" x="0.0" y="0.0" width="349" height="51.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="349" height="74.333333333333329"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discard Resource?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cF-jj-YhK" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="349" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="349" height="16"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Your resource creation is in progress. All the resources data would be lost. Are you sure you want to discard it?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckI-I2-nu1" customClass="LMLabel" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="8" width="349" height="43.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="24.000000000000004" width="349" height="50.333333333333343"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -52,10 +56,10 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="4RG-BH-OBK">
-                                    <rect key="frame" x="0.0" y="91.666666666666629" width="349" height="89.333333333333314"/>
+                                    <rect key="frame" x="0.0" y="114.33333333333337" width="349" height="66.666666666666686"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PNf-gg-RO0" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="200" height="29.666666666666668"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="18.333333333333332"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="200" id="08o-qC-ldI"/>
                                             </constraints>
@@ -71,7 +75,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h39-Ll-Udv" customClass="LMButton" customModule="FeedSX" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="59.666666666666735" width="250" height="29.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="48.333333333333258" width="250" height="18.333333333333329"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="250" id="DXr-mj-ipV"/>
                                             </constraints>
@@ -139,7 +143,7 @@
     </designables>
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
-        <image name="trash.fill" catalog="system" width="119" height="128"/>
+        <image name="trash.fill" catalog="system" width="117" height="128"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

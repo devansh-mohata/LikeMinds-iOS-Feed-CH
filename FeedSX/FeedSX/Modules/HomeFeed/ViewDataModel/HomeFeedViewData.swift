@@ -98,10 +98,10 @@ final class PostFeedDataView {
     func updatePinUnpinMenu() {
         guard let index = self.postMenuItems?.firstIndex(where: {$0.id == .unpin || $0.id == .pin}) else { return }
         if self.isPinned {
-            let menu = MenuItem(id: .unpin, name: "Unpin this Post".capitalized)
+            let menu = MenuItem(id: .unpin, name: StringConstant.HomeFeed.unpinThisPost)
             self.postMenuItems?[index] = menu
         } else {
-            let menu = MenuItem(id: .pin, name: "Pin this Post".capitalized)
+            let menu = MenuItem(id: .pin, name: StringConstant.HomeFeed.pinThisPost)
             self.postMenuItems?[index] = menu
         }
     }

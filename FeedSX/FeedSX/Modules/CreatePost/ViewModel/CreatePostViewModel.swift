@@ -42,12 +42,12 @@ final class CreatePostViewModel: BaseViewModel {
         }
     }
     enum AttachmentUploadType: String {
-        case document = "Add PDF Resource"
-        case image = "Add Photo Resource"
-        case video = "Add Video Resource"
-        case link = "Add Link Resource"
+        case document = "Add PDF %@"
+        case image = "Add Photo %@"
+        case video = "Add Video %@"
+        case link = "Add Link %@"
         case dontAttachOgTag
-        case article = "Add Article"
+        case article = "Add Article %@"
         case unknown
     }
     
@@ -55,7 +55,6 @@ final class CreatePostViewModel: BaseViewModel {
         let request = TopicFeedRequest.builder()
             .setEnableState(true)
             .build()
-        
         LMFeedClient.shared.getTopicFeed(request) { [weak self] response in
             self?.isShowTopicFeed = !(response.data?.topics?.isEmpty ?? true)
             self?.setupTopicFeed()
