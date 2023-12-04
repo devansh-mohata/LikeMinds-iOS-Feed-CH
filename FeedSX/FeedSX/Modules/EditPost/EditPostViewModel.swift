@@ -39,11 +39,11 @@ final class EditPostViewModel: BaseViewModel {
     private let filePath = "files/post/\(LocalPrefrerences.getUserData()?.clientUUID ?? "user")/"
     
     enum AttachmentUploadType: String {
-        case document = "Edit PDF Resource"
-        case image = "Edit Photo Resource"
-        case video = "Edit Video Resource"
-        case link = "Edit Link Resource"
-        case article = "Edit Article"
+        case document = "Edit PDF %@"
+        case image = "Edit Photo %@"
+        case video = "Edit Video %@"
+        case link = "Edit Link %@"
+        case article = "Edit Article %@"
         case dontAttachOgTag
         case unknown
     }

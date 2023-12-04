@@ -111,7 +111,7 @@ class PostDetailViewController: BaseViewController {
         viewModel.getPostDetail()
         setupPostActionsBarItem()
         hideTaggingViewContainer()
-        self.setTitleAndSubtile(title: "Post", subTitle: viewModel.totalCommentsCount())
+        self.setTitleAndSubtile(title: StringConstant.PostDetail.screenTitle, subTitle: viewModel.totalCommentsCount())
         validateCommentRight()
     }
     
@@ -120,6 +120,12 @@ class PostDetailViewController: BaseViewController {
         self.setBackButtonIfNotExist()
         self.setupTaggingView()
         refreshControl.bounds =  CGRectOffset(refreshControl.bounds, 0, -20)
+        // Added this code due to topics ui issue [LM-10297]
+        // delay in updating UI view after tableview reload
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.postDetailTableView.beginUpdates()
+            self?.postDetailTableView.endUpdates()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -151,7 +157,7 @@ class PostDetailViewController: BaseViewController {
     
     func validateCommentRight() {
         if !viewModel.hasRightForCommentOnPost() {
-            textViewPlaceHolder.text = MessageConstant.restrictToCommentOnPost
+            textViewPlaceHolder.text = StringConstant.restrictToCommentOnPost
             sendButton.isHidden = true
             commentTextView.isUserInteractionEnabled = false
         } else {

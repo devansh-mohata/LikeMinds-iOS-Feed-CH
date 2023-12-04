@@ -121,7 +121,6 @@ class EditPostViewController: BaseViewController {
         topicFeedView.delegate = self
         
         setupProfileData(name: nil, imageURL: nil)
-        setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
         hideTaggingViewContainer()
         pageControl?.currentPageIndicatorTintColor = LMBranding.shared.buttonColor
         
@@ -136,7 +135,9 @@ class EditPostViewController: BaseViewController {
     }
     
     func setupResourceType() {
-        self.setTitleAndSubtile(title: self.resourceType?.rawValue ?? "", subTitle: nil)
+        let screenTitle = resourceType?.rawValue ?? StringConstant.EditPost.screenTitle
+        let title = String(format: screenTitle, pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .firstLetterCapitalSingular))
+        setTitleAndSubtile(title: title, subTitle: nil)
         switch self.resourceType {
         case .article:
             self.articalBannerViewContainer.isHidden = false
@@ -279,7 +280,7 @@ class EditPostViewController: BaseViewController {
         switch self.resourceType {
         case .article:
             if text.count < 200 {
-                self.showErrorAlert(message: MessageConstant.articalMinimumBodyCharError)
+                self.showErrorAlert(message: StringConstant.articalMinimumBodyCharError)
                 return
             }
         default:
@@ -550,7 +551,6 @@ extension EditPostViewController: AttachmentCollectionViewCellDelegate {
     
     func removeAttachment(_ cell: UICollectionViewCell) {
         guard let indexPath = self.attachmentCollectionView.indexPath(for: cell) else { return }
-        print(indexPath.row)
         switch self.viewModel.currentSelectedUploadeType {
         case .video, .image:
             self.viewModel.imageAndVideoAttachments.remove(at: indexPath.row)
@@ -560,7 +560,6 @@ extension EditPostViewController: AttachmentCollectionViewCellDelegate {
             reloadAttachmentsView()
         case .link:
             self.viewModel.linkAttatchment = nil
-//            reloadAttachmentsView()
             reloadCollectionView()
         default:
             break
@@ -575,7 +574,6 @@ extension EditPostViewController: AttachmentCollectionViewCellDelegate {
 extension EditPostViewController: UIDocumentPickerDelegate {
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
-        print(url)
         self.viewModel.addDocumentAttachment(fileUrl: url)
         controller.dismiss(animated: true)
     }
@@ -706,7 +704,7 @@ extension EditPostViewController: UIImagePickerControllerDelegate & UINavigation
         let size = Int(selectedImage.sizeInKB()/1000)
         if size > ConstantValue.maxPDFUploadSizeInMB {
             picker.dismiss(animated: true, completion: nil)
-            self.showErrorAlert(message: MessageConstant.maxPDFError)
+            self.showErrorAlert(message: StringConstant.maxPDFError)
             return
         }
         self.viewModel.addImageVideoAttachment(fileUrl: url, type: self.resourceType ?? .image)
@@ -740,14 +738,14 @@ extension EditPostViewController: CropperViewControllerDelegate {
                 }
                 try imageData.write(to: imageURL)
                 let newImage = UIImage(contentsOfFile: imageURL.path)
-                guard let img = newImage else { return }
+                guard newImage != nil else { return }
                 self.viewModel.addImageVideoAttachment(fileUrl: imageURL, type: .image)
                 self.reloadCollectionView()
             } catch let error  {
                 print("error:  \(error.localizedDescription)")
             }
         } else {
-            cropper.presentAlert(message: MessageConstant.aritcleCoverPhotoRatioError)
+            cropper.presentAlert(message: StringConstant.aritcleCoverPhotoRatioError)
         }
     }
 }

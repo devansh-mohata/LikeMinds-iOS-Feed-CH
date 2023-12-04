@@ -36,4 +36,5 @@ struct ImageIcon {
     static let playVideo = "play.circle"
     static let editIcon = "pencil"
     static let plusIcon = "plus"
+    static let brokenLinkIcon = "link.icloud"
 }

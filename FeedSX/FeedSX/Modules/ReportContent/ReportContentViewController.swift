@@ -14,6 +14,8 @@ class ReportContentViewController: BaseViewController {
     @IBOutlet weak var otherTextView: LMTextView!
     @IBOutlet weak var otherTextViewBottomLine: UIView!
     @IBOutlet weak var reportButton: LMButton!
+    @IBOutlet weak var reportSubtitle: UILabel!
+
     var placeholderLabel: LMLabel = {
         let label = LMLabel()
         label.numberOfLines = 1
@@ -38,6 +40,7 @@ class ReportContentViewController: BaseViewController {
         viewModel.entityId = self.entityId
         viewModel.uuid = self.uuid
         viewModel.reportEntityType = self.reportEntityType
+        reportSubtitle.text = StringConstant.ReportPost.reportSubtitle
         setupViews()
         viewModel.fetchReportTags()
         self.setTitleAndSubtile(title: "Report Abuse", subTitle: nil)
@@ -123,7 +126,7 @@ extension ReportContentViewController: UICollectionViewDataSource, UICollectionV
 extension ReportContentViewController: ReportContentViewModelDelegate {
     
     func didReceivedReportRespone(_ errorMessage: String?) {
-        let reportContentType = viewModel.reportEntityType == .post ? "Post" : "Comment"
+        let reportContentType = viewModel.reportEntityType == .post ? pluralizeOrCapitalize(to: LocalPrefrerences.getPostVariable, withAction: .firstLetterCapitalSingular) : "Comment"
         let title = String(format: "%@ is reported for review", reportContentType)
         let message = String(format: "Our team will look into your feedback and will take appropriate action on this %@", reportContentType)
         guard let error = errorMessage else {

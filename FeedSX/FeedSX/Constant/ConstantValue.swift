@@ -8,6 +8,7 @@
 import Foundation
 
 struct ConstantValue {
+    private init() {}
     static let maxPDFUploadSizeInMB = 100
     static let maxVideoUploadSizeInMB = 200
     static let maxVideoUploadDurationInMins = 10

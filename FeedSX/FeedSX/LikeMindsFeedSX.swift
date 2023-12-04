@@ -56,6 +56,7 @@ public class LikeMindsFeedSX {
                 weakSelf.registerDeviceToken(deviceid: deviceId)
             }
             LocalPrefrerences.saveObject(user, forKey: LocalPreferencesKey.userDetails)
+            weakSelf.getCommunityConfiguration()
             let homeFeedVC = HomeFeedViewControler()
             viewController.addChild(homeFeedVC)
             viewController.view.addSubview(homeFeedVC.view)
@@ -84,14 +85,24 @@ public class LikeMindsFeedSX {
         }
     }
     
+    func getCommunityConfiguration() {
+        LMFeedClient.shared.getCommunityConfiguration(GetCommunityConfigurationRequest.builder()) { response in
+            guard let configurations = response.data?.communityConfigurations else {
+                return
+            }
+            print("------Configuration Data----- \(configurations)")
+            LocalPrefrerences.saveObject(configurations, forKey: LocalPreferencesKey.communityConfigurations)
+        }
+    }
+    
     /**
      Call this method in AppDelegate in didReceiveRemoteNotification
      @param userInfo The info dict with the push
      */
     @discardableResult
-    public func didReceieveNotification(userInfo: [AnyHashable: Any]) -> Bool {
+    public func didReceieveNotification(userInfo: [AnyHashable: Any], withUUID uuid: String) -> Bool {
         guard let route = userInfo["route"] as? String else {return false }
-        DeepLinkManager.sharedInstance.notificationRoute(routeUrl: route, fromNotification: true, fromDeeplink: false)
+        DeepLinkManager.sharedInstance.notificationRoute(withUUID: uuid, routeUrl: route, fromNotification: true)
         return true
     }
     
@@ -99,8 +110,8 @@ public class LikeMindsFeedSX {
      Call this method when deeplink decoded url has received
      @param deeplinkRequest: deeplink url with userid and username details
      */
-    public func parseDeepLink(routeUrl: String) {
-        DeepLinkManager.sharedInstance.deeplinkRoute(routeUrl: routeUrl, fromNotification: false, fromDeeplink: true)
+    public func parseDeepLink(routeUrl: String, withUUID uuid: String) {
+        DeepLinkManager.sharedInstance.deeplinkRoute(withUUID: uuid, routeUrl: routeUrl, fromDeeplink: true)
     }
     
     public func logout(_ refreshToken: String, deviceId: String) {
