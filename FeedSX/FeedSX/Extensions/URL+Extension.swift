@@ -10,7 +10,7 @@ import Foundation
 extension URL {
     
     static func url(string: String) -> URL? {
-        guard let url = URL(string: string) else {
+        guard let url = URL(string: string.linkWithSecureSchema()) else {
             return URL(string: string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
         }
         return url
