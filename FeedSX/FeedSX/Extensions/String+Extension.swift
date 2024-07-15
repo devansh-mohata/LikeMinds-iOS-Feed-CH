@@ -52,6 +52,16 @@ extension String {
         }
     }
     
+    func linkWithSecureSchema() -> String {
+        if self.hasPrefix("https://"){
+            return self
+        } else if self.hasPrefix("http://") {
+            return self.replacingOccurrences(of: "http://", with: "https://")
+        } else {
+            return "https://\(self)"
+        }
+    }
+    
     func sizeForWidth(width: CGFloat, font: UIFont) -> CGSize {
         let attr = [NSAttributedString.Key.font: font]
         let height = NSString(string: self).boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options:.usesLineFragmentOrigin, attributes: attr, context: nil).height
