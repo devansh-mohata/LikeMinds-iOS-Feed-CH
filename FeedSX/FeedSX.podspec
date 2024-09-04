@@ -15,20 +15,18 @@ Pod::Spec.new do |spec|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  spec.name         = "FeedSX.podspec"
+  spec.name         = "FeedSX"
   spec.version      = "1.6.0"
-  spec.summary      = "A short description of FeedSX.podspec."
+  spec.summary      = 'LikeMinds FeedSX official iOS SDK'
+  spec.homepage     = 'https://likeminds.community/'
+  spec.license      = { :type => 'MIT', :file => 'LICENSE' }
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  spec.description  = <<-DESC
-                   DESC
-
-  spec.homepage     = "http://EXAMPLE/FeedSX.podspec"
-  # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
+  spec.description  = " FeedSX official "
 
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -37,9 +35,6 @@ Pod::Spec.new do |spec|
   #  CocoaPods will detect a license file if there is a named LICENSE*
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
-
-  spec.license      = "MIT (example)"
-  # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -79,7 +74,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "http://EXAMPLE/LMFeedUI.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/LikeMindsCommunity/LMFeedUI.git", :tag => "#{spec.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -92,6 +87,11 @@ Pod::Spec.new do |spec|
 
   spec.source_files  = "Classes", "Classes/**/*.{h,m}"
   spec.exclude_files = "Classes/Exclude"
+
+  spec.source_files = 'FeedSX/**/*.swift'
+  spec.resource_bundles = {
+     'FeedSX' => ['FeedSX/Assets/*.{xcassets}']
+  }
 
   # spec.public_header_files = "Classes/**/*.h"
 
@@ -125,17 +125,6 @@ spec.pod_target_xcconfig = {
   # spec.library   = "iconv"
   # spec.libraries = "iconv", "xml2"
 
-
-  # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  If your library depends on compiler flags you can set them in the xcconfig hash
-  #  where they will only apply to your library. If you depend on other Podspecs
-  #  you can include multiple dependencies to ensure it works.
-
-  # spec.requires_arc = true
-
-  # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # spec.dependency "JSONKit", "~> 1.4"
   
   spec.dependency "Kingfisher"
   spec.dependency "AWSCore"
@@ -145,6 +134,6 @@ spec.pod_target_xcconfig = {
   spec.dependency "FirebaseCore"
   spec.dependency "FirebaseMessaging"
   spec.dependency "IQKeyboardManagerSwift"
-  spec.dependency "LikeMindsFeed"
+  spec.dependency "LikeMindsFeed", '1.7.2'
   spec.dependency "youtube-ios-player-helper"
 end

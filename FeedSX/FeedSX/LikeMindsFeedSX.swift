@@ -25,12 +25,9 @@ public class LikeMindsFeedSX {
     private init() {}
     public weak var delegate: LikeMindsFeedSXCallback?
     
-    public func configureLikeMindsFeed(lmCallback: LMCallback?, branding: SetBrandingRequest = SetBrandingRequest()) {
+    public func configureLikeMindsFeed(branding: SetBrandingRequest = SetBrandingRequest()) {
         LMBranding.shared.setBranding(branding)
         AWSS3Manager.shared.initializeS3()
-        let _ = LMFeedClient.builder()
-            .lmCallback(lmCallback)
-            .build()
     }
     
     public func initiateLikeMindsFeed(withViewController viewController: UIViewController, apiKey: String, username: String, userId: String, deviceId: String?) {
@@ -124,7 +121,7 @@ public class LikeMindsFeedSX {
         }
     }
     
-    public func disbleIQKeyboardForViewController() -> [UIViewController.Type] {
+    public func disableIQKeyboardForViewController() -> [UIViewController.Type] {
         return [EditPostViewController.self,
                 CreatePostViewController.self,
                 PostDetailViewController.self]
