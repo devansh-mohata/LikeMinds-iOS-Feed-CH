@@ -10,7 +10,7 @@ import UIKit
 class PostDetailArticleTableViewCell: UITableViewCell {
     
     static let nibName: String = "PostDetailArticleTableViewCell"
-    static let bundle = Bundle(for: PostDetailArticleTableViewCell.self)
+    static let bundle = Bundle.lmBundle
     weak var delegate: HomeFeedTableViewCellDelegate?
     
     @IBOutlet private weak var profileSectionView: UIView!
@@ -72,7 +72,7 @@ class PostDetailArticleTableViewCell: UITableViewCell {
         setupCaption()
         actionFooterSectionView.setupActionFooterSectionData(feedDataView, delegate: delegate)
         if let imageUrl = feedDataView.imageVideos?.first?.url {
-            let placeholder = UIImage(named: "placeholder", in: Bundle(for: PostDetailArticleTableViewCell.self), with: nil)
+            let placeholder = UIImage(named: "placeholder", in: Bundle.lmBundle, with: nil)
             self.articleImageView.kf.setImage(with: URL.url(string: imageUrl), placeholder: placeholder)
         } else {
             self.articleImageView.image = nil

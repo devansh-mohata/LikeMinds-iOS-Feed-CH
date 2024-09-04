@@ -34,7 +34,7 @@ class HomeFeedShimmerView: UIView {
     }
     
     private func setupView() {
-        Bundle(for: HomeFeedShimmerView.self).loadNibNamed("HomeFeedShimmerView", owner: self)
+        Bundle.lmBundle?.loadNibNamed("HomeFeedShimmerView", owner: self)
         addSubview(contentView)
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

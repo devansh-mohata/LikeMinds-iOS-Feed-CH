@@ -43,7 +43,7 @@ extension TaggedUserListDelegate {
     private var taggingView: TaggingView = TaggingView()
     
     class func nibView() -> TaggedUserList? {
-        return UINib(nibName: "TaggedUserList", bundle: Bundle(for: TaggedUserList.self)).instantiate(withOwner: nil, options: nil)[0] as? TaggedUserList
+        return UINib(nibName: "TaggedUserList", bundle: Bundle.lmBundle).instantiate(withOwner: nil, options: nil)[0] as? TaggedUserList
     }
     
     func setupTableView() {
@@ -62,7 +62,7 @@ extension TaggedUserListDelegate {
         setupTaggingView()
         viewModel.delegate = self
         tableView.separatorStyle = .none
-        tableView.register(UINib(nibName: TaggedListTableViewCell.cellIdentifier, bundle: Bundle(for: TaggedListTableViewCell.self)), forCellReuseIdentifier: TaggedListTableViewCell.cellIdentifier)
+        tableView.register(UINib(nibName: TaggedListTableViewCell.cellIdentifier, bundle: Bundle.lmBundle), forCellReuseIdentifier: TaggedListTableViewCell.cellIdentifier)
         tableView.superview?.addShadow()
     }
     

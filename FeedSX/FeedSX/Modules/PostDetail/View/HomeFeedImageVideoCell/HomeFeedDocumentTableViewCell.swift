@@ -10,7 +10,7 @@ import UIKit
 class HomeFeedDocumentTableViewCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedDocumentTableViewCell"
-    static let bundle = Bundle(for: HomeFeedDocumentTableViewCell.self)
+    static let bundle = Bundle.lmBundle
     weak var delegate: HomeFeedTableViewCellDelegate?
     
     @IBOutlet private weak var profileSectionView: UIView!
@@ -117,7 +117,7 @@ class HomeFeedDocumentTableViewCell: UITableViewCell {
     }
 
     private func setupImageView(_ url: String?) {
-        let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle(for: HomeFeedDocumentTableViewCell.self), with: nil)
+        let imagePlaceholder = UIImage(named: "pdf_icon", in: Bundle.lmBundle, with: nil)
         self.pdfThumbnailImage.image = imagePlaceholder
         guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL.url(string: url) else { return }
         DispatchQueue.global().async { [weak self] in

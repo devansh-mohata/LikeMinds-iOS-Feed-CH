@@ -40,7 +40,7 @@ class AttachmentTableViewCell: UITableViewCell {
         self.collectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
         self.collectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
         
-        let linkNib = UINib(nibName: "LinkCollectionViewCell", bundle: Bundle(for: LinkCollectionViewCell.self))
+        let linkNib = UINib(nibName: "LinkCollectionViewCell", bundle: Bundle.lmBundle)
         self.collectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
         
         collectionView.dataSource = self

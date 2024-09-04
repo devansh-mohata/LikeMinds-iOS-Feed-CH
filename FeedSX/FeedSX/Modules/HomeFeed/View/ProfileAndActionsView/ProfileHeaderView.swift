@@ -133,7 +133,7 @@ class ProfileHeaderView: UIView {
         imageView.backgroundColor = .white
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(named: ImageIcon.pinIcon, in: Bundle(for: ProfileHeaderView.self), with: nil)
+        imageView.image = UIImage(named: ImageIcon.pinIcon, in: Bundle.lmBundle, with: nil)
         imageView.tintColor = ColorConstant.likeTextColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

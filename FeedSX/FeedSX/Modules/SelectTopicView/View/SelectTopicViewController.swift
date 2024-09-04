@@ -29,7 +29,7 @@ class SelectTopicViewController: BaseViewController {
             topicsTableView.dataSource = self
             topicsTableView.delegate = self
             topicsTableView.bounces = false
-            topicsTableView.register(UINib(nibName: "SelectTopicTableViewCell", bundle: Bundle(for: SelectTopicTableViewCell.self)), forCellReuseIdentifier: "SelectTopicTableViewCell")
+            topicsTableView.register(UINib(nibName: "SelectTopicTableViewCell", bundle: Bundle.lmBundle), forCellReuseIdentifier: "SelectTopicTableViewCell")
             topicsTableView.showsVerticalScrollIndicator = false
             topicsTableView.showsHorizontalScrollIndicator = false
         }
@@ -61,7 +61,7 @@ class SelectTopicViewController: BaseViewController {
     init(selectedTopics: [TopicFeedDataModel], selectionStyle: SelectTopicViewModel.SelectionStyle = .multiple, isShowAllTopics: Bool, delegate: SelectTopicViewDelegate?, isEnabledState: Bool = true) {
         self.topicCells = []
         self.viewModel = .init(selectedTopics: selectedTopics, selectionStyle: selectionStyle, isShowAllTopics: isShowAllTopics, enabledState: isEnabledState)
-        super.init(nibName: "SelectTopicViewController", bundle: Bundle(for: SelectTopicViewController.self))
+        super.init(nibName: "SelectTopicViewController", bundle: Bundle.lmBundle)
         viewModel.delegate = self
         self.delegate = delegate
     }

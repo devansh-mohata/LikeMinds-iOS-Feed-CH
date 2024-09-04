@@ -23,7 +23,7 @@ public class YoutubeViewController: UIViewController {
     
     init(videoID: String) {
         self.videoID = videoID
-        super.init(nibName: "YoutubeViewController", bundle: Bundle(for: YoutubeViewController.self))
+        super.init(nibName: "YoutubeViewController", bundle: Bundle.lmBundle)
     }
     
     required init?(coder: NSCoder) {

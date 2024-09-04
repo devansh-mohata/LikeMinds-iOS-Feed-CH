@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "FeedSX"
-  spec.version      = "1.6.0"
+  spec.version      = "1.7.0"
   spec.summary      = 'LikeMinds FeedSX official iOS SDK'
   spec.homepage     = 'https://likeminds.community/'
   spec.license      = { :type => 'MIT', :file => 'LICENSE' }
@@ -84,13 +84,11 @@ Pod::Spec.new do |spec|
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-
-  spec.source_files  = "Classes", "Classes/**/*.{h,m}"
   spec.exclude_files = "Classes/Exclude"
 
   spec.source_files = 'FeedSX/**/*.swift'
   spec.resource_bundles = {
-     'FeedSX' => ['FeedSX/Assets/*.{xcassets}']
+     'FeedSX' => ['FeedSX/**/*.{xcassets}', 'FeedSX/**/*.xib']
   }
 
   # spec.public_header_files = "Classes/**/*.h"
@@ -120,11 +118,6 @@ spec.pod_target_xcconfig = {
   }
   spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   spec.framework  = "Foundation"
-  # spec.frameworks = "SomeFramework", "AnotherFramework"
-
-  # spec.library   = "iconv"
-  # spec.libraries = "iconv", "xml2"
-
   
   spec.dependency "Kingfisher"
   spec.dependency "AWSCore"

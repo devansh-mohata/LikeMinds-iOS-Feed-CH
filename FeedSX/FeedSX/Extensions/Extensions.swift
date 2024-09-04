@@ -20,3 +20,28 @@ extension UIImage {
     }
 }
 
+class FeedSXBundle {}
+
+extension Bundle {
+    private static var bundle: Bundle?
+    
+    static var normal_module: Bundle? = {
+        Bundle(for: FeedSXBundle.self)
+    }()
+    
+    static var spm_module: Bundle? = {
+        return Bundle(for: FeedSXBundle.self)
+    }()
+    
+    static var lmBundle: Bundle? = {
+        Bundle(for: FeedSXBundle.self)
+            .url(forResource: "FeedSX", withExtension: "bundle")
+            .flatMap(Bundle.init(url:)) ?? Bundle(for: FeedSXBundle.self)
+    }()
+    
+    static var LMImageEditorBundle: Bundle? {
+        return lmBundle ?? (normal_module ?? spm_module)
+    }
+    
+}
+

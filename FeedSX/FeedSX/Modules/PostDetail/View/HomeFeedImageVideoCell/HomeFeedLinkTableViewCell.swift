@@ -10,7 +10,7 @@ import youtube_ios_player_helper
 
 class HomeFeedLinkTableViewCell: UITableViewCell {
     static let nibName: String = "HomeFeedLinkTableViewCell"
-    static let bundle = Bundle(for: HomeFeedLinkTableViewCell.self)
+    static let bundle = Bundle.lmBundle
     weak var delegate: HomeFeedTableViewCellDelegate?
     
     @IBOutlet private weak var imageContainerView: UIView!

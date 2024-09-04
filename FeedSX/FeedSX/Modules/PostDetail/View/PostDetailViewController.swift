@@ -231,7 +231,7 @@ class PostDetailViewController: BaseViewController {
             switch menu.id {
             case .commentReport:
                 actionSheet.addAction(withOptions: menu.name) {
-                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
+                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle.lmBundle)
                     reportContent.entityId = comment.commentId
                     reportContent.uuid = comment.user.uuid
                     reportContent.reportEntityType = isReplied ? .reply : .comment
@@ -239,7 +239,7 @@ class PostDetailViewController: BaseViewController {
                 }
             case .commentDelete:
                 actionSheet.addAction(withOptions: menu.name) {
-                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
+                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle.lmBundle)
                     deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = comment.postId
                     deleteController.commentId = comment.commentId
@@ -680,7 +680,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
             switch menu.id {
             case .report:
                 actionSheet.addAction(withOptions: menu.name) {
-                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
+                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle.lmBundle)
                     reportContent.entityId = selectedPost?.postId
                     reportContent.uuid = selectedPost?.postByUser?.uuid
                     reportContent.reportEntityType = .post
@@ -688,7 +688,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
                 }
             case .delete:
                 actionSheet.addAction(withOptions: menu.name) {
-                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
+                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle.lmBundle)
                     deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
@@ -698,7 +698,7 @@ extension PostDetailViewController: ProfileHeaderViewDelegate {
             case .edit:
                 actionSheet.addAction(withOptions: menu.name) {
                     guard let postId = selectedPost?.postId else {return}
-                    let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle(for: EditPostViewController.self))
+                    let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle.lmBundle)
                     editPost.postId = postId
                     self.navigationController?.pushViewController(editPost, animated: true)
                 }

@@ -22,7 +22,7 @@ extension HomeFeedTableViewCellDelegate {
 class HomeFeedImageVideoTableViewCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedImageVideoTableViewCell"
-    static let bundle = Bundle(for: HomeFeedImageVideoTableViewCell.self)
+    static let bundle = Bundle.lmBundle
     weak var delegate: HomeFeedTableViewCellDelegate?
     
     @IBOutlet private weak var profileSectionView: UIView!
@@ -117,7 +117,7 @@ class HomeFeedImageVideoTableViewCell: UITableViewCell {
         
         self.imageVideoCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
         self.imageVideoCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
-        let linkNib = UINib(nibName: "LinkCollectionViewCell", bundle: Bundle(for: LinkCollectionViewCell.self))
+        let linkNib = UINib(nibName: "LinkCollectionViewCell", bundle: Bundle.lmBundle)
         self.imageVideoCollectionView.register(linkNib, forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
         
         imageVideoCollectionView.dataSource = self

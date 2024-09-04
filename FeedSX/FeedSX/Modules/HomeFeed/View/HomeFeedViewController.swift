@@ -97,7 +97,7 @@ public final class HomeFeedViewControler: BaseViewController {
         layout.scrollDirection = .horizontal
         layout.estimatedItemSize = .init(width: 100, height: 30)
         let tc = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        tc.register(UINib(nibName: HomeFeedTopicCell.identifier, bundle: Bundle(for: HomeFeedTopicCell.self)), forCellWithReuseIdentifier: HomeFeedTopicCell.identifier)
+        tc.register(UINib(nibName: HomeFeedTopicCell.identifier, bundle: Bundle.lmBundle), forCellWithReuseIdentifier: HomeFeedTopicCell.identifier)
         tc.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
         tc.setContentHuggingPriority(.defaultLow, for: .horizontal)
         tc.showsHorizontalScrollIndicator = false
@@ -383,7 +383,7 @@ public final class HomeFeedViewControler: BaseViewController {
     }
     
     func moveToAddResources(resourceType: CreatePostViewModel.AttachmentUploadType, url: URL?) {
-        let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle(for: CreatePostViewController.self))
+        let createView = CreatePostViewController(nibName: "CreatePostViewController", bundle: Bundle.lmBundle)
         createView.resourceType = resourceType
         createView.resourceURL = url
         LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Post.creationStarted, eventProperties: nil)
@@ -602,7 +602,7 @@ extension HomeFeedViewControler: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let postData = homeFeedViewModel.feeds[indexPath.row]
         let postId = postData.postId 
-        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle.lmBundle)
         postDetail.postId = postId
         self.navigationController?.pushViewController(postDetail, animated: true)
     }
@@ -726,7 +726,7 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
             switch menu.id {
             case .report:
                 actionSheet.addAction(withOptions: menu.name) { [weak self] in
-                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle(for: ReportContentViewController.self))
+                    let reportContent = ReportContentViewController(nibName: "ReportContentViewController", bundle: Bundle.lmBundle)
                     reportContent.entityId = selectedPost?.postId
                     reportContent.uuid = selectedPost?.postByUser?.uuid
                     reportContent.reportEntityType = .post
@@ -734,7 +734,7 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                 }
             case .delete:
                 actionSheet.addAction(withOptions: menu.name) { [weak self] in
-                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle(for: DeleteContentViewController.self))
+                    let deleteController = DeleteContentViewController(nibName: "DeleteContentViewController", bundle: Bundle.lmBundle)
                     deleteController.modalPresentationStyle = .overCurrentContext
                     deleteController.postId = selectedPost?.postId
                     deleteController.delegate = self
@@ -745,7 +745,7 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
                 actionSheet.addAction(withOptions: menu.name) { [weak self] in
                     guard let postId = selectedPost?.postId else {return}
                     self?.homeFeedViewModel.trackPostActionEvent(postId: postId, creatorId: selectedPost?.postByUser?.uuid ?? "", eventName: LMFeedAnalyticsEventName.Post.edited, postType: selectedPost?.postAttachmentType().rawValue ?? "")
-                    let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle(for: EditPostViewController.self))
+                    let editPost = EditPostViewController(nibName: "EditPostViewController", bundle: Bundle.lmBundle)
                     editPost.postId = postId
                     self?.navigationController?.pushViewController(editPost, animated: true)
                 }
@@ -771,7 +771,7 @@ extension HomeFeedViewControler: ProfileHeaderViewDelegate {
     
     func didTapOnFeedCollection(_ feedDataView: PostFeedDataView?) {
         guard let postId = feedDataView?.postId else {return}
-        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle.lmBundle)
         postDetail.postId = postId
         self.navigationController?.pushViewController(postDetail, animated: true)
     }
@@ -789,7 +789,7 @@ extension HomeFeedViewControler: ActionsFooterViewDelegate {
             homeFeedViewModel.savePost(postId: postId)
         case .comment:
             guard let postId = postData?.postId else { return }
-            let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+            let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle.lmBundle)
             postDetail.postId = postId
             postDetail.isViewPost = false
             LMFeedAnalytics.shared.track(eventName: LMFeedAnalyticsEventName.Comment.listOpened, eventProperties: ["post_id": postId])
@@ -833,7 +833,7 @@ extension HomeFeedViewControler: HomeFeedTableViewCellDelegate {
     
     func didTapOnCell(_ feedDataView: PostFeedDataView?) {
         guard let postId = feedDataView?.postId else { return }
-        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle.lmBundle)
         postDetail.postId = postId
         self.navigationController?.pushViewController(postDetail, animated: true)
     }

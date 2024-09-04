@@ -10,7 +10,7 @@ import youtube_ios_player_helper
 
 class HomeFeedLinkCell: UITableViewCell {
     static let nibName: String = "HomeFeedLinkCell"
-    static let bundle = Bundle(for: HomeFeedLinkCell.self)
+    static let bundle = Bundle.lmBundle
     
     @IBOutlet private weak var imageContainerView: UIView!
     @IBOutlet private weak var playVideoIcon: UIImageView!
