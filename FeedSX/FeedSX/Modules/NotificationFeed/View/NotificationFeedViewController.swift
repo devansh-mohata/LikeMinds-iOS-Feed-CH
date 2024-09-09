@@ -128,7 +128,7 @@ extension NotificationFeedViewController: NotificationFeedTableViewCellDelegate 
 extension NotificationFeedViewController: NotificationFeedViewModelDelegate {
     func didReceiveNotificationFeedsResponse() {
         if viewModel.activities.count == 0 {
-            let emptyPlaceholder = UIImage(named: ImageIcon.emptyDataImage, in: Bundle(for: NotificationFeedViewController.self), with: nil) ?? UIImage()
+            let emptyPlaceholder = UIImage(named: ImageIcon.emptyDataImage, in: Bundle.lmBundle, with: nil) ?? UIImage()
             notificationFeedTableView.setEmptyMessage(StringConstant.nofiticationFeedDataNotFound, emptyImage: emptyPlaceholder)
         } else {
             notificationFeedTableView.restore()

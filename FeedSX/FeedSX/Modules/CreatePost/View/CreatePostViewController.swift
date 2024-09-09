@@ -56,7 +56,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
             attachmentCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
             attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
             attachmentCollectionView.register(DocumentCollectionCell.self, forCellWithReuseIdentifier: DocumentCollectionCell.cellIdentifier)
-            attachmentCollectionView.register(UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle(for: LinkCollectionViewCell.self)), forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
+            attachmentCollectionView.register(UINib(nibName: LinkCollectionViewCell.nibName, bundle: Bundle.lmBundle), forCellWithReuseIdentifier: LinkCollectionViewCell.cellIdentifier)
             attachmentCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.cellIdentifier)
             attachmentCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
         }
@@ -260,7 +260,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
             self.navigationController?.popViewController(animated: true)
             return 
         }
-        let bottomSheetViewController = BottomSheetViewController(nibName: "BottomSheetViewController", bundle: Bundle(for: BottomSheetViewController.self))
+        let bottomSheetViewController = BottomSheetViewController(nibName: "BottomSheetViewController", bundle: Bundle.lmBundle)
         bottomSheetViewController.delegate  = self
         bottomSheetViewController.modalPresentationStyle = .overCurrentContext
         self.present(bottomSheetViewController, animated: false)
@@ -288,7 +288,7 @@ class CreatePostViewController: BaseViewController, BottomSheetViewDelegate {
     }
     
     @objc func changeAuthor() {
-        let memberListVC = MemberListViewController(nibName: "MemberListViewController", bundle: Bundle(for: MemberListViewController.self))
+        let memberListVC = MemberListViewController(nibName: "MemberListViewController", bundle: Bundle.lmBundle)
         memberListVC.delegate = self
         self.navigationController?.pushViewController(memberListVC, animated: true)
     }

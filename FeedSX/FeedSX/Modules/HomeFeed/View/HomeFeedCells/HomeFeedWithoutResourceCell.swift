@@ -10,7 +10,7 @@ import UIKit
 class HomeFeedWithoutResourceCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedWithoutResourceCell"
-    static let bundle = Bundle(for: HomeFeedWithoutResourceCell.self)
+    static let bundle = Bundle.lmBundle
     
     @IBOutlet weak var profileSectionView: UIView!
     @IBOutlet weak var actionsSectionView: UIView!

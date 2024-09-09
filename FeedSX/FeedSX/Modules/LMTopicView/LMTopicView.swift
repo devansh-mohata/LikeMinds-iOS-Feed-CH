@@ -24,7 +24,7 @@ final class LMTopicView: UIView {
             topicCollectionView.dataSource = self
             topicCollectionView.delegate = self
             topicCollectionView.translatesAutoresizingMaskIntoConstraints = false
-            topicCollectionView.register(UINib(nibName: TopicViewCollectionCell.identifier, bundle: Bundle(for: TopicViewCollectionCell.self)), forCellWithReuseIdentifier: TopicViewCollectionCell.identifier)
+            topicCollectionView.register(UINib(nibName: TopicViewCollectionCell.identifier, bundle: Bundle.lmBundle), forCellWithReuseIdentifier: TopicViewCollectionCell.identifier)
             topicCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
             topicCollectionView.collectionViewLayout = TagsLayout()
             topicCollectionView.isScrollEnabled = false
@@ -47,7 +47,7 @@ final class LMTopicView: UIView {
     }
     
     private func setupView() {
-        Bundle(for: LMTopicView.self).loadNibNamed("LMTopicView", owner: self)
+        Bundle.lmBundle?.loadNibNamed("LMTopicView", owner: self)
         addSubview(contentView)
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]

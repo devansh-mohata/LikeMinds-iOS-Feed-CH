@@ -10,7 +10,7 @@ import UIKit
 class HomeFeedImageCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedImageCell"
-    static let bundle = Bundle(for: HomeFeedImageCell.self)
+    static let bundle = Bundle.lmBundle
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var profileSectionView: UIView!
@@ -69,7 +69,7 @@ class HomeFeedImageCell: UITableViewCell {
     }
     
     private func setupImageView(_ url: String?) {
-        let imagePlaceholder = UIImage(named: "imageplaceholder", in: Bundle(for: HomeFeedImageCell.self), with: nil)
+        let imagePlaceholder = UIImage(named: "imageplaceholder", in: Bundle.lmBundle, with: nil)
         self.postImageView.image = imagePlaceholder
         guard let url = url, let uRL = URL.url(string: url) else { return }
         DispatchQueue.global().async { [weak self] in

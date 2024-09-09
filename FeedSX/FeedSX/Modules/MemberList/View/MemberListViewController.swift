@@ -31,7 +31,7 @@ class MemberListViewController: BaseViewController {
         self.setTitleAndSubtile(title: "Select Author", subTitle: nil)
         memberListTableView.dataSource = self
         memberListTableView.delegate = self
-        memberListTableView.register(UINib(nibName: MemberCell.nibName, bundle: Bundle(for: MemberCell.self)), forCellReuseIdentifier: MemberCell.nibName)
+        memberListTableView.register(UINib(nibName: MemberCell.nibName, bundle: Bundle.lmBundle), forCellReuseIdentifier: MemberCell.nibName)
     }
     
     override func viewWillAppear(_ animated: Bool) {

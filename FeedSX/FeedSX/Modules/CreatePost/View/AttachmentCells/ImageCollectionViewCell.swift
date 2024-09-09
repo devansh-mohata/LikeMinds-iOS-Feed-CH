@@ -57,7 +57,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
     }
     
     func setupImageVideoView(_ url: String?) {
-        let imagePlaceholder = UIImage(named: "imageplaceholder", in: Bundle(for: ImageCollectionViewCell.self), with: nil)
+        let imagePlaceholder = UIImage(named: "imageplaceholder", in: Bundle.lmBundle, with: nil)
         self.postImageView.image = imagePlaceholder
         guard let url = url?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let uRL = URL(string: url) else { return }
         DispatchQueue.global().async { [weak self] in

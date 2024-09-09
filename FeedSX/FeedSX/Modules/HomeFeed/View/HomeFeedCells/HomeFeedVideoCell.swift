@@ -12,7 +12,7 @@ import AVFoundation
 class HomeFeedVideoCell: UITableViewCell {
     
     static let nibName: String = "HomeFeedVideoCell"
-    static let bundle = Bundle(for: HomeFeedVideoCell.self)
+    static let bundle = Bundle.lmBundle
     
     // The PlayerView
     var playerView: PlayerView = {

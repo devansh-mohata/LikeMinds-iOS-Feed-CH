@@ -38,7 +38,7 @@ class EmptyTableViewPlaceholder: UIView {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(named: ImageIcon.emptyDataImage, in: Bundle(for: EmptyTableViewPlaceholder.self), with: nil)
+        imageView.image = UIImage(named: ImageIcon.emptyDataImage, in: Bundle.lmBundle, with: nil)
         imageView.tintColor = ColorConstant.likeTextColor
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false

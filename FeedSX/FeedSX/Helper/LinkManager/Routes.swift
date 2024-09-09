@@ -108,7 +108,7 @@ struct RouteTriggerProperties {
             commentId = id
         }
         guard let postId = postId else  {return completion(nil) }
-        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle(for: PostDetailViewController.self))
+        let postDetail = PostDetailViewController(nibName: "PostDetailViewController", bundle: Bundle.lmBundle)
         postDetail.postId = postId
         postDetail.commentId = commentId
         completion(postDetail)

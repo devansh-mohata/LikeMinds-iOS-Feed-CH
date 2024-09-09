@@ -14,7 +14,7 @@ protocol NotificationFeedTableViewCellDelegate: AnyObject {
 class NotificationFeedTableViewCell: UITableViewCell {
     
     static let nibName: String = "NotificationFeedTableViewCell"
-    static let bundle = Bundle(for: NotificationFeedTableViewCell.self)
+    static let bundle = Bundle.lmBundle
     weak var delegate: NotificationFeedTableViewCellDelegate?
     
     @IBOutlet weak var profileImageView: UIImageView!
