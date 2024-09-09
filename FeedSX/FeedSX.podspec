@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "FeedSX"
-  spec.version      = "1.7.0"
+  spec.version      = "1.8.0"
   spec.summary      = 'LikeMinds FeedSX official iOS SDK'
   spec.homepage     = 'https://likeminds.community/'
   spec.license      = { :type => 'MIT', :file => 'LICENSE' }
