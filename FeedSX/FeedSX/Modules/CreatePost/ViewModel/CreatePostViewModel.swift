@@ -230,7 +230,7 @@ final class CreatePostViewModel: BaseViewModel {
 private extension CreatePostViewModel {
     func createPostWithLinkAttachment(postCaption: String?, heading: String) {
         guard let linkAttatchment = self.linkAttatchment else { return }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .ogTags(.init()
                 .image(linkAttatchment.linkThumbnailUrl ?? "")
                 .title(linkAttatchment.title ?? "")
@@ -238,23 +238,23 @@ private extension CreatePostViewModel {
                 .url(linkAttatchment.url ?? ""))
         let attachmentRequest = Attachment()
             .attachmentType(.link)
-            .attachmentMeta(attachmentMeta)
-        let addPostRequest = AddPostRequest.builder()
+            .attachmentMeta(attachmentMeta.build())
+        let addPostRequest = AddPostRequest.Builder()
             .text(postCaption)
             .heading(heading)
             .onBehalfOfUUID(self.onBehalfOfUUID)
             .attachments([attachmentRequest])
-            .addTopics(selectedTopicIds)
+            .topics(selectedTopicIds)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }
     
     func createPostWithOutAttachment(postCaption: String?, heading: String) {
-        let addPostRequest = AddPostRequest.builder()
+        let addPostRequest = AddPostRequest.Builder()
             .text(postCaption)
             .heading(heading)
             .onBehalfOfUUID(self.onBehalfOfUUID)
-            .addTopics(selectedTopicIds)
+            .topics(selectedTopicIds)
             .build()
         CreatePostOperation.shared.createPost(request: addPostRequest)
     }

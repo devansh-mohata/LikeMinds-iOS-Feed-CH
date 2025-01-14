@@ -13,4 +13,5 @@ target 'FeedSX' do
  pod "FirebaseCore"
  pod "FirebaseMessaging"
  pod 'youtube-ios-player-helper'
+ pod 'LikeMindsFeed'
 end

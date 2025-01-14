@@ -46,7 +46,7 @@ class AttachmentUploadOperation: NetworkOperation {
                 }
             }
             
-            let addPostRequest = AddPostRequest.builder()
+            let addPostRequest = AddPostRequest.Builder()
                 .text(self.postCaption)
                 .attachments(attachments)
                 .build()
@@ -56,7 +56,7 @@ class AttachmentUploadOperation: NetworkOperation {
             }
             
         } else {
-            let addPostRequest = AddPostRequest.builder()
+            let addPostRequest = AddPostRequest.Builder()
                 .text(self.postCaption)
                 .build()
             LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
@@ -71,10 +71,10 @@ class AttachmentUploadOperation: NetworkOperation {
         if let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
-            .name(attachment.name)
+            .name(attachment.name).build()
         let attachmentRequest = Attachment()
             .attachmentType(.image)
             .attachmentMeta(attachmentMeta)
@@ -92,12 +92,12 @@ class AttachmentUploadOperation: NetworkOperation {
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             size = attr[.size] as? Int
         }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
             .name(attachment.name)
             .pageCount(numberOfPages ?? 0)
-            .format("pdf")
+            .format("pdf").build()
         let attachmentRequest = Attachment()
             .attachmentType(.doc)
             .attachmentMeta(attachmentMeta)
@@ -114,11 +114,11 @@ class AttachmentUploadOperation: NetworkOperation {
         let duration = asset.duration
         let durationTime = CMTimeGetSeconds(duration)
         
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
             .name(attachment.name)
-            .duration(Int(durationTime))
+            .duration(Int(durationTime)).build()
         let attachmentRequest = Attachment()
             .attachmentType(.video)
             .attachmentMeta(attachmentMeta)

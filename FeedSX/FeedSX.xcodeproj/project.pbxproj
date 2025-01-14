@@ -7,7 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E54E895D2ABAFC3100F0E7DF /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E895C2ABAFC3100F0E7DF /* TagsLayout.swift */; };
+		910494C52D26E78100C8BC69 /* LMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494BF2D26E78100C8BC69 /* LMTextField.swift */; };
+		910494C62D26E78100C8BC69 /* LMFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494BC2D26E78100C8BC69 /* LMFonts.swift */; };
+		910494C72D26E78100C8BC69 /* LMSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494BE2D26E78100C8BC69 /* LMSegmentedControl.swift */; };
+		910494C82D26E78100C8BC69 /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494C32D26E78100C8BC69 /* TagsLayout.swift */; };
+		910494C92D26E78100C8BC69 /* LMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494C02D26E78100C8BC69 /* LMTextView.swift */; };
+		910494CA2D26E78100C8BC69 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494C22D26E78100C8BC69 /* ShimmerView.swift */; };
+		910494CB2D26E78100C8BC69 /* LMBranding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494BA2D26E78100C8BC69 /* LMBranding.swift */; };
+		910494CC2D26E78100C8BC69 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494C12D26E78100C8BC69 /* RoundButton.swift */; };
+		910494CD2D26E78100C8BC69 /* LMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494BB2D26E78100C8BC69 /* LMButton.swift */; };
+		910494CE2D26E78100C8BC69 /* LMLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910494BD2D26E78100C8BC69 /* LMLabel.swift */; };
 		E54E895F2ABB103000F0E7DF /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E895E2ABB103000F0E7DF /* UIStackView+Extension.swift */; };
 		E54E89692ABB448E00F0E7DF /* SelectTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54E89672ABB448E00F0E7DF /* SelectTopicViewController.swift */; };
 		E54E896A2ABB448E00F0E7DF /* SelectTopicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54E89682ABB448E00F0E7DF /* SelectTopicViewController.xib */; };
@@ -40,7 +49,6 @@
 		F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */; };
 		F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */; };
 		F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */; };
-		F465CEC22B03510A0016AD71 /* LikeMindsFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */; };
 		F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */; };
 		F46E15D12A26197D003C43BA /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D02A26197D003C43BA /* UITextView+Extension.swift */; };
 		F46E15D62A263448003C43BA /* RouteBuilderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E15D32A263448003C43BA /* RouteBuilderManager.swift */; };
@@ -161,14 +169,7 @@
 		F4D58B5929DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */; };
 		F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98AFC29D1886100CF9743 /* BaseViewController.swift */; };
 		F4D98AFF29D1889B00CF9743 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98AFE29D1889B00CF9743 /* BaseNavigationController.swift */; };
-		F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0129D188BF00CF9743 /* LMButton.swift */; };
-		F4D98B0829D188BF00CF9743 /* LMLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0229D188BF00CF9743 /* LMLabel.swift */; };
-		F4D98B0929D188BF00CF9743 /* LMSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0329D188BF00CF9743 /* LMSegmentedControl.swift */; };
-		F4D98B0A29D188BF00CF9743 /* LMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0429D188BF00CF9743 /* LMTextField.swift */; };
-		F4D98B0B29D188BF00CF9743 /* LMTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0529D188BF00CF9743 /* LMTextView.swift */; };
-		F4D98B0C29D188BF00CF9743 /* LMBranding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0629D188BF00CF9743 /* LMBranding.swift */; };
 		F4D98B0F29D1890300CF9743 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B0E29D1890300CF9743 /* Font+Extension.swift */; };
-		F4D98B1229D1916600CF9743 /* LMFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B1129D1916600CF9743 /* LMFonts.swift */; };
 		F4D98B1529D1A08400CF9743 /* HomeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B1429D1A08400CF9743 /* HomeFeedViewController.swift */; };
 		F4D98B1829D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B1629D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift */; };
 		F4D98B1929D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4D98B1729D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib */; };
@@ -179,7 +180,6 @@
 		F4D98B2629D452B600CF9743 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B2529D452B600CF9743 /* UIView+Extension.swift */; };
 		F4D98B2829D452E700CF9743 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B2729D452E700CF9743 /* UIViewController+Extension.swift */; };
 		F4D98B2B29D553C800CF9743 /* HomeFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D98B2A29D553C800CF9743 /* HomeFeedViewModel.swift */; };
-		F4DE47112A06CB6400BF5C2C /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DE47102A06CB6400BF5C2C /* RoundButton.swift */; };
 		F4E15E992AA364FD00BAEB99 /* MemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E15E972AA364FD00BAEB99 /* MemberListViewController.swift */; };
 		F4E15E9A2AA364FD00BAEB99 /* MemberListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E15E982AA364FD00BAEB99 /* MemberListViewController.xib */; };
 		F4E15E9C2AA366A500BAEB99 /* MemberListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E15E9B2AA366A500BAEB99 /* MemberListViewModel.swift */; };
@@ -197,20 +197,9 @@
 		F4EA97BB2A19592F0020E672 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EA97BA2A19592F0020E672 /* ColorConstant.swift */; };
 		F4F21EC42AAE6B8100C22302 /* HomeFeedWithoutResourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F21EC22AAE6B8100C22302 /* HomeFeedWithoutResourceCell.swift */; };
 		F4F21EC52AAE6B8100C22302 /* HomeFeedWithoutResourceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4F21EC32AAE6B8100C22302 /* HomeFeedWithoutResourceCell.xib */; };
-		F4F21ED42AAF219D00C22302 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F21ED32AAF219C00C22302 /* ShimmerView.swift */; };
 		F4F21ED72AAF228000C22302 /* HomeFeedShimmerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4F21ED52AAF227F00C22302 /* HomeFeedShimmerView.xib */; };
 		F4F21ED82AAF228000C22302 /* HomeFeedShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F21ED62AAF228000C22302 /* HomeFeedShimmerView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		F465CEC02B0350FE0016AD71 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F414169C299E41C000622058;
-			remoteInfo = LikeMindsFeed;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		E5BC698C2AF0EE6400FB9723 /* Embed Frameworks */ = {
@@ -226,10 +215,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.debug.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.debug.xcconfig"; sourceTree = "<group>"; };
-		629A91E42929945BCC7DA669 /* Pods_FeedSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6921C336C8CE49CFDAC3E467 /* Pods-FeedSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedSX.release.xcconfig"; path = "Target Support Files/Pods-FeedSX/Pods-FeedSX.release.xcconfig"; sourceTree = "<group>"; };
-		E54E895C2ABAFC3100F0E7DF /* TagsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
+		910494BA2D26E78100C8BC69 /* LMBranding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMBranding.swift; sourceTree = "<group>"; };
+		910494BB2D26E78100C8BC69 /* LMButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMButton.swift; sourceTree = "<group>"; };
+		910494BC2D26E78100C8BC69 /* LMFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMFonts.swift; sourceTree = "<group>"; };
+		910494BD2D26E78100C8BC69 /* LMLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMLabel.swift; sourceTree = "<group>"; };
+		910494BE2D26E78100C8BC69 /* LMSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMSegmentedControl.swift; sourceTree = "<group>"; };
+		910494BF2D26E78100C8BC69 /* LMTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMTextField.swift; sourceTree = "<group>"; };
+		910494C02D26E78100C8BC69 /* LMTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMTextView.swift; sourceTree = "<group>"; };
+		910494C12D26E78100C8BC69 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		910494C22D26E78100C8BC69 /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
+		910494C32D26E78100C8BC69 /* TagsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
 		E54E895E2ABB103000F0E7DF /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		E54E89672ABB448E00F0E7DF /* SelectTopicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTopicViewController.swift; sourceTree = "<group>"; };
 		E54E89682ABB448E00F0E7DF /* SelectTopicViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectTopicViewController.xib; sourceTree = "<group>"; };
@@ -264,7 +259,6 @@
 		F41CFF7429E736D4000AE987 /* ProfileHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewCell.swift; sourceTree = "<group>"; };
 		F41CFF7629E739F8000AE987 /* PostCaptionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCaptionViewCell.swift; sourceTree = "<group>"; };
 		F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
-		F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LikeMindsFeed.xcodeproj; path = "../../../../LikeMinds-Feed-SDK/Feed-SDK/LikeMindsFeed.xcodeproj"; sourceTree = "<group>"; };
 		F46E15C82A25F1AC003C43BA /* LikeMindsFeedSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeMindsFeedSX.swift; sourceTree = "<group>"; };
 		F46E15D02A26197D003C43BA /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		F46E15D32A263448003C43BA /* RouteBuilderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderManager.swift; sourceTree = "<group>"; };
@@ -389,14 +383,7 @@
 		F4D58B5829DEDB55000C1648 /* AttachmentCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		F4D98AFC29D1886100CF9743 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		F4D98AFE29D1889B00CF9743 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
-		F4D98B0129D188BF00CF9743 /* LMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMButton.swift; sourceTree = "<group>"; };
-		F4D98B0229D188BF00CF9743 /* LMLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMLabel.swift; sourceTree = "<group>"; };
-		F4D98B0329D188BF00CF9743 /* LMSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMSegmentedControl.swift; sourceTree = "<group>"; };
-		F4D98B0429D188BF00CF9743 /* LMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMTextField.swift; sourceTree = "<group>"; };
-		F4D98B0529D188BF00CF9743 /* LMTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMTextView.swift; sourceTree = "<group>"; };
-		F4D98B0629D188BF00CF9743 /* LMBranding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMBranding.swift; sourceTree = "<group>"; };
 		F4D98B0E29D1890300CF9743 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
-		F4D98B1129D1916600CF9743 /* LMFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMFonts.swift; sourceTree = "<group>"; };
 		F4D98B1429D1A08400CF9743 /* HomeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedViewController.swift; sourceTree = "<group>"; };
 		F4D98B1629D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedImageVideoTableViewCell.swift; sourceTree = "<group>"; };
 		F4D98B1729D1C46B00CF9743 /* HomeFeedImageVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedImageVideoTableViewCell.xib; sourceTree = "<group>"; };
@@ -407,7 +394,6 @@
 		F4D98B2529D452B600CF9743 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		F4D98B2729D452E700CF9743 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		F4D98B2A29D553C800CF9743 /* HomeFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedViewModel.swift; sourceTree = "<group>"; };
-		F4DE47102A06CB6400BF5C2C /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		F4E15E972AA364FD00BAEB99 /* MemberListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListViewController.swift; sourceTree = "<group>"; };
 		F4E15E982AA364FD00BAEB99 /* MemberListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberListViewController.xib; sourceTree = "<group>"; };
 		F4E15E9B2AA366A500BAEB99 /* MemberListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListViewModel.swift; sourceTree = "<group>"; };
@@ -425,7 +411,6 @@
 		F4EA97BA2A19592F0020E672 /* ColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstant.swift; sourceTree = "<group>"; };
 		F4F21EC22AAE6B8100C22302 /* HomeFeedWithoutResourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedWithoutResourceCell.swift; sourceTree = "<group>"; };
 		F4F21EC32AAE6B8100C22302 /* HomeFeedWithoutResourceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFeedWithoutResourceCell.xib; sourceTree = "<group>"; };
-		F4F21ED32AAF219C00C22302 /* ShimmerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		F4F21ED52AAF227F00C22302 /* HomeFeedShimmerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeFeedShimmerView.xib; sourceTree = "<group>"; };
 		F4F21ED62AAF228000C22302 /* HomeFeedShimmerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedShimmerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -435,18 +420,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F465CEC22B03510A0016AD71 /* LikeMindsFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		910494C42D26E78100C8BC69 /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				910494BA2D26E78100C8BC69 /* LMBranding.swift */,
+				910494BB2D26E78100C8BC69 /* LMButton.swift */,
+				910494BC2D26E78100C8BC69 /* LMFonts.swift */,
+				910494BD2D26E78100C8BC69 /* LMLabel.swift */,
+				910494BE2D26E78100C8BC69 /* LMSegmentedControl.swift */,
+				910494BF2D26E78100C8BC69 /* LMTextField.swift */,
+				910494C02D26E78100C8BC69 /* LMTextView.swift */,
+				910494C12D26E78100C8BC69 /* RoundButton.swift */,
+				910494C22D26E78100C8BC69 /* ShimmerView.swift */,
+				910494C32D26E78100C8BC69 /* TagsLayout.swift */,
+			);
+			name = CustomUI;
+			path = FeedSX/CustomUI;
+			sourceTree = SOURCE_ROOT;
+		};
 		E3450CFBE03C651D272766F1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */,
-				6921C336C8CE49CFDAC3E467 /* Pods-FeedSX.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -580,14 +580,6 @@
 				F43AA96C29FFB4F900487B94 /* AttachmentTableViewCell.swift */,
 			);
 			path = OtherCells;
-			sourceTree = "<group>";
-		};
-		F465CEBD2B0350FE0016AD71 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		F46E15D22A263448003C43BA /* LinkManager */ = {
@@ -767,7 +759,6 @@
 				E5A938AB2ABACC36001B5D2B /* LikeMindsFeed.framework */,
 				F4A86BD42A2E6B0E00C7D5C2 /* AWSCognito.framework */,
 				F4A4EFBA29D6BB6C00829E5E /* LMFeed.framework */,
-				629A91E42929945BCC7DA669 /* Pods_FeedSX.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -995,7 +986,6 @@
 		F4C332F929CDC83200AD5F52 = {
 			isa = PBXGroup;
 			children = (
-				F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */,
 				F4C3330529CDC83200AD5F52 /* FeedSX */,
 				F4C3330429CDC83200AD5F52 /* Products */,
 				F4A4EFA329D6A5E500829E5E /* Frameworks */,
@@ -1020,8 +1010,8 @@
 				F49C76DB29DF45B100325AD9 /* AWSS3Manager */,
 				F4B6D91C29DD77FB008BD8A7 /* IconAssets */,
 				F4A9617729DBF9F500F395AD /* Modules */,
+				910494C42D26E78100C8BC69 /* CustomUI */,
 				F4D98B0D29D188E400CF9743 /* Extensions */,
-				F4D98B0029D188BF00CF9743 /* CustomUI */,
 				F4D98AFB29D1883500CF9743 /* BaseUI */,
 				F4C3330629CDC83200AD5F52 /* LMFeedUI.h */,
 				F4C3330729CDC83300AD5F52 /* LMFeedUI.docc */,
@@ -1064,23 +1054,6 @@
 			);
 			path = BaseUI;
 			sourceTree = "<group>";
-		};
-		F4D98B0029D188BF00CF9743 /* CustomUI */ = {
-			isa = PBXGroup;
-			children = (
-				F4F21ED32AAF219C00C22302 /* ShimmerView.swift */,
-				F4D98B0129D188BF00CF9743 /* LMButton.swift */,
-				F4D98B0229D188BF00CF9743 /* LMLabel.swift */,
-				F4D98B0329D188BF00CF9743 /* LMSegmentedControl.swift */,
-				F4D98B0429D188BF00CF9743 /* LMTextField.swift */,
-				F4D98B0529D188BF00CF9743 /* LMTextView.swift */,
-				F4D98B0629D188BF00CF9743 /* LMBranding.swift */,
-				F4D98B1129D1916600CF9743 /* LMFonts.swift */,
-				F4DE47102A06CB6400BF5C2C /* RoundButton.swift */,
-				E54E895C2ABAFC3100F0E7DF /* TagsLayout.swift */,
-			);
-			path = CustomUI;
-			sourceTree = SOURCE_ROOT;
 		};
 		F4D98B0D29D188E400CF9743 /* Extensions */ = {
 			isa = PBXGroup;
@@ -1210,7 +1183,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4C3330C29CDC83300AD5F52 /* Build configuration list for PBXNativeTarget "FeedSX" */;
 			buildPhases = (
-				F935DE3C08F070587FE16925 /* [CP] Check Pods Manifest.lock */,
 				F4C332FE29CDC83200AD5F52 /* Headers */,
 				F4C332FF29CDC83200AD5F52 /* Sources */,
 				F4C3330029CDC83200AD5F52 /* Frameworks */,
@@ -1256,10 +1228,6 @@
 					ProductGroup = E5BC69852AF0EE5A00FB9723 /* Products */;
 					ProjectRef = E5BC69842AF0EE5A00FB9723 /* LikeMindsFeed.xcodeproj */;
 				},
-				{
-					ProductGroup = F465CEBD2B0350FE0016AD71 /* Products */;
-					ProjectRef = F465CEBC2B0350FE0016AD71 /* LikeMindsFeed.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1267,16 +1235,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		F465CEC12B0350FE0016AD71 /* LikeMindsFeed.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LikeMindsFeed.framework;
-			remoteRef = F465CEC02B0350FE0016AD71 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F4C3330129CDC83200AD5F52 /* Resources */ = {
@@ -1319,31 +1277,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F935DE3C08F070587FE16925 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FeedSX-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		F4C332FF29CDC83200AD5F52 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1354,7 +1287,6 @@
 				F40E04042AADDAD600AB3827 /* CropImageViewController.swift in Sources */,
 				F4A5BE992ABC2A2E00CD01E6 /* ScrollViewContainer.swift in Sources */,
 				F4A5BE9B2ABC2A2E00CD01E6 /* CropperViewController.swift in Sources */,
-				F4D98B1229D1916600CF9743 /* LMFonts.swift in Sources */,
 				F49C76E029DF45B100325AD9 /* AWSAttachmentUploader.swift in Sources */,
 				F4A9618829DC41E100F395AD /* ImageCollectionViewCell.swift in Sources */,
 				F4AD157E2A2BC65F00B752C3 /* EditPostViewController.swift in Sources */,
@@ -1368,7 +1300,6 @@
 				F41CFF7529E736D4000AE987 /* ProfileHeaderViewCell.swift in Sources */,
 				F4A9619129DD409D00F395AD /* UIColor+Extension.swift in Sources */,
 				E54E89712ABB491A00F0E7DF /* SelectTopicTableViewCell.swift in Sources */,
-				F4D98B0A29D188BF00CF9743 /* LMTextField.swift in Sources */,
 				F46E15C92A25F1AC003C43BA /* LikeMindsFeedSX.swift in Sources */,
 				F4A5BD7429DA0A07006FC78D /* UIImageView+Extension.swift in Sources */,
 				F49C76F229E323CF00325AD9 /* CommentHeaderViewCell.swift in Sources */,
@@ -1382,11 +1313,9 @@
 				F4A9C7F22A31EB5200D35396 /* TaggingViewDataSource.swift in Sources */,
 				F4A5BE932ABC2A2E00CD01E6 /* Stasisable.swift in Sources */,
 				F4E15EA72AA3849400BAEB99 /* MemberCell.swift in Sources */,
-				F4F21ED42AAF219D00C22302 /* ShimmerView.swift in Sources */,
 				F4A20D2429E57674001D57CB /* LikedUserListViewController.swift in Sources */,
 				F4A5BEA22ABC2A2E00CD01E6 /* Overlay.swift in Sources */,
 				F4A5BE952ABC2A2E00CD01E6 /* Rotatable.swift in Sources */,
-				F4D98B0C29D188BF00CF9743 /* LMBranding.swift in Sources */,
 				F43AA96D29FFB4F900487B94 /* AttachmentTableViewCell.swift in Sources */,
 				F4A5BE962ABC2A2E00CD01E6 /* AngleAssist.swift in Sources */,
 				F41731CC2A1A7DC0005FD279 /* AttachmentUploadOperation.swift in Sources */,
@@ -1396,7 +1325,6 @@
 				F4A9C7F02A31EB2700D35396 /* TaggingDataModel.swift in Sources */,
 				F4A5BE912ABC2A2E00CD01E6 /* CropBoxEdgeDraggable.swift in Sources */,
 				F4A5BE982ABC2A2E00CD01E6 /* Config.swift in Sources */,
-				E54E895D2ABAFC3100F0E7DF /* TagsLayout.swift in Sources */,
 				F4D98AFD29D1886100CF9743 /* BaseViewController.swift in Sources */,
 				F4D305A22A20B1AF00964114 /* CreatePostOperation.swift in Sources */,
 				F4D98B2229D4524000CF9743 /* Date+Extension.swift in Sources */,
@@ -1406,7 +1334,6 @@
 				F4A5BE902ABC2A2E00CD01E6 /* AspectRatioPicker.swift in Sources */,
 				F4AC32332A3A403C0019E5B0 /* NotificationFeedDataView.swift in Sources */,
 				F4E88B052AAB525C00909E10 /* BottomSheetViewController.swift in Sources */,
-				F4D98B0729D188BF00CF9743 /* LMButton.swift in Sources */,
 				F4A5BD7829DAACBF006FC78D /* UIAlertController+Extension.swift in Sources */,
 				F4AC6E772A4C28890036E997 /* ShareContentUtil.swift in Sources */,
 				F4A5BD7D29DAE3FD006FC78D /* PostCaptionView.swift in Sources */,
@@ -1427,13 +1354,22 @@
 				F49F6BF12A1B3DEA005B2A81 /* NotificationFeedViewModel.swift in Sources */,
 				F4A5BD7229D9919B006FC78D /* ActionsFooterView.swift in Sources */,
 				F46E15D72A263448003C43BA /* DeepLinkManager.swift in Sources */,
+				910494C52D26E78100C8BC69 /* LMTextField.swift in Sources */,
+				910494C62D26E78100C8BC69 /* LMFonts.swift in Sources */,
+				910494C72D26E78100C8BC69 /* LMSegmentedControl.swift in Sources */,
+				910494C82D26E78100C8BC69 /* TagsLayout.swift in Sources */,
+				910494C92D26E78100C8BC69 /* LMTextView.swift in Sources */,
+				910494CA2D26E78100C8BC69 /* ShimmerView.swift in Sources */,
+				910494CB2D26E78100C8BC69 /* LMBranding.swift in Sources */,
+				910494CC2D26E78100C8BC69 /* RoundButton.swift in Sources */,
+				910494CD2D26E78100C8BC69 /* LMButton.swift in Sources */,
+				910494CE2D26E78100C8BC69 /* LMLabel.swift in Sources */,
 				F4EA97BB2A19592F0020E672 /* ColorConstant.swift in Sources */,
 				F4D98B2B29D553C800CF9743 /* HomeFeedViewModel.swift in Sources */,
 				F4D58B5729DED016000C1648 /* PHAsset+Extension.swift in Sources */,
 				E5D955E32ABD7A480038BDAE /* HomeFeedTopicCell.swift in Sources */,
 				F49F6BF92A1C8AF1005B2A81 /* Message.swift in Sources */,
 				F4A20D2029E57628001D57CB /* LikedUserDataView.swift in Sources */,
-				F4D98B0B29D188BF00CF9743 /* LMTextView.swift in Sources */,
 				F4A9618029DC03C100F395AD /* DocumentCollectionCell.swift in Sources */,
 				F41CFF7729E739F8000AE987 /* PostCaptionViewCell.swift in Sources */,
 				F49C76F429E3387E00325AD9 /* ReplyCommentTableViewCell.swift in Sources */,
@@ -1494,19 +1430,16 @@
 				F4D98B2029D450C100CF9743 /* Extensions.swift in Sources */,
 				F41731CE2A1A8FBD005FD279 /* NotificationName+Extension.swift in Sources */,
 				F4D3059B2A1D436300964114 /* UITableViewCell+Extension.swift in Sources */,
-				F4D98B0929D188BF00CF9743 /* LMSegmentedControl.swift in Sources */,
 				F4A5BE9E2ABC2A2E00CD01E6 /* UIView+Helper.swift in Sources */,
 				F4A0E66C2A9F35BB00767941 /* HomeFeedArticleCell.swift in Sources */,
 				F4EA97A92A1498740020E672 /* LMFeedAnalytics.swift in Sources */,
 				F4A5BE972ABC2A2E00CD01E6 /* AspectRatioSettable.swift in Sources */,
-				F4D98B0829D188BF00CF9743 /* LMLabel.swift in Sources */,
 				F4EA97B92A1935DB0020E672 /* ViewMoreRepliesCell.swift in Sources */,
 				F4D98AFF29D1889B00CF9743 /* BaseNavigationController.swift in Sources */,
 				F4A9C7EE2A31EADB00D35396 /* TaggingView.swift in Sources */,
 				F49F6BF42A1B3FAF005B2A81 /* NotificationFeedTableViewCell.swift in Sources */,
 				F4A20D2829E5FA4C001D57CB /* TaggedRouteParser.swift in Sources */,
 				F4A5BE922ABC2A2E00CD01E6 /* StateRestorable.swift in Sources */,
-				F4DE47112A06CB6400BF5C2C /* RoundButton.swift in Sources */,
 				F49C76E629E1E43F00325AD9 /* VideoCollectionViewCell.swift in Sources */,
 				F4D98B1529D1A08400CF9743 /* HomeFeedViewController.swift in Sources */,
 			);
@@ -1637,7 +1570,6 @@
 		};
 		F4C3330D29CDC83300AD5F52 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 51C3FB4A659FBFB86CE146C6 /* Pods-FeedSX.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
@@ -1667,7 +1599,6 @@
 		};
 		F4C3330E29CDC83300AD5F52 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6921C336C8CE49CFDAC3E467 /* Pods-FeedSX.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;

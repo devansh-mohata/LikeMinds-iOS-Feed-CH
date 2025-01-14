@@ -128,16 +128,16 @@ class CreatePostOperation {
                     self?.postMessageForCompleteCreatePost(with: "Oops! Somthing went wrong!\nPlease try again later.")
                     return
                 }
-                let addPostRequest = AddPostRequest.builder()
+                var addPostRequest = AddPostRequest.Builder()
                     .onBehalfOfUUID(onBehalfOfUUID)
                     .attachments(attachments)
-                    .addTopics(topics)
-                    .build()
+                    .topics(topics)
+                
                 if postType != .article {
-                    _ = addPostRequest.text(postCaption)
-                    _ = addPostRequest.heading(heading)
+                    addPostRequest = addPostRequest.text(postCaption)
+                    addPostRequest = addPostRequest.heading(heading)
                 }
-                LMFeedClient.shared.addPost(addPostRequest) { [weak self] response in
+                LMFeedClient.shared.addPost(addPostRequest.build()) { [weak self] response in
                     print("Post Creation with attachment done....")
                     self?.attachmentList = nil
                     self?.postMessageForCompleteCreatePost(with: response.errorMessage)
@@ -152,7 +152,7 @@ class CreatePostOperation {
         if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .size(size ?? 0)
             .name(attachment.name)
         if attachmentType == .article {
@@ -164,7 +164,7 @@ class CreatePostOperation {
         }
         let attachmentRequest = Attachment()
             .attachmentType(attachmentType)
-            .attachmentMeta(attachmentMeta)
+            .attachmentMeta(attachmentMeta.build())
         return attachmentRequest
     }
     
@@ -179,13 +179,13 @@ class CreatePostOperation {
         if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             size = attr[.size] as? Int
         }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(awsUrl)
             .size(size ?? 0)
             .name(attachment.name)
             .thumbnailUrl(attachment.thumbnailUrl)
             .pageCount(numberOfPages ?? 0)
-            .format("pdf")
+            .format("pdf").build()
         let attachmentRequest = Attachment()
             .attachmentType(.doc)
             .attachmentMeta(attachmentMeta)
@@ -201,11 +201,11 @@ class CreatePostOperation {
         let asset = AVAsset(url: url)
         let duration = asset.duration
         let durationTime = CMTimeGetSeconds(duration)
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(awsUrl)
             .size(size ?? 0)
             .name(attachment.name)
-            .duration(Int(durationTime))
+            .duration(Int(durationTime)).build()
         let attachmentRequest = Attachment()
             .attachmentType(.video)
             .attachmentMeta(attachmentMeta)

@@ -60,15 +60,15 @@ final class PostFeedDataView {
         if let attchment = attachments.first,
             attchment.attachmentType == .article,
            let widget = widegts?[attchment.attachmentMeta?.entityID ?? ""] {
-            self.header = widget.metadata?.title
-            self.caption = widget.metadata?.body
+            self.header = widget.metadata?["title"] as? String
+            self.caption = widget.metadata?["body"] as? String
         }
         return attachments.map { attachment in
             switch attachment.attachmentType {
             case .article:
                 let widget = widegts?[attachment.attachmentMeta?.entityID ?? ""]
-                let url = widget?.metadata?.coverImageURL ?? attachment.attachmentMeta?.attachmentUrl
-                return ImageVideo(url: url, type: attachment.attachmentMeta?.format, duration: nil, size: widget?.metadata?.size, fileType: .article, name: widget?.metadata?.name, title: widget?.metadata?.title, body: widget?.metadata?.body, entityID: attachment.attachmentMeta?.entityID)
+                let url = widget?.metadata?["cover_image_url"] as? String ?? attachment.attachmentMeta?.attachmentUrl
+                return ImageVideo(url: url, type: attachment.attachmentMeta?.format, duration: nil, size: widget?.metadata?["size"] as? Int, fileType: .article, name: widget?.metadata?["name"] as? String, title: widget?.metadata?["title"] as? String, body: widget?.metadata?["body"] as? String, entityID: attachment.attachmentMeta?.entityID)
             default:
                 let type: PostAttachmentType =  (attachment.attachmentType == .image ? .image : .video)
                 let url =  attachment.attachmentMeta?.attachmentUrl

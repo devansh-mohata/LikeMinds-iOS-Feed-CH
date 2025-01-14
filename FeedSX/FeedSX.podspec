@@ -113,10 +113,8 @@ Pod::Spec.new do |spec|
   #  Link your library with frameworks, or libraries. Libraries do not include
   #  the lib prefix of their name.
   #
-spec.pod_target_xcconfig = {
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-  }
-  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  spec.pod_target_xcconfig = {}
+  spec.user_target_xcconfig = {}
   spec.framework  = "Foundation"
   
   spec.dependency "Kingfisher"
@@ -127,6 +125,6 @@ spec.pod_target_xcconfig = {
   spec.dependency "FirebaseCore"
   spec.dependency "FirebaseMessaging"
   spec.dependency "IQKeyboardManagerSwift"
-  spec.dependency "LikeMindsFeed", '1.7.2'
+  spec.dependency "LikeMindsFeed"
   spec.dependency "youtube-ios-player-helper"
 end

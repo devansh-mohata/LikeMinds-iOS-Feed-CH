@@ -148,10 +148,10 @@ class EditPostOperation {
         if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
-            .name(attachment.name)
+            .name(attachment.name).build()
         let attachmentRequest = Attachment()
             .attachmentType(.image)
             .attachmentMeta(attachmentMeta)
@@ -169,13 +169,13 @@ class EditPostOperation {
         if let attr = try? FileManager.default.attributesOfItem(atPath: fileUrl.relativePath) {
             size = attr[.size] as? Int
         }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
             .name(attachment.name)
             .thumbnailUrl(attachment.thumbnailUrl)
             .pageCount(numberOfPages ?? 0)
-            .format("pdf")
+            .format("pdf").build()
         let attachmentRequest = Attachment()
             .attachmentType(.doc)
             .attachmentMeta(attachmentMeta)
@@ -191,11 +191,11 @@ class EditPostOperation {
         let asset = AVAsset(url: url)
         let duration = asset.duration
         let durationTime = CMTimeGetSeconds(duration)
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .attachmentUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
             .name(attachment.name)
-            .duration(Int(durationTime))
+            .duration(Int(durationTime)).build()
         let attachmentRequest = Attachment()
             .attachmentType(.video)
             .attachmentMeta(attachmentMeta)
@@ -207,13 +207,13 @@ class EditPostOperation {
         if size == nil, let attr = try? FileManager.default.attributesOfItem(atPath: attachment.fileUrl) {
             size = attr[.size] as? Int
         }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .coverImageUrl(attachment.awsUploadedUrl ?? "")
             .size(size ?? 0)
             .name(attachment.name)
             .title(attachment.title ?? "")
             .body(attachment.body ?? "")
-            .entityID(attachment.entityID ?? "")
+            .entityID(attachment.entityID ?? "").build()
         let attachmentRequest = Attachment()
             .attachmentType(.article)
             .attachmentMeta(attachmentMeta)

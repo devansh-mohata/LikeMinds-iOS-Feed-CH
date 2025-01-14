@@ -221,12 +221,12 @@ final class EditPostViewModel: BaseViewModel {
 private extension EditPostViewModel {
     func editPostWithLinkAttachment(postCaption: String?, heading: String) {
         guard let linkAttatchment = self.linkAttatchment else { return }
-        let attachmentMeta = AttachmentMeta()
+        let attachmentMeta = AttachmentMeta.Builder()
             .ogTags(.init()
                 .image(linkAttatchment.linkThumbnailUrl ?? "")
                 .title(linkAttatchment.title ?? "")
                 .description(linkAttatchment.description ?? "")
-                .url(linkAttatchment.url ?? ""))
+                .url(linkAttatchment.url ?? "")).build()
         let attachmentRequest = Attachment()
             .attachmentType(.link)
             .attachmentMeta(attachmentMeta)
